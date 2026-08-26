@@ -68,6 +68,7 @@ try
         new VisitStep(),
         new PlanStep(),
         new RiskStep(),
+        new HealthStep(),
         new ReencryptStep(),
         new VerifyStep(),
     };

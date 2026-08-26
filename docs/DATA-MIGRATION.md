@@ -65,6 +65,7 @@ that cries wolf is a check nobody reads.
 | `catalogues` | `Aktivite_T`, `Egitim_T`, `Periyot_T` + groups | `Activity`, `Training`, `Period` + groups | **done** |
 | `plans` | `CalismaPlani_T`, `EgitimPlani_T` + their line tables | `WorkPlan`, `TrainingPlan` + lines | **done, verified** |
 | `risks` | `RiskAnalizRaporu_T` + hazards, `Tehlike_T` | `RiskAssessmentReport`, `IdentifiedHazard`, `Hazard` | **done, verified** |
+| `health` | `SKRS_Ilac_T`, `SKRS_ICD10_T`, `ERecete_T` + lines | `Medication`, `Icd10`, `EPrescription` + lines | **done, verified** |
 | `reencrypt` | — | every encrypted column | **repair, see below** |
 
 ### `locations` — what actually happened
@@ -354,6 +355,35 @@ of three or less. A 3×3 would not produce the fours and fives; a 5×5 produces 
 **The specialist and physician stay as names.** The legacy columns hold what was typed, not a
 reference to a user. Matching on text would attach reports to the wrong person wherever two
 specialists share a name, so the names are kept and the user link left empty.
+
+### `health`
+
+```
+read 1,776,196   written 1,744,686   in 13m 04s
+  medications              18,663
+  ICD-10 diagnoses         15,774
+  e-prescriptions         334,637   (321,973 linked to an employee)
+  medications on them     818,981
+  diagnoses on them       587,294
+```
+
+**96% of prescriptions were reunited with a patient.** The legacy record names the patient only by
+identity number; the rebuilt schema also has `PatientCompanyEmployeeId`, and matching the two is
+what turns a prescription from a loose document into part of somebody's health record. The match is
+made **within one organization only** — an identity number is unique per tenant, and matching across
+them would attach one provider's prescription to another provider's employee.
+
+| Finding | Decision |
+|---|---|
+| Duplicate barcodes in the medication catalogue | **Merged.** A barcode identifies a product, so two entries sharing one are the same drug — and both legacy ids have to land on it or a prescription loses its medicine. |
+| Duplicate ICD-10 codes | Merged. Unambiguous here: a prescription references a diagnosis by its **code**, so the duplicate entry has nothing of its own to lose. |
+| `AciklamaTuru` holds 3, 4, 5 and 99 across 8,341 prescriptions; the enum defines 0, 1, 2 | Unrecognised values become `Unspecified` and are counted. Casting the number straight in would store an enum value that renders as a number and behaves like nothing. |
+| A patient identity number longer than eleven characters | Dropped, and the prescription with it. The same rule as everywhere else — and a prescription attached to the wrong patient is the worst version of that mistake. |
+
+`EPrescriptionMedication.MedicationDescription` — the physician's instructions to the patient — is
+encrypted, so it goes through bulk copy with the converter applied by hand and the column named in
+the guard's `preConverted` list. All 603,894 encrypted values across the database read back under the
+configured key.
 
 ## Scope
 

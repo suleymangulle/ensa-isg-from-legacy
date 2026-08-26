@@ -57,6 +57,8 @@ public sealed class MigrationRunner(
 
             logger.LogInformation("--- {Order:D2} {Name}: {Description}", step.Order, step.Name, step.Description);
 
+            context.Fitter.Reset();
+
             StepResult result;
             try
             {
@@ -71,6 +73,13 @@ public sealed class MigrationRunner(
             }
 
             stopwatch.Stop();
+
+            if (context.Fitter.HasTruncations)
+            {
+                // Named, not buried: a value that did not fit is a decision somebody should see.
+                logger.LogWarning("    shortened to fit: {Columns}", context.Fitter.Report());
+            }
+
             totals.Add((step.Name, result, stopwatch.Elapsed));
 
             logger.LogInformation(

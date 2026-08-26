@@ -60,6 +60,7 @@ try
     var steps = new IMigrationStep[]
     {
         new LocationStep(),
+        new TenancyStep(),
         new VerifyStep(),
     };
 
@@ -79,6 +80,15 @@ try
         builder.Configuration.GetConnectionString("Default"),
         Value(args, "--confirm"));
 
+    // Reading the legacy ciphertext is the one part of this tool that cannot be checked by
+    // inspection: either the key, the block size and the padding are all right and identity numbers
+    // come out, or something is subtly wrong and plausible rubbish comes out. --probe-crypt decrypts
+    // a sample and says which.
+    if (args.Contains("--probe-crypt", StringComparer.OrdinalIgnoreCase))
+    {
+        return await ProbeLegacyCryptAsync(target.LegacyConnectionString);
+    }
+
     var dryRun = args.Contains("--dry-run", StringComparer.OrdinalIgnoreCase);
     var only = Values(args, "--step");
 
@@ -90,6 +100,15 @@ try
 
     var context = new MigrationContext(
         target, idMap, loggerFactory.CreateLogger("Ensa.DataMigrator"), dryRun);
+
+    // Column limits come from the destination itself, so they cannot drift from the schema; the
+    // encrypted ones are then corrected to their plaintext capacity, from the EF model.
+    await context.Fitter.LoadAsync(target.ModernConnectionString);
+
+    await using (var model = context.CreateDbContext())
+    {
+        context.Fitter.ApplyEncryptedColumnLimits(model);
+    }
 
     var runner = new MigrationRunner(steps, context, loggerFactory.CreateLogger<MigrationRunner>());
 
@@ -103,6 +122,85 @@ catch (Exception exception)
 finally
 {
     await Log.CloseAndFlushAsync();
+}
+
+/// <summary>
+/// Decrypts a sample of legacy values and reports whether they came out as identity numbers.
+/// </summary>
+static async Task<int> ProbeLegacyCryptAsync(string legacyConnectionString)
+{
+    await using var connection = new Microsoft.Data.SqlClient.SqlConnection(legacyConnectionString);
+    await connection.OpenAsync();
+
+    await using var command = new Microsoft.Data.SqlClient.SqlCommand(
+        "SELECT TOP 200 TCKimlikNo FROM Kullanici_T WHERE TCKimlikNo IS NOT NULL", connection);
+
+    var encrypted = 0;
+    var eleven = 0;
+    var failed = 0;
+    var plain = 0;
+    var odd = new List<string>();
+    string? example = null;
+
+    await using var reader = await command.ExecuteReaderAsync();
+    while (await reader.ReadAsync())
+    {
+        var value = reader.GetString(0);
+
+        if (!LegacyCrypt.LooksEncrypted(value))
+        {
+            plain++;
+            continue;
+        }
+
+        encrypted++;
+        var decrypted = LegacyCrypt.TryDecrypt(value);
+
+        if (decrypted is null)
+        {
+            failed++;
+            continue;
+        }
+
+        if (decrypted.Length == 11 && decrypted.All(char.IsDigit))
+        {
+            eleven++;
+            example ??= decrypted[..3] + "********";
+        }
+        else
+        {
+            odd.Add($"{decrypted.Length} char(s)");
+        }
+    }
+
+    Log.Information("Legacy ciphertext prefix : {Prefix}", LegacyCrypt.CipherPrefix);
+    Log.Information("sampled                  : {Total}", encrypted + plain);
+    Log.Information("  already plain          : {Plain}", plain);
+    Log.Information("  encrypted              : {Encrypted}", encrypted);
+    Log.Information("  decrypted to 11 digits : {Eleven}", eleven);
+    Log.Information("  would not decrypt      : {Failed}", failed);
+    Log.Information("  example                : {Example}", example ?? "(none)");
+
+    if (odd.Count > 0)
+    {
+        Log.Information("  decrypted, not 11 digits: {Odd}", string.Join(", ", odd.Take(10)));
+    }
+
+    // Two separate questions. Whether the DECRYPTION works is answered by "nothing failed and the
+    // output is well-formed text" - eleven digits appearing at all proves the key, the block size
+    // and the padding are right together, because no near-miss produces that. Whether the SOURCE
+    // is clean is a different question: a field somebody typed a passport number into decrypts
+    // perfectly and is still not an identity number, and that is not the decryption's fault.
+    var trustworthy = encrypted > 0 && failed == 0 && eleven > encrypted * 0.9;
+
+    Log.Information(trustworthy
+        ? "The decryption is trustworthy: nothing failed and {Eleven}/{Encrypted} are well-formed "
+          + "identity numbers. The rest decrypted cleanly into something else, which is the source "
+          + "data, not the key."
+        : "NOT trustworthy - do not migrate encrypted columns until this reads clean.",
+        eleven, encrypted);
+
+    return trustworthy ? 0 : 1;
 }
 
 static string? Value(string[] args, string name)

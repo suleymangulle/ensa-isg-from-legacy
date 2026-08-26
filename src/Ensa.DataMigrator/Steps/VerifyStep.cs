@@ -1,5 +1,6 @@
 using Ensa.DataMigrator.Infrastructure;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ensa.DataMigrator.Steps;
 
@@ -125,6 +126,11 @@ public sealed class VerifyStep : IMigrationStep
             notes.Add(note);
         }
 
+        var identity = await VerifyNationalIdsAsync(context, cancellationToken);
+        compared += identity.Read;
+        different += identity.Skipped;
+        notes.Add(identity.Note!);
+
         if (different > 0)
         {
             throw new InvalidOperationException(
@@ -133,5 +139,52 @@ public sealed class VerifyStep : IMigrationStep
         }
 
         return new StepResult(compared, 0, 0, string.Join("; ", notes));
+    }
+
+    /// <summary>
+    /// Reads every migrated national identity number back through the model and checks its shape.
+    /// <para>
+    /// This is the only check that can catch a doubly-encrypted value. In the database such a row
+    /// looks exactly like a healthy one - a column of Base64 - and comparing it with the legacy
+    /// column tells you nothing either, because that is ciphertext under a different key. Only
+    /// decrypting it and looking at what comes out does: eleven digits, or a problem.
+    /// </para>
+    /// </summary>
+    private static async Task<StepResult> VerifyNationalIdsAsync(
+        MigrationContext context,
+        CancellationToken cancellationToken)
+    {
+        using var scope = context.EnterMigrationScope();
+        await using var db = context.CreateDbContext();
+
+        var values = await db.Set<Ensa.Domain.Membership.User>()
+            .Where(u => u.NationalId != null)
+            .Select(u => u.NationalId!)
+            .ToListAsync(cancellationToken);
+
+        if (values.Count == 0)
+        {
+            return new StepResult(0, 0, 0, "national ids: none to check");
+        }
+
+        var wellFormed = values.Count(v => v.Length == 11 && v.All(char.IsDigit));
+        var stillCiphertext = values.Count(LegacyCrypt.LooksEncrypted);
+        var other = values.Count - wellFormed - stillCiphertext;
+
+        var note = $"national ids: {wellFormed}/{values.Count} read back as 11 digits";
+        if (other > 0)
+        {
+            note += $", {other} other shapes (source data)";
+        }
+
+        if (stillCiphertext > 0)
+        {
+            note += $", {stillCiphertext} STILL CIPHERTEXT";
+        }
+
+        // Only the ciphertext count is a failure. A field somebody typed a passport number into
+        // decrypts perfectly and is still not an identity number; that is the source, not the
+        // migration.
+        return new StepResult(values.Count, 0, stillCiphertext, note);
     }
 }

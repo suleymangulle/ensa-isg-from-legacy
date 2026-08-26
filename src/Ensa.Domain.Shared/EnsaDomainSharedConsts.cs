@@ -12,6 +12,19 @@ public static class EnsaDomainSharedConsts
     public static class MaxLengths
     {
         public const int Code = 32;
+
+        /// <summary>
+        /// SSI workplace registration number. Long because the real ones are: the migration found
+        /// values of 37 characters, against a column that had been sized at 32 from the field's
+        /// name rather than its contents.
+        /// </summary>
+        public const int SsiNumber = 64;
+
+        /// <summary>
+        /// An IBYS code list held in one column - work method, work environment, work equipment.
+        /// A single employee's work environment reaches 417 characters in the legacy data.
+        /// </summary>
+        public const int CodeList = 512;
         public const int ShortName = 64;
         public const int Name = 128;
         public const int LongName = 256;

@@ -126,10 +126,13 @@ public sealed class VerifyStep : IMigrationStep
             notes.Add(note);
         }
 
-        var identity = await VerifyNationalIdsAsync(context, cancellationToken);
-        compared += identity.Read;
-        different += identity.Skipped;
-        notes.Add(identity.Note!);
+        foreach (var check in new[] { "User", "CompanyEmployee" })
+        {
+            var identity = await VerifyNationalIdsAsync(context, check, cancellationToken);
+            compared += identity.Read;
+            different += identity.Skipped;
+            notes.Add(identity.Note!);
+        }
 
         if (different > 0)
         {
@@ -152,26 +155,34 @@ public sealed class VerifyStep : IMigrationStep
     /// </summary>
     private static async Task<StepResult> VerifyNationalIdsAsync(
         MigrationContext context,
+        string entity,
         CancellationToken cancellationToken)
     {
         using var scope = context.EnterMigrationScope();
         await using var db = context.CreateDbContext();
 
-        var values = await db.Set<Ensa.Domain.Membership.User>()
-            .Where(u => u.NationalId != null)
-            .Select(u => u.NationalId!)
-            .ToListAsync(cancellationToken);
+        // Read through the model so the converter runs. Both tables are covered because both hold
+        // identity numbers, and the employee table holds a hundred times more of them.
+        var values = entity == "User"
+            ? await db.Set<Ensa.Domain.Membership.User>()
+                .Where(u => u.NationalId != null)
+                .Select(u => u.NationalId!)
+                .ToListAsync(cancellationToken)
+            : await db.Set<Ensa.Domain.Companies.CompanyEmployee>()
+                .Where(e => e.NationalId != null)
+                .Select(e => e.NationalId!)
+                .ToListAsync(cancellationToken);
 
         if (values.Count == 0)
         {
-            return new StepResult(0, 0, 0, "national ids: none to check");
+            return new StepResult(0, 0, 0, $"{entity} national ids: none to check");
         }
 
         var wellFormed = values.Count(v => v.Length == 11 && v.All(char.IsDigit));
         var stillCiphertext = values.Count(LegacyCrypt.LooksEncrypted);
         var other = values.Count - wellFormed - stillCiphertext;
 
-        var note = $"national ids: {wellFormed}/{values.Count} read back as 11 digits";
+        var note = $"{entity} national ids: {wellFormed}/{values.Count} read back as 11 digits";
         if (other > 0)
         {
             note += $", {other} other shapes (source data)";

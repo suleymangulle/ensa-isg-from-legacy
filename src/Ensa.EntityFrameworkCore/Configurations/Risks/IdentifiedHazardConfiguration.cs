@@ -32,8 +32,7 @@ public class IdentifiedHazardConfiguration : IEntityTypeConfiguration<Identified
         builder.Property(x => x.RiskTag)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);
 
-        builder.Property(x => x.Measure)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);
+        builder.Property(x => x.Measure);
 
         builder.Property(x => x.Comment)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Note);

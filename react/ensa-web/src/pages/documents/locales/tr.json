@@ -1,0 +1,172 @@
+{
+  "nav": {
+    "documents": "Dokümanlar",
+    "forms": "Formlar",
+    "archive": "Modül arşivi"
+  },
+  "enums": {
+    "documentOwnerType": {
+      "0": "Belirtilmemiş",
+      "1": "Firma",
+      "2": "Firma personeli",
+      "3": "Kullanıcı",
+      "4": "Çalışma planı satırı",
+      "5": "Eğitim planı satırı",
+      "6": "Risk analiz raporu",
+      "7": "Saha gözlem raporu",
+      "8": "Ekipman",
+      "9": "İşyeri bölümü",
+      "10": "Olay",
+      "11": "Fatura",
+      "12": "Sağlık raporu",
+      "13": "Acil durum eylem planı",
+      "14": "Banka",
+      "15": "Ofis",
+      "16": "Sözleşme"
+    }
+  },
+  "document": {
+    "list": {
+      "title": "Dokümanlar",
+      "description": "Saklanan dosyaların merkezi kaydı",
+      "create": "Yeni doküman",
+      "searchPlaceholder": "Dosya adına göre ara…",
+      "empty": "Doküman bulunamadı.",
+      "metadataOnlyNotice": "Bu ekran yalnızca doküman üstverisini yönetir. Dosyanın kendisini yükleme ve indirme henüz kullanılabilir değil.",
+      "editAria": "{{name}} kaydını düzenle",
+      "deleteAria": "{{name}} kaydını sil",
+      "deleteTitle": "Dokümanı sil",
+      "deleteMessage": "“{{name}}” üstveri kaydı silinecek. Devam edilsin mi?",
+      "download": "İndir"
+    },
+    "filters": {
+      "ownerType": "Sahip türü",
+      "allOwnerTypes": "Tüm sahip türleri",
+      "company": "Firma",
+      "allCompanies": "Tüm firmalar"
+    },
+    "fields": {
+      "documentName": "Dosya adı",
+      "extension": "Uzantı",
+      "contentType": "MIME türü",
+      "sizeBytes": "Boyut",
+      "sha256": "SHA-256 özeti",
+      "category": "Kategori",
+      "company": "Firma",
+      "ownerType": "Sahip türü",
+      "ownerRecordId": "Sahip kaydı",
+      "creationTime": "Oluşturulma",
+      "lastModificationTime": "Son değişiklik",
+      "status": "Durum"
+    },
+    "form": {
+      "createTitle": "Yeni doküman",
+      "editTitle": "Dokümanı düzenle",
+      "pickFile": "Dosya seç",
+      "pickFileHint": "Dosya sunucuya yüklenmez. Yalnızca tarayıcıda okunarak ad, boyut, MIME türü ve SHA-256 özeti doldurulur.",
+      "hashUnavailable": "Tarayıcı burada özet hesaplayamadığı için kopya denetimi atlandı. Özeti biliyorsanız elle yapıştırın.",
+      "hashFailed": "Özet hesaplanamadı. Biliyorsanız elle yapıştırın.",
+      "hashing": "Özet hesaplanıyor…",
+      "sha256Hint": "64 onaltılık karakter. Zaten kayıtlı bir dosyayı tespit etmek için kullanılır.",
+      "invalidSize": "Sıfır veya daha büyük bir boyut girin.",
+      "invalidSha256": "SHA-256 özeti tam olarak 64 onaltılık karakterdir.",
+      "duplicateWarning": "Bu içerik “{{name}}” adıyla zaten kayıtlı. Kaydederseniz aynı dosya için ikinci bir üstveri kaydı oluşur.",
+      "noCompany": "Firma yok (kurum geneli)",
+      "categoryHint": "Doküman kategorisi kimliği. Henüz kategori listesi uç noktası yok.",
+      "ownerRecordHint": "Seçilen sahip türündeki kaydın kimliği."
+    },
+    "detail": {
+      "fallbackTitle": "Doküman",
+      "subtitle": "{{size}}",
+      "download": "İndir"
+    }
+  },
+  "form": {
+    "list": {
+      "title": "Formlar",
+      "description": "İSG personelinin kullandığı form ve doküman şablonları",
+      "create": "Yeni form",
+      "searchPlaceholder": "Form adına göre ara…",
+      "empty": "Form bulunamadı.",
+      "editAria": "{{name}} formunu düzenle",
+      "deleteAria": "{{name}} formunu sil",
+      "deleteTitle": "Formu sil",
+      "deleteMessage": "“{{name}}” formu silinecek. Devam edilsin mi?",
+      "download": "İndir",
+      "noDocument": "Bu şablona dosya eklenmemiş"
+    },
+    "filters": {
+      "categoryId": "Kategori",
+      "categoryPlaceholder": "Kategori kimliği"
+    },
+    "fields": {
+      "formName": "Form adı",
+      "categoryId": "Kategori",
+      "documentId": "Doküman",
+      "defaultForm": "Varsayılan form",
+      "status": "Durum"
+    },
+    "editor": {
+      "createTitle": "Yeni form",
+      "editTitle": "Formu düzenle",
+      "categoryRequired": "Bir form kategorisi seçilmelidir.",
+      "categoryHint": "Form kategorisi kimliği. Henüz kategori listesi uç noktası yok.",
+      "documentHint": "Kayıtlı bir dokümanın kimliği. Dosya yükleme henüz kullanılabilir değil."
+    }
+  },
+  "archive": {
+    "tabs": {
+      "all": "Tüm kayıtlar",
+      "byModule": "Modül kaydına göre"
+    },
+    "list": {
+      "title": "Modül arşivi",
+      "description": "Bir modül kaydına iliştirilen dokümanlar",
+      "create": "Yeni kayıt",
+      "searchPlaceholder": "Açıklamalarda ara…",
+      "empty": "Arşiv kaydı bulunamadı.",
+      "companyFallback": "Firma #{{id}}",
+      "editAria": "{{id}} numaralı kaydı düzenle",
+      "deleteAria": "{{id}} numaralı kaydı sil",
+      "deleteTitle": "Arşiv kaydını sil",
+      "deleteMessage": "{{id}} numaralı arşiv kaydı silinecek. Devam edilsin mi?"
+    },
+    "filters": {
+      "moduleType": "Modül",
+      "allModules": "Tüm modüller",
+      "company": "Firma",
+      "allCompanies": "Tüm firmalar",
+      "year": "Yıl",
+      "allYears": "Tüm yıllar",
+      "month": "Ay",
+      "allMonths": "Tüm aylar"
+    },
+    "fields": {
+      "moduleType": "Modül",
+      "moduleId": "Kayıt kimliği",
+      "company": "Firma",
+      "documentId": "Doküman",
+      "lineId": "Satır",
+      "period": "Dönem",
+      "description": "Açıklama",
+      "moduleDescription": "Modül notu",
+      "creationTime": "Arşivlenme"
+    },
+    "byModule": {
+      "recordHint": "Seçilen modüldeki kaydın anahtarı.",
+      "show": "Göster",
+      "tableLabel": "Modül kaydının arşiv kayıtları",
+      "empty": "Bu kayda iliştirilmiş bir doküman yok.",
+      "prompt": "Arşiv kayıtlarını listelemek için bir modül seçin ve kayıt kimliğini girin."
+    },
+    "editor": {
+      "createTitle": "Yeni arşiv kaydı",
+      "editTitle": "Arşiv kaydını düzenle",
+      "moduleIdRequired": "Kayıt kimliği zorunludur.",
+      "documentRequired": "Bir doküman seçilmelidir.",
+      "companyRequired": "Bir firma seçilmelidir.",
+      "documentHint": "Kayıtlı bir dokümanın kimliği.",
+      "selectCompany": "Firma seçin"
+    }
+  }
+}

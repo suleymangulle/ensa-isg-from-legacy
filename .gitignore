@@ -54,9 +54,17 @@ tools/api-tests/ensa-dev-cert.pem
 # ---------------------------------------------------------------------------
 # Runtime artefacts
 # ---------------------------------------------------------------------------
-logs/
+# Anchored on purpose. `logs/` and `documents/` without a leading path match a
+# directory of that name at EVERY level, and Git on Windows is case-insensitive
+# by default - so `documents/` also matched src/Ensa.Domain/Documents/ and five
+# other source folders, and none of them were ever committed. An ignored source
+# file is a silent failure: the build keeps passing locally and a clone does not
+# compile. tools/repo-check/check_tracked_sources.py now fails if it recurs.
+/src/Ensa.HttpApi.Host/Logs/
+/src/Ensa.HttpApi.Host/App_Data/
+/logs/
+/documents/
 *.log
-documents/
 received_mail.jsonl
 
 # ---------------------------------------------------------------------------

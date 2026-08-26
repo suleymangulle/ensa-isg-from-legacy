@@ -10,7 +10,7 @@ localization and the database schema — actually holds end to end.
 
    ```
    sqllocaldb start MSSQLLocalDB
-   DOTNET_ENVIRONMENT=Development dotnet run --project src/Ensa.DbMigrator
+   dotnet run --project src/Ensa.DbMigrator
    ```
 
 2. The API running:

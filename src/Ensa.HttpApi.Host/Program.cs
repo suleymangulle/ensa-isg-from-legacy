@@ -17,6 +17,14 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
+    // Local overrides, loaded last so they win. This repository is public: a real server's
+    // credentials belong in a file .gitignore excludes, not in appsettings.*.json. The committed
+    // files keep the shape and a working local default; this one holds what must not be published.
+    builder.Configuration.AddJsonFile(
+        $"appsettings.{builder.Environment.EnvironmentName}.local.json",
+        optional: true,
+        reloadOnChange: true);
+
     // Serilog — the real configuration is read from the Serilog section of appsettings.json.
     builder.Services.AddSerilog((services, loggerConfiguration) => loggerConfiguration
         .ReadFrom.Configuration(builder.Configuration)

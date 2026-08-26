@@ -70,6 +70,13 @@ try
             .AddJsonFile(Path.Combine(hostSettingsDirectory, "appsettings.json"), optional: true)
             .AddJsonFile(
                 Path.Combine(hostSettingsDirectory, $"appsettings.{builder.Environment.EnvironmentName}.json"),
+                optional: true)
+            // Local overrides, loaded last so they win. Kept out of source control by .gitignore:
+            // this repository is public and a committed connection string is a published one.
+            .AddJsonFile(
+                Path.Combine(
+                    hostSettingsDirectory,
+                    $"appsettings.{builder.Environment.EnvironmentName}.local.json"),
                 optional: true);
     }
 

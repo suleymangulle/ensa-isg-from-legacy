@@ -77,9 +77,13 @@ published binary, a container) resolves **Production**, which looks for `Server=
 refuses to start without a column encryption key — both correct for a deployment. Set
 `DOTNET_ENVIRONMENT=Development` explicitly in that case.
 
-SQL Server must be reachable. On a developer machine LocalDB is used:
-`sqllocaldb start MSSQLLocalDB`. The connection string lives in
-`src/Ensa.HttpApi.Host/appsettings.Development.json`.
+SQL Server must be reachable. `appsettings.Development.json` points at LocalDB
+(`sqllocaldb start MSSQLLocalDB`) so a fresh clone works with nothing else installed.
+
+**Credentials never go in a committed settings file — this repository is public.** Both hosts
+load `appsettings.{Environment}.local.json` last, and `.gitignore` excludes it; that is where a
+real server's connection string belongs. Development uses `EnsaDbDEv`, production `EnsaDb`. At
+deployment, override with the `ConnectionStrings__Default` environment variable or a key vault.
 
 Seeded administrator: `admin` / `Ensa!2026` (flagged to change the password on first sign-in).
 

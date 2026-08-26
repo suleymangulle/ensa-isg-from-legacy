@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "equipment": "Equipment",
+    "departments": "Workplace departments"
+  },
+  "equipment": {
+    "title": "Equipment",
+    "description": "Work equipment subject to periodic inspection, and its inspection dates.",
+    "create": "New equipment",
+    "edit": "Edit equipment",
+    "delete": "Delete equipment",
+    "confirmDelete": "Delete \"{{name}}\"?",
+    "notDeletable": "This equipment is referenced by other records and cannot be deleted.",
+    "searchPlaceholder": "Search by equipment name",
+    "onlyOverdue": "Overdue inspections only",
+    "showOverdue": "Show overdue",
+    "overdue": "Overdue",
+    "overdueSummary": "{{count}} pieces of equipment are past their inspection date.",
+    "days": "{{count}} days",
+    "nextDateHint": "The next inspection date is computed on the server from the selected period.",
+    "fields": {
+      "equipmentName": "Equipment name",
+      "equipmentType": "Equipment type",
+      "companyName": "Workplace",
+      "examinationDate": "Inspection date",
+      "nextExaminationDate": "Next inspection",
+      "examinationPerformedBy": "Inspected by",
+      "examinationReport": "Inspection report",
+      "remainingDays": "Days left"
+    }
+  },
+  "department": {
+    "title": "Workplace departments",
+    "description": "Department definitions per workplace; risk assessments and employee records attach to them.",
+    "create": "New department",
+    "edit": "Edit department",
+    "delete": "Delete department",
+    "confirmDelete": "Delete \"{{name}}\"?",
+    "notDeletable": "This department is referenced by other records and cannot be deleted.",
+    "searchPlaceholder": "Search by department name",
+    "fields": {
+      "departmentName": "Department name",
+      "companyName": "Workplace"
+    }
+  },
+  "enums": {
+    "equipmentType": {
+      "0": "—",
+      "1": "Machine / bench",
+      "2": "Installation equipment",
+      "3": "Lifting and conveying equipment",
+      "4": "Pressurised vessel",
+      "5": "Electrical installation",
+      "6": "Fire system"
+    }
+  }
+}

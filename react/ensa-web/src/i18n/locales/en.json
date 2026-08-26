@@ -1,0 +1,355 @@
+{
+  "app": {
+    "name": "Ensa",
+    "shortName": "ENSA",
+    "initial": "E",
+    "title": "Ensa — OHS Management System",
+    "tagline": "OHS Management System",
+    "footer": "© {{year}} Ensa — OHS Management System"
+  },
+  "common": {
+    "none": "—",
+    "loading": "Loading…",
+    "search": "Search",
+    "edit": "Edit",
+    "active": "Active",
+    "passive": "Inactive",
+    "profile": "My profile",
+    "signOut": "Sign out",
+    "host": "Host",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "create": "New",
+    "detail": "Detail",
+    "back": "Back",
+    "actions": "Actions",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "clear": "Clear",
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "confirmDelete": "Delete this record?",
+    "required": "This field is required"
+  },
+  "language": {
+    "label": "Language",
+    "tr": "TR",
+    "en": "EN",
+    "trLong": "Turkish",
+    "enLong": "English",
+    "switchTo": "Switch to {{language}}"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "companies": "Companies",
+    "employees": "Employees",
+    "trainingPlans": "Training plans",
+    "riskAssessments": "Risk assessments",
+    "medicalExaminations": "Health surveillance",
+    "users": "Users",
+    "group": {
+      "overview": "Overview",
+      "workplace": "Workplace management",
+      "ohs": "OHS processes",
+      "finance": "Finance",
+      "records": "Records and documents",
+      "admin": "Administration"
+    },
+    "toggleMenu": "Toggle menu",
+    "closeMenu": "Close menu",
+    "sidebar": "Main menu",
+    "userMenu": "User menu",
+    "breadcrumb": "Breadcrumb"
+  },
+  "auth": {
+    "signInTitle": "Sign in to Ensa",
+    "userName": "User name",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "invalidCredentials": "User name or password is incorrect."
+  },
+  "validation": {
+    "required": "This field is required."
+  },
+  "errors": {
+    "unexpected": "An unexpected error occurred.",
+    "network": "The server could not be reached. Check your connection.",
+    "moduleUnavailable": "The API endpoint for this module is not live yet.",
+    "forbidden": "You are not authorised to perform this action.",
+    "notFound": "Record not found."
+  },
+  "table": {
+    "empty": "No records to display."
+  },
+  "pagination": {
+    "label": "Pagination",
+    "summary": "Showing {{first}}–{{last}} of {{total}} records",
+    "position": "{{page}} / {{pageCount}}",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}",
+    "description": "An overview of your OHS processes",
+    "cards": {
+      "activeCompanies": "Companies",
+      "totalEmployees": "Employees",
+      "visits": "Visits",
+      "supportTickets": "Support tickets"
+    },
+    "attention": {
+      "title": "Needs attention",
+      "overdueInspections": "Equipment with an overdue inspection",
+      "overdueInspectionsHint": "Work equipment past its periodic inspection date — a finding during an inspection.",
+      "overdueActions": "Overdue corrective actions",
+      "overdueActionsHint": "Corrective actions still open after their deadline.",
+      "expiringAssessments": "Expiring risk assessments",
+      "expiringAssessmentsHint": "Risk assessment reports whose validity is about to run out."
+    },
+    "session": {
+      "title": "Session",
+      "userName": "User",
+      "tenant": "Organization (tenant)",
+      "roles": "Roles",
+      "permissionCount": "Permissions"
+    }
+  },
+  "company": {
+    "list": {
+      "title": "Companies",
+      "description": "Workplaces under service",
+      "create": "New company",
+      "searchPlaceholder": "Search by company name or SSI number…",
+      "searchLabel": "Search companies",
+      "empty": "No companies found."
+    },
+    "detail": {
+      "fallbackTitle": "Company",
+      "ssiNumber": "SSI registration number: {{value}}",
+      "tabs": {
+        "general": "General information",
+        "departments": "Departments",
+        "specialists": "Assigned specialists",
+        "branches": "Branches"
+      },
+      "emptyBranches": "No branches linked to this company.",
+      "emptyDepartments": "No departments defined.",
+      "emptySpecialists": "No specialist or physician assigned.",
+      "warningSummary": "Outstanding obligations",
+      "totalMissing": "Total outstanding: {{count}}"
+    },
+    "fields": {
+      "companyName": "Company name",
+      "ssiNumber": "SSI number",
+      "hazardClass": "Hazard class",
+      "workplaceType": "Workplace type",
+      "cityDistrict": "City / district",
+      "address": "Address",
+      "authorizedPerson": "Contact person",
+      "phone": "Phone",
+      "email": "E-mail",
+      "taxOffice": "Tax office",
+      "taxNumber": "Tax number",
+      "office": "Office",
+      "headquarterCompany": "Headquarter company",
+      "workerCount": "Workers",
+      "activeEmployeeCount": "Active employee count",
+      "status": "Status",
+      "note": "Note"
+    },
+    "warnings": {
+      "isSafetyTrainingNone": "Occupational safety training never delivered",
+      "isSafetyTrainingMissing": "Occupational safety training incomplete",
+      "isHealthTrainingNone": "Health training never delivered",
+      "isHealthTrainingMissing": "Health training incomplete",
+      "preEmploymentHealthExaminationMissing": "Pre-employment examination missing",
+      "equipmentExaminationMissing": "Equipment examination missing"
+    }
+  },
+  "employee": {
+    "list": {
+      "title": "Employees",
+      "description": "Employees of the workplaces under service",
+      "create": "New employee",
+      "searchPlaceholder": "Search by name, surname or national ID…",
+      "searchLabel": "Search employees",
+      "empty": "No employees found."
+    },
+    "fields": {
+      "fullName": "Full name",
+      "nationalId": "National ID",
+      "companyName": "Company",
+      "duty": "Duty",
+      "gender": "Gender",
+      "hireDate": "Hire date",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "left": "Left"
+    }
+  },
+  "trainingPlan": {
+    "list": {
+      "title": "Training plans",
+      "description": "Annual training plan lines and their completion status",
+      "create": "New plan",
+      "searchPlaceholder": "Search by company or training name…",
+      "searchLabel": "Search training plans",
+      "empty": "No training plan lines found."
+    },
+    "fields": {
+      "companyName": "Company",
+      "trainingName": "Training",
+      "period": "Period",
+      "duration": "Duration",
+      "instructor": "Instructor",
+      "performedDate": "Performed",
+      "status": "Status"
+    },
+    "minutes": "{{count}} min"
+  },
+  "riskAssessment": {
+    "list": {
+      "title": "Risk assessments",
+      "description": "Workplace risk assessment reports",
+      "create": "New report",
+      "searchPlaceholder": "Search by report or company name…",
+      "searchLabel": "Search risk assessments",
+      "empty": "No risk assessment reports found."
+    },
+    "fields": {
+      "reportName": "Report name",
+      "companyName": "Company",
+      "hazardClass": "Hazard class",
+      "method": "Method",
+      "hazardCount": "Hazards",
+      "performedDate": "Performed",
+      "validity": "Validity"
+    },
+    "validity": {
+      "expired": "Expired",
+      "expiring": "{{count}} days left",
+      "valid": "Valid"
+    }
+  },
+  "medicalExamination": {
+    "list": {
+      "title": "Health surveillance",
+      "description": "Pre-employment and periodic examination forms",
+      "create": "New examination",
+      "searchPlaceholder": "Search by employee or company name…",
+      "searchLabel": "Search examinations",
+      "empty": "No medical examination forms found."
+    },
+    "fields": {
+      "employee": "Employee",
+      "companyName": "Company",
+      "reportType": "Report type",
+      "examinationDate": "Examination",
+      "validityDate": "Validity",
+      "physician": "Physician",
+      "opinion": "Opinion"
+    }
+  },
+  "user": {
+    "list": {
+      "title": "Users",
+      "description": "Organisation users and their permissions",
+      "create": "New user",
+      "searchPlaceholder": "Search by name, surname or e-mail…",
+      "searchLabel": "Search users",
+      "empty": "No users found."
+    },
+    "fields": {
+      "fullName": "Full name",
+      "userName": "User name",
+      "email": "E-mail",
+      "staffRole": "Staff role",
+      "status": "Status"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for may have moved or never existed.",
+    "back": "Back to dashboard"
+  },
+  "enums": {
+    "hazardClass": {
+      "0": "Unspecified",
+      "1": "Low hazard",
+      "2": "Hazardous",
+      "3": "Very hazardous"
+    },
+    "workplaceType": {
+      "0": "Unspecified",
+      "1": "Headquarter",
+      "2": "Branch"
+    },
+    "gender": {
+      "0": "—",
+      "1": "Male",
+      "2": "Female"
+    },
+    "staffRole": {
+      "0": "—",
+      "1": "Occupational safety specialist",
+      "2": "Workplace physician",
+      "3": "Other health personnel",
+      "4": "Office staff",
+      "5": "Customer",
+      "6": "Office administrator",
+      "7": "Organisation administrator",
+      "8": "System administrator"
+    },
+    "planLineStatus": {
+      "0": "Planned",
+      "1": "Completed",
+      "2": "Note done",
+      "3": "Postponed",
+      "4": "Cancelled"
+    },
+    "riskAssessmentMethod": {
+      "0": "—",
+      "1": "L matrix (3×3)",
+      "2": "L matrix (5×5)",
+      "3": "Fine-Kinney",
+      "4": "FMEA",
+      "5": "Checklist"
+    },
+    "medicalReportType": {
+      "0": "—",
+      "1": "Pre-employment",
+      "2": "Periodic",
+      "3": "Job change",
+      "4": "Return to work",
+      "5": "On request"
+    },
+    "fitnessForWorkOpinion": {
+      "0": "—",
+      "1": "Fit for work",
+      "2": "Conditionally fit",
+      "3": "Unfit for work",
+      "4": "Further tests required"
+    },
+    "month": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    }
+  }
+}

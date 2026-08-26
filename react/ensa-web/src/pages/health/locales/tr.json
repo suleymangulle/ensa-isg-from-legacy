@@ -1,0 +1,299 @@
+{
+  "nav": {
+    "ePrescriptions": "E-Reçete"
+  },
+  "medicalExamination": {
+    "list": {
+      "title": "Sağlık Gözetimi",
+      "description": "İşe giriş ve periyodik muayene formları (EK-2)",
+      "create": "Yeni Muayene",
+      "searchPlaceholder": "IBYS grup kodu veya kaynak ile ara…",
+      "empty": "Sağlık muayene formu bulunamadı.",
+      "openDetail": "{{name}} muayene formunu aç",
+      "deleteAction": "{{name}} muayene formunu sil",
+      "deleteTitle": "Muayene formunu sil",
+      "deleteMessage": "{{name}} adlı çalışanın muayene formu, tüm klinik satırlarıyla birlikte silinecek. Devam edilsin mi?"
+    },
+    "fields": {
+      "employee": "Çalışan",
+      "companyName": "Firma",
+      "reportType": "Rapor Türü",
+      "examinationDate": "Muayene",
+      "validityDate": "Geçerlilik",
+      "previousExaminationDate": "Önceki Muayene",
+      "physician": "Hekim",
+      "opinion": "Kanaat ve Sonuç",
+      "opinionDescription": "Kanaat Açıklaması",
+      "recommendations": "Öneriler",
+      "ibysStatus": "IBYS Durumu",
+      "ibysStatusMessage": "IBYS Mesajı",
+      "ibysOccupationCode": "IBYS Meslek Kodu",
+      "heightCm": "Boy (cm)",
+      "weightKg": "Kilo (kg)",
+      "bodyMassIndex": "Vücut Kitle İndeksi",
+      "bloodPressure": "Tansiyon (mmHg)",
+      "bloodPressureSystolic": "Büyük Tansiyon",
+      "bloodPressureDiastolic": "Küçük Tansiyon",
+      "pulseRate": "Nabız (/dk)",
+      "chronicIllnessDeclaration": "Kronik Hastalık Beyanı"
+    },
+    "filters": {
+      "company": "Firma",
+      "reportType": "Rapor türü",
+      "opinion": "Kanaat",
+      "ibysStatus": "IBYS durumu",
+      "dateFrom": "Muayene başlangıç tarihi",
+      "dateTo": "Muayene bitiş tarihi"
+    },
+    "expiring": {
+      "title": "Geçerliliği dolan muayeneler ({{count}})",
+      "none": "Seçili iş yerinde geçerliliği dolmuş muayene yok.",
+      "selectCompany": "Geçerliliği dolan muayeneleri görmek için filtreden bir iş yeri seçin."
+    },
+    "detail": {
+      "subtitle": "{{reportType}} · {{date}}",
+      "vitalsTitle": "Antropometri ve Yaşamsal Bulgular",
+      "ibysLocked": "Bu form IBYS tarafından onaylandı ve bildirimin yasal kaydıdır; artık değiştirilemez."
+    },
+    "form": {
+      "createTitle": "Yeni muayene formu",
+      "editTitle": "Muayene formunu düzenle",
+      "searchCompany": "Firma ara",
+      "searchEmployee": "Çalışan ara",
+      "searchPhysician": "Hekim ara",
+      "validityHint": "Boş bırakılırsa yasal periyot uygulanır.",
+      "occupationCodeHint": "IBYS bildiriminde kullanılan meslek kodu.",
+      "vitalsHeading": "Antropometri ve yaşamsal bulgular",
+      "opinionHeading": "Kanaat ve sonuç",
+      "opinionHint": "Muayenenin işleme esas çıktısıdır."
+    },
+    "sections": {
+      "answer": "Cevap",
+      "note": "Açıklama",
+      "complaints": {
+        "title": "Şikâyet ve Özgeçmiş",
+        "description": "Çalışanın beyanına dayalı şikâyet ve öykü satırları.",
+        "item": "Şikâyet"
+      },
+      "workConditions": {
+        "title": "Çalışma Koşulları",
+        "description": "Çalışanın bu koşullarda çalışmaya uygunluğu.",
+        "item": "Koşul",
+        "suitable": "Uygun mu?"
+      },
+      "habits": {
+        "title": "Alışkanlıklar",
+        "description": "Sigara, alkol ve madde kullanımı.",
+        "item": "Alışkanlık",
+        "status": "Durum",
+        "dailyQuantity": "Günlük miktar",
+        "durationYear": "Süre (yıl)",
+        "cessationYearBefore": "Kaç yıl önce bıraktı"
+      },
+      "physicalFindings": {
+        "title": "Fizik Muayene Bulguları",
+        "description": "Sistem bazında fizik muayene sonuçları.",
+        "item": "Sistem",
+        "finding": "Bulgu"
+      },
+      "labTests": {
+        "title": "Laboratuvar Bulguları",
+        "description": "Yapılan tetkikler ve sonuçları.",
+        "item": "Tetkik",
+        "isCompleted": "Yapıldı",
+        "date": "Tarih",
+        "result": "Sonuç"
+      },
+      "immunizations": {
+        "title": "Bağışıklama",
+        "description": "Muayene sırasında beyan edilen aşılar.",
+        "item": "Aşı",
+        "date": "Tarih"
+      },
+      "revert": "Geri al"
+    }
+  },
+  "medicalReference": {
+    "minTerm": "Aramak için en az {{count}} karakter yazın.",
+    "icd10": {
+      "label": "ICD-10 tanısı",
+      "placeholder": "Tanı kodu veya adı…",
+      "select": "{{code}} — {{name}} tanısını ekle"
+    },
+    "medication": {
+      "label": "İlaç",
+      "placeholder": "İlaç adı veya barkodu…",
+      "select": "{{name}} ilacını ekle"
+    }
+  },
+  "ePrescription": {
+    "list": {
+      "title": "E-Reçete",
+      "description": "İş yeri hekimliği e-reçete kayıtları",
+      "create": "Yeni Reçete",
+      "searchPlaceholder": "Reçete kodu veya protokol no ile ara…",
+      "empty": "E-reçete bulunamadı.",
+      "noCode": "(kodsuz)",
+      "openDetail": "{{code}} reçetesini aç",
+      "deleteAction": "{{code}} reçetesini sil",
+      "deleteTitle": "Reçeteyi sil",
+      "deleteMessage": "{{code}} reçetesi ilaç ve tanı satırlarıyla birlikte silinecek. Devam edilsin mi?"
+    },
+    "fields": {
+      "code": "Reçete Kodu",
+      "patient": "Hasta",
+      "patientNationalId": "T.C. Kimlik No",
+      "company": "Firma",
+      "protocolNo": "Protokol No",
+      "creationTime": "Oluşturulma",
+      "submissionDate": "Gönderim",
+      "resultCode": "Servis Sonucu",
+      "warningMessage": "Uyarı",
+      "status": "Durum",
+      "description": "Açıklama",
+      "descriptionType": "Açıklama Türü",
+      "medication": "İlaç",
+      "usageMethod": "Kullanım Yolu",
+      "dose": "Doz",
+      "doseUnit": "Doz Birimi",
+      "period": "Periyot",
+      "periodUnit": "Periyot Birimi",
+      "box": "Kutu",
+      "medicationDescription": "İlaç Açıklaması",
+      "icd10Code": "ICD-10",
+      "icd10Name": "Tanı"
+    },
+    "filters": {
+      "nationalId": "T.C. Kimlik No",
+      "status": "Durum",
+      "allStatuses": "Tüm durumlar",
+      "dateFrom": "Başlangıç tarihi",
+      "dateTo": "Bitiş tarihi",
+      "nationalIdHint": "Kimlik numarası ile arama yalnızca tam eşleşmedir; {{length}} hane girildiğinde çalışır."
+    },
+    "status": {
+      "active": "Geçerli",
+      "cancelled": "İptal"
+    },
+    "form": {
+      "createTitle": "Yeni e-reçete",
+      "editTitle": "E-reçeteyi düzenle",
+      "nationalIdHint": "E-reçete servisi için zorunludur.",
+      "nationalIdLength": "T.C. kimlik numarası {{length}} hane olmalıdır.",
+      "medicationRequired": "Reçetede en az bir ilaç bulunmalıdır.",
+      "searchCompany": "Firma ara",
+      "searchPatient": "Hasta ara",
+      "diagnosesHeading": "Tanılar",
+      "medicationsHeading": "İlaçlar",
+      "removeDiagnosis": "{{code}} tanısını kaldır",
+      "removeMedication": "{{name}} ilacını kaldır"
+    },
+    "detail": {
+      "subtitle": "{{patient}} · {{date}}",
+      "cancelAction": "Reçeteyi iptal et",
+      "cancelTitle": "Reçete iptali",
+      "cancelReason": "İptal gerekçesi",
+      "cancelledNotice": "Bu reçete iptal edilmiştir; kayıt salt okunurdur.",
+      "diagnosesTitle": "Tanılar",
+      "medicationsTitle": "İlaçlar",
+      "noDiagnoses": "Tanı satırı yok.",
+      "noMedications": "İlaç satırı yok."
+    }
+  },
+  "enums": {
+    "triStateAnswer": {
+      "0": "—",
+      "1": "Hayır",
+      "2": "Evet",
+      "3": "Bilinmiyor"
+    },
+    "examFinding": {
+      "0": "—",
+      "1": "Normal",
+      "2": "Patolojik",
+      "3": "Yapılmadı"
+    },
+    "habitStatus": {
+      "0": "—",
+      "1": "Hiç kullanmadı",
+      "2": "Bıraktı",
+      "3": "Kullanıyor"
+    },
+    "habitType": {
+      "1": "Sigara",
+      "2": "Alkol",
+      "3": "Madde"
+    },
+    "medicalComplaintType": {
+      "1": "Balgamlı öksürük",
+      "2": "Nefes darlığı",
+      "3": "Göğüs ağrısı",
+      "4": "Çarpıntı",
+      "5": "Sırt ağrısı",
+      "6": "İshal veya kabızlık",
+      "7": "Eklemlerde ağrı",
+      "8": "Kalp hastalığı",
+      "9": "Şeker hastalığı",
+      "10": "Böbrek rahatsızlığı",
+      "11": "Sarılık",
+      "12": "Mide ve on iki parmak ülseri",
+      "13": "İşitme kaybı",
+      "14": "Görme bozukluğu",
+      "15": "Sinir sistemi hastalığı",
+      "16": "Deri hastalığı",
+      "17": "Besin zehirlenmesi",
+      "18": "Hastanede yattı mı?",
+      "19": "Ameliyat geçirdi mi?",
+      "20": "İş kazası geçirdi mi?",
+      "21": "Meslek hastalığı şüphesi",
+      "22": "Maluliyet aldı mı?",
+      "23": "Devam eden tedavi"
+    },
+    "physicalExamSystem": {
+      "1": "Duyu organları — göz",
+      "2": "Duyu organları — kulak, burun, boğaz",
+      "3": "Duyu organları — deri",
+      "4": "Kardiyovasküler sistem",
+      "5": "Solunum sistemi",
+      "6": "Sindirim sistemi",
+      "7": "Ürogenital sistem",
+      "8": "Kas-iskelet sistemi",
+      "9": "Nörolojik muayene",
+      "10": "Psikiyatrik muayene",
+      "99": "Diğer"
+    },
+    "labTestType": {
+      "1": "Biyolojik analiz (kan)",
+      "2": "Biyolojik analiz (idrar)",
+      "3": "Radyolojik analiz",
+      "4": "Odyometre",
+      "5": "Solunum fonksiyon testi",
+      "6": "Psikolojik test",
+      "99": "Diğer"
+    },
+    "immunizationType": {
+      "1": "Tetanoz",
+      "2": "Hepatit A",
+      "3": "Hepatit B",
+      "4": "Grip",
+      "5": "Covid-19",
+      "99": "Diğer"
+    },
+    "workConditionType": {
+      "1": "Yüksekte çalışma",
+      "2": "Gece çalışması",
+      "3": "Vardiyalı çalışma",
+      "4": "Ağır ve tehlikeli iş",
+      "5": "Kapalı alanda çalışma",
+      "6": "Gürültülü ortam",
+      "7": "Kimyasal maruziyeti",
+      "8": "Bedensel ve ruhsal uygunluk"
+    },
+    "prescriptionNoteType": {
+      "0": "—",
+      "1": "Tanı",
+      "2": "Tedavi süresi",
+      "3": "Hasta güvenliği ve izlem formu"
+    }
+  }
+}

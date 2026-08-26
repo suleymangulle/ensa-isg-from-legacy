@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "equipment": "Ekipmanlar",
+    "departments": "İşyeri Bölümleri"
+  },
+  "equipment": {
+    "title": "Ekipmanlar",
+    "description": "Periyodik kontrole tabi iş ekipmanları ve kontrol tarihleri.",
+    "create": "Yeni Ekipman",
+    "edit": "Ekipmanı Düzenle",
+    "delete": "Ekipmanı Sil",
+    "confirmDelete": "\"{{name}}\" kaydını silmek istiyor musunuz?",
+    "notDeletable": "Bu ekipman başka kayıtlarda kullanıldığı için silinemez.",
+    "searchPlaceholder": "Ekipman adına göre ara",
+    "onlyOverdue": "Yalnızca gecikmiş kontroller",
+    "showOverdue": "Gecikmişleri göster",
+    "overdue": "Gecikmiş",
+    "overdueSummary": "{{count}} ekipmanın periyodik kontrol tarihi geçmiş.",
+    "days": "{{count}} gün",
+    "nextDateHint": "Sonraki kontrol tarihi, seçilen periyoda göre sunucuda hesaplanır.",
+    "fields": {
+      "equipmentName": "Ekipman Adı",
+      "equipmentType": "Ekipman Türü",
+      "companyName": "İşyeri",
+      "examinationDate": "Kontrol Tarihi",
+      "nextExaminationDate": "Sonraki Kontrol",
+      "examinationPerformedBy": "Kontrolü Yapan",
+      "examinationReport": "Kontrol Raporu",
+      "remainingDays": "Kalan Gün"
+    }
+  },
+  "department": {
+    "title": "İşyeri Bölümleri",
+    "description": "İşyerlerinin bölüm tanımları; risk analizi ve çalışan kayıtları bu bölümlere bağlanır.",
+    "create": "Yeni Bölüm",
+    "edit": "Bölümü Düzenle",
+    "delete": "Bölümü Sil",
+    "confirmDelete": "\"{{name}}\" bölümünü silmek istiyor musunuz?",
+    "notDeletable": "Bu bölüm başka kayıtlarda kullanıldığı için silinemez.",
+    "searchPlaceholder": "Bölüm adına göre ara",
+    "fields": {
+      "departmentName": "Bölüm Adı",
+      "companyName": "İşyeri"
+    }
+  },
+  "enums": {
+    "equipmentType": {
+      "0": "—",
+      "1": "Makine / Tezgâh",
+      "2": "Tesisat Ekipmanı",
+      "3": "Kaldırma ve İletme Ekipmanı",
+      "4": "Basınçlı Kap",
+      "5": "Elektrik Tesisatı",
+      "6": "Yangın Sistemi"
+    }
+  }
+}

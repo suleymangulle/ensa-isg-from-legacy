@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "organizations": "Kurumlar",
+    "offices": "Ofisler"
+  },
+  "organization": {
+    "list": {
+      "title": "Kurumlar",
+      "description": "OSGB / İSG hizmet sağlayıcı kayıtları",
+      "create": "Yeni Kurum",
+      "searchPlaceholder": "Kurum adı, kodu veya vergi no ile ara…",
+      "empty": "Kayıtlı kurum bulunamadı."
+    },
+    "filters": {
+      "status": "Duruma göre filtrele",
+      "allStatuses": "Tüm durumlar"
+    },
+    "fields": {
+      "name": "Kurum Adı",
+      "code": "Kurum Kodu",
+      "organizationType": "Kurum Türü",
+      "organizationTypeId": "Kurum Türü No",
+      "subscriptionPlan": "Abonelik Paketi",
+      "subscriptionPlanId": "Abonelik Paketi No",
+      "contact": "İletişim",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "webUrl": "Web Adresi",
+      "taxOffice": "Vergi Dairesi",
+      "taxNumber": "Vergi No",
+      "address": "Adres",
+      "city": "İl",
+      "district": "İlçe",
+      "authorizedFullName": "Yetkili",
+      "authorizedPhone": "Yetkili Telefon",
+      "authorizedEmail": "Yetkili E-posta",
+      "subscription": "Abonelik",
+      "subscriptionStart": "Abonelik Başlangıcı",
+      "subscriptionEnd": "Abonelik Bitişi",
+      "maximumUserCount": "Kullanıcı Kotası",
+      "maximumCompanyCount": "İşyeri Kotası",
+      "contractDate": "Sözleşme Tarihi",
+      "contractStatus": "Sözleşme Durumu",
+      "contractUserCount": "Sözleşmedeki Kullanıcı",
+      "contractPaid": "Ödendi",
+      "status": "Durum"
+    },
+    "subscription": {
+      "openEnded": "{{value}} — süresiz"
+    },
+    "actions": {
+      "editNamed": "{{name}} kurumunu düzenle",
+      "deleteNamed": "{{name}} kurumunu sil",
+      "deleteTitle": "Kurumu sil",
+      "deleteMessage": "{{name}} kurumu pasife alınıp silinecek. Devam edilsin mi?"
+    },
+    "detail": {
+      "subtitle": "Kurum kodu: {{code}}",
+      "tabs": {
+        "general": "Genel Bilgiler",
+        "offices": "Ofisler",
+        "subscription": "Abonelik"
+      },
+      "activeUserCount": "Aktif Kullanıcı",
+      "activeCompanyCount": "Aktif İşyeri",
+      "officeCount": "Ofis",
+      "unlimited": "Sınırsız",
+      "openEnded": "Süresiz",
+      "emptyOffices": "Bu kuruma bağlı ofis kaydı yok.",
+      "headquarterOffice": "Merkez ofis: {{name}}",
+      "noContract": "Yürürlükte sözleşme kaydı yok."
+    },
+    "form": {
+      "createTitle": "Yeni Kurum",
+      "editTitle": "Kurumu Düzenle",
+      "sections": {
+        "identity": "Kimlik",
+        "contact": "İletişim",
+        "authorized": "Yetkili Kişi",
+        "subscription": "Abonelik"
+      },
+      "codeHint": "Tenant çözümlemesi ve alt alan adı için kullanılır; benzersiz olmalıdır.",
+      "openEndedHint": "Boş bırakılırsa abonelik süresizdir.",
+      "unlimitedHint": "Boş bırakılırsa sınırsızdır.",
+      "positiveIdRequired": "Pozitif bir kimlik numarası girin."
+    }
+  },
+  "office": {
+    "list": {
+      "title": "Ofisler",
+      "description": "Kurumun ofisleri ve bağlı oldukları firmalar",
+      "create": "Yeni Ofis",
+      "searchPlaceholder": "Ofis adı veya yetkili ile ara…",
+      "empty": "Kayıtlı ofis bulunamadı.",
+      "unresolvedCompany": "Firma #{{id}}"
+    },
+    "filters": {
+      "status": "Duruma göre filtrele",
+      "allStatuses": "Tüm durumlar"
+    },
+    "fields": {
+      "name": "Ofis Adı",
+      "company": "Bağlı Firma",
+      "organization": "Kurum",
+      "phone": "Telefon",
+      "fax": "Faks",
+      "address": "Adres",
+      "city": "İl",
+      "district": "İlçe",
+      "cityDistrict": "İl / İlçe",
+      "authorizedPerson": "Yetkili",
+      "authorizedEmail": "Yetkili E-posta",
+      "headquarterOffice": "Merkez Ofis",
+      "status": "Durum"
+    },
+    "badges": {
+      "headquarter": "Merkez"
+    },
+    "actions": {
+      "editNamed": "{{name}} ofisini düzenle",
+      "deleteNamed": "{{name}} ofisini sil",
+      "deleteTitle": "Ofisi sil",
+      "deleteMessage": "{{name}} ofisi silinecek. Devam edilsin mi?"
+    },
+    "detail": {
+      "subtitle": "{{organization}} kurumuna bağlı",
+      "general": "Genel Bilgiler",
+      "userCount": "Aktif Kullanıcı",
+      "cashRegisterCount": "Aktif Kasa"
+    },
+    "form": {
+      "createTitle": "Yeni Ofis",
+      "editTitle": "Ofisi Düzenle",
+      "companyHint": "Ofis bir firmaya bağlıysa seçin; değilse doğrudan kuruma bağlı kalır.",
+      "attachedToOrganization": "Doğrudan kuruma bağlı",
+      "headquarterHint": "Bir kurumda yalnızca tek bir ofis merkez olabilir."
+    }
+  },
+  "enums": {
+    "contractStatus": {
+      "0": "—",
+      "1": "Hazırlanıyor",
+      "2": "Gönderildi",
+      "3": "İmzalandı",
+      "4": "Reddedildi",
+      "5": "Feshedildi"
+    }
+  }
+}

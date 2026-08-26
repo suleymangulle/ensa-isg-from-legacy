@@ -1,0 +1,284 @@
+{
+  "nav": {
+    "visits": "Visits",
+    "supportTickets": "Support tickets",
+    "messages": "Messages",
+    "mail": "Mail"
+  },
+  "enums": {
+    "visitType": {
+      "0": "Unspecified",
+      "1": "Routine visit",
+      "2": "First visit",
+      "3": "Field observation visit",
+      "4": "Training",
+      "5": "Health screening",
+      "6": "Measurement",
+      "7": "Meeting",
+      "8": "Leave",
+      "99": "Other"
+    },
+    "supportTicketStatus": {
+      "0": "Open",
+      "1": "Answered",
+      "2": "Closed",
+      "3": "Cancelled"
+    },
+    "messageType": {
+      "1": "User message",
+      "2": "From company employee",
+      "3": "To company employee",
+      "4": "System notification"
+    },
+    "mailStatus": {
+      "0": "Draft",
+      "1": "Queued",
+      "2": "Sent",
+      "3": "Failed",
+      "4": "Cancelled"
+    },
+    "mailPriority": {
+      "0": "Low",
+      "1": "Normal",
+      "2": "High"
+    },
+    "mailType": {
+      "0": "Normal",
+      "1": "Awareness",
+      "2": "Reminder",
+      "3": "System"
+    },
+    "contentFormat": {
+      "0": "Plain text",
+      "1": "HTML"
+    }
+  },
+  "visit": {
+    "list": {
+      "title": "Visits",
+      "description": "Workplace visits of the OHS team, day by day",
+      "create": "New visit",
+      "empty": "No visits in the selected range.",
+      "dayCount": "{{count}} visit",
+      "dayCount_other": "{{count}} visits",
+      "completed": "Completed",
+      "planned": "Planned",
+      "companyFallback": "Company #{{id}}",
+      "userFallback": "User #{{id}}",
+      "editAria": "Edit the visit {{title}}",
+      "deleteAria": "Delete the visit {{title}}",
+      "deleteTitle": "Delete visit",
+      "deleteMessage": "The visit “{{title}}” will be deleted. Continue?"
+    },
+    "filters": {
+      "from": "From",
+      "to": "To",
+      "invalidRange": "The start of the range must not be later than its end.",
+      "moveRange": "Move the range",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "thisMonth": "This month",
+      "user": "Specialist",
+      "allUsers": "Everyone",
+      "company": "Workplace",
+      "allCompanies": "All workplaces",
+      "operationType": "Visit type",
+      "allTypes": "All types",
+      "completed": "State",
+      "onlyCompleted": "Completed only",
+      "onlyPlanned": "Planned only"
+    },
+    "fields": {
+      "company": "Workplace",
+      "user": "Visiting specialist",
+      "visitDate": "Visit date",
+      "start": "Starts",
+      "end": "Ends",
+      "operationType": "Visit type",
+      "description": "Description",
+      "scheduledWeek": "Planned week",
+      "scheduledMonth": "Planned month",
+      "regionCode": "Region code",
+      "otherCompanyDistanceKm": "Distance to next workplace (km)",
+      "completed": "The visit took place"
+    },
+    "editor": {
+      "createTitle": "New visit",
+      "editTitle": "Edit visit",
+      "selectCompany": "Select a workplace",
+      "currentUser": "Me",
+      "userHint": "Left empty, the visit is recorded against the signed-in user.",
+      "companyRequired": "A workplace must be selected.",
+      "dateRequired": "The visit date is required.",
+      "endBeforeStart": "The end must not be earlier than the start."
+    }
+  },
+  "supportTicket": {
+    "list": {
+      "title": "Support tickets",
+      "description": "Requests raised with the support desk",
+      "create": "New ticket",
+      "searchPlaceholder": "Search by subject…",
+      "empty": "No tickets found.",
+      "openCount": "of your tickets are still open",
+      "userFallback": "User #{{id}}",
+      "close": "Close",
+      "reopen": "Reopen",
+      "closeAria": "Close the ticket {{topic}}",
+      "reopenAria": "Reopen the ticket {{topic}}",
+      "editAria": "Edit the ticket {{topic}}",
+      "deleteAria": "Delete the ticket {{topic}}",
+      "deleteTitle": "Delete ticket",
+      "deleteMessage": "The ticket “{{topic}}” and its whole thread will be deleted. Continue?"
+    },
+    "filters": {
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "onlyMine": "Only mine"
+    },
+    "fields": {
+      "topic": "Subject",
+      "status": "Status",
+      "openedBy": "Opened by",
+      "responder": "Responder",
+      "openedAt": "Opened",
+      "closedAt": "Closed",
+      "firstMessage": "Opening message"
+    },
+    "editor": {
+      "createTitle": "New ticket",
+      "editTitle": "Edit ticket",
+      "noResponder": "Unassigned",
+      "responderHint": "The status is not edited here — use close and reopen.",
+      "firstMessageHint": "Optional. Posted into the thread together with the ticket."
+    },
+    "detail": {
+      "fallbackTitle": "Support ticket",
+      "openedBy": "Opened by {{name}} on {{date}}",
+      "thread": "Thread",
+      "emptyThread": "No messages in this thread yet.",
+      "unread": "Unread",
+      "replyLabel": "Your reply",
+      "send": "Send",
+      "closedNotice": "This ticket is closed. Reopen it to reply."
+    }
+  },
+  "message": {
+    "folders": {
+      "inbox": "Inbox",
+      "sent": "Sent"
+    },
+    "list": {
+      "title": "Messages",
+      "description": "Internal messages between users and company employees",
+      "compose": "New message",
+      "searchPlaceholder": "Search in messages…",
+      "empty": "No messages here.",
+      "unreadCount": "You have {{count}} unread message.",
+      "unreadCount_other": "You have {{count}} unread messages.",
+      "read": "Read",
+      "unread": "Unread",
+      "open": "Open",
+      "openAria": "Open the message",
+      "deleteAria": "Delete the message",
+      "userFallback": "User #{{id}}",
+      "deleteTitle": "Delete message",
+      "deleteMessage": "This message will be deleted. Only its sender may do this. Continue?"
+    },
+    "filters": {
+      "messageType": "Message type",
+      "allTypes": "All types",
+      "readState": "Read state"
+    },
+    "fields": {
+      "sender": "Sender",
+      "recipient": "Recipient",
+      "content": "Message",
+      "messageType": "Type",
+      "company": "Workplace",
+      "sentAt": "Sent",
+      "readState": "State"
+    },
+    "compose": {
+      "title": "New message",
+      "send": "Send",
+      "selectRecipient": "Select a recipient",
+      "recipientRequired": "A recipient must be selected.",
+      "noCompany": "Not about a workplace",
+      "companyHint": "Optional. Links the message to a workplace."
+    },
+    "reader": {
+      "title": "Message"
+    }
+  },
+  "mail": {
+    "tabs": {
+      "log": "Mail log",
+      "settings": "SMTP settings"
+    },
+    "list": {
+      "title": "Mail",
+      "description": "The outbound mail queue and its delivery history",
+      "create": "New mail",
+      "searchPlaceholder": "Search by subject or address…",
+      "empty": "No mails found.",
+      "queue": "Queue",
+      "queueAria": "Queue the mail {{topic}}",
+      "notEditable": "A mail that has been sent can no longer be edited.",
+      "editAria": "Edit the mail {{topic}}",
+      "deleteAria": "Delete the mail {{topic}}",
+      "deleteTitle": "Delete mail",
+      "deleteMessage": "The mail “{{topic}}” and its attachment records will be deleted. Continue?"
+    },
+    "filters": {
+      "mailStatus": "Status",
+      "allStatuses": "All statuses",
+      "mailType": "Type",
+      "allTypes": "All types",
+      "mailPriority": "Priority",
+      "allPriorities": "All priorities"
+    },
+    "fields": {
+      "sender": "From",
+      "recipient": "To",
+      "topic": "Subject",
+      "content": "Body",
+      "contentFormat": "Body format",
+      "mailStatus": "Status",
+      "mailPriority": "Priority",
+      "mailType": "Type",
+      "attemptCount": "Attempts",
+      "submissionDate": "Sent / attempted",
+      "errorMessage": "Delivery error"
+    },
+    "editor": {
+      "createTitle": "New mail",
+      "editTitle": "Edit mail",
+      "recipientHint": "Several addresses may be separated by a semicolon.",
+      "invalidSender": "Enter a valid e-mail address."
+    },
+    "detail": {
+      "title": "Mail",
+      "attachments": "Attachments",
+      "noAttachments": "No files attached.",
+      "documentFallback": "Document #{{id}}",
+      "attachDocument": "Document id",
+      "attachHint": "The file must already exist in the document store; uploading is not available yet.",
+      "attach": "Attach",
+      "removeAttachment": "Detach",
+      "removeAttachmentAria": "Detach this file"
+    },
+    "settings": {
+      "unavailable": "The API has no SMTP settings endpoint yet, so nothing on this panel is saved or loaded. The fields below only show the shape the settings will take.",
+      "preview": "Preview of the planned form.",
+      "host": "SMTP server",
+      "port": "Port",
+      "useSsl": "Use SSL",
+      "userName": "User name",
+      "password": "Password",
+      "passwordHint": "Write-only. A stored password is never shown, and a blank field leaves the saved one untouched.",
+      "passwordPlaceholder": "Leave blank to keep the current password",
+      "defaultSender": "Default sender address"
+    }
+  }
+}

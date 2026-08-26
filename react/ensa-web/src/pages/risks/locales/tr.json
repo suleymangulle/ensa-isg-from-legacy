@@ -1,0 +1,318 @@
+{
+  "nav": {
+    "emergencyPlans": "Acil Durum Planları"
+  },
+  "riskAssessment": {
+    "list": {
+      "title": "Risk Analizleri",
+      "description": "İşyeri risk değerlendirme raporları",
+      "create": "Yeni Rapor",
+      "searchPlaceholder": "Rapor veya firma adı ile ara…",
+      "searchLabel": "Risk analizi ara",
+      "empty": "Risk analiz raporu bulunamadı.",
+      "allHazardClasses": "Tüm tehlike sınıfları",
+      "openDetail": "{{name}} raporunu aç",
+      "deleteReport": "{{name}} raporunu sil",
+      "deleteTitle": "Raporu sil",
+      "deleteMessage": "{{name}} raporu, tehlikeleri ve önlemleriyle birlikte silinecek. Onaylıyor musunuz?"
+    },
+    "fields": {
+      "reportName": "Rapor Adı",
+      "companyName": "Firma",
+      "hazardClass": "Tehlike Sınıfı",
+      "method": "Metot",
+      "hazardCount": "Tehlike",
+      "approvalStatus": "Onay Durumu",
+      "workerCount": "Çalışan Sayısı",
+      "performedDate": "Gerçekleştirme",
+      "validity": "Geçerlilik",
+      "validityDate": "Geçerlilik Tarihi",
+      "revisionDate": "Revizyon Tarihi",
+      "workplaceTitle": "İşyeri Ünvanı",
+      "businessActivity": "Faaliyet Alanı",
+      "workplaceAddress": "İşyeri Adresi",
+      "workplacePhone": "İşyeri Telefonu",
+      "workplaceDepartments": "İşyeri Bölümleri",
+      "machinesAndEquipment": "Makine ve Ekipmanlar",
+      "hazardousArticles": "Tehlikeli Maddeler",
+      "wasteOperations": "Atık İşlemleri",
+      "employer": "İşveren",
+      "specialist": "İSG Uzmanı",
+      "physician": "İşyeri Hekimi"
+    },
+    "validity": {
+      "expired": "Süresi doldu",
+      "expiring": "{{count}} gün kaldı",
+      "valid": "Geçerli"
+    },
+    "expiring": {
+      "title": "Süresi dolan veya dolmak üzere olan {{count}} rapor",
+      "description": "Geçerliliği önümüzdeki {{days}} gün içinde sona eren raporlar."
+    },
+    "create": {
+      "title": "Yeni Risk Analiz Raporu",
+      "selectCompany": "Firma seçiniz…",
+      "hazardClassHint": "Geçerlilik süresi tehlike sınıfına göre hesaplanır (2 / 4 / 6 yıl)."
+    },
+    "detail": {
+      "fallbackTitle": "Risk Analiz Raporu",
+      "editTitle": "Rapor Bilgilerini Düzenle",
+      "hazardCount": "Belirlenen Tehlike",
+      "openHighRisk": "Açık Yüksek Risk",
+      "needsAction": "Aksiyon gerekli",
+      "underControl": "Kontrol altında",
+      "tabs": {
+        "general": "Genel",
+        "hazards": "Tehlikeler",
+        "sets": "Rapor Bilgileri",
+        "team": "Ekip ve Kayıtlar"
+      }
+    },
+    "hazard": {
+      "title": "Belirlenen Tehlikeler",
+      "description": "Toplam {{count}} tehlike satırı, risk puanına göre sıralanmıştır.",
+      "empty": "Bu rapora henüz tehlike eklenmemiş.",
+      "add": "Tehlike Ekle",
+      "createTitle": "Yeni Tehlike",
+      "editTitle": "Tehlikeyi Düzenle",
+      "editFor": "{{name}} tehlikesini düzenle",
+      "deleteFor": "{{name}} tehlikesini sil",
+      "deleteTitle": "Tehlikeyi sil",
+      "deleteMessage": "{{name}} tehlikesi ve bağlı önlemleri silinecek. Onaylıyor musunuz?",
+      "currentRating": "Mevcut Değerlendirme",
+      "residualRating": "Önlem Sonrası Değerlendirme",
+      "residualHint": "Önlemler uygulandıktan sonra beklenen değerler; boş bırakılabilir.",
+      "measureHint": "Bu tehlike için planlanan ana önlem.",
+      "selectValue": "Seçiniz…",
+      "preview": "Tahmini puan: {{score}}",
+      "previewUnavailable": "Puan sunucu tarafından hesaplanır.",
+      "fields": {
+        "hazardTag": "Tehlike",
+        "riskTag": "Risk",
+        "activityDescription": "Faaliyet / Açıklama",
+        "measure": "Önlem",
+        "likelihood": "Olasılık",
+        "frequency": "Frekans",
+        "severity": "Şiddet",
+        "rating": "Değerlendirme",
+        "riskScore": "Risk Puanı",
+        "residualRiskScore": "Önlem Sonrası",
+        "ownerPerson": "Sorumlu",
+        "deadlineDate": "Termin",
+        "comment": "Not",
+        "controlMeasures": "Önlemler"
+      }
+    },
+    "measure": {
+      "title": "Kontrol Önlemleri",
+      "manageFor": "{{name}} tehlikesinin önlemlerini yönet",
+      "counter": "{{total}} önlem · {{open}} açık",
+      "empty": "Bu tehlike için henüz önlem tanımlanmamış.",
+      "add": "Önlem Ekle",
+      "complete": "Tamamlandı olarak işaretle",
+      "completedOn": "{{date}} tarihinde tamamlandı",
+      "deadline": "Termin: {{date}}",
+      "noDeadline": "Termin belirtilmemiş",
+      "noOwner": "Sorumlu seçilmedi",
+      "fields": {
+        "measure": "Önlem",
+        "deadlineDate": "Termin Tarihi",
+        "owner": "Sorumlu Çalışan"
+      }
+    },
+    "sets": {
+      "exposedGroups": "Tehlikeye maruz kalanlar",
+      "exposedGroupsDescription": "İşyerinde bu tehlikelere maruz kalan personel grupları.",
+      "existingControlMeasures": "Mevcut kontrol önlemleri",
+      "existingControlMeasuresDescription": "İşyerinde hâlihazırda uygulanan koruma önlemleri.",
+      "improvementActions": "Alınması gereken ilave önlemler",
+      "improvementActionsDescription": "Risklerin indirgenmesi için önerilen iyileştirmeler.",
+      "unsaved": "Kaydedilmemiş değişiklik var."
+    },
+    "team": {
+      "title": "Risk Değerlendirme Ekibi",
+      "empty": "Ekip üyesi kaydedilmemiş.",
+      "protectedGroups": "Hassas Çalışan Grupları",
+      "noProtectedGroups": "Hassas çalışan grubu belirtilmemiş.",
+      "historyRecords": "Geçmiş Kayıtlar",
+      "noHistoryRecords": "İş kazası, meslek hastalığı veya ramak kala kaydı yok."
+    }
+  },
+  "emergencyPlan": {
+    "list": {
+      "title": "Acil Durum Planları",
+      "description": "İşyeri acil durum eylem planları",
+      "create": "Yeni Plan",
+      "searchPlaceholder": "Firma adı ile ara…",
+      "empty": "Acil durum planı bulunamadı.",
+      "onlyExpired": "Yalnızca süresi dolanlar",
+      "openDetail": "{{name}} planını aç",
+      "deletePlan": "{{name}} planını sil",
+      "deleteTitle": "Planı sil",
+      "deleteMessage": "{{name}} planı, bölümleri ve ekip üyeleriyle birlikte silinecek. Onaylıyor musunuz?"
+    },
+    "fields": {
+      "company": "Firma",
+      "companyName": "Firma",
+      "workplaceTitle": "İşyeri Ünvanı",
+      "hazardClass": "Tehlike Sınıfı",
+      "preparedDate": "Hazırlanma Tarihi",
+      "validityDate": "Geçerlilik Tarihi",
+      "validity": "Geçerlilik",
+      "registrationNo": "Sicil No",
+      "address": "Adres",
+      "phone": "Telefon",
+      "teamsChief": "Ekipler Şefi",
+      "emergencyTeam": "Acil Durum Ekibi",
+      "workerRepresentative": "Çalışan Temsilcisi",
+      "supportStaff": "Destek Elemanı",
+      "employerOrDeputy": "İşveren / Vekili",
+      "specialist": "İş Güvenliği Uzmanı",
+      "physician": "İşyeri Hekimi",
+      "protectionEmployee": "Koruma Personeli",
+      "evacuationPlan": "Tahliye Planı"
+    },
+    "validity": {
+      "expired": "Süresi doldu",
+      "expiring": "{{count}} gün kaldı",
+      "valid": "Geçerli"
+    },
+    "create": {
+      "title": "Yeni Acil Durum Planı",
+      "selectCompany": "Firma seçiniz…",
+      "hazardClassHint": "Geçerlilik süresi tehlike sınıfına göre hesaplanır (2 / 4 / 6 yıl).",
+      "workplaceTitleHint": "Planın üzerinde yazacak işyeri ünvanı."
+    },
+    "detail": {
+      "fallbackTitle": "Acil Durum Planı",
+      "editTitle": "Plan Bilgilerini Düzenle",
+      "description": "Hazırlanma: {{prepared}} · Geçerlilik: {{validity}}",
+      "tabs": {
+        "general": "Genel",
+        "sections": "Bölümler",
+        "team": "Ekip Üyeleri"
+      }
+    },
+    "sections": {
+      "description": "Her bölüm ayrı ayrı kaydedilir; bir bölümü kaydetmek diğerlerini etkilemez.",
+      "content": "Bölüm İçeriği",
+      "empty": "Bu bölüm henüz doldurulmamış.",
+      "filled": "Dolu",
+      "missing": "Boş",
+      "editFor": "{{name}} bölümünü düzenle",
+      "deleteFor": "{{name}} bölümünü sil",
+      "deleteTitle": "Bölümü sil",
+      "deleteMessage": "{{name}} bölümü silinecek. Onaylıyor musunuz?"
+    },
+    "team": {
+      "title": "Acil Durum Ekipleri",
+      "description": "Ekiplere atanan işyeri çalışanları.",
+      "empty": "Ekip üyesi eklenmemiş.",
+      "add": "Üye Ekle",
+      "addTitle": "Ekip Üyesi Ekle",
+      "selectEmployee": "Çalışan seçiniz…",
+      "removeFor": "{{name}} kaydını ekipten çıkar",
+      "deleteTitle": "Üyeyi çıkar",
+      "deleteMessage": "{{name}} ekipten çıkarılacak. Onaylıyor musunuz?",
+      "fields": {
+        "employee": "Çalışan",
+        "teamType": "Ekip",
+        "staffRole": "Görev"
+      }
+    }
+  },
+  "enums": {
+    "approvalStatus": {
+      "0": "Taslak",
+      "1": "Onaya Gönderildi",
+      "2": "Onaylandı",
+      "3": "Reddedildi"
+    },
+    "riskLevel": {
+      "0": "—",
+      "1": "Önemsiz",
+      "2": "Düşük",
+      "3": "Orta",
+      "4": "Yüksek",
+      "5": "Kabul Edilemez"
+    },
+    "exposedPersonGroup": {
+      "1": "Üretim Personeli",
+      "2": "Bakım Personeli",
+      "3": "Yükleniciler (Taşeronlar)",
+      "4": "Teknik Personel",
+      "5": "Büro Personeli",
+      "6": "Denetim Personeli",
+      "7": "Ziyaretçiler",
+      "8": "Temizlik Personeli",
+      "9": "Acil Durum Personeli",
+      "10": "Diğerleri"
+    },
+    "existingControlMeasure": {
+      "1": "Lokal Havalandırma",
+      "2": "Makine Koruyucuları",
+      "3": "Kişisel Koruyucuların Kullanımı",
+      "4": "Yangına Karşı Korunma",
+      "5": "Mevcut Acil Durum Süreçleri",
+      "6": "Eğitim ve Bilgilendirme",
+      "7": "Uyarı Levhaları"
+    },
+    "improvementAction": {
+      "1": "Riskleri Kaynağında Yok Etmek",
+      "2": "Tehlikeli Olanı Daha Az Tehlikeli Olanla Değiştirmek",
+      "3": "Toplu Korunmayı Kişisel Korunmaya Tercih Etmek",
+      "4": "Mühendislik Önlemlerini Uygulamak",
+      "5": "Ergonomik Yaklaşımlardan Yararlanmak",
+      "6": "Eğitim ve Bilgilendirme",
+      "7": "Uyarı ve Yönlendirme Levhaları"
+    },
+    "reportParticipantType": {
+      "1": "Çalışan Temsilcisi",
+      "2": "Destek Elemanı",
+      "3": "Bilgi Sahibi Çalışan",
+      "4": "İşveren",
+      "5": "İş Güvenliği Uzmanı",
+      "6": "İşyeri Hekimi"
+    },
+    "riskHistoryRecordType": {
+      "1": "İş Kazası",
+      "2": "Yaralanmasız İş Kazası",
+      "3": "Meslek Hastalığı",
+      "4": "Ramak Kala Olay"
+    },
+    "vulnerableWorkerGroup": {
+      "1": "Kadın Çalışan",
+      "2": "Genç Çalışan",
+      "3": "Yaşlı Çalışan",
+      "4": "Engelli Çalışan",
+      "5": "Çocuk Çalışan",
+      "6": "Gebe veya Emziren Çalışan"
+    },
+    "hazardSourceType": {
+      "0": "Elle Girildi",
+      "1": "Tehlike Kütüphanesi",
+      "2": "Saha Gözlemi",
+      "3": "DÖF",
+      "4": "Olay"
+    },
+    "emergencyTeamType": {
+      "0": "Belirtilmemiş",
+      "1": "Yangınla Mücadele",
+      "2": "Arama, Kurtarma ve Tahliye",
+      "3": "İlk Yardım",
+      "4": "Koruma",
+      "5": "Haberleşme"
+    },
+    "emergencyPlanSectionType": {
+      "1": "İçindekiler",
+      "2": "Giriş",
+      "3": "Organizasyon ve Sorumluluklar",
+      "4": "Talimatlar",
+      "5": "Savaş Hali",
+      "6": "Tatbikat Prosedürü",
+      "7": "Yangın Kontrol Formu",
+      "8": "İlk Yardım",
+      "9": "Acil Durum Telefonları"
+    }
+  }
+}

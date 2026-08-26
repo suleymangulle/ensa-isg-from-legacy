@@ -1,0 +1,247 @@
+{
+  "nav": {
+    "trainings": "Training Catalogue",
+    "trainingProgress": "Training Progress"
+  },
+  "training": {
+    "minutes": "{{count}} min",
+    "list": {
+      "title": "Training Catalogue",
+      "description": "Training definitions, their topics and the mandatory duration per hazard class",
+      "create": "New Training",
+      "searchPlaceholder": "Search by training name or code…",
+      "empty": "No training has been defined yet.",
+      "allTypes": "All training types",
+      "allGroups": "All subject groups",
+      "editAria": "Edit the training {{name}}",
+      "deleteAria": "Delete the training {{name}}",
+      "deleteTitle": "Delete Training",
+      "deleteMessage": "The training {{name}} will be deleted with its topics and durations. Continue?"
+    },
+    "fields": {
+      "trainingName": "Training Name",
+      "trainingCode": "Training Code",
+      "trainingType": "Training Type",
+      "topicGroup": "Subject Group",
+      "trainingGroup": "Training Group",
+      "ibysTrainingCode": "İSG-KATİP Code",
+      "includedInDefaultPlan": "In Default Plan",
+      "defaultTraining": "Default Training",
+      "mandatoryTraining": "Mandatory Training",
+      "defaultCount": "Times per Year",
+      "defaultStartMonthOffset": "Start Month Offset",
+      "defaultElementCondition": "Minimum Headcount",
+      "flags": "Attributes",
+      "status": "Status"
+    },
+    "flags": {
+      "mandatory": "Mandatory",
+      "default": "Default"
+    },
+    "form": {
+      "createTitle": "New Training",
+      "editTitle": "Edit Training",
+      "durations": "Mandatory Duration per Hazard Class",
+      "durationsHint": "Mandatory training duration in minutes for each hazard class.",
+      "planning": "Default Planning",
+      "ibysHint": "Numeric code used by the IBYS / İSG-KATİP integration.",
+      "defaultCountHint": "How many times a year it is planned (0–12).",
+      "defaultOffsetHint": "Offset from the start of the plan year (0–11).",
+      "defaultConditionHint": "Minimum headcount that makes the training mandatory."
+    },
+    "detail": {
+      "code": "Training code: {{value}}",
+      "general": "General Information",
+      "durations": "Durations",
+      "topics": "Topics",
+      "exams": "Attached Exams"
+    },
+    "topic": {
+      "create": "New Topic",
+      "createTitle": "New Topic",
+      "editTitle": "Edit Topic",
+      "empty": "This training has no topics yet.",
+      "editAria": "Edit the topic {{name}}",
+      "deleteAria": "Delete the topic {{name}}",
+      "deleteTitle": "Delete Topic",
+      "deleteMessage": "The topic {{name}} will be deleted with its durations. Continue?",
+      "fields": {
+        "order": "Order",
+        "title": "Topic Title",
+        "pageCount": "Page Count",
+        "presentationAddress": "Presentation Address"
+      }
+    },
+    "validity": {
+      "title": "Validity / Renewal",
+      "description": "Once an employee is selected the API reports whether the training is still within its renewal interval and the mandatory duration for the hazard class.",
+      "company": "Workplace",
+      "employee": "Employee",
+      "hazardClass": "Hazard Class",
+      "selectCompany": "Select a workplace",
+      "selectEmployee": "Select an employee",
+      "awaitingSelection": "Select a workplace and an employee to see the result.",
+      "state": "State",
+      "valid": "Valid",
+      "expired": "Renewal due",
+      "mandatoryDuration": "Mandatory Duration"
+    }
+  },
+  "trainingPlans": {
+    "list": {
+      "title": "Training Plan Covers",
+      "description": "Annual training plan headers; the lines are managed on the plan detail page",
+      "create": "New Plan",
+      "allLines": "All Plan Lines",
+      "searchPlaceholder": "Search by workplace, document or revision number…",
+      "allCompanies": "All workplaces",
+      "empty": "No training plan has been created yet.",
+      "editAria": "Edit the plan of {{name}}",
+      "deleteAria": "Delete the plan of {{name}}",
+      "deleteTitle": "Delete Plan",
+      "deleteMessage": "The training plan of {{name}} will be deleted. Continue?"
+    },
+    "fields": {
+      "companyName": "Workplace",
+      "documentNo": "Document No",
+      "revisionNo": "Revision No",
+      "revisionDate": "Revision Date",
+      "startDate": "Start",
+      "publicationDate": "Publication Date",
+      "lineCount": "Lines",
+      "transferred": "Sent to IBYS",
+      "status": "Status",
+      "specialist": "Safety Specialist",
+      "physician": "Workplace Physician",
+      "approver": "Approver"
+    },
+    "transferred": {
+      "yes": "Sent",
+      "no": "Not sent"
+    },
+    "form": {
+      "createTitle": "New Training Plan",
+      "editTitle": "Edit Training Plan",
+      "selectCompany": "Select a workplace"
+    },
+    "detail": {
+      "fallbackTitle": "Training Plan",
+      "description": "Training programme for {{year}}",
+      "lines": "Plan Lines",
+      "incompleteCount": "Incomplete: {{count}}",
+      "onlyIncomplete": "Incomplete only",
+      "emptyLines": "This plan has no lines yet.",
+      "emptyIncomplete": "No incomplete lines."
+    },
+    "line": {
+      "create": "New Line",
+      "createTitle": "New Plan Line",
+      "editTitle": "Edit Plan Line",
+      "selectTraining": "Select a training",
+      "deleteTitle": "Delete Line",
+      "deleteMessage": "The line {{name}} will be deleted. Continue?",
+      "submit": "Submit",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectTitle": "Reject the line {{name}}",
+      "reasonLabel": "Rejection Reason",
+      "rejectionReason": "Rejection reason: {{reason}}",
+      "locked": "Approved — locked",
+      "lockedHint": "An approved line can be neither edited nor deleted.",
+      "instructorHint": "Enter a name for an external instructor who has no user record.",
+      "editAria": "Edit the line {{name}}",
+      "deleteAria": "Delete the line {{name}}",
+      "submitAria": "Submit the line {{name}} for approval",
+      "approveAria": "Approve the line {{name}}",
+      "rejectAria": "Reject the line {{name}}",
+      "fields": {
+        "training": "Training",
+        "period": "Period",
+        "duration": "Duration",
+        "instructor": "Instructor",
+        "performedDate": "Performed",
+        "status": "Completion",
+        "approvalStatus": "Approval",
+        "year": "Year",
+        "month": "Month",
+        "trainingLocation": "Location",
+        "trainingType": "Training Type",
+        "instructorFullName": "Instructor Name",
+        "instructorTitle": "Instructor Title",
+        "instructorNationalId": "Instructor National Id",
+        "source": "Source",
+        "description": "Description"
+      }
+    }
+  },
+  "trainingProgress": {
+    "title": "Training Progress",
+    "description": "Distance-learning progress and evidence of completion",
+    "start": "Start Training",
+    "startTitle": "Start Training",
+    "selectCompany": "Select a workplace",
+    "selectEmployee": "Select an employee",
+    "selectTraining": "Select a training",
+    "wholeTraining": "The whole training",
+    "topicHint": "Pick a topic to track progress per topic; leave empty to track the training as a whole.",
+    "awaitingSelection": "Select a workplace and an employee to see the progress records.",
+    "empty": "This employee has no training progress records.",
+    "summary": "{{completed}} of {{total}} trainings completed",
+    "completed": "Completed",
+    "incomplete": "Not completed",
+    "passed": "Passed",
+    "notTaken": "Not taken",
+    "duration": "{{hours}} h {{minutes}} min",
+    "unknownTraining": "Unknown training",
+    "saveProgress": "Progress",
+    "saveProgressTitle": "Save Progress",
+    "saveProgressAria": "Save the progress of {{name}}",
+    "submitExam": "Exam",
+    "submitExamTitle": "Record Exam Result",
+    "submitExamAria": "Record the exam result of {{name}}",
+    "detailTitle": "Progress Detail",
+    "detailAria": "Show the detail of {{name}}",
+    "elapsedHint": "Total time spent; the API ignores a lower value than the one already recorded.",
+    "firstTest": "Pre-test",
+    "finalTest": "Final test",
+    "countsAsPassed": "Counts as passed",
+    "fields": {
+      "company": "Workplace",
+      "employee": "Employee",
+      "training": "Training",
+      "topic": "Topic",
+      "completion": "Completion",
+      "firstTest": "Pre-test",
+      "finalTest": "Final test",
+      "elapsed": "Time Spent",
+      "activePage": "Page",
+      "elapsedMinutes": "Time Spent (min)",
+      "examType": "Exam Type",
+      "score": "Score",
+      "remaining": "Remaining"
+    }
+  },
+  "enums": {
+    "trainingType": {
+      "1": "Basic Training",
+      "2": "Refresher Training",
+      "3": "Additional Training"
+    },
+    "trainingSubjectGroup": {
+      "1": "General Subjects",
+      "2": "Health Subjects",
+      "3": "Technical Subjects"
+    },
+    "trainingLocation": {
+      "1": "On site",
+      "2": "Off site",
+      "3": "Remote training"
+    },
+    "approvalStatus": {
+      "0": "Draft",
+      "1": "Awaiting approval",
+      "2": "Approved",
+      "3": "Rejected"
+    }
+  }
+}

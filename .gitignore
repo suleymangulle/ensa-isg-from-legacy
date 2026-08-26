@@ -1,0 +1,75 @@
+# ---------------------------------------------------------------------------
+# .NET build output
+# ---------------------------------------------------------------------------
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+*.swp
+
+# ---------------------------------------------------------------------------
+# Node / Vite
+# ---------------------------------------------------------------------------
+node_modules/
+react/ensa-web/dist/
+react/ensa-web/.vite/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ---------------------------------------------------------------------------
+# Secrets and machine-specific material
+#
+# The column encryption key, SMTP credentials and connection strings belong in
+# environment variables, user-secrets or a key vault - never here. The API
+# refuses to start outside Development without a real encryption key, so an
+# accidental omission fails loudly instead of quietly using the published
+# development value.
+# ---------------------------------------------------------------------------
+appsettings.Production.json
+appsettings.Staging.json
+appsettings.*.local.json
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+*.cer
+.env
+.env.*
+secrets.json
+
+# The development certificate the verification scripts export. It is per
+# machine; tools/api-tests/README.md says how to produce it.
+tools/api-tests/ensa-dev-cert.pem
+
+# ---------------------------------------------------------------------------
+# Runtime artefacts
+# ---------------------------------------------------------------------------
+logs/
+*.log
+documents/
+received_mail.jsonl
+
+# ---------------------------------------------------------------------------
+# Python helpers
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---------------------------------------------------------------------------
+# OS noise
+# ---------------------------------------------------------------------------
+Thumbs.db
+Desktop.ini
+.DS_Store

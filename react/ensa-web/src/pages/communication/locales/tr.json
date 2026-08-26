@@ -1,0 +1,284 @@
+{
+  "nav": {
+    "visits": "Ziyaretler",
+    "supportTickets": "Destek talepleri",
+    "messages": "Mesajlar",
+    "mail": "E-posta"
+  },
+  "enums": {
+    "visitType": {
+      "0": "Belirtilmemiş",
+      "1": "Rutin ziyaret",
+      "2": "İlk ziyaret",
+      "3": "Saha gözlem ziyareti",
+      "4": "Eğitim",
+      "5": "Sağlık taraması",
+      "6": "Ölçüm",
+      "7": "Toplantı",
+      "8": "İzin",
+      "99": "Diğer"
+    },
+    "supportTicketStatus": {
+      "0": "Açık",
+      "1": "Yanıtlandı",
+      "2": "Kapalı",
+      "3": "İptal edildi"
+    },
+    "messageType": {
+      "1": "Kullanıcı mesajı",
+      "2": "Firma personelinden",
+      "3": "Firma personeline",
+      "4": "Sistem bildirimi"
+    },
+    "mailStatus": {
+      "0": "Taslak",
+      "1": "Kuyrukta",
+      "2": "Gönderildi",
+      "3": "Başarısız",
+      "4": "İptal edildi"
+    },
+    "mailPriority": {
+      "0": "Düşük",
+      "1": "Normal",
+      "2": "Yüksek"
+    },
+    "mailType": {
+      "0": "Normal",
+      "1": "Bilgilendirme",
+      "2": "Hatırlatma",
+      "3": "Sistem"
+    },
+    "contentFormat": {
+      "0": "Düz metin",
+      "1": "HTML"
+    }
+  },
+  "visit": {
+    "list": {
+      "title": "Ziyaretler",
+      "description": "İSG ekibinin işyeri ziyaretleri, gün gün",
+      "create": "Yeni ziyaret",
+      "empty": "Seçilen aralıkta ziyaret yok.",
+      "dayCount": "{{count}} ziyaret",
+      "dayCount_other": "{{count}} ziyaret",
+      "completed": "Gerçekleşti",
+      "planned": "Planlandı",
+      "companyFallback": "Firma #{{id}}",
+      "userFallback": "Kullanıcı #{{id}}",
+      "editAria": "{{title}} ziyaretini düzenle",
+      "deleteAria": "{{title}} ziyaretini sil",
+      "deleteTitle": "Ziyareti sil",
+      "deleteMessage": "“{{title}}” ziyareti silinecek. Devam edilsin mi?"
+    },
+    "filters": {
+      "from": "Başlangıç",
+      "to": "Bitiş",
+      "invalidRange": "Aralığın başlangıcı bitişinden sonra olamaz.",
+      "moveRange": "Aralığı kaydır",
+      "previousMonth": "Önceki ay",
+      "nextMonth": "Sonraki ay",
+      "thisMonth": "Bu ay",
+      "user": "Uzman",
+      "allUsers": "Herkes",
+      "company": "İşyeri",
+      "allCompanies": "Tüm işyerleri",
+      "operationType": "Ziyaret türü",
+      "allTypes": "Tüm türler",
+      "completed": "Durum",
+      "onlyCompleted": "Yalnızca gerçekleşenler",
+      "onlyPlanned": "Yalnızca planlananlar"
+    },
+    "fields": {
+      "company": "İşyeri",
+      "user": "Ziyaret eden uzman",
+      "visitDate": "Ziyaret tarihi",
+      "start": "Başlangıç",
+      "end": "Bitiş",
+      "operationType": "Ziyaret türü",
+      "description": "Açıklama",
+      "scheduledWeek": "Planlanan hafta",
+      "scheduledMonth": "Planlanan ay",
+      "regionCode": "Bölge kodu",
+      "otherCompanyDistanceKm": "Sonraki işyerine uzaklık (km)",
+      "completed": "Ziyaret gerçekleşti"
+    },
+    "editor": {
+      "createTitle": "Yeni ziyaret",
+      "editTitle": "Ziyareti düzenle",
+      "selectCompany": "İşyeri seçin",
+      "currentUser": "Ben",
+      "userHint": "Boş bırakılırsa ziyaret oturum açmış kullanıcı adına kaydedilir.",
+      "companyRequired": "Bir işyeri seçilmelidir.",
+      "dateRequired": "Ziyaret tarihi zorunludur.",
+      "endBeforeStart": "Bitiş, başlangıçtan önce olamaz."
+    }
+  },
+  "supportTicket": {
+    "list": {
+      "title": "Destek talepleri",
+      "description": "Destek masasına iletilen talepler",
+      "create": "Yeni talep",
+      "searchPlaceholder": "Konuya göre ara…",
+      "empty": "Talep bulunamadı.",
+      "openCount": "talebiniz hâlâ açık",
+      "userFallback": "Kullanıcı #{{id}}",
+      "close": "Kapat",
+      "reopen": "Yeniden aç",
+      "closeAria": "{{topic}} talebini kapat",
+      "reopenAria": "{{topic}} talebini yeniden aç",
+      "editAria": "{{topic}} talebini düzenle",
+      "deleteAria": "{{topic}} talebini sil",
+      "deleteTitle": "Talebi sil",
+      "deleteMessage": "“{{topic}}” talebi ve tüm yazışması silinecek. Devam edilsin mi?"
+    },
+    "filters": {
+      "status": "Durum",
+      "allStatuses": "Tüm durumlar",
+      "onlyMine": "Yalnızca benimkiler"
+    },
+    "fields": {
+      "topic": "Konu",
+      "status": "Durum",
+      "openedBy": "Açan",
+      "responder": "İlgilenen",
+      "openedAt": "Açılış",
+      "closedAt": "Kapanış",
+      "firstMessage": "Açılış mesajı"
+    },
+    "editor": {
+      "createTitle": "Yeni talep",
+      "editTitle": "Talebi düzenle",
+      "noResponder": "Atanmamış",
+      "responderHint": "Durum burada değiştirilmez; kapatma ve yeniden açma kullanılır.",
+      "firstMessageHint": "İsteğe bağlı. Talep ile birlikte yazışmaya eklenir."
+    },
+    "detail": {
+      "fallbackTitle": "Destek talebi",
+      "openedBy": "{{name}} tarafından {{date}} tarihinde açıldı",
+      "thread": "Yazışma",
+      "emptyThread": "Bu yazışmada henüz mesaj yok.",
+      "unread": "Okunmadı",
+      "replyLabel": "Yanıtınız",
+      "send": "Gönder",
+      "closedNotice": "Bu talep kapalı. Yanıtlamak için yeniden açın."
+    }
+  },
+  "message": {
+    "folders": {
+      "inbox": "Gelen kutusu",
+      "sent": "Gönderilenler"
+    },
+    "list": {
+      "title": "Mesajlar",
+      "description": "Kullanıcılar ve firma personeli arasındaki iç mesajlar",
+      "compose": "Yeni mesaj",
+      "searchPlaceholder": "Mesajlarda ara…",
+      "empty": "Burada mesaj yok.",
+      "unreadCount": "{{count}} okunmamış mesajınız var.",
+      "unreadCount_other": "{{count}} okunmamış mesajınız var.",
+      "read": "Okundu",
+      "unread": "Okunmadı",
+      "open": "Aç",
+      "openAria": "Mesajı aç",
+      "deleteAria": "Mesajı sil",
+      "userFallback": "Kullanıcı #{{id}}",
+      "deleteTitle": "Mesajı sil",
+      "deleteMessage": "Bu mesaj silinecek. Bunu yalnızca gönderen yapabilir. Devam edilsin mi?"
+    },
+    "filters": {
+      "messageType": "Mesaj türü",
+      "allTypes": "Tüm türler",
+      "readState": "Okunma durumu"
+    },
+    "fields": {
+      "sender": "Gönderen",
+      "recipient": "Alıcı",
+      "content": "Mesaj",
+      "messageType": "Tür",
+      "company": "İşyeri",
+      "sentAt": "Gönderim",
+      "readState": "Durum"
+    },
+    "compose": {
+      "title": "Yeni mesaj",
+      "send": "Gönder",
+      "selectRecipient": "Alıcı seçin",
+      "recipientRequired": "Bir alıcı seçilmelidir.",
+      "noCompany": "Bir işyeri ile ilgili değil",
+      "companyHint": "İsteğe bağlı. Mesajı bir işyeri ile ilişkilendirir."
+    },
+    "reader": {
+      "title": "Mesaj"
+    }
+  },
+  "mail": {
+    "tabs": {
+      "log": "E-posta kaydı",
+      "settings": "SMTP ayarları"
+    },
+    "list": {
+      "title": "E-posta",
+      "description": "Giden e-posta kuyruğu ve gönderim geçmişi",
+      "create": "Yeni e-posta",
+      "searchPlaceholder": "Konuya veya adrese göre ara…",
+      "empty": "E-posta bulunamadı.",
+      "queue": "Kuyruğa al",
+      "queueAria": "{{topic}} e-postasını kuyruğa al",
+      "notEditable": "Gönderilmiş bir e-posta artık düzenlenemez.",
+      "editAria": "{{topic}} e-postasını düzenle",
+      "deleteAria": "{{topic}} e-postasını sil",
+      "deleteTitle": "E-postayı sil",
+      "deleteMessage": "“{{topic}}” e-postası ve ek kayıtları silinecek. Devam edilsin mi?"
+    },
+    "filters": {
+      "mailStatus": "Durum",
+      "allStatuses": "Tüm durumlar",
+      "mailType": "Tür",
+      "allTypes": "Tüm türler",
+      "mailPriority": "Öncelik",
+      "allPriorities": "Tüm öncelikler"
+    },
+    "fields": {
+      "sender": "Gönderen",
+      "recipient": "Alıcı",
+      "topic": "Konu",
+      "content": "İçerik",
+      "contentFormat": "İçerik biçimi",
+      "mailStatus": "Durum",
+      "mailPriority": "Öncelik",
+      "mailType": "Tür",
+      "attemptCount": "Deneme",
+      "submissionDate": "Gönderim / deneme",
+      "errorMessage": "Gönderim hatası"
+    },
+    "editor": {
+      "createTitle": "Yeni e-posta",
+      "editTitle": "E-postayı düzenle",
+      "recipientHint": "Birden çok adres noktalı virgül ile ayrılabilir.",
+      "invalidSender": "Geçerli bir e-posta adresi girin."
+    },
+    "detail": {
+      "title": "E-posta",
+      "attachments": "Ekler",
+      "noAttachments": "Ekli dosya yok.",
+      "documentFallback": "Doküman #{{id}}",
+      "attachDocument": "Doküman kimliği",
+      "attachHint": "Dosyanın doküman deposunda hâlihazırda bulunması gerekir; yükleme henüz kullanılabilir değil.",
+      "attach": "Ekle",
+      "removeAttachment": "Ekten çıkar",
+      "removeAttachmentAria": "Bu dosyayı ekten çıkar"
+    },
+    "settings": {
+      "unavailable": "API'de henüz SMTP ayarları uç noktası yok; bu panelde hiçbir şey kaydedilmez veya yüklenmez. Aşağıdaki alanlar yalnızca ayarların alacağı biçimi gösterir.",
+      "preview": "Planlanan formun önizlemesi.",
+      "host": "SMTP sunucusu",
+      "port": "Port",
+      "useSsl": "SSL kullan",
+      "userName": "Kullanıcı adı",
+      "password": "Parola",
+      "passwordHint": "Yalnızca yazılır. Kayıtlı parola asla gösterilmez; boş bırakılırsa kayıtlı parola değişmez.",
+      "passwordPlaceholder": "Mevcut parolayı korumak için boş bırakın",
+      "defaultSender": "Varsayılan gönderen adresi"
+    }
+  }
+}

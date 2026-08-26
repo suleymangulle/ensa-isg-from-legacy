@@ -1,0 +1,115 @@
+{
+  "nav": {
+    "parameters": "Parameters",
+    "menus": "Menus",
+    "lookups": "Reference data"
+  },
+  "parameter": {
+    "list": {
+      "title": "System parameters",
+      "description": "Per-organisation key/value settings",
+      "create": "New parameter",
+      "searchPlaceholder": "Search by code or name…",
+      "empty": "No parameters found."
+    },
+    "fields": {
+      "code": "Code",
+      "name": "Name",
+      "value": "Value",
+      "status": "Status"
+    },
+    "actions": {
+      "valueLabel": "Value of {{name}}",
+      "saveNamed": "Save {{name}}",
+      "revert": "Revert",
+      "revertNamed": "Revert the change to {{name}}",
+      "editNamed": "Edit the parameter {{name}}",
+      "deleteNamed": "Delete the parameter {{name}}",
+      "deleteTitle": "Delete parameter",
+      "deleteMessage": "The parameter {{code}} will be deleted. Code that reads this key may behave differently. Continue?"
+    },
+    "form": {
+      "createTitle": "New parameter",
+      "editTitle": "Edit parameter",
+      "codeHint": "Application code reads parameters by this code; it is set once and cannot be changed afterwards."
+    }
+  },
+  "menu": {
+    "list": {
+      "title": "Menus",
+      "description": "Menu definitions and the menu served to the current user",
+      "definitions": "Menu definitions",
+      "searchPlaceholder": "Search by menu name…",
+      "empty": "No menu definitions found."
+    },
+    "fields": {
+      "name": "Menu name",
+      "menuTypeCode": "Layout code",
+      "userTypeCode": "Staff role code",
+      "allUserTypes": "All staff roles",
+      "sortOrder": "Order",
+      "status": "Status"
+    },
+    "actions": {
+      "previewWithCode": "Preview with the code {{code}}"
+    },
+    "preview": {
+      "title": "My menu",
+      "description": "The menu tree the signed-in user is served for the chosen layout code. The server filters it by staff role, organisation type, subscription plan and personal overrides.",
+      "layoutCode": "Layout code",
+      "layoutCodePlaceholder": "e.g. LeftMenu",
+      "knownCodes": "Codes found in the definitions: {{codes}}",
+      "noKnownCodes": "No layout code appears in the definition list; you can type one manually.",
+      "selectCode": "Enter a layout code to see the menu. No request is sent without one.",
+      "empty": "No menu item to show for this layout code.",
+      "userHidden": "Hidden for this user"
+    }
+  },
+  "lookup": {
+    "page": {
+      "title": "Reference data",
+      "description": "Shared reference tables used across the system",
+      "readOnlyNote": "These catalogues are seeded with the database; the API exposes no write endpoint, so this screen is read-only.",
+      "empty": "No records to display."
+    },
+    "tabs": {
+      "locations": "City / district / neighbourhood",
+      "occupationCodes": "NACE codes",
+      "duties": "Duty definitions",
+      "certificates": "Certificate types",
+      "periods": "Periods"
+    },
+    "fields": {
+      "displayName": "Name",
+      "code": "Code",
+      "activity": "Activity",
+      "hazardClass": "Hazard class",
+      "period": "Period",
+      "status": "Status"
+    },
+    "locations": {
+      "cities": "Cities",
+      "districts": "Districts",
+      "neighborhoods": "Neighbourhoods",
+      "selectCity": "Select a city",
+      "selectDistrict": "Select a district",
+      "selectCityFirst": "Select a city first.",
+      "selectDistrictFirst": "Select a district first."
+    },
+    "occupationCodes": {
+      "search": "Search NACE code",
+      "searchPlaceholder": "Code or activity name…"
+    },
+    "periods": {
+      "value": "{{value}} {{unit}}"
+    }
+  },
+  "enums": {
+    "periodUnit": {
+      "1": "Day",
+      "2": "Week",
+      "3": "Month",
+      "4": "Year"
+    }
+  }
+}

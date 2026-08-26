@@ -1,0 +1,247 @@
+{
+  "nav": {
+    "trainings": "Eğitim Kataloğu",
+    "trainingProgress": "Eğitim İlerlemesi"
+  },
+  "training": {
+    "minutes": "{{count}} dk",
+    "list": {
+      "title": "Eğitim Kataloğu",
+      "description": "Eğitim tanımları, konuları ve tehlike sınıfına göre zorunlu süreleri",
+      "create": "Yeni Eğitim",
+      "searchPlaceholder": "Eğitim adı veya kodu ile ara…",
+      "empty": "Kayıtlı eğitim bulunamadı.",
+      "allTypes": "Tüm eğitim türleri",
+      "allGroups": "Tüm konu grupları",
+      "editAria": "{{name}} eğitimini düzenle",
+      "deleteAria": "{{name}} eğitimini sil",
+      "deleteTitle": "Eğitimi Sil",
+      "deleteMessage": "{{name}} eğitimi konuları ve süreleriyle birlikte silinecek. Onaylıyor musunuz?"
+    },
+    "fields": {
+      "trainingName": "Eğitim Adı",
+      "trainingCode": "Eğitim Kodu",
+      "trainingType": "Eğitim Türü",
+      "topicGroup": "Konu Grubu",
+      "trainingGroup": "Eğitim Grubu",
+      "ibysTrainingCode": "İSG-KATİP Kodu",
+      "includedInDefaultPlan": "Varsayılan Programda",
+      "defaultTraining": "Varsayılan Eğitim",
+      "mandatoryTraining": "Zorunlu Eğitim",
+      "defaultCount": "Yıllık Adet",
+      "defaultStartMonthOffset": "Başlangıç Ay Kaydırma",
+      "defaultElementCondition": "Asgari Çalışan Sayısı",
+      "flags": "Nitelik",
+      "status": "Durum"
+    },
+    "flags": {
+      "mandatory": "Zorunlu",
+      "default": "Varsayılan"
+    },
+    "form": {
+      "createTitle": "Yeni Eğitim",
+      "editTitle": "Eğitimi Düzenle",
+      "durations": "Tehlike Sınıfına Göre Zorunlu Süre",
+      "durationsHint": "Her tehlike sınıfı için dakika cinsinden zorunlu eğitim süresi.",
+      "planning": "Varsayılan Planlama",
+      "ibysHint": "IBYS / İSG-KATİP entegrasyonunda kullanılan sayısal kod.",
+      "defaultCountHint": "Yılda kaç kez planlanacağı (0–12).",
+      "defaultOffsetHint": "Plan yılının başından itibaren kaydırma (0–11).",
+      "defaultConditionHint": "Eğitimi zorunlu kılan asgari çalışan sayısı."
+    },
+    "detail": {
+      "code": "Eğitim Kodu: {{value}}",
+      "general": "Genel Bilgiler",
+      "durations": "Süreler",
+      "topics": "Konular",
+      "exams": "Bağlı Sınavlar"
+    },
+    "topic": {
+      "create": "Yeni Konu",
+      "createTitle": "Yeni Konu",
+      "editTitle": "Konuyu Düzenle",
+      "empty": "Bu eğitime tanımlı konu yok.",
+      "editAria": "{{name}} konusunu düzenle",
+      "deleteAria": "{{name}} konusunu sil",
+      "deleteTitle": "Konuyu Sil",
+      "deleteMessage": "{{name}} konusu süreleriyle birlikte silinecek. Onaylıyor musunuz?",
+      "fields": {
+        "order": "Sıra",
+        "title": "Konu Başlığı",
+        "pageCount": "Sayfa Sayısı",
+        "presentationAddress": "Sunum Adresi"
+      }
+    },
+    "validity": {
+      "title": "Geçerlilik / Yenileme",
+      "description": "Bir çalışan seçildiğinde API, eğitimin yenileme aralığında olup olmadığını ve tehlike sınıfına göre zorunlu süreyi hesaplar.",
+      "company": "Firma",
+      "employee": "Çalışan",
+      "hazardClass": "Tehlike Sınıfı",
+      "selectCompany": "Firma seçin",
+      "selectEmployee": "Çalışan seçin",
+      "awaitingSelection": "Sonucu görmek için firma ve çalışan seçin.",
+      "state": "Durum",
+      "valid": "Geçerli",
+      "expired": "Yenilenmeli",
+      "mandatoryDuration": "Zorunlu Süre"
+    }
+  },
+  "trainingPlans": {
+    "list": {
+      "title": "Eğitim Planı Kapakları",
+      "description": "Yıllık eğitim planı başlıkları; satırlar plan detayında yönetilir",
+      "create": "Yeni Plan",
+      "allLines": "Tüm Plan Satırları",
+      "searchPlaceholder": "Firma, doküman veya revizyon no ile ara…",
+      "allCompanies": "Tüm firmalar",
+      "empty": "Kayıtlı eğitim planı bulunamadı.",
+      "editAria": "{{name}} planını düzenle",
+      "deleteAria": "{{name}} planını sil",
+      "deleteTitle": "Planı Sil",
+      "deleteMessage": "{{name}} firmasına ait eğitim planı silinecek. Onaylıyor musunuz?"
+    },
+    "fields": {
+      "companyName": "Firma",
+      "documentNo": "Doküman No",
+      "revisionNo": "Revizyon No",
+      "revisionDate": "Revizyon Tarihi",
+      "startDate": "Başlangıç",
+      "publicationDate": "Yayın Tarihi",
+      "lineCount": "Satır",
+      "transferred": "IBYS'ye Aktarıldı",
+      "status": "Durum",
+      "specialist": "İSG Uzmanı",
+      "physician": "İşyeri Hekimi",
+      "approver": "Onaylayan"
+    },
+    "transferred": {
+      "yes": "Aktarıldı",
+      "no": "Aktarılmadı"
+    },
+    "form": {
+      "createTitle": "Yeni Eğitim Planı",
+      "editTitle": "Eğitim Planını Düzenle",
+      "selectCompany": "Firma seçin"
+    },
+    "detail": {
+      "fallbackTitle": "Eğitim Planı",
+      "description": "{{year}} yılı eğitim programı",
+      "lines": "Plan Satırları",
+      "incompleteCount": "Tamamlanmayan: {{count}}",
+      "onlyIncomplete": "Yalnızca tamamlanmayanlar",
+      "emptyLines": "Bu planda satır yok.",
+      "emptyIncomplete": "Tamamlanmayan satır yok."
+    },
+    "line": {
+      "create": "Yeni Satır",
+      "createTitle": "Yeni Plan Satırı",
+      "editTitle": "Plan Satırını Düzenle",
+      "selectTraining": "Eğitim seçin",
+      "deleteTitle": "Satırı Sil",
+      "deleteMessage": "{{name}} satırı silinecek. Onaylıyor musunuz?",
+      "submit": "Onaya Gönder",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "rejectTitle": "{{name}} satırını reddet",
+      "reasonLabel": "Red Gerekçesi",
+      "rejectionReason": "Red gerekçesi: {{reason}}",
+      "locked": "Onaylandı — kilitli",
+      "lockedHint": "Onaylanmış satır değiştirilemez ve silinemez.",
+      "instructorHint": "Sistemde kullanıcısı olmayan dış eğitici için ad soyad girin.",
+      "editAria": "{{name}} satırını düzenle",
+      "deleteAria": "{{name}} satırını sil",
+      "submitAria": "{{name}} satırını onaya gönder",
+      "approveAria": "{{name}} satırını onayla",
+      "rejectAria": "{{name}} satırını reddet",
+      "fields": {
+        "training": "Eğitim",
+        "period": "Dönem",
+        "duration": "Süre",
+        "instructor": "Eğitici",
+        "performedDate": "Yapılma",
+        "status": "Gerçekleşme",
+        "approvalStatus": "Onay",
+        "year": "Yıl",
+        "month": "Ay",
+        "trainingLocation": "Eğitim Yeri",
+        "trainingType": "Eğitim Türü",
+        "instructorFullName": "Eğitici Ad Soyad",
+        "instructorTitle": "Eğitici Unvanı",
+        "instructorNationalId": "Eğitici T.C. No",
+        "source": "Kaynak",
+        "description": "Açıklama"
+      }
+    }
+  },
+  "trainingProgress": {
+    "title": "Eğitim İlerlemesi",
+    "description": "Uzaktan eğitim ilerlemesi ve tamamlanma kanıtı",
+    "start": "Eğitim Başlat",
+    "startTitle": "Eğitim Başlat",
+    "selectCompany": "Firma seçin",
+    "selectEmployee": "Çalışan seçin",
+    "selectTraining": "Eğitim seçin",
+    "wholeTraining": "Eğitimin tamamı",
+    "topicHint": "Konu bazlı takip için bir konu seçin; boş bırakılırsa eğitim bütün olarak izlenir.",
+    "awaitingSelection": "İlerleme kayıtlarını görmek için firma ve çalışan seçin.",
+    "empty": "Bu çalışan için eğitim ilerleme kaydı yok.",
+    "summary": "{{total}} eğitimden {{completed}} tanesi tamamlandı",
+    "completed": "Tamamlandı",
+    "incomplete": "Tamamlanmadı",
+    "passed": "Geçti",
+    "notTaken": "Girilmedi",
+    "duration": "{{hours}} sa {{minutes}} dk",
+    "unknownTraining": "Bilinmeyen eğitim",
+    "saveProgress": "İlerleme",
+    "saveProgressTitle": "İlerlemeyi Kaydet",
+    "saveProgressAria": "{{name}} eğitiminin ilerlemesini kaydet",
+    "submitExam": "Sınav",
+    "submitExamTitle": "Sınav Sonucu Gir",
+    "submitExamAria": "{{name}} eğitiminin sınav sonucunu gir",
+    "detailTitle": "İlerleme Detayı",
+    "detailAria": "{{name}} eğitiminin detayını göster",
+    "elapsedHint": "Toplam geçirilen süre; API daha düşük bir değeri yok sayar.",
+    "firstTest": "Ön Test",
+    "finalTest": "Son Test",
+    "countsAsPassed": "Başarılı sayılsın",
+    "fields": {
+      "company": "Firma",
+      "employee": "Çalışan",
+      "training": "Eğitim",
+      "topic": "Konu",
+      "completion": "Tamamlanma",
+      "firstTest": "Ön Test",
+      "finalTest": "Son Test",
+      "elapsed": "Geçen Süre",
+      "activePage": "Sayfa",
+      "elapsedMinutes": "Geçen Süre (dk)",
+      "examType": "Sınav Türü",
+      "score": "Puan",
+      "remaining": "Kalan Süre"
+    }
+  },
+  "enums": {
+    "trainingType": {
+      "1": "Temel Eğitim",
+      "2": "Yenileme Eğitimi",
+      "3": "İlave Eğitim"
+    },
+    "trainingSubjectGroup": {
+      "1": "Genel Konular",
+      "2": "Sağlık Konuları",
+      "3": "Teknik Konular"
+    },
+    "trainingLocation": {
+      "1": "İşyerinde",
+      "2": "İşyeri Dışında",
+      "3": "Uzaktan Eğitim"
+    },
+    "approvalStatus": {
+      "0": "Taslak",
+      "1": "Onay Bekliyor",
+      "2": "Onaylandı",
+      "3": "Reddedildi"
+    }
+  }
+}

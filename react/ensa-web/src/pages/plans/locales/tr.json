@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "workPlans": "Çalışma Planları",
+    "activities": "Aktivite Kataloğu"
+  },
+  "workPlan": {
+    "list": {
+      "title": "Çalışma Planları",
+      "description": "Yıllık İSG çalışma planı kapakları; satırlar plan detayında yönetilir",
+      "create": "Yeni Plan",
+      "searchPlaceholder": "Firma, doküman veya revizyon no ile ara…",
+      "allCompanies": "Tüm firmalar",
+      "empty": "Kayıtlı çalışma planı bulunamadı.",
+      "editAria": "{{name}} planını düzenle",
+      "deleteAria": "{{name}} planını sil",
+      "deleteTitle": "Planı Sil",
+      "deleteMessage": "{{name}} firmasına ait çalışma planı silinecek. Onaylıyor musunuz?"
+    },
+    "fields": {
+      "companyName": "Firma",
+      "documentNo": "Doküman No",
+      "revisionNo": "Revizyon No",
+      "revisionDate": "Revizyon Tarihi",
+      "startDate": "Başlangıç",
+      "publicationDate": "Yayın Tarihi",
+      "lineCount": "Satır",
+      "transferred": "IBYS'ye Aktarıldı",
+      "status": "Durum",
+      "specialist": "İSG Uzmanı",
+      "physician": "İşyeri Hekimi",
+      "approver": "Onaylayan"
+    },
+    "transferred": {
+      "yes": "Aktarıldı",
+      "no": "Aktarılmadı"
+    },
+    "form": {
+      "createTitle": "Yeni Çalışma Planı",
+      "editTitle": "Çalışma Planını Düzenle",
+      "selectCompany": "Firma seçin"
+    },
+    "detail": {
+      "fallbackTitle": "Çalışma Planı",
+      "description": "{{year}} yılı çalışma planı",
+      "lines": "Plan Satırları",
+      "emptyLines": "Bu planda satır yok.",
+      "completion": "Gerçekleşme Oranı",
+      "completionValue": "%{{value}}",
+      "generate": "Varsayılan Satırları Oluştur",
+      "generateTitle": "Varsayılan Satırları Oluştur",
+      "generateDescription": "Varsayılan aktivite kataloğundan plan satırları üretilir. Bu işlem yalnızca bir kez yapılabilir; plan satır aldıktan sonra tekrar çalıştırılamaz.",
+      "generateHint": "Plan boş — varsayılan satırları oluşturabilir veya satırları tek tek ekleyebilirsiniz."
+    },
+    "line": {
+      "create": "Yeni Satır",
+      "createTitle": "Yeni Plan Satırı",
+      "editTitle": "Plan Satırını Düzenle",
+      "selectActivity": "Aktivite seçin",
+      "deleteTitle": "Satırı Sil",
+      "deleteMessage": "{{name}} satırı silinecek. Onaylıyor musunuz?",
+      "submit": "Onaya Gönder",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "rejectTitle": "{{name}} satırını reddet",
+      "reasonLabel": "Red Gerekçesi",
+      "rejectionReason": "Red gerekçesi: {{reason}}",
+      "locked": "Onaylandı — kilitli",
+      "lockedHint": "Onaylanmış satır değiştirilemez ve silinemez.",
+      "instructorHint": "Sistemde kullanıcısı olmayan dış görevli için T.C. kimlik no girin.",
+      "editAria": "{{name}} satırını düzenle",
+      "deleteAria": "{{name}} satırını sil",
+      "submitAria": "{{name}} satırını onaya gönder",
+      "approveAria": "{{name}} satırını onayla",
+      "rejectAria": "{{name}} satırını reddet",
+      "fields": {
+        "activity": "Aktivite",
+        "period": "Periyot",
+        "performedDate": "Yapılma",
+        "instructor": "Görevli",
+        "status": "Gerçekleşme",
+        "approvalStatus": "Onay",
+        "year": "Yıl",
+        "month": "Ay",
+        "instructorNationalId": "Görevli T.C. No",
+        "description": "Açıklama"
+      }
+    }
+  },
+  "activity": {
+    "root": "Kök",
+    "unnamedParent": "Üst aktivite",
+    "list": {
+      "title": "Aktivite Kataloğu",
+      "description": "Çalışma planı satırlarının dayandığı aktivite, doküman ve revizyon tanımları",
+      "create": "Yeni Aktivite",
+      "searchPlaceholder": "Aktivite adı veya kodu ile ara…",
+      "empty": "Kayıtlı aktivite bulunamadı.",
+      "allTypes": "Tüm türler",
+      "children": "Alt Kayıtlar",
+      "childrenAria": "{{name}} aktivitesinin alt kayıtlarını listele",
+      "clearParent": "Filtreyi kaldır: {{name}}",
+      "editAria": "{{name}} aktivitesini düzenle",
+      "deleteAria": "{{name}} aktivitesini sil",
+      "deleteTitle": "Aktiviteyi Sil",
+      "deleteMessage": "{{name}} aktivitesi silinecek. Alt kaydı olan aktiviteler silinemez. Onaylıyor musunuz?"
+    },
+    "fields": {
+      "activityName": "Aktivite Adı",
+      "activityCode": "Aktivite Kodu",
+      "parentActivity": "Üst Aktivite",
+      "activityType": "Tür",
+      "activityGroup": "Aktivite Grubu",
+      "period": "Periyot",
+      "defaultActivity": "Varsayılan",
+      "defaultCount": "Yıllık Adet",
+      "defaultStartMonthOffset": "Başlangıç Ay Kaydırma",
+      "defaultElementCondition": "Asgari Çalışan Sayısı",
+      "orderNo": "Sıra",
+      "status": "Durum",
+      "scope": "Kapsam"
+    },
+    "scope": {
+      "shared": "Tüm kurumlara açık",
+      "private": "Kuruma özel"
+    },
+    "form": {
+      "createTitle": "Yeni Aktivite",
+      "editTitle": "Aktiviteyi Düzenle",
+      "parentHint": "Boş bırakılırsa aktivite ağacın kökünde yer alır.",
+      "noParent": "Üst aktivite yok (kök)",
+      "defaultCountHint": "Yılda kaç kez planlanacağı (0–12).",
+      "defaultOffsetHint": "Plan yılının başından itibaren kaydırma (0–11).",
+      "defaultConditionHint": "Aktiviteyi zorunlu kılan asgari çalışan sayısı."
+    },
+    "detail": {
+      "code": "Aktivite Kodu: {{value}}",
+      "general": "Genel Bilgiler",
+      "hierarchy": "Hiyerarşi",
+      "children": "Alt Aktiviteler",
+      "noChildren": "Alt aktivite yok.",
+      "addChild": "Alt Aktivite Ekle"
+    }
+  },
+  "enums": {
+    "activityType": {
+      "1": "Aktivite",
+      "2": "Doküman",
+      "3": "Revizyon",
+      "4": "Zorunlu Doküman"
+    },
+    "approvalStatus": {
+      "0": "Taslak",
+      "1": "Onay Bekliyor",
+      "2": "Onaylandı",
+      "3": "Reddedildi"
+    }
+  }
+}

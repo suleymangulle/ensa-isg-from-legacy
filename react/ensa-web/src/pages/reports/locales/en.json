@@ -1,0 +1,243 @@
+{
+  "nav": {
+    "ohsReports": "OHS Control Report",
+    "activityReports": "Activity Reports",
+    "yearEndReports": "Year-End Review"
+  },
+  "enums": {
+    "assignmentType": {
+      "0": "Unspecified",
+      "1": "Inbound assignment",
+      "2": "Outbound assignment"
+    },
+    "activityReportType": {
+      "0": "Unspecified",
+      "1": "Monthly activity report",
+      "2": "Annual activity report",
+      "3": "Periodic activity report",
+      "4": "Year-end review report"
+    },
+    "activityReportLineType": {
+      "1": "Organisation details",
+      "2": "Workplace details",
+      "3": "Workers",
+      "4": "Branch count",
+      "5": "Branch worker count",
+      "6": "Visit count",
+      "7": "Visit hours",
+      "8": "Trained employees",
+      "9": "Employees missing training",
+      "10": "Employee health report status",
+      "11": "Equipment periodic inspection",
+      "12": "Uninspected equipment",
+      "13": "Non-conformities",
+      "14": "Incidents"
+    }
+  },
+  "reports": {
+    "common": {
+      "print": "Print",
+      "minutes": "{{value}} min",
+      "percent": "{{value}}%",
+      "total": "Total",
+      "period": "Period",
+      "periodStart": "From",
+      "periodEnd": "To",
+      "periodRange": "{{from}} – {{to}}",
+      "openStart": "Open start",
+      "openEnd": "Open end",
+      "wholePeriod": "Whole period",
+      "selectCompany": "Select a workplace",
+      "selectUser": "Select a person",
+      "allCompanies": "All workplaces",
+      "companyFallback": "Workplace #{{id}}",
+      "lineCount": "Line count"
+    },
+    "validation": {
+      "endBeforeStart": "The end date cannot be earlier than the start date."
+    },
+    "ohs": {
+      "title": "OHS Control Report",
+      "description": "Service time and assignment summary of OHS professionals for a period",
+      "searchLabel": "Search professionals",
+      "searchPlaceholder": "Search by name or national id…",
+      "filters": {
+        "allOffices": "All offices",
+        "allStaffRoles": "All roles",
+        "allDutyTypes": "All assignment types"
+      },
+      "fields": {
+        "employeeName": "Professional",
+        "nationalId": "National id",
+        "staffRole": "Role",
+        "dutyType": "Assignment type",
+        "office": "Office",
+        "totalMinutes": "Assigned time",
+        "usedMonthlyMinutes": "Used time",
+        "overtimeMinutes": "Monthly overtime",
+        "utilisation": "Utilisation",
+        "creationTime": "Created",
+        "archiveDetail": "Archive record",
+        "hazardClass": "Hazard class",
+        "companyCount": "Workplaces",
+        "share": "Share"
+      },
+      "list": {
+        "title": "OHS professionals",
+        "empty": "No OHS control report found."
+      },
+      "summary": {
+        "title": "Office period summary",
+        "selectOffice": "Choose an office to see the period summary.",
+        "empty": "No record for the selected office and period.",
+        "staffCount": "Professionals",
+        "assignedMinutes": "Total assigned time",
+        "usedMinutes": "Total used time",
+        "overtimeMinutes": "Total overtime",
+        "utilisationHint": "{{value}}% of the assigned time",
+        "byStaffRole": "Used time by role",
+        "ofAssigned": "of {{assigned}} min assigned"
+      },
+      "breakdown": {
+        "title": "Hazard class breakdown",
+        "tableLabel": "Workplace counts by hazard class",
+        "open": "Show the hazard class breakdown for {{name}}",
+        "selectRow": "Pick a professional from the list to see the hazard class breakdown.",
+        "total": "Workplaces covered by the report: {{value}}"
+      }
+    },
+    "activity": {
+      "title": "Activity Reports",
+      "description": "Record of the work an OHS professional carried out during the period",
+      "create": "New activity report",
+      "empty": "No activity report found.",
+      "searchLabel": "Search activity reports",
+      "searchPlaceholder": "Search by report name…",
+      "fallbackTitle": "Activity report",
+      "deleteTitle": "Delete activity report",
+      "deleteMessage": "“{{name}}” and all of its lines will be deleted. Continue?",
+      "filters": {
+        "allTypes": "All report types"
+      },
+      "fields": {
+        "reportName": "Report name",
+        "company": "Workplace",
+        "reportType": "Report type",
+        "reportStart": "Period start",
+        "reportEnd": "Period end",
+        "lineType": "Line type",
+        "text": "Description",
+        "value1": "Value 1",
+        "value2": "Value 2",
+        "value3": "Value 3",
+        "orderNo": "Order"
+      },
+      "actions": {
+        "edit": "Edit report {{name}}",
+        "delete": "Delete report {{name}}",
+        "detail": "Open the detail of report {{name}}"
+      },
+      "lineActions": {
+        "edit": "Edit line {{name}}",
+        "delete": "Delete line {{name}}"
+      },
+      "form": {
+        "createTitle": "New activity report",
+        "editTitle": "Edit activity report"
+      },
+      "lineForm": {
+        "createTitle": "New report line",
+        "editTitle": "Edit report line",
+        "selectType": "Select a line type",
+        "orderHint": "Zero appends the line to the end."
+      },
+      "detail": {
+        "headerTitle": "Report details",
+        "linesTitle": "Report lines",
+        "addLine": "Add line",
+        "emptyLines": "No line has been added to this report yet.",
+        "deleteLineTitle": "Delete report line",
+        "deleteLineMessage": "The selected report line will be deleted. Continue?"
+      }
+    },
+    "yearEnd": {
+      "title": "Year-End Review Reports",
+      "description": "The annual evaluation report of a workplace and its work items",
+      "create": "New review report",
+      "empty": "No year-end review report found.",
+      "searchLabel": "Search review reports",
+      "searchPlaceholder": "Search by report title…",
+      "fallbackTitle": "Year-end review report",
+      "deleteTitle": "Delete review report",
+      "deleteMessage": "“{{name}}” and all of its work items will be deleted. Continue?",
+      "filters": {
+        "allSpecialists": "All specialists",
+        "allPhysicians": "All physicians"
+      },
+      "fields": {
+        "reportTitle": "Report title",
+        "company": "Workplace",
+        "reportDate": "Report date",
+        "specialist": "Safety specialist",
+        "specialistFullName": "Specialist name",
+        "physician": "Workplace physician",
+        "physicianFullName": "Physician name",
+        "deputyFullName": "Employer's deputy",
+        "status": "Status",
+        "maleWorker": "Male workers",
+        "femaleWorker": "Female workers",
+        "childWorker": "Child workers",
+        "youngWorker": "Young workers",
+        "parentLine": "Parent work item",
+        "orderNo": "Order",
+        "work": "Work carried out",
+        "date": "Date",
+        "personVeTitle": "Person / title",
+        "repeatCount": "Repeat count",
+        "usedMethod": "Method used",
+        "resultVeComment": "Result / comment"
+      },
+      "actions": {
+        "edit": "Edit report {{name}}",
+        "delete": "Delete report {{name}}",
+        "detail": "Open the detail of report {{name}}"
+      },
+      "lineActions": {
+        "edit": "Edit work item {{name}}",
+        "delete": "Delete work item {{name}}",
+        "addChild": "Add a child item under {{name}}"
+      },
+      "form": {
+        "createTitle": "New review report",
+        "editTitle": "Edit review report",
+        "workforceSection": "Workforce composition",
+        "signatorySection": "Signatories",
+        "nameSnapshotHint": "The name is stored on the report itself and kept permanently."
+      },
+      "lineForm": {
+        "createTitle": "New work item",
+        "editTitle": "Edit work item",
+        "noParent": "No parent (root level)",
+        "parentHint": "Left empty, the item is added at root level.",
+        "orderHint": "Zero appends the item after its siblings."
+      },
+      "current": {
+        "found": "Most recent report of {{company}}: “{{title}}” ({{date}})",
+        "none": "No review report has been filed for {{company}} yet."
+      },
+      "detail": {
+        "description": "Annual evaluation report — statutory document",
+        "headerTitle": "Report details",
+        "workforceTitle": "Workforce composition",
+        "emptyWorkforce": "No worker counts were entered for this report.",
+        "headcount": "Total workers: {{value}}",
+        "activitiesTitle": "Work items",
+        "addLine": "Add work item",
+        "addChild": "Add child item",
+        "emptyActivities": "No work item has been added to this report yet.",
+        "deleteLineTitle": "Delete work item",
+        "deleteLineMessage": "The selected work item and every item beneath it will be deleted. Continue?"
+      }
+    }
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "nav": {
+    "ibys": "IBYS Bildirimleri"
+  },
+  "ibys": {
+    "list": {
+      "title": "IBYS Bildirimleri",
+      "description": "İSG Kâtip / IBYS gönderim kayıtları ve durumları",
+      "searchPlaceholder": "Sorgu no, paket no veya servis mesajı ile ara…",
+      "empty": "IBYS bildirimi bulunamadı.",
+      "noQueryNo": "(sorgu no yok)",
+      "openDetail": "{{queryNo}} bildirimini aç"
+    },
+    "fields": {
+      "queryNo": "Sorgu No",
+      "queryType": "Bildirim Türü",
+      "company": "İş Yeri",
+      "employee": "Çalışan",
+      "submissionDate": "Gönderim",
+      "groupId": "Paket No",
+      "status": "Durum",
+      "statusCode": "Durum Kodu",
+      "statusMessage": "Durum Mesajı",
+      "ibysVersion": "IBYS Sürümü",
+      "timeStamp": "Zaman Damgası",
+      "approver": "İmzalayan",
+      "message": "Servis Mesajı",
+      "payload": "Gönderim İçeriği",
+      "reportType": "Rapor Türü",
+      "examinationDate": "Muayene Tarihi"
+    },
+    "filters": {
+      "queryType": "Bildirim türü",
+      "status": "Durum",
+      "company": "İş yeri",
+      "dateFrom": "Gönderim başlangıç tarihi",
+      "dateTo": "Gönderim bitiş tarihi"
+    },
+    "pending": {
+      "title": "Sonuç bekleyen bildirimler",
+      "typeLabel": "Bildirim türü",
+      "empty": "Bu türde sonuç bekleyen bildirim yok."
+    },
+    "detail": {
+      "subtitle": "{{type}} · {{date}}",
+      "updateStatus": "Durumu güncelle",
+      "submissionNumberHint": "IBYS bildirimi kabul ettiğinde verdiği sorgu numarası.",
+      "formsTitle": "Bildirime dâhil muayene formları",
+      "noForms": "Bu bildirime bağlı muayene formu yok.",
+      "openForm": "Muayene formunu aç",
+      "payloadNotice": "Bildirim XML'i ve e-imzalı paket, klinik veri taşıdıkları için hiçbir arayüze açılmaz; yalnızca hazırlanmış olup olmadıkları gösterilir."
+    },
+    "payload": {
+      "xmlPresent": "XML hazırlandı",
+      "xmlAbsent": "XML hazırlanmadı",
+      "signaturePresent": "E-imzalandı",
+      "signatureAbsent": "E-imzalanmadı"
+    }
+  },
+  "enums": {
+    "ibysQueryType": {
+      "0": "—",
+      "1": "Eğitim",
+      "2": "Sağlık Raporu",
+      "3": "Hizmet Verilen İş Yeri",
+      "4": "İş Güvenliği Uzmanı",
+      "5": "İş Yeri Hekimi"
+    },
+    "ibysSubmissionStatus": {
+      "0": "Gönderilmedi",
+      "1": "Hazırlandı",
+      "2": "Gönderildi",
+      "3": "Onaylandı",
+      "4": "Hatalı",
+      "5": "İptal"
+    }
+  }
+}

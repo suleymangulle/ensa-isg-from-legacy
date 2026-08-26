@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="*" />
+    <PackageReference Include="OpenIddict.AspNetCore" Version="*" />
+    <PackageReference Include="Serilog.AspNetCore" Version="*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ensa.HttpApi\Ensa.HttpApi.csproj" />
+    <ProjectReference Include="..\Ensa.Application\Ensa.Application.csproj" />
+    <ProjectReference Include="..\Ensa.EntityFrameworkCore\Ensa.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+</Project>

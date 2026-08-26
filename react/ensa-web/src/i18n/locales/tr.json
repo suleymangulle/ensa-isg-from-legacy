@@ -1,0 +1,355 @@
+{
+  "app": {
+    "name": "Ensa",
+    "shortName": "ENSA",
+    "initial": "E",
+    "title": "Ensa — İSG Yönetim Sistemi",
+    "tagline": "İSG Yönetim Sistemi",
+    "footer": "© {{year}} Ensa — İSG Yönetim Sistemi"
+  },
+  "common": {
+    "none": "—",
+    "loading": "Yükleniyor…",
+    "search": "Ara",
+    "edit": "Düzenle",
+    "active": "Aktif",
+    "passive": "Pasif",
+    "profile": "Profilim",
+    "signOut": "Çıkış Yap",
+    "host": "Host",
+    "close": "Kapat",
+    "cancel": "Vazgeç",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "create": "Yeni",
+    "detail": "Detay",
+    "back": "Geri",
+    "actions": "İşlemler",
+    "yes": "Evet",
+    "no": "Hayır",
+    "all": "Tümü",
+    "clear": "Temizle",
+    "saved": "Kaydedildi",
+    "deleted": "Silindi",
+    "confirmDelete": "Bu kaydı silmek istiyor musunuz?",
+    "required": "Bu alan zorunludur"
+  },
+  "language": {
+    "label": "Dil",
+    "tr": "TR",
+    "en": "EN",
+    "trLong": "Türkçe",
+    "enLong": "İngilizce",
+    "switchTo": "{{language}} diline geç"
+  },
+  "nav": {
+    "dashboard": "Gösterge Paneli",
+    "companies": "Firmalar",
+    "employees": "Çalışanlar",
+    "trainingPlans": "Eğitim Planları",
+    "riskAssessments": "Risk Analizleri",
+    "medicalExaminations": "Sağlık Gözetimi",
+    "users": "Kullanıcılar",
+    "group": {
+      "overview": "Genel Bakış",
+      "workplace": "İşyeri Yönetimi",
+      "ohs": "İSG Süreçleri",
+      "finance": "Finans",
+      "records": "Kayıt ve Belgeler",
+      "admin": "Yönetim"
+    },
+    "toggleMenu": "Menüyü aç/kapat",
+    "closeMenu": "Menüyü kapat",
+    "sidebar": "Ana menü",
+    "userMenu": "Kullanıcı menüsü",
+    "breadcrumb": "Sayfa yolu"
+  },
+  "auth": {
+    "signInTitle": "Ensa Girişi",
+    "userName": "Kullanıcı Adı",
+    "password": "Şifre",
+    "signIn": "Giriş Yap",
+    "signingIn": "Giriş yapılıyor…",
+    "invalidCredentials": "Kullanıcı adı veya şifre hatalı."
+  },
+  "validation": {
+    "required": "Bu alan zorunludur."
+  },
+  "errors": {
+    "unexpected": "Beklenmeyen bir hata oluştu.",
+    "network": "Sunucuya ulaşılamadı. Bağlantınızı kontrol edin.",
+    "moduleUnavailable": "Bu modülün API uç noktası henüz yayında değil.",
+    "forbidden": "Bu işlem için yetkiniz bulunmuyor.",
+    "notFound": "Kayıt bulunamadı."
+  },
+  "table": {
+    "empty": "Gösterilecek kayıt bulunamadı."
+  },
+  "pagination": {
+    "label": "Sayfalama",
+    "summary": "{{total}} kayıttan {{first}}–{{last}} arası gösteriliyor",
+    "position": "{{page}} / {{pageCount}}",
+    "previous": "Önceki",
+    "next": "Sonraki"
+  },
+  "dashboard": {
+    "welcome": "Hoş geldiniz, {{name}}",
+    "description": "İSG süreçlerinizin genel görünümü",
+    "cards": {
+      "activeCompanies": "Firma",
+      "totalEmployees": "Çalışan",
+      "visits": "Ziyaret",
+      "supportTickets": "Destek Talebi"
+    },
+    "attention": {
+      "title": "Dikkat Gerektirenler",
+      "overdueInspections": "Periyodik kontrolü gecikmiş ekipman",
+      "overdueInspectionsHint": "Kontrol tarihi geçmiş iş ekipmanları — denetimde bulgu konusudur.",
+      "overdueActions": "Termini geçmiş DÖF",
+      "overdueActionsHint": "Termin tarihi geçtiği hâlde kapatılmamış düzeltici faaliyetler.",
+      "expiringAssessments": "Süresi dolan risk analizi",
+      "expiringAssessmentsHint": "Geçerlilik süresi dolmak üzere olan risk değerlendirme raporları."
+    },
+    "session": {
+      "title": "Oturum Bilgisi",
+      "userName": "Kullanıcı",
+      "tenant": "Kurum (Tenant)",
+      "roles": "Roller",
+      "permissionCount": "Yetki Sayısı"
+    }
+  },
+  "company": {
+    "list": {
+      "title": "Firmalar",
+      "description": "Hizmet verilen işyerleri",
+      "create": "Yeni Firma",
+      "searchPlaceholder": "Firma adı veya SGK no ile ara…",
+      "searchLabel": "Firma ara",
+      "empty": "Kayıtlı firma bulunamadı."
+    },
+    "detail": {
+      "fallbackTitle": "Firma",
+      "ssiNumber": "SGK Sicil No: {{value}}",
+      "tabs": {
+        "general": "Genel Bilgiler",
+        "departments": "Bölümler",
+        "specialists": "İlgilenen Uzmanlar",
+        "branches": "Şubeler"
+      },
+      "emptyBranches": "Bağlı şube kaydı yok.",
+      "emptyDepartments": "Tanımlı bölüm yok.",
+      "emptySpecialists": "Atanmış uzman veya hekim yok.",
+      "warningSummary": "Eksik Yükümlülükler",
+      "totalMissing": "Toplam eksik: {{count}}"
+    },
+    "fields": {
+      "companyName": "Firma Adı",
+      "ssiNumber": "SGK No",
+      "hazardClass": "Tehlike Sınıfı",
+      "workplaceType": "İşyeri Türü",
+      "cityDistrict": "İl / İlçe",
+      "address": "Adres",
+      "authorizedPerson": "Yetkili",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "taxOffice": "Vergi Dairesi",
+      "taxNumber": "Vergi No",
+      "office": "Ofis",
+      "headquarterCompany": "Bağlı Olduğu Merkez",
+      "workerCount": "Çalışan",
+      "activeEmployeeCount": "Aktif Çalışan Sayısı",
+      "status": "Durum",
+      "note": "Note"
+    },
+    "warnings": {
+      "isSafetyTrainingNone": "İSG eğitimi hiç yapılmamış",
+      "isSafetyTrainingMissing": "İSG eğitimi eksik",
+      "isHealthTrainingNone": "Sağlık eğitimi hiç yapılmamış",
+      "isHealthTrainingMissing": "Sağlık eğitimi eksik",
+      "preEmploymentHealthExaminationMissing": "İşe giriş muayenesi eksik",
+      "equipmentExaminationMissing": "Ekipman muayenesi eksik"
+    }
+  },
+  "employee": {
+    "list": {
+      "title": "Çalışanlar",
+      "description": "Hizmet verilen işyerlerinin çalışanları",
+      "create": "Yeni Çalışan",
+      "searchPlaceholder": "Ad, soyad veya T.C. no ile ara…",
+      "searchLabel": "Çalışan ara",
+      "empty": "Kayıtlı çalışan bulunamadı."
+    },
+    "fields": {
+      "fullName": "Ad Soyad",
+      "nationalId": "T.C. Kimlik No",
+      "companyName": "Firma",
+      "duty": "Görevi",
+      "gender": "Cinsiyet",
+      "hireDate": "İşe Giriş",
+      "status": "Durum"
+    },
+    "status": {
+      "active": "Aktif",
+      "left": "Ayrıldı"
+    }
+  },
+  "trainingPlan": {
+    "list": {
+      "title": "Eğitim Planları",
+      "description": "Yıllık eğitim planı satırları ve gerçekleşme durumları",
+      "create": "Yeni Plan",
+      "searchPlaceholder": "Firma veya eğitim adı ile ara…",
+      "searchLabel": "Eğitim planı ara",
+      "empty": "Eğitim planı satırı bulunamadı."
+    },
+    "fields": {
+      "companyName": "Firma",
+      "trainingName": "Eğitim",
+      "period": "Dönem",
+      "duration": "Süre",
+      "instructor": "Eğitici",
+      "performedDate": "Yapılma",
+      "status": "Durum"
+    },
+    "minutes": "{{count}} dk"
+  },
+  "riskAssessment": {
+    "list": {
+      "title": "Risk Analizleri",
+      "description": "İşyeri risk değerlendirme raporları",
+      "create": "Yeni Rapor",
+      "searchPlaceholder": "Rapor veya firma adı ile ara…",
+      "searchLabel": "Risk analizi ara",
+      "empty": "Risk analiz raporu bulunamadı."
+    },
+    "fields": {
+      "reportName": "Rapor Adı",
+      "companyName": "Firma",
+      "hazardClass": "Tehlike Sınıfı",
+      "method": "Metot",
+      "hazardCount": "Tehlike",
+      "performedDate": "Gerçekleştirme",
+      "validity": "Geçerlilik"
+    },
+    "validity": {
+      "expired": "Süresi doldu",
+      "expiring": "{{count}} gün kaldı",
+      "valid": "Geçerli"
+    }
+  },
+  "medicalExamination": {
+    "list": {
+      "title": "Sağlık Gözetimi",
+      "description": "İşe giriş ve periyodik muayene formları",
+      "create": "Yeni Muayene",
+      "searchPlaceholder": "Çalışan veya firma adı ile ara…",
+      "searchLabel": "Muayene ara",
+      "empty": "Sağlık muayene formu bulunamadı."
+    },
+    "fields": {
+      "employee": "Çalışan",
+      "companyName": "Firma",
+      "reportType": "Rapor Türü",
+      "examinationDate": "Muayene",
+      "validityDate": "Geçerlilik",
+      "physician": "Hekim",
+      "opinion": "Kanaat"
+    }
+  },
+  "user": {
+    "list": {
+      "title": "Kullanıcılar",
+      "description": "Kurum kullanıcıları ve yetkileri",
+      "create": "Yeni Kullanıcı",
+      "searchPlaceholder": "Ad, soyad veya e-posta ile ara…",
+      "searchLabel": "Kullanıcı ara",
+      "empty": "Kayıtlı kullanıcı bulunamadı."
+    },
+    "fields": {
+      "fullName": "Ad Soyad",
+      "userName": "Kullanıcı Adı",
+      "email": "E-posta",
+      "staffRole": "Görev",
+      "status": "Durum"
+    }
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Sayfa bulunamadı",
+    "description": "Aradığınız sayfa taşınmış veya hiç var olmamış olabilir.",
+    "back": "Gösterge Paneline Dön"
+  },
+  "enums": {
+    "hazardClass": {
+      "0": "Belirtilmemiş",
+      "1": "Az Tehlikeli",
+      "2": "Tehlikeli",
+      "3": "Çok Tehlikeli"
+    },
+    "workplaceType": {
+      "0": "Belirtilmemiş",
+      "1": "Merkez",
+      "2": "Şube"
+    },
+    "gender": {
+      "0": "—",
+      "1": "Erkek",
+      "2": "Kadın"
+    },
+    "staffRole": {
+      "0": "—",
+      "1": "İş Güvenliği Uzmanı",
+      "2": "İşyeri Hekimi",
+      "3": "Diğer Sağlık Personeli",
+      "4": "Büro Personeli",
+      "5": "Müşteri",
+      "6": "Ofis Yöneticisi",
+      "7": "Kurum Yöneticisi",
+      "8": "Sistem Yöneticisi"
+    },
+    "planLineStatus": {
+      "0": "Planlandı",
+      "1": "Yapıldı",
+      "2": "Yapılmadı",
+      "3": "Ertelendi",
+      "4": "İptal Edildi"
+    },
+    "riskAssessmentMethod": {
+      "0": "—",
+      "1": "L Matris (3×3)",
+      "2": "L Matris (5×5)",
+      "3": "Fine-Kinney",
+      "4": "Fmea",
+      "5": "Çek Listesi"
+    },
+    "medicalReportType": {
+      "0": "—",
+      "1": "İşe Giriş",
+      "2": "Periyodik",
+      "3": "İş Değişikliği",
+      "4": "İşe Dönüş",
+      "5": "İstek Üzerine"
+    },
+    "fitnessForWorkOpinion": {
+      "0": "—",
+      "1": "Sakınca yok",
+      "2": "Şartlı",
+      "3": "Sakıncalı",
+      "4": "İleri tetkik"
+    },
+    "month": {
+      "1": "Ocak",
+      "2": "Şubat",
+      "3": "Mart",
+      "4": "Nisan",
+      "5": "Mayıs",
+      "6": "Haziran",
+      "7": "Temmuz",
+      "8": "Ağustos",
+      "9": "Eylül",
+      "10": "Ekim",
+      "11": "Kasım",
+      "12": "Aralık"
+    }
+  }
+}

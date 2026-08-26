@@ -1,0 +1,78 @@
+{
+  "nav": {
+    "ibys": "IBYS submissions"
+  },
+  "ibys": {
+    "list": {
+      "title": "IBYS submissions",
+      "description": "Submissions to the national OHS information-management system and their status",
+      "searchPlaceholder": "Search by query no, package no or service message…",
+      "empty": "No IBYS submissions found.",
+      "noQueryNo": "(no query no)",
+      "openDetail": "Open submission {{queryNo}}"
+    },
+    "fields": {
+      "queryNo": "Query no",
+      "queryType": "Submission type",
+      "company": "Workplace",
+      "employee": "Employee",
+      "submissionDate": "Submitted",
+      "groupId": "Package no",
+      "status": "Status",
+      "statusCode": "Status code",
+      "statusMessage": "Status message",
+      "ibysVersion": "IBYS version",
+      "timeStamp": "Timestamp",
+      "approver": "Signed by",
+      "message": "Service message",
+      "payload": "Submission payload",
+      "reportType": "Report type",
+      "examinationDate": "Examination date"
+    },
+    "filters": {
+      "queryType": "Submission type",
+      "status": "Status",
+      "company": "Workplace",
+      "dateFrom": "Submission date from",
+      "dateTo": "Submission date to"
+    },
+    "pending": {
+      "title": "Submissions awaiting a result",
+      "typeLabel": "Submission type",
+      "empty": "No submission of this type is awaiting a result."
+    },
+    "detail": {
+      "subtitle": "{{type}} · {{date}}",
+      "updateStatus": "Update status",
+      "submissionNumberHint": "Query number assigned by IBYS once the submission is accepted.",
+      "formsTitle": "Examination forms in this submission",
+      "noForms": "No examination form is attached to this submission.",
+      "openForm": "Open examination form",
+      "payloadNotice": "The notification XML and the e-signed package carry clinical data and are exposed to no interface; only whether they have been prepared is shown."
+    },
+    "payload": {
+      "xmlPresent": "XML prepared",
+      "xmlAbsent": "XML not prepared",
+      "signaturePresent": "E-signed",
+      "signatureAbsent": "Not e-signed"
+    }
+  },
+  "enums": {
+    "ibysQueryType": {
+      "0": "—",
+      "1": "Training",
+      "2": "Health report",
+      "3": "Serviced workplace",
+      "4": "Occupational safety specialist",
+      "5": "Workplace physician"
+    },
+    "ibysSubmissionStatus": {
+      "0": "Not sent",
+      "1": "Prepared",
+      "2": "Sent",
+      "3": "Approved",
+      "4": "Failed",
+      "5": "Cancelled"
+    }
+  }
+}

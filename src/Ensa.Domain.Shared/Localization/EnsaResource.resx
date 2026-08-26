@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" /></xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" /></xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Ensa:Activity:HasChildActivities" xml:space="preserve">
+    <value>Activity {ActivityId} still has {ChildCount} child activities and cannot be deleted.</value>
+  </data>
+  <data name="Ensa:Activity:HostEntryIsReadOnlyForTenant" xml:space="preserve">
+    <value>Shared catalogue entry {ActivityId} can only be changed by a host administrator.</value>
+  </data>
+  <data name="Ensa:Activity:SelfParentNotAllowed" xml:space="preserve">
+    <value>Activity {ActivityId} cannot be its own parent.</value>
+  </data>
+  <data name="Ensa:Archive:InvalidMonth" xml:space="preserve">
+    <value>The month must be between 1 and 12, but {Month} was supplied.</value>
+  </data>
+  <data name="Ensa:Authorization" xml:space="preserve">
+    <value>You are not authorized to perform this operation.</value>
+  </data>
+  <data name="Ensa:BusinessError" xml:space="preserve">
+    <value>The operation could not be completed.</value>
+  </data>
+  <data name="Ensa:CashRegister:InactiveRegister" xml:space="preserve">
+    <value>'{CashRegisterName}' is not active and cannot accept new movements. Reactivate the cash register first.</value>
+  </data>
+  <data name="Ensa:CashRegister:NegativeBalance" xml:space="preserve">
+    <value>The balance of '{CashRegisterName}' would go negative: it currently holds {Balance} and the movement is for {Amount}.</value>
+  </data>
+  <data name="Ensa:CashRegister:NonZeroBalance" xml:space="preserve">
+    <value>'{CashRegisterName}' still holds a balance of {Balance} and cannot be deleted. Transfer or write off the remaining amount first.</value>
+  </data>
+  <data name="Ensa:CashRegister:TransactionAlreadyVoided" xml:space="preserve">
+    <value>Cash movement {TransactionId} has already been voided.</value>
+  </data>
+  <data name="Ensa:Company:CircularHeadquarterChain" xml:space="preserve">
+    <value>The selected headquarters is a descendant of this workplace, which would create a cycle in the headquarters chain.</value>
+  </data>
+  <data name="Ensa:Company:CompanyLimitExceeded" xml:space="preserve">
+    <value>The workplace limit of {Limit} defined by your subscription plan has been reached. Upgrade your plan to add more workplaces.</value>
+  </data>
+  <data name="Ensa:Company:HasActiveBranches" xml:space="preserve">
+    <value>'{CompanyName}' cannot be deactivated because it still has {BranchCount} active branch(es). Deactivate them first or move them to another headquarters.</value>
+  </data>
+  <data name="Ensa:Company:HazardClassMandatory" xml:space="preserve">
+    <value>A hazard class must be specified for an active workplace.</value>
+  </data>
+  <data name="Ensa:Company:HazardClassNaceMismatch" xml:space="preserve">
+    <value>The selected NACE code is classified as '{NaceHazardClass}' in the official schedule, but '{HazardClass}' was entered. Clear the verification flag to use a different class.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterCannotHaveHeadquarter" xml:space="preserve">
+    <value>A workplace marked as headquarters cannot be attached to another headquarters.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterInDifferentOrganization" xml:space="preserve">
+    <value>The headquarters must belong to the same organization as the branch.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterIsItselfBranch" xml:space="preserve">
+    <value>'{CompanyName}' is itself a branch and therefore cannot act as headquarters. The headquarters/branch hierarchy is single-level.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterNotFound" xml:space="preserve">
+    <value>The selected headquarters workplace was not found.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterRequiredForBranch" xml:space="preserve">
+    <value>A workplace marked as a branch must reference the headquarters it belongs to.</value>
+  </data>
+  <data name="Ensa:Company:InvalidRecord" xml:space="preserve">
+    <value>The company record to update could not be determined.</value>
+  </data>
+  <data name="Ensa:Company:SelfReferencingHeadquarter" xml:space="preserve">
+    <value>A workplace cannot be its own headquarters.</value>
+  </data>
+  <data name="Ensa:Company:SsiNumberAlreadyRegistered" xml:space="preserve">
+    <value>SSI workplace registration number '{SsiNumber}' already belongs to another workplace in this organization.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:ActiveAtAnotherCompany" xml:space="preserve">
+    <value>The person with national ID '{NationalId}' is already an active employee at '{CompanyName}'. The same person cannot be active at more than one workplace; terminate the other record first.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:CompanyInactive" xml:space="preserve">
+    <value>Active employees cannot be added to or updated at '{CompanyName}' because the workplace is inactive.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:ExitDateBeforeHireDate" xml:space="preserve">
+    <value>The termination date cannot precede the hire date.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:ExitDateInFuture" xml:space="preserve">
+    <value>The termination date cannot be in the future.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:InvalidRecord" xml:space="preserve">
+    <value>The employee record to update could not be determined.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:NationalIdAlreadyRegistered" xml:space="preserve">
+    <value>National ID '{NationalId}' already belongs to another employee at this workplace.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:TerminatedEmployeeMarkedActive" xml:space="preserve">
+    <value>An employee with a termination date cannot be marked as active.</value>
+  </data>
+  <data name="Ensa:CorrectiveAction:AlreadyClosed" xml:space="preserve">
+    <value>This corrective action is no longer open (current status: {Status}), so it cannot be closed.</value>
+  </data>
+  <data name="Ensa:CorrectiveAction:ResultDateBeforeFindingDate" xml:space="preserve">
+    <value>The result date ({ResultDate}) cannot be earlier than the finding date ({FindingDate}).</value>
+  </data>
+  <data name="Ensa:Document:ContentMissing" xml:space="preserve">
+    <value>The stored file is missing.</value>
+  </data>
+  <data name="Ensa:Document:DuplicateContent" xml:space="preserve">
+    <value>This file has already been uploaded as '{DocumentName}'.</value>
+  </data>
+  <data name="Ensa:Document:EmptyFile" xml:space="preserve">
+    <value>The uploaded file is empty.</value>
+  </data>
+  <data name="Ensa:Document:FileTooLarge" xml:space="preserve">
+    <value>The file is larger than the allowed upload size.</value>
+  </data>
+  <data name="Ensa:Document:InvalidStorageKey" xml:space="preserve">
+    <value>The document storage path is not valid.</value>
+  </data>
+  <data name="Ensa:Document:NoContent" xml:space="preserve">
+    <value>This document has no content yet.</value>
+  </data>
+  <data name="Ensa:EPrescription:AlreadyCancelled" xml:space="preserve">
+    <value>Prescription {PrescriptionId} has already been cancelled.</value>
+  </data>
+  <data name="Ensa:EPrescription:DuplicateDiagnosis" xml:space="preserve">
+    <value>Diagnosis code '{Icd10Code}' cannot appear twice on one prescription.</value>
+  </data>
+  <data name="Ensa:EPrescription:DuplicateMedication" xml:space="preserve">
+    <value>Medication {MedicationId} cannot appear twice on one prescription.</value>
+  </data>
+  <data name="Ensa:EPrescription:SubmittedCannotBeDeleted" xml:space="preserve">
+    <value>Prescription {PrescriptionId} has been submitted to the e-prescription service and cannot be deleted; cancel it instead.</value>
+  </data>
+  <data name="Ensa:EmergencyPlan:SectionContentRequired" xml:space="preserve">
+    <value>The content of the '{SectionType}' section of the emergency action plan cannot be empty.</value>
+  </data>
+  <data name="Ensa:EntityNotFound" xml:space="preserve">
+    <value>No {EntityType} record was found with key '{Id}'.</value>
+  </data>
+  <data name="Ensa:Equipment:NotDeletable" xml:space="preserve">
+    <value>The equipment '{EquipmentName}' was created automatically and cannot be deleted.</value>
+  </data>
+  <data name="Ensa:FieldObservation:LineHasCorrectiveAction" xml:space="preserve">
+    <value>This observation line cannot be removed because {CorrectiveActionCount} corrective action(s) were derived from it.</value>
+  </data>
+  <data name="Ensa:FieldObservation:LineNotInReport" xml:space="preserve">
+    <value>Observation line {LineId} does not belong to field observation report {ReportId}.</value>
+  </data>
+  <data name="Ensa:Health:DuplicateChildEntry" xml:space="preserve">
+    <value>The examination form may hold only one row per {Kind}; '{Value}' was supplied more than once.</value>
+  </data>
+  <data name="Ensa:Health:FormLockedAfterIbysApproval" xml:space="preserve">
+    <value>Examination form {FormId} has been approved by IBYS and can no longer be changed.</value>
+  </data>
+  <data name="Ensa:Health:HazardClassUnknown" xml:space="preserve">
+    <value>The workplace hazard class must be set before the periodic examination interval can be calculated.</value>
+  </data>
+  <data name="Ensa:Health:InvalidHeight" xml:space="preserve">
+    <value>Height must be greater than zero to calculate body mass index.</value>
+  </data>
+  <data name="Ensa:Health:InvalidWeightKg" xml:space="preserve">
+    <value>Weight must be greater than zero to calculate body mass index.</value>
+  </data>
+  <data name="Ensa:Ibys:InvalidStatusTransition" xml:space="preserve">
+    <value>An IBYS submission cannot move from '{CurrentStatus}' to '{TargetStatus}'.</value>
+  </data>
+  <data name="Ensa:Incident:InvalidDateRange" xml:space="preserve">
+    <value>The start date of the period ({From}) cannot be later than its end date ({To}).</value>
+  </data>
+  <data name="Ensa:InternalServerError" xml:space="preserve">
+    <value>An unexpected error occurred. Please contact your system administrator.</value>
+  </data>
+  <data name="Ensa:InvalidPaging" xml:space="preserve">
+    <value>The number of records to skip cannot be negative.</value>
+  </data>
+  <data name="Ensa:InvalidSorting" xml:space="preserve">
+    <value>Invalid sort expression: '{Expression}'. Expected format: 'PropertyName ASC|DESC'.</value>
+  </data>
+  <data name="Ensa:InvalidYear" xml:space="preserve">
+    <value>The year must be a four-digit calendar year.</value>
+  </data>
+  <data name="Ensa:Invoice:AtLeastOneLineRequired" xml:space="preserve">
+    <value>An invoice must contain at least one line.</value>
+  </data>
+  <data name="Ensa:Invoice:LineNotInInvoice" xml:space="preserve">
+    <value>The selected line does not belong to invoice '{InvoiceNo}'.</value>
+  </data>
+  <data name="Ensa:Invoice:NegativeAmount" xml:space="preserve">
+    <value>A negative amount cannot be spelled out.</value>
+  </data>
+  <data name="Ensa:Invoice:NumberAlreadyUsed" xml:space="preserve">
+    <value>Invoice number '{InvoiceNumber}' is already in use.</value>
+  </data>
+  <data name="Ensa:Invoice:NumberEmpty" xml:space="preserve">
+    <value>The invoice number cannot be empty.</value>
+  </data>
+  <data name="Ensa:Mail:AlreadySent" xml:space="preserve">
+    <value>The mail '{Topic}' has already been sent and can no longer be changed.</value>
+  </data>
+  <data name="Ensa:Mail:AttachmentNotInMail" xml:space="preserve">
+    <value>The selected attachment does not belong to the mail '{Topic}'.</value>
+  </data>
+  <data name="Ensa:Mail:NotQueueable" xml:space="preserve">
+    <value>The mail '{Topic}' is in state '{MailStatus}'. Only a draft, failed or cancelled mail can be queued for sending.</value>
+  </data>
+  <data name="Ensa:Menu:NotFoundForUser" xml:space="preserve">
+    <value>No menu is defined for the '{MenuTypeCode}' layout type and your user profile.</value>
+  </data>
+  <data name="Ensa:Message:NotRecipient" xml:space="preserve">
+    <value>Only the recipient of a message can mark it as read.</value>
+  </data>
+  <data name="Ensa:Message:NotSender" xml:space="preserve">
+    <value>Only the sender of a message can delete it.</value>
+  </data>
+  <data name="Ensa:Message:SelfMessage" xml:space="preserve">
+    <value>You cannot send a message to yourself.</value>
+  </data>
+  <data name="Ensa:NotAuthenticated" xml:space="preserve">
+    <value>You must sign in to perform this operation.</value>
+  </data>
+  <data name="Ensa:NumberSequenceGenerationFailed" xml:space="preserve">
+    <value>Could not generate the next number for type '{Type}' (CompanyId: {CompanyId}).</value>
+  </data>
+  <data name="Ensa:NumberSequenceTypeEmpty" xml:space="preserve">
+    <value>The number sequence type cannot be empty.</value>
+  </data>
+  <data name="Ensa:Office:HeadquarterAlreadyExists" xml:space="preserve">
+    <value>The organization already has a headquarters office ('{OfficeName}'). Clear the headquarters flag on that office before assigning it here.</value>
+  </data>
+  <data name="Ensa:Organization:CodeAlreadyUsed" xml:space="preserve">
+    <value>The organization code '{Code}' is already used by another organization. Choose a different code.</value>
+  </data>
+  <data name="Ensa:Organization:InvalidSubscriptionPeriod" xml:space="preserve">
+    <value>The subscription end date ({SubscriptionEnd}) cannot precede the start date ({SubscriptionStart}).</value>
+  </data>
+  <data name="Ensa:Parameter:CodeAlreadyExists" xml:space="preserve">
+    <value>A parameter with the code '{Code}' already exists in this organization.</value>
+  </data>
+  <data name="Ensa:Penalty:AmountAlreadyDefined" xml:space="preserve">
+    <value>An amount is already defined for hazard class '{HazardClass}', head-count band '{EmployeeCountRange}' and year {Year}. Update the existing row instead of adding a second one.</value>
+  </data>
+  <data name="Ensa:Penalty:AmountNotDefined" xml:space="preserve">
+    <value>No fine amount is defined for hazard class '{HazardClass}', head-count band '{EmployeeCountRange}' and year {Year}.</value>
+  </data>
+  <data name="Ensa:Penalty:SurveyLineAlreadyExists" xml:space="preserve">
+    <value>Fine article {PenaltyId} has already been answered in this survey.</value>
+  </data>
+  <data name="Ensa:Permission:ConflictingOverride" xml:space="preserve">
+    <value>Permission {PermissionId} cannot be granted and denied at the same time.</value>
+  </data>
+  <data name="Ensa:Permission:NotGrantableToUserType" xml:space="preserve">
+    <value>This permission cannot be granted to this staff type.</value>
+  </data>
+  <data name="Ensa:Permission:UnknownPermission" xml:space="preserve">
+    <value>Permission {PermissionId} is not defined in the permission catalogue.</value>
+  </data>
+  <data name="Ensa:Report:CircularLineHierarchy" xml:space="preserve">
+    <value>Work item {LineId} cannot be placed under {ParentLineId}, because that item is a descendant of it and the move would create a cycle.</value>
+  </data>
+  <data name="Ensa:Report:InvalidPeriod" xml:space="preserve">
+    <value>The start of the reporting period must not be later than its end.</value>
+  </data>
+  <data name="Ensa:Report:LineNotInReport" xml:space="preserve">
+    <value>The selected line does not belong to report {ReportId}.</value>
+  </data>
+  <data name="Ensa:Report:ParentLineMismatch" xml:space="preserve">
+    <value>Work item {ParentLineId} does not belong to report {ReportId} and cannot be used as a parent.</value>
+  </data>
+  <data name="Ensa:RequestCancelled" xml:space="preserve">
+    <value>The request was cancelled.</value>
+  </data>
+  <data name="Ensa:Risk:MethodUnspecified" xml:space="preserve">
+    <value>The risk score could not be calculated: the assessment method is not specified.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:ControlMeasureAlreadyCompleted" xml:space="preserve">
+    <value>The control measure '{Measure}' was already completed on {CompletionDate}.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:HazardNotInReport" xml:space="preserve">
+    <value>Hazard line {HazardId} does not belong to risk assessment report {ReportId}.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:ReportApproved" xml:space="preserve">
+    <value>The approved risk assessment report '{ReportName}' can no longer be modified.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:ReportExpired" xml:space="preserve">
+    <value>The risk assessment report '{ReportName}' expired on {ValidUntil}.</value>
+  </data>
+  <data name="Ensa:Role:SystemRoleImmutable" xml:space="preserve">
+    <value>The system role '{RoleName}' cannot be renamed or deleted.</value>
+  </data>
+  <data name="Ensa:SupportTicket:AlreadyClosed" xml:space="preserve">
+    <value>The ticket '{Topic}' is already closed.</value>
+  </data>
+  <data name="Ensa:SupportTicket:MessageOnClosedTicket" xml:space="preserve">
+    <value>The ticket '{Topic}' is closed and cannot receive new messages. Reopen it first.</value>
+  </data>
+  <data name="Ensa:SupportTicket:NotClosed" xml:space="preserve">
+    <value>Only a closed or cancelled ticket can be reopened. '{Topic}' is still open.</value>
+  </data>
+  <data name="Ensa:TenantRequired" xml:space="preserve">
+    <value>This operation requires an active organization context.</value>
+  </data>
+  <data name="Ensa:Training:CodeAlreadyUsed" xml:space="preserve">
+    <value>Training code '{TrainingCode}' is already in use.</value>
+  </data>
+  <data name="Ensa:Training:DuplicateDuration" xml:space="preserve">
+    <value>A training may hold only one duration for hazard class '{HazardClass}'.</value>
+  </data>
+  <data name="Ensa:Training:DurationHazardClassRequired" xml:space="preserve">
+    <value>A training duration must name a hazard class.</value>
+  </data>
+  <data name="Ensa:Training:HazardClassRequired" xml:space="preserve">
+    <value>The workplace hazard class is required to determine the mandatory training duration.</value>
+  </data>
+  <data name="Ensa:Training:InactiveCannotBeStarted" xml:space="preserve">
+    <value>Training {TrainingId} is inactive and cannot be started.</value>
+  </data>
+  <data name="Ensa:Training:MandatoryDurationNotCompleted" xml:space="preserve">
+    <value>The final test requires {RequiredMinutes} minutes of training; only {ElapsedMinutes} minutes have been completed.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:ApprovedLineIsReadOnly" xml:space="preserve">
+    <value>Plan line {LineId} has been approved and can no longer be changed.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:ApprovedLinesCannotBeDeleted" xml:space="preserve">
+    <value>Training plan {PlanId} contains approved lines and cannot be deleted.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:InvalidApprovalTransition" xml:space="preserve">
+    <value>A plan line cannot move from '{CurrentStatus}' to '{TargetStatus}'.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:SingleActivePlanViolation" xml:space="preserve">
+    <value>Company {CompanyId} already has an active training plan for {Year}. Deactivate the existing plan before creating a new one.</value>
+  </data>
+  <data name="Ensa:User:CannotDeactivateSelf" xml:space="preserve">
+    <value>You cannot deactivate your own account ({UserName}).</value>
+  </data>
+  <data name="Ensa:User:CannotDeleteSelf" xml:space="preserve">
+    <value>You cannot delete your own account ({UserName}).</value>
+  </data>
+  <data name="Ensa:User:NationalIdAlreadyRegistered" xml:space="preserve">
+    <value>Another user with the national id {NationalId} is already registered.</value>
+  </data>
+  <data name="Ensa:UserNotActive" xml:space="preserve">
+    <value>Your account is inactive.</value>
+  </data>
+  <data name="Ensa:Validation" xml:space="preserve">
+    <value>The submitted values are not valid.</value>
+  </data>
+  <data name="Ensa:Visit:CalendarRangeTooWide" xml:space="preserve">
+    <value>The requested calendar range is too wide. At most {MaximumDayCount} days can be queried at once.</value>
+  </data>
+  <data name="Ensa:Visit:InvalidDateRange" xml:space="preserve">
+    <value>The start of the range must not be later than its end.</value>
+  </data>
+  <data name="Ensa:WorkPlan:ApprovedLineIsReadOnly" xml:space="preserve">
+    <value>Plan line {LineId} has been approved and can no longer be changed.</value>
+  </data>
+  <data name="Ensa:WorkPlan:ApprovedLinesCannotBeDeleted" xml:space="preserve">
+    <value>Work plan {PlanId} contains approved lines and cannot be deleted.</value>
+  </data>
+  <data name="Ensa:WorkPlan:DefaultLinesAlreadyGenerated" xml:space="preserve">
+    <value>Work plan {PlanId} already has lines; default lines can only be generated for an empty plan.</value>
+  </data>
+  <data name="Ensa:WorkPlan:InvalidApprovalTransition" xml:space="preserve">
+    <value>A plan line cannot move from '{CurrentStatus}' to '{TargetStatus}'.</value>
+  </data>
+  <data name="Ensa:WorkPlan:SingleActivePlanViolation" xml:space="preserve">
+    <value>Company {CompanyId} already has an active work plan for {Year}. Deactivate the existing plan before creating a new one.</value>
+  </data>
+  <data name="Ensa:WorkplaceDepartment:HasAssignedEmployees" xml:space="preserve">
+    <value>'{DepartmentName}' cannot be deleted because {EmployeeCount} employee(s) are still assigned to it. Move them to another department first.</value>
+  </data>
+  <data name="Ensa:WorkplaceDepartment:NameAlreadyUsed" xml:space="preserve">
+    <value>A department named '{DepartmentName}' already exists in this workplace. Department names must be unique within a workplace.</value>
+  </data>
+  <data name="Ensa:WorkplaceDepartment:NotDeletable" xml:space="preserve">
+    <value>'{DepartmentName}' was created by the system and cannot be deleted.</value>
+  </data>
+</root>

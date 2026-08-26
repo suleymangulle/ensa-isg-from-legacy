@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "incidents": "Olay ve İş Kazaları",
+    "correctiveActions": "DÖF Kayıtları",
+    "fieldObservations": "Saha Gözlemleri"
+  },
+  "observations": {
+    "select": "Seçiniz…",
+    "selectCompany": "Firma seçiniz…",
+    "selectDepartment": "Bölüm seçiniz…",
+    "selectEmployee": "Çalışan seçiniz…",
+    "selectCompanyFirst": "Önce firma seçiniz"
+  },
+  "incident": {
+    "list": {
+      "title": "Olay ve İş Kazaları",
+      "description": "İş kazası, ramak kala, meslek hastalığı ve yaralanmasız olay kayıtları",
+      "create": "Yeni Olay",
+      "searchPlaceholder": "Açıklama, ifade veya amir adı ile ara…",
+      "empty": "Olay kaydı bulunamadı.",
+      "allCompanies": "Tüm firmalar",
+      "allTypes": "Tüm olay türleri",
+      "onlyPending": "Yalnızca SGK bildirimi bekleyenler",
+      "editAction": "Olayı düzenle",
+      "deleteAction": "Olayı sil",
+      "deleteTitle": "Olay kaydını sil",
+      "deleteMessage": "{{date}} tarihli {{company}} olay kaydını silmek istiyor musunuz?"
+    },
+    "detail": {
+      "title": "{{type}} — {{date}}",
+      "fallbackTitle": "Olay",
+      "general": "Olay Bilgileri"
+    },
+    "fields": {
+      "company": "Firma",
+      "department": "Bölüm",
+      "incidentType": "Olay Türü",
+      "accidentType": "Kaza Türü",
+      "incidentDate": "Olay Tarihi",
+      "lostWorkDays": "Kayıp İş Günü",
+      "lostWorkDaysShort": "Kayıp Gün",
+      "isPerDate": "İşbaşı Tarihi",
+      "ssiNotificationDate": "SGK Bildirim Tarihi",
+      "ssiStatus": "SGK Bildirimi",
+      "unitSupervisor": "Birim Amiri",
+      "supervisorFullName": "Birim Amiri (serbest metin)",
+      "description": "Olay Açıklaması",
+      "expression": "Olay Anlatımı"
+    },
+    "form": {
+      "createTitle": "Yeni Olay Kaydı",
+      "editTitle": "Olay Kaydını Düzenle",
+      "isPerDateHint": "Çalışanın işbaşı yaptığı tarih.",
+      "ssiNotificationHint": "Bildirim yapıldıysa tarihi girin; boş bırakılırsa kayıt bildirim bekliyor sayılır.",
+      "supervisorNameHint": "Amir sistemde kayıtlı değilse ad soyad olarak yazılabilir.",
+      "expressionHint": "Olayın tanık veya kazazede ifadesiyle anlatımı."
+    },
+    "ssi": {
+      "bannerTitle": "{{total}} olayın SGK bildirimi henüz yapılmadı",
+      "bannerDescription": "5510 sayılı Kanun md. 13 uyarınca iş kazası ve meslek hastalıkları 3 iş günü içinde SGK'ya bildirilmelidir.",
+      "showPending": "Bekleyenleri göster",
+      "notified": "Bildirildi — {{date}}",
+      "notRequired": "Bildirim gerekmiyor",
+      "overdue": "Süresi geçti",
+      "dueBy": "Son gün: {{date}}",
+      "detailPendingTitle": "SGK bildirimi bekleniyor",
+      "detailOverdueTitle": "SGK bildirim süresi geçti",
+      "detailNotifiedTitle": "SGK bildirimi yapıldı",
+      "deadline": "Son bildirim tarihi: {{date}}",
+      "remaining": "{{days}} iş günü kaldı"
+    },
+    "persons": {
+      "title": "Olaya Karışan Kişiler",
+      "empty": "Kayıt yok.",
+      "employee": "Çalışan Kaydından Seç",
+      "employeeHint": "Seçim yapıldığında ad ve soyad otomatik doldurulur.",
+      "name": "Ad",
+      "lastName": "Soyad",
+      "removeTitle": "Kişiyi kaldır",
+      "removeMessage": "{{name}} kaydını olaydan kaldırmak istiyor musunuz?",
+      "removeAction": "{{name}} kaydını kaldır",
+      "add": {
+        "1": "Kazazede Ekle",
+        "2": "Tanık Ekle",
+        "3": "Müdahale Eden Ekle"
+      }
+    }
+  },
+  "correctiveAction": {
+    "list": {
+      "title": "DÖF Kayıtları",
+      "description": "Düzeltici ve önleyici faaliyetler",
+      "create": "Yeni DÖF",
+      "searchPlaceholder": "Bulgu, öneri, sorumlu veya kaynak ile ara…",
+      "empty": "DÖF kaydı bulunamadı.",
+      "allCompanies": "Tüm firmalar",
+      "allStatuses": "Tüm durumlar",
+      "allRiskCategories": "Tüm risk türleri",
+      "onlyOverdue": "Yalnızca termini geçenler",
+      "editAction": "DÖF kaydını düzenle",
+      "deleteAction": "DÖF kaydını sil",
+      "deleteTitle": "DÖF kaydını sil",
+      "deleteMessage": "“{{finding}}” bulgusuna ait DÖF kaydını silmek istiyor musunuz?"
+    },
+    "detail": {
+      "breadcrumb": "DÖF #{{id}}",
+      "general": "DÖF Bilgileri",
+      "close": "Kapat (Sonuçlandır)",
+      "sourceLine": "Kaynak Saha Gözlem Satırı",
+      "openSourceReport": "Saha gözlem raporunu aç"
+    },
+    "fields": {
+      "company": "Firma",
+      "finding": "Bulgu",
+      "recommendation": "Öneri / Alınacak Önlem",
+      "owner": "Sorumlu",
+      "ownerEmployee": "Sorumlu Çalışan",
+      "riskCategory": "Risk Türü",
+      "status": "İşlem Sonucu",
+      "findingDate": "Tespit Tarihi",
+      "deadlineDate": "Termin Tarihi",
+      "result": "Sonuç",
+      "resultDate": "Sonuç Tarihi",
+      "source": "Kaynak"
+    },
+    "form": {
+      "createTitle": "Yeni DÖF Kaydı",
+      "editTitle": "DÖF Kaydını Düzenle",
+      "ownerHint": "Sorumlu sistemde kayıtlı değilse ad soyad olarak yazılabilir.",
+      "sourceHint": "Bulgunun hangi kayıttan çıktığı (denetim, saha gözlemi, olay…)."
+    },
+    "close": {
+      "title": "DÖF Kaydını Sonuçlandır",
+      "confirm": "Sonuçlandır"
+    },
+    "overdue": {
+      "bannerTitle": "{{total}} DÖF kaydının termin tarihi geçti",
+      "bannerDescription": "Açık kalan bu kayıtlar için sorumlulardan geri bildirim alınmalıdır.",
+      "showOverdue": "Termini geçenleri göster",
+      "since": "Termin geçti — {{date}}",
+      "detailTitle": "Termin tarihi geçti",
+      "badge": "Termin geçti"
+    }
+  },
+  "fieldObservation": {
+    "list": {
+      "title": "Saha Gözlemleri",
+      "description": "İşyerinde yapılan saha gözlem raporları",
+      "create": "Yeni Rapor",
+      "searchPlaceholder": "Rapor içinde ara…",
+      "empty": "Saha gözlem raporu bulunamadı.",
+      "allCompanies": "Tüm firmalar",
+      "dateFrom": "Başlangıç tarihi",
+      "dateTo": "Bitiş tarihi",
+      "editAction": "Raporu düzenle",
+      "deleteAction": "Raporu sil",
+      "deleteTitle": "Saha gözlem raporunu sil",
+      "deleteMessage": "{{date}} tarihli {{company}} saha gözlem raporunu silmek istiyor musunuz?"
+    },
+    "detail": {
+      "title": "Saha Gözlem Raporu — {{date}}",
+      "fallbackTitle": "Saha Gözlem Raporu",
+      "general": "Rapor Bilgileri"
+    },
+    "fields": {
+      "company": "Firma",
+      "department": "Bölüm",
+      "date": "Gözlem Tarihi",
+      "lineCount": "Uygunsuzluk",
+      "sendMail": "Kaydettikten sonra işyerine bilgilendirme e-postası gönder",
+      "mailAddress": "E-posta Adresi"
+    },
+    "form": {
+      "createTitle": "Yeni Saha Gözlem Raporu",
+      "editTitle": "Saha Gözlem Raporunu Düzenle"
+    },
+    "lines": {
+      "title": "Uygunsuzluklar",
+      "create": "Uygunsuzluk Ekle",
+      "empty": "Bu raporda uygunsuzluk kaydı yok.",
+      "createTitle": "Uygunsuzluk Ekle",
+      "editTitle": "Uygunsuzluğu Düzenle",
+      "nonConformity": "Uygunsuzluk",
+      "measures": "Düzeltici / Önleyici Faaliyet",
+      "owner": "Sorumlu",
+      "ownerHint": "Sorumlu sistemde kayıtlı değilse ad soyad olarak yazılabilir.",
+      "ownerEmployee": "Sorumlu Çalışan",
+      "riskCategory": "Risk Türü",
+      "date": "Tespit Tarihi",
+      "deadlineDate": "Termin Tarihi",
+      "overdue": "Termin geçti",
+      "overdueBanner": "{{total}} uygunsuzluğun termin tarihi geçti",
+      "overdueDescription": "Açık kalan uygunsuzluklar için DÖF açılması önerilir.",
+      "raiseAction": "DÖF Aç",
+      "editAction": "Uygunsuzluğu düzenle",
+      "deleteAction": "Uygunsuzluğu sil",
+      "deleteTitle": "Uygunsuzluğu sil",
+      "deleteMessage": "“{{nonConformity}}” uygunsuzluk kaydını silmek istiyor musunuz?",
+      "derivedActions": "Bu satırdan açılan DÖF kayıtları"
+    }
+  },
+  "enums": {
+    "incidentType": {
+      "1": "İş Kazası",
+      "2": "Ramak Kala",
+      "3": "Meslek Hastalığı",
+      "4": "Yaralanmasız Olay"
+    },
+    "accidentType": {
+      "0": "Belirtilmemiş",
+      "1": "Düşme",
+      "2": "Çarpma",
+      "3": "Sıkışma",
+      "4": "Kesik",
+      "5": "Yanık",
+      "6": "Elektrik Çarpması",
+      "7": "Kimyasal Maruziyet",
+      "8": "Trafik Kazası",
+      "9": "Zehirlenme",
+      "99": "Diğer"
+    },
+    "incidentPersonRole": {
+      "1": "Kazazede",
+      "2": "Tanık",
+      "3": "Müdahale Eden"
+    },
+    "riskCategory": {
+      "0": "Belirtilmemiş",
+      "1": "İş Kazası Riski",
+      "2": "Meslek Hastalığı Riski",
+      "3": "Çevre Riski",
+      "4": "Yangın Riski"
+    },
+    "correctiveActionStatus": {
+      "0": "Devam Ediyor",
+      "1": "Kapatıldı",
+      "2": "İptal Edildi"
+    }
+  }
+}

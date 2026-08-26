@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" /></xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" /></xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Ensa:Activity:HasChildActivities" xml:space="preserve">
+    <value>{ActivityId} numaralı aktivitenin {ChildCount} alt aktivitesi bulunduğu için silinemez.</value>
+  </data>
+  <data name="Ensa:Activity:HostEntryIsReadOnlyForTenant" xml:space="preserve">
+    <value>{ActivityId} numaralı ortak katalog kaydı yalnızca host yöneticisi tarafından değiştirilebilir.</value>
+  </data>
+  <data name="Ensa:Activity:SelfParentNotAllowed" xml:space="preserve">
+    <value>{ActivityId} numaralı aktivite kendi üst aktivitesi olamaz.</value>
+  </data>
+  <data name="Ensa:Archive:InvalidMonth" xml:space="preserve">
+    <value>Ay 1 ile 12 arasında olmalıdır; gönderilen değer: {Month}.</value>
+  </data>
+  <data name="Ensa:Authorization" xml:space="preserve">
+    <value>Bu işlem için yetkiniz bulunmuyor.</value>
+  </data>
+  <data name="Ensa:BusinessError" xml:space="preserve">
+    <value>İşlem tamamlanamadı.</value>
+  </data>
+  <data name="Ensa:CashRegister:InactiveRegister" xml:space="preserve">
+    <value>'{CashRegisterName}' kasası aktif olmadığı için yeni hareket kabul edemez. Önce kasayı aktif hâle getirin.</value>
+  </data>
+  <data name="Ensa:CashRegister:NegativeBalance" xml:space="preserve">
+    <value>'{CashRegisterName}' kasasının bakiyesi eksiye düşer: kasada {Balance} bulunuyor, hareket tutarı {Amount}.</value>
+  </data>
+  <data name="Ensa:CashRegister:NonZeroBalance" xml:space="preserve">
+    <value>'{CashRegisterName}' kasasında {Balance} tutarında bakiye bulunduğu için silinemez. Önce kalan tutarı devredin veya kapatın.</value>
+  </data>
+  <data name="Ensa:CashRegister:TransactionAlreadyVoided" xml:space="preserve">
+    <value>{TransactionId} numaralı kasa hareketi zaten iptal edilmiş.</value>
+  </data>
+  <data name="Ensa:Company:CircularHeadquarterChain" xml:space="preserve">
+    <value>Seçilen merkez bu işyerinin alt şubesi olduğu için merkez zincirinde döngü oluşur.</value>
+  </data>
+  <data name="Ensa:Company:CompanyLimitExceeded" xml:space="preserve">
+    <value>Kurumunuzun paketinde tanımlı {Limit} işyeri sınırına ulaşıldı. Yeni işyeri eklemek için paketinizi yükseltin.</value>
+  </data>
+  <data name="Ensa:Company:HasActiveBranches" xml:space="preserve">
+    <value>'{CompanyName}' merkez işyerine bağlı {BranchCount} aktif şube bulunduğu için pasife alınamaz. Önce şubeleri pasife alın veya başka bir merkeze bağlayın.</value>
+  </data>
+  <data name="Ensa:Company:HazardClassMandatory" xml:space="preserve">
+    <value>Aktif bir işyeri için tehlike sınıfı belirtilmelidir.</value>
+  </data>
+  <data name="Ensa:Company:HazardClassNaceMismatch" xml:space="preserve">
+    <value>Seçilen NACE kodunun tebliğdeki tehlike sınıfı '{NaceHazardClass}' iken işyerine '{HazardClass}' girilmiş. Farklı bir sınıf kullanmak için doğrulama işaretini kaldırın.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterCannotHaveHeadquarter" xml:space="preserve">
+    <value>Merkez olarak işaretlenen işyeri başka bir merkeze bağlanamaz.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterInDifferentOrganization" xml:space="preserve">
+    <value>Merkez işyeri, şube ile aynı kuruma ait olmalıdır.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterIsItselfBranch" xml:space="preserve">
+    <value>'{CompanyName}' bir şube olduğu için başka bir şubenin merkezi olamaz. Merkez/şube hiyerarşisi tek seviyelidir.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterNotFound" xml:space="preserve">
+    <value>Seçilen merkez işyeri bulunamadı.</value>
+  </data>
+  <data name="Ensa:Company:HeadquarterRequiredForBranch" xml:space="preserve">
+    <value>Şube olarak işaretlenen işyeri için bağlı olduğu merkez işyeri seçilmelidir.</value>
+  </data>
+  <data name="Ensa:Company:InvalidRecord" xml:space="preserve">
+    <value>Güncellenecek firma kaydı belirlenemedi.</value>
+  </data>
+  <data name="Ensa:Company:SelfReferencingHeadquarter" xml:space="preserve">
+    <value>Bir işyeri kendi kendisinin merkezi olamaz.</value>
+  </data>
+  <data name="Ensa:Company:SsiNumberAlreadyRegistered" xml:space="preserve">
+    <value>'{SsiNumber}' SGK işyeri sicil numarası bu kurumda başka bir işyerine kayıtlı.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:ActiveAtAnotherCompany" xml:space="preserve">
+    <value>'{NationalId}' T.C. kimlik numaralı kişi '{CompanyName}' işyerinde aktif personel olarak kayıtlı. Aynı kişi aynı anda birden fazla işyerinde aktif olamaz; önce diğer kaydı işten çıkarın.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:CompanyInactive" xml:space="preserve">
+    <value>'{CompanyName}' işyeri pasif olduğu için aktif personel eklenemez/güncellenemez.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:ExitDateBeforeHireDate" xml:space="preserve">
+    <value>İşten çıkış tarihi, işe giriş tarihinden önce olamaz.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:ExitDateInFuture" xml:space="preserve">
+    <value>İşten çıkış tarihi ileri bir tarih olamaz.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:InvalidRecord" xml:space="preserve">
+    <value>Güncellenecek personel kaydı belirlenemedi.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:NationalIdAlreadyRegistered" xml:space="preserve">
+    <value>'{NationalId}' T.C. kimlik numarası bu işyerinde başka bir personele kayıtlı.</value>
+  </data>
+  <data name="Ensa:CompanyEmployee:TerminatedEmployeeMarkedActive" xml:space="preserve">
+    <value>İşten çıkış tarihi girilen personel aktif olarak işaretlenemez.</value>
+  </data>
+  <data name="Ensa:CorrectiveAction:AlreadyClosed" xml:space="preserve">
+    <value>Bu DÖF kaydı açık durumda değil (mevcut durum: {Status}); kapatılamaz.</value>
+  </data>
+  <data name="Ensa:CorrectiveAction:ResultDateBeforeFindingDate" xml:space="preserve">
+    <value>Sonuç tarihi ({ResultDate}), tespit tarihinden ({FindingDate}) önce olamaz.</value>
+  </data>
+  <data name="Ensa:Document:ContentMissing" xml:space="preserve">
+    <value>Depolanan dosya bulunamadı.</value>
+  </data>
+  <data name="Ensa:Document:DuplicateContent" xml:space="preserve">
+    <value>Bu dosya '{DocumentName}' adıyla zaten yüklenmiş.</value>
+  </data>
+  <data name="Ensa:Document:EmptyFile" xml:space="preserve">
+    <value>Yüklenen dosya boş.</value>
+  </data>
+  <data name="Ensa:Document:FileTooLarge" xml:space="preserve">
+    <value>Dosya, izin verilen yükleme boyutundan büyük.</value>
+  </data>
+  <data name="Ensa:Document:InvalidStorageKey" xml:space="preserve">
+    <value>Belge depolama yolu geçerli değil.</value>
+  </data>
+  <data name="Ensa:Document:NoContent" xml:space="preserve">
+    <value>Bu belgenin henüz içeriği yok.</value>
+  </data>
+  <data name="Ensa:EPrescription:AlreadyCancelled" xml:space="preserve">
+    <value>{PrescriptionId} numaralı reçete zaten iptal edilmiş.</value>
+  </data>
+  <data name="Ensa:EPrescription:DuplicateDiagnosis" xml:space="preserve">
+    <value>'{Icd10Code}' tanı kodu bir reçetede birden fazla kez yer alamaz.</value>
+  </data>
+  <data name="Ensa:EPrescription:DuplicateMedication" xml:space="preserve">
+    <value>{MedicationId} numaralı ilaç bir reçetede birden fazla kez yer alamaz.</value>
+  </data>
+  <data name="Ensa:EPrescription:SubmittedCannotBeDeleted" xml:space="preserve">
+    <value>{PrescriptionId} numaralı reçete e-Reçete servisine gönderildiği için silinemez; iptal etmeniz gerekir.</value>
+  </data>
+  <data name="Ensa:EmergencyPlan:SectionContentRequired" xml:space="preserve">
+    <value>Acil durum eylem planının '{SectionType}' bölümünün içeriği boş olamaz.</value>
+  </data>
+  <data name="Ensa:EntityNotFound" xml:space="preserve">
+    <value>'{Id}' anahtarlı {EntityType} kaydı bulunamadı.</value>
+  </data>
+  <data name="Ensa:Equipment:NotDeletable" xml:space="preserve">
+    <value>'{EquipmentName}' ekipmanı otomatik olarak oluşturulmuştur ve silinemez.</value>
+  </data>
+  <data name="Ensa:FieldObservation:LineHasCorrectiveAction" xml:space="preserve">
+    <value>Bu gözlem satırından {CorrectiveActionCount} adet DÖF türetildiği için satır silinemez.</value>
+  </data>
+  <data name="Ensa:FieldObservation:LineNotInReport" xml:space="preserve">
+    <value>{LineId} numaralı gözlem satırı, {ReportId} numaralı saha gözlem raporuna ait değil.</value>
+  </data>
+  <data name="Ensa:Health:DuplicateChildEntry" xml:space="preserve">
+    <value>Muayene formunda her {Kind} için yalnızca bir satır bulunabilir; '{Value}' birden fazla kez gönderildi.</value>
+  </data>
+  <data name="Ensa:Health:FormLockedAfterIbysApproval" xml:space="preserve">
+    <value>{FormId} numaralı muayene formu İBYS tarafından onaylandığı için artık değiştirilemez.</value>
+  </data>
+  <data name="Ensa:Health:HazardClassUnknown" xml:space="preserve">
+    <value>Periyodik muayene aralığı hesaplanabilmesi için işyerinin tehlike sınıfı belirlenmiş olmalıdır.</value>
+  </data>
+  <data name="Ensa:Health:InvalidHeight" xml:space="preserve">
+    <value>Vücut kitle indeksi hesaplanabilmesi için boy sıfırdan büyük olmalıdır.</value>
+  </data>
+  <data name="Ensa:Health:InvalidWeightKg" xml:space="preserve">
+    <value>Vücut kitle indeksi hesaplanabilmesi için kilo sıfırdan büyük olmalıdır.</value>
+  </data>
+  <data name="Ensa:Ibys:InvalidStatusTransition" xml:space="preserve">
+    <value>IBYS gönderim durumu '{CurrentStatus}' iken '{TargetStatus}' durumuna geçilemez.</value>
+  </data>
+  <data name="Ensa:Incident:InvalidDateRange" xml:space="preserve">
+    <value>Dönem başlangıç tarihi ({From}), bitiş tarihinden ({To}) sonra olamaz.</value>
+  </data>
+  <data name="Ensa:InternalServerError" xml:space="preserve">
+    <value>Beklenmeyen bir hata oluştu. Lütfen sistem yöneticinizle iletişime geçin.</value>
+  </data>
+  <data name="Ensa:InvalidPaging" xml:space="preserve">
+    <value>Atlanacak kayıt sayısı negatif olamaz.</value>
+  </data>
+  <data name="Ensa:InvalidSorting" xml:space="preserve">
+    <value>Geçersiz sıralama ifadesi: '{Expression}'. Beklenen biçim: 'AlanAdi ASC|DESC'.</value>
+  </data>
+  <data name="Ensa:InvalidYear" xml:space="preserve">
+    <value>Yıl, dört haneli bir takvim yılı olmalıdır.</value>
+  </data>
+  <data name="Ensa:Invoice:AtLeastOneLineRequired" xml:space="preserve">
+    <value>Fatura en az bir kalem içermelidir.</value>
+  </data>
+  <data name="Ensa:Invoice:LineNotInInvoice" xml:space="preserve">
+    <value>Seçilen kalem '{InvoiceNo}' numaralı faturaya ait değil.</value>
+  </data>
+  <data name="Ensa:Invoice:NegativeAmount" xml:space="preserve">
+    <value>Negatif tutar yazıya çevrilemez.</value>
+  </data>
+  <data name="Ensa:Invoice:NumberAlreadyUsed" xml:space="preserve">
+    <value>'{InvoiceNumber}' numaralı fatura zaten kayıtlı.</value>
+  </data>
+  <data name="Ensa:Invoice:NumberEmpty" xml:space="preserve">
+    <value>Fatura numarası boş olamaz.</value>
+  </data>
+  <data name="Ensa:Mail:AlreadySent" xml:space="preserve">
+    <value>'{Topic}' konulu mail zaten gönderildiği için artık değiştirilemez.</value>
+  </data>
+  <data name="Ensa:Mail:AttachmentNotInMail" xml:space="preserve">
+    <value>Seçilen ek '{Topic}' konulu maile ait değil.</value>
+  </data>
+  <data name="Ensa:Mail:NotQueueable" xml:space="preserve">
+    <value>'{Topic}' konulu mail '{MailStatus}' durumunda. Yalnızca taslak, başarısız veya iptal edilmiş mailler gönderim kuyruğuna alınabilir.</value>
+  </data>
+  <data name="Ensa:Menu:NotFoundForUser" xml:space="preserve">
+    <value>'{MenuTypeCode}' yerleşim türü ve kullanıcı profiliniz için tanımlı menü bulunmuyor.</value>
+  </data>
+  <data name="Ensa:Message:NotRecipient" xml:space="preserve">
+    <value>Bir mesajı yalnızca alıcısı okundu olarak işaretleyebilir.</value>
+  </data>
+  <data name="Ensa:Message:NotSender" xml:space="preserve">
+    <value>Bir mesajı yalnızca gönderen silebilir.</value>
+  </data>
+  <data name="Ensa:Message:SelfMessage" xml:space="preserve">
+    <value>Kendinize mesaj gönderemezsiniz.</value>
+  </data>
+  <data name="Ensa:NotAuthenticated" xml:space="preserve">
+    <value>Bu işlem için oturum açmanız gerekiyor.</value>
+  </data>
+  <data name="Ensa:NumberSequenceGenerationFailed" xml:space="preserve">
+    <value>'{Type}' türü için sonraki numara üretilemedi (Firma: {CompanyId}).</value>
+  </data>
+  <data name="Ensa:NumberSequenceTypeEmpty" xml:space="preserve">
+    <value>Numaratör türü boş olamaz.</value>
+  </data>
+  <data name="Ensa:Office:HeadquarterAlreadyExists" xml:space="preserve">
+    <value>Kurumun zaten bir merkez ofisi var ('{OfficeName}'). Merkez ofis işaretini bu ofise vermeden önce diğer ofisten kaldırın.</value>
+  </data>
+  <data name="Ensa:Organization:CodeAlreadyUsed" xml:space="preserve">
+    <value>'{Code}' kurum kodu başka bir kurumda kullanılıyor. Farklı bir kod seçin.</value>
+  </data>
+  <data name="Ensa:Organization:InvalidSubscriptionPeriod" xml:space="preserve">
+    <value>Abonelik bitiş tarihi ({SubscriptionEnd}), başlangıç tarihinden ({SubscriptionStart}) önce olamaz.</value>
+  </data>
+  <data name="Ensa:Parameter:CodeAlreadyExists" xml:space="preserve">
+    <value>'{Code}' kodlu parametre bu kurumda zaten tanımlı.</value>
+  </data>
+  <data name="Ensa:Penalty:AmountAlreadyDefined" xml:space="preserve">
+    <value>'{HazardClass}' tehlike sınıfı, '{EmployeeCountRange}' çalışan sayısı aralığı ve {Year} yılı için zaten bir tutar tanımlı. İkinci bir satır eklemek yerine mevcut satırı güncelleyin.</value>
+  </data>
+  <data name="Ensa:Penalty:AmountNotDefined" xml:space="preserve">
+    <value>'{HazardClass}' tehlike sınıfı, '{EmployeeCountRange}' çalışan sayısı aralığı ve {Year} yılı için tanımlı bir ceza tutarı bulunmuyor.</value>
+  </data>
+  <data name="Ensa:Penalty:SurveyLineAlreadyExists" xml:space="preserve">
+    <value>{PenaltyId} numaralı ceza maddesi bu ankette zaten cevaplanmış.</value>
+  </data>
+  <data name="Ensa:Permission:ConflictingOverride" xml:space="preserve">
+    <value>{PermissionId} numaralı yetki aynı anda hem verilip hem reddedilemez.</value>
+  </data>
+  <data name="Ensa:Permission:NotGrantableToUserType" xml:space="preserve">
+    <value>Bu yetki, bu personel tipine verilemez.</value>
+  </data>
+  <data name="Ensa:Permission:UnknownPermission" xml:space="preserve">
+    <value>{PermissionId} numaralı yetki, yetki kataloğunda tanımlı değil.</value>
+  </data>
+  <data name="Ensa:Report:CircularLineHierarchy" xml:space="preserve">
+    <value>{LineId} numaralı çalışma satırı {ParentLineId} altına taşınamaz; hedef satır kendisinin alt satırı olduğundan döngü oluşur.</value>
+  </data>
+  <data name="Ensa:Report:InvalidPeriod" xml:space="preserve">
+    <value>Rapor döneminin başlangıcı bitişinden sonra olamaz.</value>
+  </data>
+  <data name="Ensa:Report:LineNotInReport" xml:space="preserve">
+    <value>Seçilen satır {ReportId} numaralı rapora ait değil.</value>
+  </data>
+  <data name="Ensa:Report:ParentLineMismatch" xml:space="preserve">
+    <value>{ParentLineId} numaralı çalışma satırı {ReportId} numaralı rapora ait olmadığı için üst satır olarak seçilemez.</value>
+  </data>
+  <data name="Ensa:RequestCancelled" xml:space="preserve">
+    <value>İstek iptal edildi.</value>
+  </data>
+  <data name="Ensa:Risk:MethodUnspecified" xml:space="preserve">
+    <value>Risk skoru hesaplanamadı: rapor metodu belirtilmemiş.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:ControlMeasureAlreadyCompleted" xml:space="preserve">
+    <value>'{Measure}' önlemi {CompletionDate} tarihinde zaten tamamlanmış.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:HazardNotInReport" xml:space="preserve">
+    <value>{HazardId} numaralı tehlike satırı, {ReportId} numaralı risk değerlendirme raporuna ait değil.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:ReportApproved" xml:space="preserve">
+    <value>Onaylanmış '{ReportName}' risk değerlendirme raporu artık değiştirilemez.</value>
+  </data>
+  <data name="Ensa:RiskAssessment:ReportExpired" xml:space="preserve">
+    <value>'{ReportName}' risk değerlendirme raporunun geçerliliği {ValidUntil} tarihinde sona ermiştir.</value>
+  </data>
+  <data name="Ensa:Role:SystemRoleImmutable" xml:space="preserve">
+    <value>'{RoleName}' sistem rolünün adı değiştirilemez ve rol silinemez.</value>
+  </data>
+  <data name="Ensa:SupportTicket:AlreadyClosed" xml:space="preserve">
+    <value>'{Topic}' konulu talep zaten kapatılmış.</value>
+  </data>
+  <data name="Ensa:SupportTicket:MessageOnClosedTicket" xml:space="preserve">
+    <value>'{Topic}' konulu talep kapalı olduğu için yeni mesaj alamaz. Önce talebi yeniden açın.</value>
+  </data>
+  <data name="Ensa:SupportTicket:NotClosed" xml:space="preserve">
+    <value>Yalnızca kapatılmış veya iptal edilmiş talepler yeniden açılabilir. '{Topic}' hâlâ açık.</value>
+  </data>
+  <data name="Ensa:TenantRequired" xml:space="preserve">
+    <value>Bu işlem için aktif bir kurum bağlamı gereklidir.</value>
+  </data>
+  <data name="Ensa:Training:CodeAlreadyUsed" xml:space="preserve">
+    <value>'{TrainingCode}' eğitim kodu zaten kullanımda.</value>
+  </data>
+  <data name="Ensa:Training:DuplicateDuration" xml:space="preserve">
+    <value>Bir eğitimde '{HazardClass}' tehlike sınıfı için yalnızca bir süre tanımlanabilir.</value>
+  </data>
+  <data name="Ensa:Training:DurationHazardClassRequired" xml:space="preserve">
+    <value>Eğitim süresi için tehlike sınıfı belirtilmelidir.</value>
+  </data>
+  <data name="Ensa:Training:HazardClassRequired" xml:space="preserve">
+    <value>Zorunlu eğitim süresinin belirlenebilmesi için işyerinin tehlike sınıfı gereklidir.</value>
+  </data>
+  <data name="Ensa:Training:InactiveCannotBeStarted" xml:space="preserve">
+    <value>{TrainingId} numaralı eğitim pasif olduğu için başlatılamaz.</value>
+  </data>
+  <data name="Ensa:Training:MandatoryDurationNotCompleted" xml:space="preserve">
+    <value>Son test için {RequiredMinutes} dakikalık eğitim süresi gerekiyor; yalnızca {ElapsedMinutes} dakika tamamlanmış.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:ApprovedLineIsReadOnly" xml:space="preserve">
+    <value>{LineId} numaralı plan satırı onaylandığı için artık değiştirilemez.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:ApprovedLinesCannotBeDeleted" xml:space="preserve">
+    <value>{PlanId} numaralı eğitim planı onaylanmış satırlar içerdiği için silinemez.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:InvalidApprovalTransition" xml:space="preserve">
+    <value>Plan satırı '{CurrentStatus}' durumundan '{TargetStatus}' durumuna geçirilemez.</value>
+  </data>
+  <data name="Ensa:TrainingPlan:SingleActivePlanViolation" xml:space="preserve">
+    <value>{CompanyId} numaralı firma için {Year} yılına ait zaten aktif bir eğitim planı bulunuyor. Yeni plan oluşturmadan önce mevcut planı pasife almalısınız.</value>
+  </data>
+  <data name="Ensa:User:CannotDeactivateSelf" xml:space="preserve">
+    <value>Kendi hesabınızı ({UserName}) pasife alamazsınız.</value>
+  </data>
+  <data name="Ensa:User:CannotDeleteSelf" xml:space="preserve">
+    <value>Kendi hesabınızı ({UserName}) silemezsiniz.</value>
+  </data>
+  <data name="Ensa:User:NationalIdAlreadyRegistered" xml:space="preserve">
+    <value>{NationalId} TC kimlik numarası başka bir kullanıcıda kayıtlı.</value>
+  </data>
+  <data name="Ensa:UserNotActive" xml:space="preserve">
+    <value>Hesabınız pasif durumda.</value>
+  </data>
+  <data name="Ensa:Validation" xml:space="preserve">
+    <value>Girilen bilgiler geçerli değil.</value>
+  </data>
+  <data name="Ensa:Visit:CalendarRangeTooWide" xml:space="preserve">
+    <value>İstenen takvim aralığı çok geniş. Tek seferde en fazla {MaximumDayCount} gün sorgulanabilir.</value>
+  </data>
+  <data name="Ensa:Visit:InvalidDateRange" xml:space="preserve">
+    <value>Aralığın başlangıcı bitişinden sonra olamaz.</value>
+  </data>
+  <data name="Ensa:WorkPlan:ApprovedLineIsReadOnly" xml:space="preserve">
+    <value>{LineId} numaralı plan satırı onaylandığı için artık değiştirilemez.</value>
+  </data>
+  <data name="Ensa:WorkPlan:ApprovedLinesCannotBeDeleted" xml:space="preserve">
+    <value>{PlanId} numaralı çalışma planı onaylanmış satırlar içerdiği için silinemez.</value>
+  </data>
+  <data name="Ensa:WorkPlan:DefaultLinesAlreadyGenerated" xml:space="preserve">
+    <value>{PlanId} numaralı çalışma planında satırlar bulunuyor; varsayılan satırlar yalnızca boş bir plan için üretilebilir.</value>
+  </data>
+  <data name="Ensa:WorkPlan:InvalidApprovalTransition" xml:space="preserve">
+    <value>Plan satırı '{CurrentStatus}' durumundan '{TargetStatus}' durumuna geçirilemez.</value>
+  </data>
+  <data name="Ensa:WorkPlan:SingleActivePlanViolation" xml:space="preserve">
+    <value>{CompanyId} numaralı firma için {Year} yılına ait zaten aktif bir çalışma planı bulunuyor. Yeni plan oluşturmadan önce mevcut planı pasife almalısınız.</value>
+  </data>
+  <data name="Ensa:WorkplaceDepartment:HasAssignedEmployees" xml:space="preserve">
+    <value>'{DepartmentName}' bölümüne bağlı {EmployeeCount} personel bulunduğu için silinemez. Önce personelleri başka bir bölüme taşıyın.</value>
+  </data>
+  <data name="Ensa:WorkplaceDepartment:NameAlreadyUsed" xml:space="preserve">
+    <value>Bu işyerinde '{DepartmentName}' adlı bir bölüm zaten var. Bölüm adları işyeri içinde benzersiz olmalıdır.</value>
+  </data>
+  <data name="Ensa:WorkplaceDepartment:NotDeletable" xml:space="preserve">
+    <value>'{DepartmentName}' sistem tarafından oluşturulduğu için silinemez.</value>
+  </data>
+</root>

@@ -1,0 +1,243 @@
+{
+  "nav": {
+    "ohsReports": "İSG Kontrol Raporu",
+    "activityReports": "Faaliyet Raporları",
+    "yearEndReports": "Yıl Sonu Değerlendirme"
+  },
+  "enums": {
+    "assignmentType": {
+      "0": "Belirtilmemiş",
+      "1": "İçe Görevlendirme",
+      "2": "Dışa Görevlendirme"
+    },
+    "activityReportType": {
+      "0": "Belirtilmemiş",
+      "1": "Aylık Faaliyet Raporu",
+      "2": "Yıllık Faaliyet Raporu",
+      "3": "Dönemsel Faaliyet Raporu",
+      "4": "Yıl Sonu Değerlendirme Raporu"
+    },
+    "activityReportLineType": {
+      "1": "Kurum Bilgileri",
+      "2": "Firma Bilgileri",
+      "3": "Çalışanlar",
+      "4": "Şube Sayısı",
+      "5": "Şube Çalışan Sayısı",
+      "6": "Ziyaret Sayısı",
+      "7": "Ziyaret Saati",
+      "8": "Eğitim Verilen Çalışanlar",
+      "9": "Eğitimi Eksik Çalışanlar",
+      "10": "Çalışan Sağlık Raporu Durumu",
+      "11": "Ekipman Periyodik Kontrolü",
+      "12": "Kontrolü Yapılmamış Ekipmanlar",
+      "13": "Uygunsuzluklar",
+      "14": "Olaylar"
+    }
+  },
+  "reports": {
+    "common": {
+      "print": "Yazdır",
+      "minutes": "{{value}} dk",
+      "percent": "%{{value}}",
+      "total": "Toplam",
+      "period": "Dönem",
+      "periodStart": "Başlangıç",
+      "periodEnd": "Bitiş",
+      "periodRange": "{{from}} – {{to}}",
+      "openStart": "Başlangıçsız",
+      "openEnd": "Bitişsiz",
+      "wholePeriod": "Tüm dönem",
+      "selectCompany": "Firma seçiniz",
+      "selectUser": "Personel seçiniz",
+      "allCompanies": "Tüm firmalar",
+      "companyFallback": "Firma #{{id}}",
+      "lineCount": "Satır Sayısı"
+    },
+    "validation": {
+      "endBeforeStart": "Bitiş tarihi başlangıç tarihinden önce olamaz."
+    },
+    "ohs": {
+      "title": "İSG Kontrol Raporu",
+      "description": "İSG profesyonellerinin dönemsel hizmet süresi ve görevlendirme özeti",
+      "searchLabel": "Personel ara",
+      "searchPlaceholder": "Personel adı veya T.C. no ile ara…",
+      "filters": {
+        "allOffices": "Tüm ofisler",
+        "allStaffRoles": "Tüm görevler",
+        "allDutyTypes": "Tüm görevlendirmeler"
+      },
+      "fields": {
+        "employeeName": "Personel",
+        "nationalId": "T.C. Kimlik No",
+        "staffRole": "Görev",
+        "dutyType": "Görevlendirme Türü",
+        "office": "Ofis",
+        "totalMinutes": "Atanan Süre",
+        "usedMonthlyMinutes": "Kullanılan Süre",
+        "overtimeMinutes": "Aylık Fazla Mesai",
+        "utilisation": "Kullanım",
+        "creationTime": "Oluşturulma",
+        "archiveDetail": "Arşiv Kayıt No",
+        "hazardClass": "Tehlike Sınıfı",
+        "companyCount": "İşyeri Sayısı",
+        "share": "Oran"
+      },
+      "list": {
+        "title": "İSG Profesyonelleri",
+        "empty": "Kayıtlı İSG kontrol raporu bulunamadı."
+      },
+      "summary": {
+        "title": "Ofis Dönem Özeti",
+        "selectOffice": "Dönem özetini görmek için önce bir ofis seçiniz.",
+        "empty": "Seçilen ofis ve dönem için kayıt bulunamadı.",
+        "staffCount": "Personel Sayısı",
+        "assignedMinutes": "Atanan Toplam Süre",
+        "usedMinutes": "Kullanılan Toplam Süre",
+        "overtimeMinutes": "Toplam Fazla Mesai",
+        "utilisationHint": "Atanan sürenin %{{value}} kadarı",
+        "byStaffRole": "Göreve Göre Kullanılan Süre",
+        "ofAssigned": "atanan {{assigned}} dk"
+      },
+      "breakdown": {
+        "title": "Tehlike Sınıfı Dağılımı",
+        "tableLabel": "Tehlike sınıfına göre işyeri sayıları",
+        "open": "{{name}} için tehlike sınıfı dağılımını göster",
+        "selectRow": "Tehlike sınıfı dağılımını görmek için listeden bir personel seçiniz.",
+        "total": "Rapor kapsamındaki toplam işyeri: {{value}}"
+      }
+    },
+    "activity": {
+      "title": "Faaliyet Raporları",
+      "description": "İSG profesyonelinin dönem içinde gerçekleştirdiği çalışmaların kaydı",
+      "create": "Yeni Faaliyet Raporu",
+      "empty": "Kayıtlı faaliyet raporu bulunamadı.",
+      "searchLabel": "Faaliyet raporu ara",
+      "searchPlaceholder": "Rapor adı ile ara…",
+      "fallbackTitle": "Faaliyet Raporu",
+      "deleteTitle": "Faaliyet raporunu sil",
+      "deleteMessage": "“{{name}}” raporu ve tüm satırları silinecek. Devam edilsin mi?",
+      "filters": {
+        "allTypes": "Tüm rapor türleri"
+      },
+      "fields": {
+        "reportName": "Rapor Adı",
+        "company": "Firma",
+        "reportType": "Rapor Türü",
+        "reportStart": "Dönem Başlangıcı",
+        "reportEnd": "Dönem Bitişi",
+        "lineType": "Satır Türü",
+        "text": "Açıklama",
+        "value1": "Değer 1",
+        "value2": "Değer 2",
+        "value3": "Değer 3",
+        "orderNo": "Sıra"
+      },
+      "actions": {
+        "edit": "{{name}} raporunu düzenle",
+        "delete": "{{name}} raporunu sil",
+        "detail": "{{name}} raporunun detayını aç"
+      },
+      "lineActions": {
+        "edit": "{{name}} satırını düzenle",
+        "delete": "{{name}} satırını sil"
+      },
+      "form": {
+        "createTitle": "Yeni Faaliyet Raporu",
+        "editTitle": "Faaliyet Raporunu Düzenle"
+      },
+      "lineForm": {
+        "createTitle": "Yeni Rapor Satırı",
+        "editTitle": "Rapor Satırını Düzenle",
+        "selectType": "Satır türü seçiniz",
+        "orderHint": "Sıfır girildiğinde satır sona eklenir."
+      },
+      "detail": {
+        "headerTitle": "Rapor Bilgileri",
+        "linesTitle": "Rapor Satırları",
+        "addLine": "Satır Ekle",
+        "emptyLines": "Bu rapora henüz satır eklenmemiş.",
+        "deleteLineTitle": "Rapor satırını sil",
+        "deleteLineMessage": "Seçilen rapor satırı silinecek. Devam edilsin mi?"
+      }
+    },
+    "yearEnd": {
+      "title": "Yıl Sonu Değerlendirme Raporları",
+      "description": "İşyerinin yıllık değerlendirme raporu ve çalışma kalemleri",
+      "create": "Yeni Değerlendirme Raporu",
+      "empty": "Kayıtlı yıl sonu değerlendirme raporu bulunamadı.",
+      "searchLabel": "Değerlendirme raporu ara",
+      "searchPlaceholder": "Rapor başlığı ile ara…",
+      "fallbackTitle": "Yıl Sonu Değerlendirme Raporu",
+      "deleteTitle": "Değerlendirme raporunu sil",
+      "deleteMessage": "“{{name}}” raporu ve tüm çalışma kalemleri silinecek. Devam edilsin mi?",
+      "filters": {
+        "allSpecialists": "Tüm uzmanlar",
+        "allPhysicians": "Tüm hekimler"
+      },
+      "fields": {
+        "reportTitle": "Rapor Başlığı",
+        "company": "İşyeri",
+        "reportDate": "Rapor Tarihi",
+        "specialist": "İş Güvenliği Uzmanı",
+        "specialistFullName": "Uzman Adı",
+        "physician": "İşyeri Hekimi",
+        "physicianFullName": "Hekim Adı",
+        "deputyFullName": "İşveren Vekili",
+        "status": "Durum",
+        "maleWorker": "Erkek Çalışan",
+        "femaleWorker": "Kadın Çalışan",
+        "childWorker": "Çocuk Çalışan",
+        "youngWorker": "Genç Çalışan",
+        "parentLine": "Üst Çalışma Kalemi",
+        "orderNo": "Sıra",
+        "work": "Yapılan Çalışma",
+        "date": "Tarih",
+        "personVeTitle": "Kişi / Unvan",
+        "repeatCount": "Tekrar Sayısı",
+        "usedMethod": "Kullanılan Yöntem",
+        "resultVeComment": "Sonuç / Değerlendirme"
+      },
+      "actions": {
+        "edit": "{{name}} raporunu düzenle",
+        "delete": "{{name}} raporunu sil",
+        "detail": "{{name}} raporunun detayını aç"
+      },
+      "lineActions": {
+        "edit": "{{name}} çalışma kalemini düzenle",
+        "delete": "{{name}} çalışma kalemini sil",
+        "addChild": "{{name}} altına alt kalem ekle"
+      },
+      "form": {
+        "createTitle": "Yeni Değerlendirme Raporu",
+        "editTitle": "Değerlendirme Raporunu Düzenle",
+        "workforceSection": "Çalışan Dağılımı",
+        "signatorySection": "İmza Yetkilileri",
+        "nameSnapshotHint": "Ad, rapor metninde kalıcı olarak saklanır."
+      },
+      "lineForm": {
+        "createTitle": "Yeni Çalışma Kalemi",
+        "editTitle": "Çalışma Kalemini Düzenle",
+        "noParent": "Üst kalem yok (ana seviye)",
+        "parentHint": "Boş bırakıldığında kalem ana seviyeye eklenir.",
+        "orderHint": "Sıfır girildiğinde kalem kardeşlerinin sonuna eklenir."
+      },
+      "current": {
+        "found": "{{company}} işyerinin güncel raporu: “{{title}}” ({{date}})",
+        "none": "{{company}} işyeri için henüz bir değerlendirme raporu düzenlenmemiş."
+      },
+      "detail": {
+        "description": "Yıllık değerlendirme raporu — yasal belge",
+        "headerTitle": "Rapor Bilgileri",
+        "workforceTitle": "Çalışan Dağılımı",
+        "emptyWorkforce": "Rapor için çalışan sayısı girilmemiş.",
+        "headcount": "Toplam çalışan: {{value}}",
+        "activitiesTitle": "Çalışma Kalemleri",
+        "addLine": "Çalışma Kalemi Ekle",
+        "addChild": "Alt Kalem Ekle",
+        "emptyActivities": "Bu rapora henüz çalışma kalemi eklenmemiş.",
+        "deleteLineTitle": "Çalışma kalemini sil",
+        "deleteLineMessage": "Seçilen çalışma kalemi ve altındaki tüm kalemler silinecek. Devam edilsin mi?"
+      }
+    }
+  }
+}

@@ -1,0 +1,372 @@
+{
+  "nav": {
+    "invoices": "Invoices",
+    "cashRegister": "Cash Register",
+    "penalties": "Penalties",
+    "companyBalances": "Company Balances"
+  },
+  "enums": {
+    "invoiceType": {
+      "1": "Sale",
+      "2": "Purchase",
+      "3": "Sale Return",
+      "4": "Purchase Return"
+    },
+    "cashTransactionType": {
+      "1": "Inflow",
+      "2": "Outflow",
+      "3": "Carry-over"
+    },
+    "sourceModule": {
+      "0": "Unspecified",
+      "1": "Invoice",
+      "2": "Cash Register",
+      "3": "Collection",
+      "4": "Expense",
+      "5": "Contract",
+      "99": "Manual"
+    },
+    "employeeCountRange": {
+      "1": "Fewer than 10",
+      "2": "10 – 49",
+      "3": "50 or more"
+    }
+  },
+  "finance": {
+    "common": {
+      "currency": "TRY",
+      "startDate": "Start date",
+      "endDate": "End date",
+      "selectCompany": "Select a workplace…",
+      "selectOffice": "Select an office…"
+    },
+    "invoice": {
+      "list": {
+        "title": "Invoices",
+        "description": "Sales and purchase invoices",
+        "create": "New Invoice",
+        "searchPlaceholder": "Search by invoice number or account title…",
+        "empty": "No invoices found."
+      },
+      "filters": {
+        "allTypes": "All invoice types",
+        "allCompanies": "All workplaces"
+      },
+      "fields": {
+        "invoiceNo": "Invoice No",
+        "invoiceDate": "Invoice Date",
+        "company": "Workplace",
+        "accountCurrentName": "Account Title",
+        "invoiceType": "Invoice Type",
+        "sourceModule": "Source",
+        "office": "Office",
+        "invoiceDescription": "Invoice Description",
+        "total": "Total",
+        "vatTotal": "VAT Total",
+        "generalTotal": "Grand Total",
+        "inWords": "Grand Total in Words",
+        "totalWithCurrency": "Total (TRY)",
+        "vatTotalWithCurrency": "VAT Total (TRY)",
+        "generalTotalWithCurrency": "Grand Total (TRY)"
+      },
+      "form": {
+        "createTitle": "New Invoice",
+        "editTitle": "Edit Invoice",
+        "generateNumber": "Get Number",
+        "numberPlaceholder": "Generated on save",
+        "numberHint": "The invoice number comes from the server's counter and cannot be typed. Leave it empty to have one assigned on save."
+      },
+      "actions": {
+        "edit": "Edit invoice {{number}}",
+        "delete": "Delete invoice {{number}}"
+      },
+      "delete": {
+        "title": "Delete invoice",
+        "message": "Invoice {{number}} will be deleted together with its lines. Do you want to continue?"
+      },
+      "detail": {
+        "fallbackTitle": "Invoice",
+        "subtitle": "{{account}} — {{date}}",
+        "headerSection": "Invoice Details",
+        "totalsSection": "Amounts",
+        "linesSection": "Invoice Lines",
+        "inWordsPending": "Produced by the server once a line has been added.",
+        "print": "Print View"
+      },
+      "line": {
+        "create": "Add Line",
+        "createTitle": "New Invoice Line",
+        "editTitle": "Edit Invoice Line",
+        "empty": "This invoice has no lines.",
+        "unitPlaceholder": "Piece, Month, Hour…",
+        "orderHint": "Enter 0 to append the line to the end.",
+        "serverCalculatesHint": "The line total, the VAT amount and the invoice totals are calculated by the server after saving.",
+        "countPositive": "The quantity must be greater than zero.",
+        "priceNonNegative": "The unit price cannot be negative.",
+        "vatRange": "The VAT rate must be between 0 and 100.",
+        "fields": {
+          "orderNo": "No",
+          "description": "Description",
+          "count": "Quantity",
+          "unit": "Unit",
+          "unitPrice": "Unit Price",
+          "vatRate": "VAT Rate",
+          "unitPriceWithCurrency": "Unit Price (TRY)",
+          "totalAmountWithCurrency": "Amount (TRY)",
+          "vatAmountWithCurrency": "VAT (TRY)",
+          "grossWithCurrency": "Gross incl. VAT (TRY)"
+        },
+        "actions": {
+          "edit": "Edit line {{description}}",
+          "delete": "Delete line {{description}}"
+        },
+        "delete": {
+          "title": "Delete line",
+          "message": "The line “{{description}}” will be deleted and the invoice totals recalculated. Do you want to continue?"
+        }
+      },
+      "print": {
+        "title": "Invoice",
+        "action": "Print",
+        "billedTo": "Billed to"
+      }
+    },
+    "cashRegister": {
+      "list": {
+        "title": "Cash Register",
+        "description": "Cash registers and their movements",
+        "create": "New Register",
+        "searchPlaceholder": "Search by register name…",
+        "empty": "No cash registers found."
+      },
+      "filters": {
+        "allOffices": "All offices",
+        "allTypes": "All movement types",
+        "includeVoided": "Show voided"
+      },
+      "fields": {
+        "name": "Register Name",
+        "office": "Office",
+        "headquarter": "Headquarters Register",
+        "status": "Status"
+      },
+      "headquarter": {
+        "yes": "Headquarters",
+        "no": "Branch"
+      },
+      "form": {
+        "createTitle": "New Register",
+        "editTitle": "Edit Register"
+      },
+      "actions": {
+        "edit": "Edit register {{name}}",
+        "delete": "Delete register {{name}}"
+      },
+      "delete": {
+        "title": "Delete register",
+        "message": "Register {{name}} will be deleted. A register that still holds a balance cannot be deleted. Do you want to continue?"
+      },
+      "detail": {
+        "subtitle": "Office: {{office}}",
+        "registerSection": "Register Details",
+        "balanceSection": "Balance",
+        "transactionsSection": "Movements",
+        "balanceNow": "Current Balance",
+        "balanceAsOf": "Balance as of {{date}}",
+        "asOfLabel": "Balance date",
+        "asOfHint": "Leave empty for the current balance. The balance is always calculated on the server.",
+        "switchRegister": "Switch register"
+      },
+      "transaction": {
+        "create": "New Movement",
+        "createTitle": "Add Cash Movement",
+        "empty": "No movements found for this register.",
+        "amountPositive": "The amount must be greater than zero.",
+        "appendOnlyHint": "Cash movements cannot be edited. A mistaken movement is voided rather than deleted, and stops counting towards the balance.",
+        "fields": {
+          "operationType": "Movement Type",
+          "operationDate": "Value Date",
+          "amountWithCurrency": "Amount (TRY)",
+          "paymentMethodId": "Payment Method Id",
+          "exitItemId": "Expense Category Id",
+          "description": "Description",
+          "sourceModule": "Source",
+          "status": "Status"
+        },
+        "status": {
+          "active": "Valid",
+          "voided": "Voided"
+        },
+        "void": {
+          "action": "Void",
+          "title": "Void movement",
+          "message": "This movement will be voided and will stop counting towards the balance. The record is not deleted and stays in the list as voided. Do you want to continue?"
+        }
+      }
+    },
+    "penalty": {
+      "list": {
+        "title": "Penalties",
+        "description": "Statutory fine articles and fine-risk surveys",
+        "create": "New Fine Article",
+        "searchPlaceholder": "Search by law or penalty article…",
+        "empty": "No fine articles found."
+      },
+      "tabs": {
+        "catalogue": "Fine Articles",
+        "surveys": "Fine Surveys"
+      },
+      "filters": {
+        "allMultipliers": "All calculation types",
+        "perEmployee": "Per employee",
+        "flat": "Flat amount"
+      },
+      "fields": {
+        "treeNodeCode": "Code",
+        "lawArticle": "Law Article",
+        "penaltyArticle": "Penalty Article",
+        "offence": "Referenced Offence",
+        "multiplierCalculate": "Per Employee",
+        "status": "Status"
+      },
+      "form": {
+        "createTitle": "New Fine Article",
+        "editTitle": "Edit Fine Article",
+        "multiplierHint": "When checked, the amount is multiplied by the head count of the workplace."
+      },
+      "actions": {
+        "edit": "Edit article {{article}}",
+        "delete": "Delete article {{article}}"
+      },
+      "delete": {
+        "title": "Delete fine article",
+        "message": "Article {{article}} will be deleted together with its amount matrix. Do you want to continue?"
+      },
+      "amount": {
+        "section": "Amount Matrix",
+        "create": "Add Amount",
+        "createTitle": "New Fine Amount",
+        "editTitle": "Edit Fine Amount",
+        "empty": "No amounts defined for this article.",
+        "nonNegative": "The amount cannot be negative.",
+        "yearRange": "The year must be between 2000 and 2200.",
+        "fields": {
+          "hazardClass": "Hazard Class",
+          "employeeCountRange": "Head-count Band",
+          "validityYear": "Year",
+          "amountWithCurrency": "Amount (TRY)"
+        },
+        "actions": {
+          "edit": "Edit the amount for {{year}}",
+          "delete": "Delete the amount for {{year}}"
+        },
+        "delete": {
+          "title": "Delete amount",
+          "message": "The amount for {{year}} will be deleted. Do you want to continue?"
+        }
+      },
+      "applicable": {
+        "title": "Look Up the Applicable Amount",
+        "description": "Choose the workplace profile; the server decides which matrix cell applies.",
+        "action": "Look Up",
+        "idle": "Choose a profile and press the button to look the amount up.",
+        "result": "Applicable amount for {{year}}"
+      }
+    },
+    "penaltySurvey": {
+      "list": {
+        "create": "New Survey",
+        "searchPlaceholder": "Search by company title or facility name…",
+        "empty": "No fine surveys found."
+      },
+      "filters": {
+        "allHazardClasses": "All hazard classes",
+        "allAnswers": "All answers"
+      },
+      "fields": {
+        "companyTitle": "Company Title",
+        "facilityName": "Facility Name",
+        "facilityOwner": "Facility Contact",
+        "facilityOwnerDuty": "Contact Duty",
+        "facilityOwnerGsm": "Contact Mobile",
+        "employer": "Employer",
+        "phone": "Phone",
+        "email": "E-mail",
+        "address": "Address",
+        "taxOffice": "Tax Office",
+        "taxNumber": "Tax Number",
+        "ssiRegistrationNumber": "SSI Registration No",
+        "workerCount": "Head Count",
+        "hazardClass": "Hazard Class",
+        "creationTime": "Created"
+      },
+      "form": {
+        "createTitle": "New Fine Survey",
+        "editTitle": "Edit Fine Survey",
+        "workerCountHint": "Together with the hazard class, this determines every fine amount.",
+        "workerCountRange": "The head count must be between 0 and 1,000,000."
+      },
+      "actions": {
+        "edit": "Edit survey {{title}}",
+        "delete": "Delete survey {{title}}"
+      },
+      "delete": {
+        "title": "Delete survey",
+        "message": "Survey {{title}} will be deleted together with its answer lines. Do you want to continue?"
+      },
+      "answer": {
+        "violation": "In breach",
+        "compliant": "Compliant"
+      },
+      "detail": {
+        "profileSection": "Workplace Profile",
+        "exposureSection": "Fine Exposure",
+        "linesSection": "Survey Answers",
+        "lineCount": "Answered Articles",
+        "violationCount": "Breaches",
+        "totalAmount": "Total Exposure",
+        "exposureHint": "Amounts are calculated on the server from the survey's hazard class and head count."
+      },
+      "line": {
+        "create": "Add Answer",
+        "createTitle": "New Survey Answer",
+        "editTitle": "Edit Survey Answer",
+        "empty": "No articles answered in this survey.",
+        "selectArticle": "Select a fine article…",
+        "searchPlaceholder": "Search by law or penalty article…",
+        "articleHint": "The first {{count}} matching articles are listed.",
+        "articleRef": "Article #{{id}}",
+        "yearHint": "Leave empty to apply the current year's schedule.",
+        "serverResolvesHint": "The fine amount is not taken from the client; the server resolves it from the survey's hazard class and head count.",
+        "fields": {
+          "articleSearch": "Search Article",
+          "penalty": "Fine Article",
+          "surveyAnswer": "Answer",
+          "year": "Schedule Year",
+          "multiplier": "Multiplier",
+          "amountWithCurrency": "Fine Amount (TRY)"
+        },
+        "actions": {
+          "edit": "Edit the answer for article #{{id}}",
+          "delete": "Delete the answer for article #{{id}}"
+        },
+        "delete": {
+          "title": "Delete answer",
+          "message": "This answer line will be deleted and the fine exposure recalculated. Do you want to continue?"
+        }
+      }
+    },
+    "balance": {
+      "title": "Company Balances",
+      "description": "Invoice balance and account movements per workplace",
+      "companyLabel": "Workplace",
+      "pickCompany": "Choose a workplace to see its balance and movements.",
+      "current": "Current Balance",
+      "asOf": "Balance as of {{date}}",
+      "signHint": "The balance is calculated on the server as sales invoices minus purchase and return invoices. A positive value means the workplace owes money.",
+      "movementsSection": "{{company}} — Account Movements",
+      "movementsLabel": "Account movements",
+      "noMovements": "No movements found for the selected filters."
+    }
+  }
+}

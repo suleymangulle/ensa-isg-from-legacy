@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "roles": "Roles",
+    "permissions": "Permissions"
+  },
+  "user": {
+    "list": {
+      "title": "Users",
+      "description": "Organisation users and their permissions",
+      "create": "New user",
+      "searchPlaceholder": "Search by name, surname or e-mail…",
+      "searchLabel": "Search users",
+      "empty": "No users found."
+    },
+    "fields": {
+      "fullName": "Full name",
+      "userName": "User name",
+      "email": "E-mail",
+      "staffRole": "Staff role",
+      "status": "Status",
+      "name": "First name",
+      "lastName": "Surname",
+      "phoneNumber": "Phone",
+      "gsm": "Mobile",
+      "nationalId": "National ID",
+      "address": "Address",
+      "city": "City",
+      "district": "District",
+      "office": "Office",
+      "company": "Company",
+      "organization": "Organisation",
+      "branchCode": "Speciality code",
+      "hireDate": "Hire date",
+      "terminationDate": "Termination date",
+      "monthlyWorkDuration": "Monthly work duration",
+      "grossSalary": "Gross salary",
+      "color": "Colour",
+      "partTime": "Part time",
+      "officeAdmin": "Office administrator",
+      "administration": "Administration",
+      "mustChangePassword": "Must change password",
+      "contractApproved": "Terms accepted",
+      "emailConfirmed": "E-mail confirmed"
+    },
+    "badges": {
+      "organizationAdmin": "Organisation administrator",
+      "officeAdmin": "Office administrator",
+      "mustChangePassword": "Must change password",
+      "systemAdministrator": "System administrator",
+      "lockedUntil": "Locked until {{value}}"
+    },
+    "filters": {
+      "staffRole": "Filter by staff role",
+      "allStaffRoles": "All staff roles",
+      "status": "Filter by status",
+      "allStatuses": "All statuses"
+    },
+    "actions": {
+      "openDetail": "Open the detail of {{name}}",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "activateNamed": "Activate {{name}}",
+      "deactivateNamed": "Deactivate {{name}}",
+      "deleteNamed": "Delete {{name}}",
+      "cannotDeleteSelf": "You cannot delete your own account.",
+      "deleteTitle": "Delete user",
+      "deleteMessage": "{{name}} will be deleted. Continue?",
+      "resetPassword": "Reset password",
+      "resetPasswordConfirm": "Reset the password",
+      "resetPasswordWarning": "The new password is known only while it is typed here; no screen ever shows it again. Resetting it signs the user out of every open session.",
+      "editRoles": "Edit roles",
+      "editPermissions": "Edit permissions"
+    },
+    "detail": {
+      "subtitle": "{{userName}} · {{staffRole}}",
+      "tabs": {
+        "general": "General information",
+        "roles": "Roles",
+        "permissions": "Effective permissions"
+      },
+      "minutes": "{{count}} min",
+      "officeAssignments": "Office assignments",
+      "rolesDescription": "Identity roles currently held by the user.",
+      "emptyRoles": "No role assigned to this user.",
+      "permissionsDescription": "{{count}} permissions are currently in effect.",
+      "emptyPermissions": "This user holds no permission. Every protected endpoint answers 403.",
+      "roleChangeSummary": "What this save changes",
+      "rolesAdded": "Will be added: {{roles}}",
+      "noRolesAdded": "No role is added.",
+      "rolesRemoved": "Will be removed: {{roles}}",
+      "noRolesRemoved": "No role is removed."
+    },
+    "form": {
+      "createTitle": "New user",
+      "organizationHint": "The organization the user joins. Only a host administrator picks it.",
+      "organizationRequired": "An organization must be selected.",
+      "editTitle": "Edit user",
+      "sections": {
+        "identity": "Identity",
+        "credentials": "Sign-in credentials",
+        "contact": "Contact",
+        "employment": "Employment"
+      },
+      "credentialsHint": "The initial password is given at creation only; no read endpoint ever returns a password.",
+      "userNameHint": "This is the sign-in identifier and cannot be changed later.",
+      "initialPassword": "Initial password",
+      "newPassword": "New password",
+      "passwordRepeat": "Repeat password",
+      "passwordTooShort": "The password must be at least 6 characters long.",
+      "passwordMismatch": "The password and its repetition must match.",
+      "roles": "Roles",
+      "rolesHint": "Hold Ctrl (Mac: ⌘) to select more than one.",
+      "nationalIdEditHint": "The national ID is never returned by a read endpoint. Leaving it empty clears the stored value.",
+      "minutesHint": "In minutes.",
+      "elevationNote": "The system and organisation administrator flags cannot be set from this form; privilege elevation happens through role assignment only."
+    }
+  },
+  "role": {
+    "list": {
+      "title": "Roles",
+      "description": "Identity roles and default assignments",
+      "create": "New role",
+      "searchPlaceholder": "Search by role name…",
+      "empty": "No roles found."
+    },
+    "fields": {
+      "name": "Role name",
+      "description": "Description",
+      "scope": "Scope",
+      "isDefault": "Assigned to new users automatically",
+      "isStatic": "System role"
+    },
+    "scope": {
+      "host": "Host (all organisations)",
+      "organization": "Organisation specific"
+    },
+    "badges": {
+      "system": "System"
+    },
+    "actions": {
+      "editNamed": "Edit the role {{name}}",
+      "deleteNamed": "Delete the role {{name}}",
+      "systemRoleLocked": "System roles cannot be deleted.",
+      "deleteTitle": "Delete role",
+      "deleteMessage": "The role {{name}} will be deleted. Continue?"
+    },
+    "form": {
+      "createTitle": "New role",
+      "editTitle": "Edit role",
+      "staticNameHint": "A system role cannot be renamed.",
+      "isDefaultHint": "When ticked, every newly created user receives this role automatically.",
+      "permissionNote": "Permissions are assigned to users rather than to roles; edit them on the Permissions screen."
+    }
+  },
+  "permission": {
+    "page": {
+      "title": "Permissions",
+      "description": "Granting and revoking permissions per user",
+      "review": "Review changes ({{count}})",
+      "searchUser": "Search user",
+      "searchUserPlaceholder": "Name or user name…",
+      "subject": "User whose permissions are edited",
+      "subjectPlaceholder": "Select a user…",
+      "roleScopeNote": "The API stores permissions per user only; there is no role-level permission endpoint.",
+      "selectSubject": "Select a user to see the permission matrix.",
+      "systemAdministratorNote": "This user is a system administrator: the whole catalogue is in effect and individual overrides are ignored.",
+      "searchPermission": "Search permission",
+      "searchPermissionPlaceholder": "Permission name or target…",
+      "onlyChanged": "Only changed rows",
+      "effectiveCount": "In effect: {{count}}",
+      "catalogueCount": "Catalogue: {{count}}",
+      "noMatch": "No permission matches the search.",
+      "tableLabel": "{{module}} permissions",
+      "overrideLabel": "Override for {{name}}",
+      "expandAll": "Expand all",
+      "collapseAll": "Collapse all",
+      "changedCount": "{{count}} changed",
+      "groupSummary": "{{effective}} of {{total}} in effect"
+    },
+    "fields": {
+      "permission": "Permission",
+      "target": "Target",
+      "type": "Type",
+      "current": "Current state",
+      "override": "Override",
+      "defaultAccess": "{{module}} — access"
+    },
+    "state": {
+      "effective": "In effect",
+      "notEffective": "Not held"
+    },
+    "override": {
+      "inherit": "Inherit from staff role",
+      "grant": "Grant",
+      "deny": "Deny"
+    },
+    "confirm": {
+      "title": "Confirm permission changes",
+      "apply": "Apply",
+      "intro": "Check what this user gains and loses before the change is saved.",
+      "gains": "Permissions gained ({{count}})",
+      "losses": "Permissions lost ({{count}})",
+      "cleared": "Overrides cleared ({{count}})",
+      "noGains": "No permission is granted.",
+      "noLosses": "No permission is revoked.",
+      "noCleared": "No override is cleared.",
+      "absoluteNote": "The save is absolute: every override not listed is removed and the permission is recomputed from the staff role."
+    }
+  },
+  "enums": {
+    "permissionType": {
+      "1": "Page",
+      "2": "Method",
+      "3": "Data"
+    },
+    "permissionRestrictionMode": {
+      "0": "Everyone",
+      "1": "Only selected",
+      "2": "Selected except"
+    }
+  }
+}

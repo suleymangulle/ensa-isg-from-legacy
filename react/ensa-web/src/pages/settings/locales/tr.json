@@ -1,0 +1,115 @@
+{
+  "nav": {
+    "parameters": "Parametreler",
+    "menus": "Menüler",
+    "lookups": "Tanımlar"
+  },
+  "parameter": {
+    "list": {
+      "title": "Sistem Parametreleri",
+      "description": "Kuruma özel anahtar/değer ayarları",
+      "create": "Yeni Parametre",
+      "searchPlaceholder": "Kod veya ad ile ara…",
+      "empty": "Kayıtlı parametre bulunamadı."
+    },
+    "fields": {
+      "code": "Kod",
+      "name": "Ad",
+      "value": "Değer",
+      "status": "Durum"
+    },
+    "actions": {
+      "valueLabel": "{{name}} parametresinin değeri",
+      "saveNamed": "{{name}} parametresini kaydet",
+      "revert": "Geri al",
+      "revertNamed": "{{name}} parametresindeki değişikliği geri al",
+      "editNamed": "{{name}} parametresini düzenle",
+      "deleteNamed": "{{name}} parametresini sil",
+      "deleteTitle": "Parametreyi sil",
+      "deleteMessage": "{{code}} kodlu parametre silinecek. Bu kodu okuyan kodun davranışı değişebilir. Devam edilsin mi?"
+    },
+    "form": {
+      "createTitle": "Yeni Parametre",
+      "editTitle": "Parametreyi Düzenle",
+      "codeHint": "Uygulama kodu parametreleri bu koda göre okur; kod bir kez verilir ve sonradan değiştirilemez."
+    }
+  },
+  "menu": {
+    "list": {
+      "title": "Menüler",
+      "description": "Menü tanımları ve kullanıcıya sunulan menü",
+      "definitions": "Menü Tanımları",
+      "searchPlaceholder": "Menü adı ile ara…",
+      "empty": "Kayıtlı menü tanımı bulunamadı."
+    },
+    "fields": {
+      "name": "Menü Adı",
+      "menuTypeCode": "Yerleşim Kodu",
+      "userTypeCode": "Kullanıcı Türü",
+      "allUserTypes": "Tüm türler",
+      "sortOrder": "Sıra",
+      "status": "Durum"
+    },
+    "actions": {
+      "previewWithCode": "{{code}} kodu ile önizle"
+    },
+    "preview": {
+      "title": "Benim Menüm",
+      "description": "Seçilen yerleşim kodu için oturum açan kullanıcıya sunulacak menü ağacı. Ağaç sunucuda görev, kurum türü, abonelik paketi ve kişisel gizlemelere göre süzülür.",
+      "layoutCode": "Yerleşim Kodu",
+      "layoutCodePlaceholder": "Örn. LeftMenu",
+      "knownCodes": "Tanımlarda bulunan kodlar: {{codes}}",
+      "noKnownCodes": "Menü tanımı listesinde yerleşim kodu bulunamadı; kodu elle yazabilirsiniz.",
+      "selectCode": "Menüyü görmek için bir yerleşim kodu girin. Kod olmadan istek atılmaz.",
+      "empty": "Bu yerleşim kodu için gösterilecek menü öğesi yok.",
+      "userHidden": "Kullanıcıya gizli"
+    }
+  },
+  "lookup": {
+    "page": {
+      "title": "Tanımlar",
+      "description": "Sistem genelinde paylaşılan referans verileri",
+      "readOnlyNote": "Bu tanımlar veritabanı ile birlikte tohumlanır; API bir yazma ucu sunmadığı için ekran salt okunurdur.",
+      "empty": "Gösterilecek kayıt bulunamadı."
+    },
+    "tabs": {
+      "locations": "İl / İlçe / Mahalle",
+      "occupationCodes": "NACE Kodları",
+      "duties": "Görev Tanımları",
+      "certificates": "Sertifika Türleri",
+      "periods": "Periyotlar"
+    },
+    "fields": {
+      "displayName": "Ad",
+      "code": "Kod",
+      "activity": "Faaliyet",
+      "hazardClass": "Tehlike Sınıfı",
+      "period": "Periyot",
+      "status": "Durum"
+    },
+    "locations": {
+      "cities": "İller",
+      "districts": "İlçeler",
+      "neighborhoods": "Mahalleler",
+      "selectCity": "İl seçin",
+      "selectDistrict": "İlçe seçin",
+      "selectCityFirst": "Önce bir il seçin.",
+      "selectDistrictFirst": "Önce bir ilçe seçin."
+    },
+    "occupationCodes": {
+      "search": "NACE kodu ara",
+      "searchPlaceholder": "Kod veya faaliyet adı…"
+    },
+    "periods": {
+      "value": "{{value}} {{unit}}"
+    }
+  },
+  "enums": {
+    "periodUnit": {
+      "1": "Gün",
+      "2": "Hafta",
+      "3": "Ay",
+      "4": "Yıl"
+    }
+  }
+}

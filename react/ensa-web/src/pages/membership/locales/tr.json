@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "roles": "Roller",
+    "permissions": "Yetkiler"
+  },
+  "user": {
+    "list": {
+      "title": "Kullanıcılar",
+      "description": "Kurum kullanıcıları ve yetkileri",
+      "create": "Yeni Kullanıcı",
+      "searchPlaceholder": "Ad, soyad veya e-posta ile ara…",
+      "searchLabel": "Kullanıcı ara",
+      "empty": "Kayıtlı kullanıcı bulunamadı."
+    },
+    "fields": {
+      "fullName": "Ad Soyad",
+      "userName": "Kullanıcı Adı",
+      "email": "E-posta",
+      "staffRole": "Görev",
+      "status": "Durum",
+      "name": "Adı",
+      "lastName": "Soyadı",
+      "phoneNumber": "Telefon",
+      "gsm": "Cep Telefonu",
+      "nationalId": "T.C. Kimlik No",
+      "address": "Adres",
+      "city": "İl",
+      "district": "İlçe",
+      "office": "Ofis",
+      "company": "Firma",
+      "organization": "Kurum",
+      "branchCode": "Branş Kodu",
+      "hireDate": "İşe Giriş",
+      "terminationDate": "Ayrılış",
+      "monthlyWorkDuration": "Aylık Çalışma Süresi",
+      "grossSalary": "Brüt Ücret",
+      "color": "Renk",
+      "partTime": "Yarı zamanlı",
+      "officeAdmin": "Ofis yöneticisi",
+      "administration": "Yönetim",
+      "mustChangePassword": "Şifre Değiştirmeli",
+      "contractApproved": "Sözleşme Onaylı",
+      "emailConfirmed": "E-posta Doğrulanmış"
+    },
+    "badges": {
+      "organizationAdmin": "Kurum Yöneticisi",
+      "officeAdmin": "Ofis Yöneticisi",
+      "mustChangePassword": "Şifre değiştirmesi gerekiyor",
+      "systemAdministrator": "Sistem Yöneticisi",
+      "lockedUntil": "{{value}} tarihine kadar kilitli"
+    },
+    "filters": {
+      "staffRole": "Göreve göre filtrele",
+      "allStaffRoles": "Tüm görevler",
+      "status": "Duruma göre filtrele",
+      "allStatuses": "Tüm durumlar"
+    },
+    "actions": {
+      "openDetail": "{{name}} kullanıcı detayını aç",
+      "activate": "Aktif Yap",
+      "deactivate": "Pasif Yap",
+      "activateNamed": "{{name}} kullanıcısını aktif yap",
+      "deactivateNamed": "{{name}} kullanıcısını pasif yap",
+      "deleteNamed": "{{name}} kullanıcısını sil",
+      "cannotDeleteSelf": "Kendi hesabınızı silemezsiniz.",
+      "deleteTitle": "Kullanıcıyı sil",
+      "deleteMessage": "{{name}} kullanıcısı silinecek. Devam edilsin mi?",
+      "resetPassword": "Şifre Sıfırla",
+      "resetPasswordConfirm": "Şifreyi Sıfırla",
+      "resetPasswordWarning": "Yeni şifre yalnızca buraya yazıldığı anda bilinir; hiçbir ekranda geri gösterilmez. Sıfırlama kullanıcının açık tüm oturumlarını sonlandırır.",
+      "editRoles": "Rolleri Düzenle",
+      "editPermissions": "Yetkileri Düzenle"
+    },
+    "detail": {
+      "subtitle": "{{userName}} · {{staffRole}}",
+      "tabs": {
+        "general": "Genel Bilgiler",
+        "roles": "Roller",
+        "permissions": "Etkin Yetkiler"
+      },
+      "minutes": "{{count}} dk",
+      "officeAssignments": "Ofis Atamaları",
+      "rolesDescription": "Kullanıcının sahip olduğu kimlik rolleri.",
+      "emptyRoles": "Kullanıcıya rol atanmamış.",
+      "permissionsDescription": "Şu anda etkin olan {{count}} yetki.",
+      "emptyPermissions": "Kullanıcının etkin yetkisi yok. Korumalı her uç nokta 403 döner.",
+      "roleChangeSummary": "Bu kayıt neyi değiştirecek",
+      "rolesAdded": "Eklenecek: {{roles}}",
+      "noRolesAdded": "Eklenecek rol yok.",
+      "rolesRemoved": "Kaldırılacak: {{roles}}",
+      "noRolesRemoved": "Kaldırılacak rol yok."
+    },
+    "form": {
+      "createTitle": "Yeni Kullanıcı",
+      "organizationHint": "Kullanıcının bağlanacağı kurum. Yalnızca host yöneticisi seçer.",
+      "organizationRequired": "Kurum seçilmelidir.",
+      "editTitle": "Kullanıcıyı Düzenle",
+      "sections": {
+        "identity": "Kimlik",
+        "credentials": "Giriş Bilgileri",
+        "contact": "İletişim",
+        "employment": "Çalışma Bilgileri"
+      },
+      "credentialsHint": "Başlangıç şifresi yalnızca oluşturma sırasında verilir; hiçbir okuma ucu şifre döndürmez.",
+      "userNameHint": "Giriş kimliğidir ve sonradan değiştirilemez.",
+      "initialPassword": "Başlangıç Şifresi",
+      "newPassword": "Yeni Şifre",
+      "passwordRepeat": "Şifre (Tekrar)",
+      "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
+      "passwordMismatch": "Şifre ve tekrarı aynı olmalıdır.",
+      "roles": "Roller",
+      "rolesHint": "Birden fazla seçmek için Ctrl (Mac: ⌘) tuşunu basılı tutun.",
+      "nationalIdEditHint": "T.C. kimlik numarası hiçbir okuma ucu tarafından döndürülmez. Boş bırakılırsa kayıtlı değer silinir.",
+      "minutesHint": "Dakika cinsinden.",
+      "elevationNote": "Sistem yöneticisi ve kurum yöneticisi bayrakları bu formdan verilemez; yetki yükseltme yalnızca rol ataması ile yapılır."
+    }
+  },
+  "role": {
+    "list": {
+      "title": "Roller",
+      "description": "Kimlik rolleri ve varsayılan atamalar",
+      "create": "Yeni Rol",
+      "searchPlaceholder": "Rol adı ile ara…",
+      "empty": "Kayıtlı rol bulunamadı."
+    },
+    "fields": {
+      "name": "Rol Adı",
+      "description": "Açıklama",
+      "scope": "Kapsam",
+      "isDefault": "Yeni kullanıcılara otomatik atanır",
+      "isStatic": "Sistem Rolü"
+    },
+    "scope": {
+      "host": "Host (tüm kurumlar)",
+      "organization": "Kuruma özel"
+    },
+    "badges": {
+      "system": "Sistem"
+    },
+    "actions": {
+      "editNamed": "{{name}} rolünü düzenle",
+      "deleteNamed": "{{name}} rolünü sil",
+      "systemRoleLocked": "Sistem rolleri silinemez.",
+      "deleteTitle": "Rolü sil",
+      "deleteMessage": "{{name}} rolü silinecek. Devam edilsin mi?"
+    },
+    "form": {
+      "createTitle": "Yeni Rol",
+      "editTitle": "Rolü Düzenle",
+      "staticNameHint": "Sistem rollerinin adı değiştirilemez.",
+      "isDefaultHint": "İşaretlenirse yeni oluşturulan her kullanıcıya bu rol otomatik verilir.",
+      "permissionNote": "Yetkiler role değil kullanıcıya atanır; Yetkiler ekranından düzenleyin."
+    }
+  },
+  "permission": {
+    "page": {
+      "title": "Yetkiler",
+      "description": "Kullanıcı bazlı yetki verme ve kaldırma",
+      "review": "Değişiklikleri İncele ({{count}})",
+      "searchUser": "Kullanıcı ara",
+      "searchUserPlaceholder": "Ad veya kullanıcı adı…",
+      "subject": "Yetkileri düzenlenecek kullanıcı",
+      "subjectPlaceholder": "Kullanıcı seçin…",
+      "roleScopeNote": "API yetkileri yalnızca kullanıcı bazında tutar; rol bazlı yetki uç noktası bulunmuyor.",
+      "selectSubject": "Yetki matrisini görmek için bir kullanıcı seçin.",
+      "systemAdministratorNote": "Bu kullanıcı sistem yöneticisidir: tüm kataloğa sahiptir ve tekil yetki geçersiz kılmaları dikkate alınmaz.",
+      "searchPermission": "Yetki ara",
+      "searchPermissionPlaceholder": "Yetki adı veya hedefi…",
+      "onlyChanged": "Yalnızca değiştirilenler",
+      "effectiveCount": "Etkin: {{count}}",
+      "catalogueCount": "Katalog: {{count}}",
+      "noMatch": "Aramayla eşleşen yetki yok.",
+      "tableLabel": "{{module}} yetkileri",
+      "overrideLabel": "{{name}} yetkisi için geçersiz kılma",
+      "expandAll": "Tümünü Aç",
+      "collapseAll": "Tümünü Kapat",
+      "changedCount": "{{count}} değişiklik",
+      "groupSummary": "{{effective}} / {{total}} etkin"
+    },
+    "fields": {
+      "permission": "Yetki",
+      "target": "Hedef",
+      "type": "Tür",
+      "current": "Mevcut Durum",
+      "override": "Geçersiz Kılma",
+      "defaultAccess": "{{module}} — erişim"
+    },
+    "state": {
+      "effective": "Etkin",
+      "notEffective": "Yok"
+    },
+    "override": {
+      "inherit": "Görevden gelsin",
+      "grant": "Ver",
+      "deny": "Engelle"
+    },
+    "confirm": {
+      "title": "Yetki değişikliklerini onayla",
+      "apply": "Uygula",
+      "intro": "Kaydetmeden önce bu kullanıcının neyi kazanacağını ve neyi kaybedeceğini kontrol edin.",
+      "gains": "Kazanılacak yetkiler ({{count}})",
+      "losses": "Kaybedilecek yetkiler ({{count}})",
+      "cleared": "Geçersiz kılması kaldırılacak yetkiler ({{count}})",
+      "noGains": "Yeni yetki verilmiyor.",
+      "noLosses": "Yetki kaldırılmıyor.",
+      "noCleared": "Geçersiz kılma kaldırılmıyor.",
+      "absoluteNote": "Kayıt mutlaktır: listelenmeyen her geçersiz kılma silinir ve yetki yeniden görev tanımından hesaplanır."
+    }
+  },
+  "enums": {
+    "permissionType": {
+      "1": "Sayfa",
+      "2": "Metot",
+      "3": "Veri"
+    },
+    "permissionRestrictionMode": {
+      "0": "Herkes",
+      "1": "Yalnızca seçilenler",
+      "2": "Seçilenler hariç"
+    }
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "nav": {
+    "emergencyPlans": "Emergency Plans"
+  },
+  "riskAssessment": {
+    "list": {
+      "title": "Risk Assessments",
+      "description": "Workplace risk assessment reports",
+      "create": "New Report",
+      "searchPlaceholder": "Search by report or company name…",
+      "searchLabel": "Search risk assessments",
+      "empty": "No risk assessment report found.",
+      "allHazardClasses": "All hazard classes",
+      "openDetail": "Open the report {{name}}",
+      "deleteReport": "Delete the report {{name}}",
+      "deleteTitle": "Delete report",
+      "deleteMessage": "The report {{name}} will be deleted together with its hazards and control measures. Continue?"
+    },
+    "fields": {
+      "reportName": "Report Name",
+      "companyName": "Company",
+      "hazardClass": "Hazard Class",
+      "method": "Method",
+      "hazardCount": "Hazards",
+      "approvalStatus": "Approval Status",
+      "workerCount": "Workers",
+      "performedDate": "Assessed On",
+      "validity": "Validity",
+      "validityDate": "Valid Until",
+      "revisionDate": "Revision Date",
+      "workplaceTitle": "Workplace Title",
+      "businessActivity": "Business Activity",
+      "workplaceAddress": "Workplace Address",
+      "workplacePhone": "Workplace Phone",
+      "workplaceDepartments": "Workplace Departments",
+      "machinesAndEquipment": "Machines and Equipment",
+      "hazardousArticles": "Hazardous Articles",
+      "wasteOperations": "Waste Operations",
+      "employer": "Employer",
+      "specialist": "Safety Specialist",
+      "physician": "Workplace Physician"
+    },
+    "validity": {
+      "expired": "Expired",
+      "expiring": "{{count}} days left",
+      "valid": "Valid"
+    },
+    "expiring": {
+      "title": "{{count}} reports expired or expiring",
+      "description": "Reports whose validity ends within the next {{days}} days."
+    },
+    "create": {
+      "title": "New Risk Assessment Report",
+      "selectCompany": "Select a company…",
+      "hazardClassHint": "The validity period follows the hazard class (2 / 4 / 6 years)."
+    },
+    "detail": {
+      "fallbackTitle": "Risk Assessment Report",
+      "editTitle": "Edit Report Details",
+      "hazardCount": "Identified Hazards",
+      "openHighRisk": "Open High Risks",
+      "needsAction": "Action needed",
+      "underControl": "Under control",
+      "tabs": {
+        "general": "General",
+        "hazards": "Hazards",
+        "sets": "Report Details",
+        "team": "Team and Records"
+      }
+    },
+    "hazard": {
+      "title": "Identified Hazards",
+      "description": "{{count}} hazard lines, ordered by risk score.",
+      "empty": "No hazard has been added to this report yet.",
+      "add": "Add Hazard",
+      "createTitle": "New Hazard",
+      "editTitle": "Edit Hazard",
+      "editFor": "Edit the hazard {{name}}",
+      "deleteFor": "Delete the hazard {{name}}",
+      "deleteTitle": "Delete hazard",
+      "deleteMessage": "The hazard {{name}} and its control measures will be deleted. Continue?",
+      "currentRating": "Current Rating",
+      "residualRating": "Residual Rating",
+      "residualHint": "The values expected once the measures are in place; may be left empty.",
+      "measureHint": "The main measure planned for this hazard.",
+      "selectValue": "Select…",
+      "preview": "Estimated score: {{score}}",
+      "previewUnavailable": "The score is calculated on the server.",
+      "fields": {
+        "hazardTag": "Hazard",
+        "riskTag": "Risk",
+        "activityDescription": "Activity / Description",
+        "measure": "Measure",
+        "likelihood": "Likelihood",
+        "frequency": "Frequency",
+        "severity": "Severity",
+        "rating": "Rating",
+        "riskScore": "Risk Score",
+        "residualRiskScore": "Residual",
+        "ownerPerson": "Owner",
+        "deadlineDate": "Deadline",
+        "comment": "Note",
+        "controlMeasures": "Measures"
+      }
+    },
+    "measure": {
+      "title": "Control Measures",
+      "manageFor": "Manage the control measures of {{name}}",
+      "counter": "{{total}} measures · {{open}} open",
+      "empty": "No control measure has been defined for this hazard yet.",
+      "add": "Add Measure",
+      "complete": "Mark as completed",
+      "completedOn": "Completed on {{date}}",
+      "deadline": "Deadline: {{date}}",
+      "noDeadline": "No deadline set",
+      "noOwner": "No owner selected",
+      "fields": {
+        "measure": "Measure",
+        "deadlineDate": "Deadline",
+        "owner": "Responsible Employee"
+      }
+    },
+    "sets": {
+      "exposedGroups": "Who is exposed",
+      "exposedGroupsDescription": "The groups of people exposed to these hazards at the workplace.",
+      "existingControlMeasures": "Existing control measures",
+      "existingControlMeasuresDescription": "The protective measures already in place at the workplace.",
+      "improvementActions": "Additional measures required",
+      "improvementActionsDescription": "Improvements recommended to bring the risks down.",
+      "unsaved": "You have unsaved changes."
+    },
+    "team": {
+      "title": "Risk Assessment Team",
+      "empty": "No team member has been recorded.",
+      "protectedGroups": "Vulnerable Worker Groups",
+      "noProtectedGroups": "No vulnerable worker group recorded.",
+      "historyRecords": "History Records",
+      "noHistoryRecords": "No work accident, occupational disease or near-miss record."
+    }
+  },
+  "emergencyPlan": {
+    "list": {
+      "title": "Emergency Plans",
+      "description": "Workplace emergency action plans",
+      "create": "New Plan",
+      "searchPlaceholder": "Search by company name…",
+      "empty": "No emergency action plan found.",
+      "onlyExpired": "Expired only",
+      "openDetail": "Open the plan {{name}}",
+      "deletePlan": "Delete the plan {{name}}",
+      "deleteTitle": "Delete plan",
+      "deleteMessage": "The plan {{name}} will be deleted together with its sections and team members. Continue?"
+    },
+    "fields": {
+      "company": "Company",
+      "companyName": "Company",
+      "workplaceTitle": "Workplace Title",
+      "hazardClass": "Hazard Class",
+      "preparedDate": "Prepared On",
+      "validityDate": "Valid Until",
+      "validity": "Validity",
+      "registrationNo": "Registration No",
+      "address": "Address",
+      "phone": "Phone",
+      "teamsChief": "Teams Chief",
+      "emergencyTeam": "Emergency Team",
+      "workerRepresentative": "Worker Representative",
+      "supportStaff": "Support Staff",
+      "employerOrDeputy": "Employer / Deputy",
+      "specialist": "Safety Specialist",
+      "physician": "Workplace Physician",
+      "protectionEmployee": "Protection Employee",
+      "evacuationPlan": "Evacuation Plan"
+    },
+    "validity": {
+      "expired": "Expired",
+      "expiring": "{{count}} days left",
+      "valid": "Valid"
+    },
+    "create": {
+      "title": "New Emergency Action Plan",
+      "selectCompany": "Select a company…",
+      "hazardClassHint": "The validity period follows the hazard class (2 / 4 / 6 years).",
+      "workplaceTitleHint": "The workplace title printed on the plan."
+    },
+    "detail": {
+      "fallbackTitle": "Emergency Action Plan",
+      "editTitle": "Edit Plan Details",
+      "description": "Prepared: {{prepared}} · Valid until: {{validity}}",
+      "tabs": {
+        "general": "General",
+        "sections": "Sections",
+        "team": "Team Members"
+      }
+    },
+    "sections": {
+      "description": "Each section is saved on its own; saving one never touches the others.",
+      "content": "Section Content",
+      "empty": "This section has not been filled in yet.",
+      "filled": "Filled",
+      "missing": "Empty",
+      "editFor": "Edit the section {{name}}",
+      "deleteFor": "Delete the section {{name}}",
+      "deleteTitle": "Delete section",
+      "deleteMessage": "The section {{name}} will be deleted. Continue?"
+    },
+    "team": {
+      "title": "Emergency Teams",
+      "description": "Workplace employees assigned to the emergency teams.",
+      "empty": "No team member has been added.",
+      "add": "Add Member",
+      "addTitle": "Add Team Member",
+      "selectEmployee": "Select an employee…",
+      "removeFor": "Remove {{name}} from the team",
+      "deleteTitle": "Remove member",
+      "deleteMessage": "{{name}} will be removed from the team. Continue?",
+      "fields": {
+        "employee": "Employee",
+        "teamType": "Team",
+        "staffRole": "Role"
+      }
+    }
+  },
+  "enums": {
+    "approvalStatus": {
+      "0": "Draft",
+      "1": "Submitted for Approval",
+      "2": "Approved",
+      "3": "Rejected"
+    },
+    "riskLevel": {
+      "0": "—",
+      "1": "Negligible",
+      "2": "Low",
+      "3": "Medium",
+      "4": "High",
+      "5": "Intolerable"
+    },
+    "exposedPersonGroup": {
+      "1": "Production Employees",
+      "2": "Maintenance Employees",
+      "3": "Contractors",
+      "4": "Technical Employees",
+      "5": "Office Staff",
+      "6": "Audit Employees",
+      "7": "Visitors",
+      "8": "Cleaning Employees",
+      "9": "Emergency Employees",
+      "10": "Others"
+    },
+    "existingControlMeasure": {
+      "1": "Local Ventilation",
+      "2": "Machine Guards",
+      "3": "Use of Personal Protective Equipment",
+      "4": "Fire Protection",
+      "5": "Existing Emergency Procedures",
+      "6": "Training and Awareness",
+      "7": "Warning Signs"
+    },
+    "improvementAction": {
+      "1": "Eliminate the Risk at Source",
+      "2": "Substitute the Hazardous with the Less Hazardous",
+      "3": "Prefer Collective Protection over Personal Protection",
+      "4": "Apply Engineering Controls",
+      "5": "Use Ergonomic Approaches",
+      "6": "Training and Awareness",
+      "7": "Warning and Guidance Signs"
+    },
+    "reportParticipantType": {
+      "1": "Worker Representative",
+      "2": "Support Staff",
+      "3": "Knowledgeable Worker",
+      "4": "Employer",
+      "5": "Occupational Safety Specialist",
+      "6": "Workplace Physician"
+    },
+    "riskHistoryRecordType": {
+      "1": "Work Accident",
+      "2": "No-Injury Work Accident",
+      "3": "Occupational Disease",
+      "4": "Near-Miss Incident"
+    },
+    "vulnerableWorkerGroup": {
+      "1": "Female Worker",
+      "2": "Young Worker",
+      "3": "Elderly Worker",
+      "4": "Disabled Worker",
+      "5": "Child Worker",
+      "6": "Pregnant or Nursing Worker"
+    },
+    "hazardSourceType": {
+      "0": "Entered Manually",
+      "1": "Hazard Library",
+      "2": "Field Observation",
+      "3": "Corrective Action",
+      "4": "Incident"
+    },
+    "emergencyTeamType": {
+      "0": "Unspecified",
+      "1": "Fire Fighting",
+      "2": "Search, Rescue and Evacuation",
+      "3": "First Aid",
+      "4": "Protection",
+      "5": "Communication"
+    },
+    "emergencyPlanSectionType": {
+      "1": "Table of Contents",
+      "2": "Introduction",
+      "3": "Organization and Responsibilities",
+      "4": "Instructions",
+      "5": "Wartime",
+      "6": "Drill Procedure",
+      "7": "Fire Control Form",
+      "8": "First Aid",
+      "9": "Emergency Phones"
+    }
+  }
+}

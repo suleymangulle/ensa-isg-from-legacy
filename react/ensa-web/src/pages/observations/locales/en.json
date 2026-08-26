@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "incidents": "Incidents",
+    "correctiveActions": "Corrective Actions",
+    "fieldObservations": "Field Observations"
+  },
+  "observations": {
+    "select": "Select…",
+    "selectCompany": "Select a company…",
+    "selectDepartment": "Select a department…",
+    "selectEmployee": "Select an employee…",
+    "selectCompanyFirst": "Select a company first"
+  },
+  "incident": {
+    "list": {
+      "title": "Incidents",
+      "description": "Work accidents, near misses, occupational diseases and no-injury incidents",
+      "create": "New Incident",
+      "searchPlaceholder": "Search by description, statement or supervisor…",
+      "empty": "No incident records found.",
+      "allCompanies": "All companies",
+      "allTypes": "All incident types",
+      "onlyPending": "Only SSI notification pending",
+      "editAction": "Edit incident",
+      "deleteAction": "Delete incident",
+      "deleteTitle": "Delete incident",
+      "deleteMessage": "Delete the {{company}} incident recorded on {{date}}?"
+    },
+    "detail": {
+      "title": "{{type}} — {{date}}",
+      "fallbackTitle": "Incident",
+      "general": "Incident Details"
+    },
+    "fields": {
+      "company": "Company",
+      "department": "Department",
+      "incidentType": "Incident Type",
+      "accidentType": "Accident Type",
+      "incidentDate": "Incident Date",
+      "lostWorkDays": "Lost Work Days",
+      "lostWorkDaysShort": "Lost Days",
+      "isPerDate": "Return to Work Date",
+      "ssiNotificationDate": "SSI Notification Date",
+      "ssiStatus": "SSI Notification",
+      "unitSupervisor": "Unit Supervisor",
+      "supervisorFullName": "Unit Supervisor (free text)",
+      "description": "Incident Description",
+      "expression": "Statement"
+    },
+    "form": {
+      "createTitle": "New Incident",
+      "editTitle": "Edit Incident",
+      "isPerDateHint": "The date the worker resumed work.",
+      "ssiNotificationHint": "Enter the date once notified; left empty the record counts as pending.",
+      "supervisorNameHint": "Type the full name when the supervisor is not a system record.",
+      "expressionHint": "The incident as told by the witness or the injured worker."
+    },
+    "ssi": {
+      "bannerTitle": "{{total}} incident(s) have not been notified to the SSI",
+      "bannerDescription": "Act 5510 art. 13 requires work accidents and occupational diseases to be notified within three working days.",
+      "showPending": "Show pending",
+      "notified": "Notified — {{date}}",
+      "notRequired": "Notification not required",
+      "overdue": "Deadline passed",
+      "dueBy": "Due by {{date}}",
+      "detailPendingTitle": "SSI notification pending",
+      "detailOverdueTitle": "SSI notification deadline passed",
+      "detailNotifiedTitle": "SSI notification completed",
+      "deadline": "Latest notification date: {{date}}",
+      "remaining": "{{days}} working day(s) left"
+    },
+    "persons": {
+      "title": "People Involved",
+      "empty": "No records.",
+      "employee": "Pick from employees",
+      "employeeHint": "Selecting an employee fills the name fields in.",
+      "name": "First Name",
+      "lastName": "Last Name",
+      "removeTitle": "Remove person",
+      "removeMessage": "Remove {{name}} from this incident?",
+      "removeAction": "Remove {{name}}",
+      "add": {
+        "1": "Add Affected Person",
+        "2": "Add Witness",
+        "3": "Add Responder"
+      }
+    }
+  },
+  "correctiveAction": {
+    "list": {
+      "title": "Corrective Actions",
+      "description": "Corrective and preventive actions (DOF)",
+      "create": "New Action",
+      "searchPlaceholder": "Search by finding, recommendation, owner or source…",
+      "empty": "No corrective actions found.",
+      "allCompanies": "All companies",
+      "allStatuses": "All statuses",
+      "allRiskCategories": "All risk categories",
+      "onlyOverdue": "Only overdue",
+      "editAction": "Edit corrective action",
+      "deleteAction": "Delete corrective action",
+      "deleteTitle": "Delete corrective action",
+      "deleteMessage": "Delete the corrective action for “{{finding}}”?"
+    },
+    "detail": {
+      "breadcrumb": "Action #{{id}}",
+      "general": "Action Details",
+      "close": "Close (Record Result)",
+      "sourceLine": "Source Field Observation Line",
+      "openSourceReport": "Open the field observation report"
+    },
+    "fields": {
+      "company": "Company",
+      "finding": "Finding",
+      "recommendation": "Recommendation",
+      "owner": "Owner",
+      "ownerEmployee": "Responsible Employee",
+      "riskCategory": "Risk Category",
+      "status": "Operation Result",
+      "findingDate": "Finding Date",
+      "deadlineDate": "Deadline",
+      "result": "Result",
+      "resultDate": "Result Date",
+      "source": "Source"
+    },
+    "form": {
+      "createTitle": "New Corrective Action",
+      "editTitle": "Edit Corrective Action",
+      "ownerHint": "Type the full name when the owner is not a system record.",
+      "sourceHint": "Which record the finding came from (audit, field observation, incident…)."
+    },
+    "close": {
+      "title": "Close Corrective Action",
+      "confirm": "Close Action"
+    },
+    "overdue": {
+      "bannerTitle": "{{total}} corrective action(s) are past their deadline",
+      "bannerDescription": "These actions are still open and need feedback from their owners.",
+      "showOverdue": "Show overdue",
+      "since": "Overdue since {{date}}",
+      "detailTitle": "Deadline passed",
+      "badge": "Overdue"
+    }
+  },
+  "fieldObservation": {
+    "list": {
+      "title": "Field Observations",
+      "description": "Field observation reports carried out at the workplace",
+      "create": "New Report",
+      "searchPlaceholder": "Search within the reports…",
+      "empty": "No field observation reports found.",
+      "allCompanies": "All companies",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "editAction": "Edit report",
+      "deleteAction": "Delete report",
+      "deleteTitle": "Delete field observation report",
+      "deleteMessage": "Delete the {{company}} field observation report dated {{date}}?"
+    },
+    "detail": {
+      "title": "Field Observation Report — {{date}}",
+      "fallbackTitle": "Field Observation Report",
+      "general": "Report Details"
+    },
+    "fields": {
+      "company": "Company",
+      "department": "Department",
+      "date": "Observation Date",
+      "lineCount": "Non-conformities",
+      "sendMail": "Send a notification e-mail to the workplace after saving",
+      "mailAddress": "E-mail Address"
+    },
+    "form": {
+      "createTitle": "New Field Observation Report",
+      "editTitle": "Edit Field Observation Report"
+    },
+    "lines": {
+      "title": "Non-conformities",
+      "create": "Add Non-conformity",
+      "empty": "This report has no non-conformity lines.",
+      "createTitle": "Add Non-conformity",
+      "editTitle": "Edit Non-conformity",
+      "nonConformity": "Non-conformity",
+      "measures": "Corrective / Preventive Measure",
+      "owner": "Owner",
+      "ownerHint": "Type the full name when the owner is not a system record.",
+      "ownerEmployee": "Responsible Employee",
+      "riskCategory": "Risk Category",
+      "date": "Finding Date",
+      "deadlineDate": "Deadline",
+      "overdue": "Overdue",
+      "overdueBanner": "{{total}} non-conformity line(s) are past their deadline",
+      "overdueDescription": "Raising a corrective action is recommended for the lines still open.",
+      "raiseAction": "Raise Action",
+      "editAction": "Edit non-conformity",
+      "deleteAction": "Delete non-conformity",
+      "deleteTitle": "Delete non-conformity",
+      "deleteMessage": "Delete the non-conformity “{{nonConformity}}”?",
+      "derivedActions": "Corrective actions raised from this line"
+    }
+  },
+  "enums": {
+    "incidentType": {
+      "1": "Work Accident",
+      "2": "Near Miss",
+      "3": "Occupational Disease",
+      "4": "No-injury Incident"
+    },
+    "accidentType": {
+      "0": "Unspecified",
+      "1": "Fall",
+      "2": "Impact",
+      "3": "Entrapment",
+      "4": "Cut",
+      "5": "Burn",
+      "6": "Electrical Shock",
+      "7": "Chemical Exposure",
+      "8": "Traffic Accident",
+      "9": "Poisoning",
+      "99": "Other"
+    },
+    "incidentPersonRole": {
+      "1": "Affected",
+      "2": "Witness",
+      "3": "Responder"
+    },
+    "riskCategory": {
+      "0": "Unspecified",
+      "1": "Work Accident Risk",
+      "2": "Occupational Disease Risk",
+      "3": "Environmental Risk",
+      "4": "Fire Risk"
+    },
+    "correctiveActionStatus": {
+      "0": "In Progress",
+      "1": "Closed",
+      "2": "Cancelled"
+    }
+  }
+}

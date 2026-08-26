@@ -1,0 +1,158 @@
+{
+  "nav": {
+    "workPlans": "Work Plans",
+    "activities": "Activity Catalogue"
+  },
+  "workPlan": {
+    "list": {
+      "title": "Work Plans",
+      "description": "Annual OHS work plan covers; the lines are managed on the plan detail page",
+      "create": "New Plan",
+      "searchPlaceholder": "Search by workplace, document or revision number…",
+      "allCompanies": "All workplaces",
+      "empty": "No work plan has been created yet.",
+      "editAria": "Edit the plan of {{name}}",
+      "deleteAria": "Delete the plan of {{name}}",
+      "deleteTitle": "Delete Plan",
+      "deleteMessage": "The work plan of {{name}} will be deleted. Continue?"
+    },
+    "fields": {
+      "companyName": "Workplace",
+      "documentNo": "Document No",
+      "revisionNo": "Revision No",
+      "revisionDate": "Revision Date",
+      "startDate": "Start",
+      "publicationDate": "Publication Date",
+      "lineCount": "Lines",
+      "transferred": "Sent to IBYS",
+      "status": "Status",
+      "specialist": "Safety Specialist",
+      "physician": "Workplace Physician",
+      "approver": "Approver"
+    },
+    "transferred": {
+      "yes": "Sent",
+      "no": "Not sent"
+    },
+    "form": {
+      "createTitle": "New Work Plan",
+      "editTitle": "Edit Work Plan",
+      "selectCompany": "Select a workplace"
+    },
+    "detail": {
+      "fallbackTitle": "Work Plan",
+      "description": "Work plan for {{year}}",
+      "lines": "Plan Lines",
+      "emptyLines": "This plan has no lines yet.",
+      "completion": "Completion Rate",
+      "completionValue": "{{value}}%",
+      "generate": "Generate Default Lines",
+      "generateTitle": "Generate Default Lines",
+      "generateDescription": "Plan lines are generated from the default activity catalogue. This can only be done once; it cannot be run again after the plan has any line.",
+      "generateHint": "The plan is empty — generate the default lines or add lines one by one."
+    },
+    "line": {
+      "create": "New Line",
+      "createTitle": "New Plan Line",
+      "editTitle": "Edit Plan Line",
+      "selectActivity": "Select an activity",
+      "deleteTitle": "Delete Line",
+      "deleteMessage": "The line {{name}} will be deleted. Continue?",
+      "submit": "Submit",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectTitle": "Reject the line {{name}}",
+      "reasonLabel": "Rejection Reason",
+      "rejectionReason": "Rejection reason: {{reason}}",
+      "locked": "Approved — locked",
+      "lockedHint": "An approved line can be neither edited nor deleted.",
+      "instructorHint": "Enter a national id for an external person who has no user record.",
+      "editAria": "Edit the line {{name}}",
+      "deleteAria": "Delete the line {{name}}",
+      "submitAria": "Submit the line {{name}} for approval",
+      "approveAria": "Approve the line {{name}}",
+      "rejectAria": "Reject the line {{name}}",
+      "fields": {
+        "activity": "Activity",
+        "period": "Period",
+        "performedDate": "Performed",
+        "instructor": "Responsible",
+        "status": "Completion",
+        "approvalStatus": "Approval",
+        "year": "Year",
+        "month": "Month",
+        "instructorNationalId": "Responsible National Id",
+        "description": "Description"
+      }
+    }
+  },
+  "activity": {
+    "root": "Root",
+    "unnamedParent": "Parent activity",
+    "list": {
+      "title": "Activity Catalogue",
+      "description": "The activity, document and revision definitions work plan lines are built from",
+      "create": "New Activity",
+      "searchPlaceholder": "Search by activity name or code…",
+      "empty": "No activity has been defined yet.",
+      "allTypes": "All types",
+      "children": "Children",
+      "childrenAria": "List the children of {{name}}",
+      "clearParent": "Clear filter: {{name}}",
+      "editAria": "Edit the activity {{name}}",
+      "deleteAria": "Delete the activity {{name}}",
+      "deleteTitle": "Delete Activity",
+      "deleteMessage": "The activity {{name}} will be deleted. An activity with children cannot be deleted. Continue?"
+    },
+    "fields": {
+      "activityName": "Activity Name",
+      "activityCode": "Activity Code",
+      "parentActivity": "Parent Activity",
+      "activityType": "Type",
+      "activityGroup": "Activity Group",
+      "period": "Period",
+      "defaultActivity": "Default",
+      "defaultCount": "Times per Year",
+      "defaultStartMonthOffset": "Start Month Offset",
+      "defaultElementCondition": "Minimum Headcount",
+      "orderNo": "Order",
+      "status": "Status",
+      "scope": "Scope"
+    },
+    "scope": {
+      "shared": "Shared with every organisation",
+      "private": "Private to this organisation"
+    },
+    "form": {
+      "createTitle": "New Activity",
+      "editTitle": "Edit Activity",
+      "parentHint": "Leave empty to place the activity at the root of the tree.",
+      "noParent": "No parent (root)",
+      "defaultCountHint": "How many times a year it is planned (0–12).",
+      "defaultOffsetHint": "Offset from the start of the plan year (0–11).",
+      "defaultConditionHint": "Minimum headcount that makes the activity mandatory."
+    },
+    "detail": {
+      "code": "Activity code: {{value}}",
+      "general": "General Information",
+      "hierarchy": "Hierarchy",
+      "children": "Child Activities",
+      "noChildren": "No child activities.",
+      "addChild": "Add Child Activity"
+    }
+  },
+  "enums": {
+    "activityType": {
+      "1": "Activity",
+      "2": "Document",
+      "3": "Revision",
+      "4": "Mandatory Document"
+    },
+    "approvalStatus": {
+      "0": "Draft",
+      "1": "Awaiting approval",
+      "2": "Approved",
+      "3": "Rejected"
+    }
+  }
+}

@@ -1,0 +1,299 @@
+{
+  "nav": {
+    "ePrescriptions": "E-prescriptions"
+  },
+  "medicalExamination": {
+    "list": {
+      "title": "Health surveillance",
+      "description": "Pre-employment and periodic examination forms (EK-2)",
+      "create": "New examination",
+      "searchPlaceholder": "Search by IBYS group code or source…",
+      "empty": "No medical examination forms found.",
+      "openDetail": "Open the examination form of {{name}}",
+      "deleteAction": "Delete the examination form of {{name}}",
+      "deleteTitle": "Delete examination form",
+      "deleteMessage": "The examination form of {{name}} will be deleted together with all its clinical rows. Continue?"
+    },
+    "fields": {
+      "employee": "Employee",
+      "companyName": "Company",
+      "reportType": "Report type",
+      "examinationDate": "Examination",
+      "validityDate": "Validity",
+      "previousExaminationDate": "Previous examination",
+      "physician": "Physician",
+      "opinion": "Fitness-for-work opinion",
+      "opinionDescription": "Opinion description",
+      "recommendations": "Recommendations",
+      "ibysStatus": "IBYS status",
+      "ibysStatusMessage": "IBYS message",
+      "ibysOccupationCode": "IBYS occupation code",
+      "heightCm": "Height (cm)",
+      "weightKg": "Weight (kg)",
+      "bodyMassIndex": "Body mass index",
+      "bloodPressure": "Blood pressure (mmHg)",
+      "bloodPressureSystolic": "Systolic",
+      "bloodPressureDiastolic": "Diastolic",
+      "pulseRate": "Pulse (/min)",
+      "chronicIllnessDeclaration": "Chronic illness declaration"
+    },
+    "filters": {
+      "company": "Company",
+      "reportType": "Report type",
+      "opinion": "Opinion",
+      "ibysStatus": "IBYS status",
+      "dateFrom": "Examination date from",
+      "dateTo": "Examination date to"
+    },
+    "expiring": {
+      "title": "Examinations past their validity ({{count}})",
+      "none": "No examination has lapsed at the selected workplace.",
+      "selectCompany": "Pick a workplace in the filter bar to see the examinations that have lapsed."
+    },
+    "detail": {
+      "subtitle": "{{reportType}} · {{date}}",
+      "vitalsTitle": "Anthropometry and vital signs",
+      "ibysLocked": "This form has been approved by IBYS and is the legal record of that notification; it can no longer be changed."
+    },
+    "form": {
+      "createTitle": "New examination form",
+      "editTitle": "Edit examination form",
+      "searchCompany": "Search company",
+      "searchEmployee": "Search employee",
+      "searchPhysician": "Search physician",
+      "validityHint": "Left empty, the statutory interval is applied.",
+      "occupationCodeHint": "Occupation code used in the IBYS notification.",
+      "vitalsHeading": "Anthropometry and vital signs",
+      "opinionHeading": "Opinion and conclusion",
+      "opinionHint": "The operative output of the examination."
+    },
+    "sections": {
+      "answer": "Answer",
+      "note": "Note",
+      "complaints": {
+        "title": "Complaints and history",
+        "description": "Complaint and history lines as declared by the employee.",
+        "item": "Complaint"
+      },
+      "workConditions": {
+        "title": "Working conditions",
+        "description": "Whether the employee is fit for each working condition.",
+        "item": "Condition",
+        "suitable": "Suitable?"
+      },
+      "habits": {
+        "title": "Habits",
+        "description": "Smoking, alcohol and substance use.",
+        "item": "Habit",
+        "status": "Status",
+        "dailyQuantity": "Daily quantity",
+        "durationYear": "Duration (years)",
+        "cessationYearBefore": "Years since quitting"
+      },
+      "physicalFindings": {
+        "title": "Physical examination findings",
+        "description": "Examination results per body system.",
+        "item": "Body system",
+        "finding": "Finding"
+      },
+      "labTests": {
+        "title": "Laboratory findings",
+        "description": "Tests performed and their results.",
+        "item": "Test",
+        "isCompleted": "Performed",
+        "date": "Date",
+        "result": "Result"
+      },
+      "immunizations": {
+        "title": "Immunisation",
+        "description": "Vaccinations declared during the examination.",
+        "item": "Vaccination",
+        "date": "Date"
+      },
+      "revert": "Revert"
+    }
+  },
+  "medicalReference": {
+    "minTerm": "Type at least {{count}} characters to search.",
+    "icd10": {
+      "label": "ICD-10 diagnosis",
+      "placeholder": "Diagnosis code or name…",
+      "select": "Add diagnosis {{code}} — {{name}}"
+    },
+    "medication": {
+      "label": "Medication",
+      "placeholder": "Medication name or barcode…",
+      "select": "Add medication {{name}}"
+    }
+  },
+  "ePrescription": {
+    "list": {
+      "title": "E-prescriptions",
+      "description": "E-prescription records of the occupational physician",
+      "create": "New prescription",
+      "searchPlaceholder": "Search by prescription code or protocol no…",
+      "empty": "No e-prescriptions found.",
+      "noCode": "(no code)",
+      "openDetail": "Open prescription {{code}}",
+      "deleteAction": "Delete prescription {{code}}",
+      "deleteTitle": "Delete prescription",
+      "deleteMessage": "Prescription {{code}} will be deleted together with its medication and diagnosis lines. Continue?"
+    },
+    "fields": {
+      "code": "Prescription code",
+      "patient": "Patient",
+      "patientNationalId": "National id",
+      "company": "Company",
+      "protocolNo": "Protocol no",
+      "creationTime": "Created",
+      "submissionDate": "Submitted",
+      "resultCode": "Service result",
+      "warningMessage": "Warning",
+      "status": "Status",
+      "description": "Description",
+      "descriptionType": "Description type",
+      "medication": "Medication",
+      "usageMethod": "Route",
+      "dose": "Dose",
+      "doseUnit": "Dose unit",
+      "period": "Frequency",
+      "periodUnit": "Frequency unit",
+      "box": "Boxes",
+      "medicationDescription": "Medication note",
+      "icd10Code": "ICD-10",
+      "icd10Name": "Diagnosis"
+    },
+    "filters": {
+      "nationalId": "National id",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "dateFrom": "Date from",
+      "dateTo": "Date to",
+      "nationalIdHint": "National id search is an exact match only; it runs once all {{length}} digits are entered."
+    },
+    "status": {
+      "active": "Active",
+      "cancelled": "Cancelled"
+    },
+    "form": {
+      "createTitle": "New e-prescription",
+      "editTitle": "Edit e-prescription",
+      "nationalIdHint": "Required by the e-prescription service.",
+      "nationalIdLength": "The national id must be {{length}} digits.",
+      "medicationRequired": "A prescription must contain at least one medication.",
+      "searchCompany": "Search company",
+      "searchPatient": "Search patient",
+      "diagnosesHeading": "Diagnoses",
+      "medicationsHeading": "Medications",
+      "removeDiagnosis": "Remove diagnosis {{code}}",
+      "removeMedication": "Remove medication {{name}}"
+    },
+    "detail": {
+      "subtitle": "{{patient}} · {{date}}",
+      "cancelAction": "Cancel prescription",
+      "cancelTitle": "Cancel prescription",
+      "cancelReason": "Cancellation reason",
+      "cancelledNotice": "This prescription has been cancelled; the record is read-only.",
+      "diagnosesTitle": "Diagnoses",
+      "medicationsTitle": "Medications",
+      "noDiagnoses": "No diagnosis lines.",
+      "noMedications": "No medication lines."
+    }
+  },
+  "enums": {
+    "triStateAnswer": {
+      "0": "—",
+      "1": "No",
+      "2": "Yes",
+      "3": "Unknown"
+    },
+    "examFinding": {
+      "0": "—",
+      "1": "Normal",
+      "2": "Pathological",
+      "3": "Not performed"
+    },
+    "habitStatus": {
+      "0": "—",
+      "1": "Never used",
+      "2": "Quit",
+      "3": "Currently using"
+    },
+    "habitType": {
+      "1": "Smoking",
+      "2": "Alcohol",
+      "3": "Substance"
+    },
+    "medicalComplaintType": {
+      "1": "Productive cough",
+      "2": "Shortness of breath",
+      "3": "Chest pain",
+      "4": "Palpitation",
+      "5": "Back pain",
+      "6": "Diarrhoea or constipation",
+      "7": "Joint pain",
+      "8": "Cardiac disease",
+      "9": "Diabetes",
+      "10": "Renal disease",
+      "11": "Jaundice",
+      "12": "Gastric or duodenal ulcer",
+      "13": "Hearing loss",
+      "14": "Vision impairment",
+      "15": "Nervous system disease",
+      "16": "Skin disease",
+      "17": "Food poisoning",
+      "18": "Hospital admission",
+      "19": "Surgery",
+      "20": "Work accident",
+      "21": "Suspected occupational disease",
+      "22": "Disability",
+      "23": "Ongoing treatment"
+    },
+    "physicalExamSystem": {
+      "1": "Sensory organs — eye",
+      "2": "Sensory organs — ear, nose, throat",
+      "3": "Sensory organs — skin",
+      "4": "Cardiovascular system",
+      "5": "Respiratory system",
+      "6": "Digestive system",
+      "7": "Urogenital system",
+      "8": "Musculoskeletal system",
+      "9": "Neurological examination",
+      "10": "Psychiatric examination",
+      "99": "Other"
+    },
+    "labTestType": {
+      "1": "Biological analysis (blood)",
+      "2": "Biological analysis (urine)",
+      "3": "Radiological imaging",
+      "4": "Audiometry",
+      "5": "Respiratory function test",
+      "6": "Psychological test",
+      "99": "Other"
+    },
+    "immunizationType": {
+      "1": "Tetanus",
+      "2": "Hepatitis A",
+      "3": "Hepatitis B",
+      "4": "Influenza",
+      "5": "Covid-19",
+      "99": "Other"
+    },
+    "workConditionType": {
+      "1": "Work at height",
+      "2": "Night work",
+      "3": "Shift work",
+      "4": "Heavy and hazardous work",
+      "5": "Confined space work",
+      "6": "Noisy environment",
+      "7": "Chemical exposure",
+      "8": "Physical and mental fitness"
+    },
+    "prescriptionNoteType": {
+      "0": "—",
+      "1": "Diagnosis",
+      "2": "Treatment duration",
+      "3": "Patient safety and monitoring form"
+    }
+  }
+}

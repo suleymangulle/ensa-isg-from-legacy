@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "organizations": "Organisations",
+    "offices": "Offices"
+  },
+  "organization": {
+    "list": {
+      "title": "Organisations",
+      "description": "OHS service provider (OSGB) tenant records",
+      "create": "New organisation",
+      "searchPlaceholder": "Search by name, code or tax number…",
+      "empty": "No organisations found."
+    },
+    "filters": {
+      "status": "Filter by status",
+      "allStatuses": "All statuses"
+    },
+    "fields": {
+      "name": "Organisation name",
+      "code": "Organisation code",
+      "organizationType": "Organisation type",
+      "organizationTypeId": "Organisation type id",
+      "subscriptionPlan": "Subscription plan",
+      "subscriptionPlanId": "Subscription plan id",
+      "contact": "Contact",
+      "phone": "Phone",
+      "email": "E-mail",
+      "webUrl": "Web address",
+      "taxOffice": "Tax office",
+      "taxNumber": "Tax number",
+      "address": "Address",
+      "city": "City",
+      "district": "District",
+      "authorizedFullName": "Contact person",
+      "authorizedPhone": "Contact phone",
+      "authorizedEmail": "Contact e-mail",
+      "subscription": "Subscription",
+      "subscriptionStart": "Subscription start",
+      "subscriptionEnd": "Subscription end",
+      "maximumUserCount": "User quota",
+      "maximumCompanyCount": "Workplace quota",
+      "contractDate": "Contract date",
+      "contractStatus": "Contract status",
+      "contractUserCount": "Users under contract",
+      "contractPaid": "Paid",
+      "status": "Status"
+    },
+    "subscription": {
+      "openEnded": "{{value}} — open ended"
+    },
+    "actions": {
+      "editNamed": "Edit the organisation {{name}}",
+      "deleteNamed": "Delete the organisation {{name}}",
+      "deleteTitle": "Delete organisation",
+      "deleteMessage": "{{name}} will be deactivated and deleted. Continue?"
+    },
+    "detail": {
+      "subtitle": "Organisation code: {{code}}",
+      "tabs": {
+        "general": "General information",
+        "offices": "Offices",
+        "subscription": "Subscription"
+      },
+      "activeUserCount": "Active users",
+      "activeCompanyCount": "Active workplaces",
+      "officeCount": "Offices",
+      "unlimited": "Unlimited",
+      "openEnded": "Open ended",
+      "emptyOffices": "No office is linked to this organisation.",
+      "headquarterOffice": "Headquarters office: {{name}}",
+      "noContract": "No subscription contract is in force."
+    },
+    "form": {
+      "createTitle": "New organisation",
+      "editTitle": "Edit organisation",
+      "sections": {
+        "identity": "Identity",
+        "contact": "Contact",
+        "authorized": "Contact person",
+        "subscription": "Subscription"
+      },
+      "codeHint": "Used for tenant resolution and sub-domains; it must be unique.",
+      "openEndedHint": "Leave empty for an open-ended subscription.",
+      "unlimitedHint": "Leave empty for no limit.",
+      "positiveIdRequired": "Enter a positive id."
+    }
+  },
+  "office": {
+    "list": {
+      "title": "Offices",
+      "description": "Organisation offices and the companies they belong to",
+      "create": "New office",
+      "searchPlaceholder": "Search by office name or contact person…",
+      "empty": "No offices found.",
+      "unresolvedCompany": "Company #{{id}}"
+    },
+    "filters": {
+      "status": "Filter by status",
+      "allStatuses": "All statuses"
+    },
+    "fields": {
+      "name": "Office name",
+      "company": "Company",
+      "organization": "Organisation",
+      "phone": "Phone",
+      "fax": "Fax",
+      "address": "Address",
+      "city": "City",
+      "district": "District",
+      "cityDistrict": "City / district",
+      "authorizedPerson": "Contact person",
+      "authorizedEmail": "Contact e-mail",
+      "headquarterOffice": "Headquarters office",
+      "status": "Status"
+    },
+    "badges": {
+      "headquarter": "Headquarters"
+    },
+    "actions": {
+      "editNamed": "Edit the office {{name}}",
+      "deleteNamed": "Delete the office {{name}}",
+      "deleteTitle": "Delete office",
+      "deleteMessage": "The office {{name}} will be deleted. Continue?"
+    },
+    "detail": {
+      "subtitle": "Belongs to {{organization}}",
+      "general": "General information",
+      "userCount": "Active users",
+      "cashRegisterCount": "Active cash registers"
+    },
+    "form": {
+      "createTitle": "New office",
+      "editTitle": "Edit office",
+      "companyHint": "Pick a company when the office belongs to one; otherwise it stays attached to the organisation.",
+      "attachedToOrganization": "Attached to the organisation",
+      "headquarterHint": "Only one office per organisation may be the headquarters."
+    }
+  },
+  "enums": {
+    "contractStatus": {
+      "0": "—",
+      "1": "In preparation",
+      "2": "Sent",
+      "3": "Signed",
+      "4": "Rejected",
+      "5": "Terminated"
+    }
+  }
+}

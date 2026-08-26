@@ -1,0 +1,372 @@
+{
+  "nav": {
+    "invoices": "Faturalar",
+    "cashRegister": "Kasa",
+    "penalties": "Cezalar",
+    "companyBalances": "Firma Bakiyeleri"
+  },
+  "enums": {
+    "invoiceType": {
+      "1": "Satış",
+      "2": "Alış",
+      "3": "Satış İadesi",
+      "4": "Alış İadesi"
+    },
+    "cashTransactionType": {
+      "1": "Giriş",
+      "2": "Çıkış",
+      "3": "Devir"
+    },
+    "sourceModule": {
+      "0": "Belirtilmemiş",
+      "1": "Fatura",
+      "2": "Kasa",
+      "3": "Tahsilat",
+      "4": "Gider",
+      "5": "Sözleşme",
+      "99": "Manuel"
+    },
+    "employeeCountRange": {
+      "1": "10'dan az",
+      "2": "10 – 49",
+      "3": "50 ve üzeri"
+    }
+  },
+  "finance": {
+    "common": {
+      "currency": "TL",
+      "startDate": "Başlangıç tarihi",
+      "endDate": "Bitiş tarihi",
+      "selectCompany": "Firma seçin…",
+      "selectOffice": "Ofis seçin…"
+    },
+    "invoice": {
+      "list": {
+        "title": "Faturalar",
+        "description": "Satış ve alış faturaları",
+        "create": "Yeni Fatura",
+        "searchPlaceholder": "Fatura no veya cari ünvanı ile ara…",
+        "empty": "Kayıtlı fatura bulunamadı."
+      },
+      "filters": {
+        "allTypes": "Tüm fatura türleri",
+        "allCompanies": "Tüm firmalar"
+      },
+      "fields": {
+        "invoiceNo": "Fatura No",
+        "invoiceDate": "Fatura Tarihi",
+        "company": "Firma",
+        "accountCurrentName": "Cari Ünvanı",
+        "invoiceType": "Fatura Türü",
+        "sourceModule": "Kaynak",
+        "office": "Ofis",
+        "invoiceDescription": "Fatura Açıklaması",
+        "total": "Toplam",
+        "vatTotal": "KDV Toplam",
+        "generalTotal": "Genel Toplam",
+        "inWords": "Yazı İle Genel Toplam",
+        "totalWithCurrency": "Toplam (TL)",
+        "vatTotalWithCurrency": "KDV Toplam (TL)",
+        "generalTotalWithCurrency": "Genel Toplam (TL)"
+      },
+      "form": {
+        "createTitle": "Yeni Fatura",
+        "editTitle": "Fatura Düzenle",
+        "generateNumber": "Numara Al",
+        "numberPlaceholder": "Kaydederken oluşturulacak",
+        "numberHint": "Fatura numarası sunucudaki sayaçtan alınır; elle yazılamaz. Boş bırakırsanız kayıt sırasında otomatik atanır."
+      },
+      "actions": {
+        "edit": "{{number}} numaralı faturayı düzenle",
+        "delete": "{{number}} numaralı faturayı sil"
+      },
+      "delete": {
+        "title": "Faturayı sil",
+        "message": "{{number}} numaralı fatura satırlarıyla birlikte silinecek. Onaylıyor musunuz?"
+      },
+      "detail": {
+        "fallbackTitle": "Fatura",
+        "subtitle": "{{account}} — {{date}}",
+        "headerSection": "Fatura Bilgileri",
+        "totalsSection": "Tutarlar",
+        "linesSection": "Fatura Satırları",
+        "inWordsPending": "Satır eklendiğinde sunucu tarafından üretilecek.",
+        "print": "Yazdırma Görünümü"
+      },
+      "line": {
+        "create": "Satır Ekle",
+        "createTitle": "Yeni Fatura Satırı",
+        "editTitle": "Fatura Satırını Düzenle",
+        "empty": "Bu faturada satır yok.",
+        "unitPlaceholder": "Adet, Ay, Saat…",
+        "orderHint": "0 yazarsanız satır sona eklenir.",
+        "serverCalculatesHint": "Satır tutarı, KDV tutarı ve fatura toplamları kayıttan sonra sunucu tarafından hesaplanır.",
+        "countPositive": "Miktar sıfırdan büyük olmalıdır.",
+        "priceNonNegative": "Birim fiyat negatif olamaz.",
+        "vatRange": "KDV oranı 0 ile 100 arasında olmalıdır.",
+        "fields": {
+          "orderNo": "Sıra",
+          "description": "Açıklama",
+          "count": "Miktar",
+          "unit": "Birim",
+          "unitPrice": "Birim Fiyat",
+          "vatRate": "KDV Oranı",
+          "unitPriceWithCurrency": "Birim Fiyat (TL)",
+          "totalAmountWithCurrency": "Tutar (TL)",
+          "vatAmountWithCurrency": "KDV (TL)",
+          "grossWithCurrency": "KDV Dahil (TL)"
+        },
+        "actions": {
+          "edit": "{{description}} satırını düzenle",
+          "delete": "{{description}} satırını sil"
+        },
+        "delete": {
+          "title": "Satırı sil",
+          "message": "“{{description}}” satırı silinecek ve fatura toplamları yeniden hesaplanacak. Onaylıyor musunuz?"
+        }
+      },
+      "print": {
+        "title": "Fatura",
+        "action": "Yazdır",
+        "billedTo": "Cari"
+      }
+    },
+    "cashRegister": {
+      "list": {
+        "title": "Kasa",
+        "description": "Kasa tanımları ve kasa hareketleri",
+        "create": "Yeni Kasa",
+        "searchPlaceholder": "Kasa adı ile ara…",
+        "empty": "Kayıtlı kasa bulunamadı."
+      },
+      "filters": {
+        "allOffices": "Tüm ofisler",
+        "allTypes": "Tüm işlem türleri",
+        "includeVoided": "İptal edilenleri göster"
+      },
+      "fields": {
+        "name": "Kasa Adı",
+        "office": "Ofis",
+        "headquarter": "Merkez Kasası",
+        "status": "Durum"
+      },
+      "headquarter": {
+        "yes": "Merkez",
+        "no": "Şube"
+      },
+      "form": {
+        "createTitle": "Yeni Kasa",
+        "editTitle": "Kasayı Düzenle"
+      },
+      "actions": {
+        "edit": "{{name}} kasasını düzenle",
+        "delete": "{{name}} kasasını sil"
+      },
+      "delete": {
+        "title": "Kasayı sil",
+        "message": "{{name}} kasası silinecek. Bakiyesi olan bir kasa silinemez. Onaylıyor musunuz?"
+      },
+      "detail": {
+        "subtitle": "Ofis: {{office}}",
+        "registerSection": "Kasa Bilgileri",
+        "balanceSection": "Bakiye",
+        "transactionsSection": "Kasa Hareketleri",
+        "balanceNow": "Güncel Bakiye",
+        "balanceAsOf": "{{date}} tarihli bakiye",
+        "asOfLabel": "Bakiye tarihi",
+        "asOfHint": "Boş bırakılırsa güncel bakiye gösterilir. Bakiye her zaman sunucuda hesaplanır.",
+        "switchRegister": "Başka kasaya geç"
+      },
+      "transaction": {
+        "create": "Yeni Hareket",
+        "createTitle": "Kasa Hareketi Ekle",
+        "empty": "Bu kasada hareket bulunamadı.",
+        "amountPositive": "Tutar sıfırdan büyük olmalıdır.",
+        "appendOnlyHint": "Kasa hareketleri değiştirilemez. Hatalı bir hareket silinmez, iptal edilir ve bakiyeye sayılmaz.",
+        "fields": {
+          "operationType": "İşlem Türü",
+          "operationDate": "İşlem Tarihi",
+          "amountWithCurrency": "Tutar (TL)",
+          "paymentMethodId": "Ödeme Tipi No",
+          "exitItemId": "Gider Kalemi No",
+          "description": "Açıklama",
+          "sourceModule": "Kaynak",
+          "status": "Durum"
+        },
+        "status": {
+          "active": "Geçerli",
+          "voided": "İptal"
+        },
+        "void": {
+          "action": "İptal Et",
+          "title": "Hareketi iptal et",
+          "message": "Bu hareket iptal edilecek ve bakiyeye sayılmayacak. Kayıt silinmez, listede iptal edilmiş olarak kalır. Onaylıyor musunuz?"
+        }
+      }
+    },
+    "penalty": {
+      "list": {
+        "title": "Cezalar",
+        "description": "Kanuni ceza maddeleri ve ceza risk anketleri",
+        "create": "Yeni Ceza Maddesi",
+        "searchPlaceholder": "Kanun veya ceza maddesi ile ara…",
+        "empty": "Ceza maddesi bulunamadı."
+      },
+      "tabs": {
+        "catalogue": "Ceza Maddeleri",
+        "surveys": "Ceza Anketleri"
+      },
+      "filters": {
+        "allMultipliers": "Tüm hesaplama türleri",
+        "perEmployee": "Çalışan başına",
+        "flat": "Sabit tutar"
+      },
+      "fields": {
+        "treeNodeCode": "Kod",
+        "lawArticle": "Kanun Maddesi",
+        "penaltyArticle": "Ceza Maddesi",
+        "offence": "Atıf Yapılan Fiil",
+        "multiplierCalculate": "Çalışan Başına",
+        "status": "Durum"
+      },
+      "form": {
+        "createTitle": "Yeni Ceza Maddesi",
+        "editTitle": "Ceza Maddesini Düzenle",
+        "multiplierHint": "İşaretlenirse ceza tutarı işyerinin çalışan sayısı ile çarpılır."
+      },
+      "actions": {
+        "edit": "{{article}} maddesini düzenle",
+        "delete": "{{article}} maddesini sil"
+      },
+      "delete": {
+        "title": "Ceza maddesini sil",
+        "message": "{{article}} maddesi tutar matrisiyle birlikte silinecek. Onaylıyor musunuz?"
+      },
+      "amount": {
+        "section": "Tutar Matrisi",
+        "create": "Tutar Ekle",
+        "createTitle": "Yeni Ceza Tutarı",
+        "editTitle": "Ceza Tutarını Düzenle",
+        "empty": "Bu madde için tanımlı tutar yok.",
+        "nonNegative": "Tutar negatif olamaz.",
+        "yearRange": "Yıl 2000 ile 2200 arasında olmalıdır.",
+        "fields": {
+          "hazardClass": "Tehlike Sınıfı",
+          "employeeCountRange": "Çalışan Aralığı",
+          "validityYear": "Yıl",
+          "amountWithCurrency": "Tutar (TL)"
+        },
+        "actions": {
+          "edit": "{{year}} yılı tutarını düzenle",
+          "delete": "{{year}} yılı tutarını sil"
+        },
+        "delete": {
+          "title": "Tutarı sil",
+          "message": "{{year}} yılına ait tutar silinecek. Onaylıyor musunuz?"
+        }
+      },
+      "applicable": {
+        "title": "Uygulanacak Tutarı Sorgula",
+        "description": "İşyeri profilini seçin; hangi matris hücresinin geçerli olduğunu sunucu belirler.",
+        "action": "Sorgula",
+        "idle": "Sorgulamak için profili seçip düğmeye basın.",
+        "result": "{{year}} yılı için geçerli tutar"
+      }
+    },
+    "penaltySurvey": {
+      "list": {
+        "create": "Yeni Anket",
+        "searchPlaceholder": "Firma ünvanı veya tesis adı ile ara…",
+        "empty": "Ceza anketi bulunamadı."
+      },
+      "filters": {
+        "allHazardClasses": "Tüm tehlike sınıfları",
+        "allAnswers": "Tüm cevaplar"
+      },
+      "fields": {
+        "companyTitle": "Firma Ünvanı",
+        "facilityName": "Tesis Adı",
+        "facilityOwner": "Tesis Yetkilisi",
+        "facilityOwnerDuty": "Yetkili Görevi",
+        "facilityOwnerGsm": "Yetkili GSM",
+        "employer": "İşveren",
+        "phone": "Telefon",
+        "email": "E-posta",
+        "address": "Adres",
+        "taxOffice": "Vergi Dairesi",
+        "taxNumber": "Vergi No",
+        "ssiRegistrationNumber": "SGK Sicil No",
+        "workerCount": "Çalışan Sayısı",
+        "hazardClass": "Tehlike Sınıfı",
+        "creationTime": "Oluşturma"
+      },
+      "form": {
+        "createTitle": "Yeni Ceza Anketi",
+        "editTitle": "Ceza Anketini Düzenle",
+        "workerCountHint": "Tehlike sınıfı ile birlikte ceza tutarlarını belirler.",
+        "workerCountRange": "Çalışan sayısı 0 ile 1.000.000 arasında olmalıdır."
+      },
+      "actions": {
+        "edit": "{{title}} anketini düzenle",
+        "delete": "{{title}} anketini sil"
+      },
+      "delete": {
+        "title": "Anketi sil",
+        "message": "{{title}} anketi cevap satırlarıyla birlikte silinecek. Onaylıyor musunuz?"
+      },
+      "answer": {
+        "violation": "Aykırılık var",
+        "compliant": "Uygun"
+      },
+      "detail": {
+        "profileSection": "İşyeri Profili",
+        "exposureSection": "Ceza Riski",
+        "linesSection": "Anket Cevapları",
+        "lineCount": "Cevaplanan Madde",
+        "violationCount": "Aykırılık",
+        "totalAmount": "Toplam Ceza Riski",
+        "exposureHint": "Tutarlar, anketteki tehlike sınıfı ve çalışan sayısına göre sunucuda hesaplanır."
+      },
+      "line": {
+        "create": "Cevap Ekle",
+        "createTitle": "Yeni Anket Cevabı",
+        "editTitle": "Anket Cevabını Düzenle",
+        "empty": "Bu ankette cevaplanmış madde yok.",
+        "selectArticle": "Ceza maddesi seçin…",
+        "searchPlaceholder": "Kanun veya ceza maddesi ile ara…",
+        "articleHint": "Arama sonucundan ilk {{count}} madde listelenir.",
+        "articleRef": "Madde #{{id}}",
+        "yearHint": "Boş bırakılırsa içinde bulunulan yılın cetveli uygulanır.",
+        "serverResolvesHint": "Ceza tutarı istemciden alınmaz; anketin tehlike sınıfı ve çalışan sayısına göre sunucuda belirlenir.",
+        "fields": {
+          "articleSearch": "Madde Ara",
+          "penalty": "Ceza Maddesi",
+          "surveyAnswer": "Cevap",
+          "year": "Cetvel Yılı",
+          "multiplier": "Çarpan",
+          "amountWithCurrency": "Ceza Tutarı (TL)"
+        },
+        "actions": {
+          "edit": "#{{id}} numaralı maddenin cevabını düzenle",
+          "delete": "#{{id}} numaralı maddenin cevabını sil"
+        },
+        "delete": {
+          "title": "Cevabı sil",
+          "message": "Bu cevap satırı silinecek ve ceza riski yeniden hesaplanacak. Onaylıyor musunuz?"
+        }
+      }
+    },
+    "balance": {
+      "title": "Firma Bakiyeleri",
+      "description": "Firma bazında fatura bakiyesi ve cari hareketler",
+      "companyLabel": "Firma",
+      "pickCompany": "Bakiyeyi ve hareketleri görmek için önce bir firma seçin.",
+      "current": "Güncel Bakiye",
+      "asOf": "{{date}} itibarıyla bakiye",
+      "signHint": "Bakiye satış faturalarından alış ve iade faturalarının düşülmesiyle sunucuda hesaplanır. Pozitif değer firmanın borçlu olduğunu gösterir.",
+      "movementsSection": "{{company}} — Cari Hareketler",
+      "movementsLabel": "Cari hareketler",
+      "noMovements": "Seçilen filtrelerde hareket bulunamadı."
+    }
+  }
+}

@@ -1,0 +1,146 @@
+// =============================================================
+// Ensa — Bootstrap 5 theme built on the Metronic colour palette.
+// Matches docs/ARCHITECTURE.md §11 exactly.
+// =============================================================
+
+// --- Metronic palette variables (must come BEFORE Bootstrap) ---
+$primary:   #3E97FF;
+$secondary: #E4E6EF;
+$success:   #50CD89;
+$info:      #7239EA;
+$warning:   #FFC700;
+$danger:    #F1416C;
+$light:     #F9F9F9;
+$dark:      #181C32;
+
+$body-bg:      #F5F8FA;
+$body-color:   #5E6278;
+$border-color: #F1F1F2;
+
+$font-family-sans-serif: Inter, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-size-base: 0.9375rem; // 15px — Metronic base size
+$border-radius:    0.625rem;
+$border-radius-sm: 0.475rem;
+$border-radius-lg: 0.75rem;
+
+$card-border-width:  0;
+$card-border-radius: $border-radius-lg;
+$card-spacer-y:      1.75rem;
+$card-spacer-x:      1.75rem;
+$card-cap-bg:        transparent;
+
+$input-btn-padding-y: 0.65rem;
+$input-btn-padding-x: 1.1rem;
+$input-bg:            #FFFFFF;
+$input-border-color:  #E4E6EF;
+$input-focus-border-color: $primary;
+
+$table-cell-padding-y: 0.9rem;
+$table-border-color:   $border-color;
+$table-hover-bg:       #F9F9F9;
+
+@import "bootstrap/scss/bootstrap";
+
+// --- Metronic CSS variables (read at runtime by components) ---
+:root {
+  --kt-primary: #3E97FF;
+  --kt-primary-active: #2884EF;
+  --kt-primary-light: #F1FAFF;
+  --kt-success: #50CD89;
+  --kt-success-active: #47BE7D;
+  --kt-success-light: #E8FFF3;
+  --kt-info: #7239EA;
+  --kt-info-active: #5014D0;
+  --kt-info-light: #F8F5FF;
+  --kt-warning: #FFC700;
+  --kt-warning-active: #F1BC00;
+  --kt-warning-light: #FFF8DD;
+  --kt-danger: #F1416C;
+  --kt-danger-active: #D9214E;
+  --kt-danger-light: #FFF5F8;
+  --kt-dark: #181C32;
+  --kt-secondary: #E4E6EF;
+
+  --kt-gray-100: #F9F9F9;
+  --kt-gray-200: #F1F1F2;
+  --kt-gray-300: #F4F4F4;
+  --kt-gray-400: #B5B5C3;
+  --kt-gray-500: #A1A5B7;
+  --kt-gray-600: #7E8299;
+  --kt-gray-700: #5E6278;
+  --kt-gray-800: #3F4254;
+  --kt-gray-900: #181C32;
+
+  --kt-body-bg: #F5F8FA;
+  --kt-card-bg: #FFFFFF;
+  --kt-border-color: #F1F1F2;
+
+  --kt-header-height: 68px;
+  --kt-sidebar-width: 265px;
+  --kt-sidebar-width-collapsed: 76px;
+}
+
+// --- Metronic soft (light) badge and button variants ---
+@each $name, $color in ("primary": #3E97FF, "success": #50CD89, "info": #7239EA,
+                        "warning": #FFC700, "danger": #F1416C) {
+  .badge-light-#{$name} {
+    color: $color;
+    background-color: var(--kt-#{$name}-light);
+    border-radius: 0.425rem;
+    padding: 0.35rem 0.65rem;
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+  .btn-light-#{$name} {
+    color: $color;
+    background-color: var(--kt-#{$name}-light);
+    border: 0;
+    &:hover, &:focus { color: #fff; background-color: $color; }
+  }
+}
+
+body {
+  background-color: var(--kt-body-bg);
+  color: var(--kt-gray-700);
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.02);
+}
+
+.card-header {
+  border-bottom: 1px solid var(--kt-border-color);
+  min-height: 70px;
+  align-items: center;
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--kt-gray-900);
+  margin: 0;
+}
+
+.table {
+  th {
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--kt-gray-500);
+    border-bottom-width: 1px;
+  }
+  td { vertical-align: middle; color: var(--kt-gray-700); }
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--kt-gray-800);
+  font-size: 0.9375rem;
+}
+
+.required::after {
+  content: "*";
+  color: var(--kt-danger);
+  margin-inline-start: 0.25rem;
+}

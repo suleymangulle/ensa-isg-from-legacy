@@ -62,6 +62,12 @@ public sealed class MigrationContext(
     public FieldFitter Fitter { get; } = new();
 
     /// <summary>
+    /// Streams rows straight into a table, for the ones too large for Entity Framework. Refuses a
+    /// table with an encrypted column - see <see cref="BulkWriter"/>.
+    /// </summary>
+    public BulkWriter Bulk { get; } = new(target.ModernConnectionString);
+
+    /// <summary>
     /// Stand-in identity for a row a dry run would have inserted.
     /// <para>
     /// A dry run writes nothing, so the rows it intends to create have no identity - and every

@@ -63,6 +63,7 @@ try
         new TenancyStep(),
         new CompanyStep(),
         new OperationsStep(),
+        new VisitStep(),
         new VerifyStep(),
     };
 

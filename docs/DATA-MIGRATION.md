@@ -61,6 +61,7 @@ that cries wolf is a check nobody reads.
 | `tenancy` | `Firma_T` (`Kurum=1`), `Ofisler_T`, `Kullanici_T` | `Organization`, `Office`, `User` | **done, verified** |
 | `companies` | `Firma_T`, `IsyeriBolum_T`, `FirmaPersonel_T` | `Company`, `WorkplaceDepartment`, `CompanyEmployee` | **done, verified** |
 | `operations` | `Cihaz_T`, `FirmaIlgilenen_T` | `Equipment`, `AssignedSpecialist` | **done, verified** |
+| `visits` | `Ziyaret_T` | `Visit` | **done, verified** |
 
 ### `locations` — what actually happened
 
@@ -224,6 +225,37 @@ would have hit.
 source.** `SonrakiMuayeneTarihi` is empty in all 53,607 legacy rows and `MuayeneTarihi` is filled in
 842. The migration is faithful — it copied what is there — but the overdue-inspection screen will
 show nothing until that data is entered. This is a gap in the legacy records, not in the migration.
+
+### `visits` — 1.7 million rows in 69 seconds
+
+```
+read 1,733,815   written 1,733,770   skipped 45 (company or user missing)
+```
+
+**This is where the tool changed shape.** Through the DbContext this table alone is an hour and a
+half at the ~340 rows a second that connection sustains. `SqlBulkCopy` does it at about 25,000 —
+seventy-four times faster — and the six and a half million rows still to come stop being an
+overnight job.
+
+Two conditions have to hold before a table can go that way, and both are checked rather than
+assumed:
+
+- **No encrypted column.** Bulk copy bypasses the model, so it bypasses the value converters, and
+  the plaintext would land in a column every reader tries to decrypt. `BulkWriter.EnsureNoConverters`
+  refuses such a table outright — a guard, not a comment, because this migration has already made
+  that mistake once and it is invisible when it happens.
+- **Nothing points at it.** A leaf table needs no id map, because nobody will ever look a visit up
+  by its legacy id. Building 1.7 million translations would be work nobody uses.
+
+Resuming instead uses a **watermark**: the highest legacy id taken so far, moved after each chunk
+rather than at the end, so a run that dies halfway leaves the mark where the data actually stops.
+A second run reads zero rows.
+
+| Finding | Decision |
+|---|---|
+| `IslemTuru` is empty in **all** 1,733,816 rows | Every visit is `Unspecified`. There is nothing to map, and inventing a type would be inventing a fact. |
+| The legacy schema records no completion flag | `Completed` stays false. A visit that happened is not distinguishable here from one that was only planned, so nothing is claimed. |
+| `DigerFirmaUzaklik` is a float used for whatever was to hand | Kept only when it is a plausible distance; one absurd value would otherwise stop the table. |
 
 ## Scope
 

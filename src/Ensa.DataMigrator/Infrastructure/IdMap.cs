@@ -56,6 +56,18 @@ public sealed class IdMap(string connectionString)
             ALTER TABLE migration.IdMap
                 ADD Resolution char(1) NOT NULL CONSTRAINT DF_IdMap_Resolution DEFAULT 'I';
 
+            IF OBJECT_ID('migration.Watermark') IS NULL
+            CREATE TABLE migration.Watermark
+            (
+                -- For a leaf table written in bulk: how far through the legacy table this has got.
+                -- Reading in id order, a resumed run continues from here. A leaf needs no id map,
+                -- and building one would mean reading back a million identities nobody looks up.
+                LegacyTable  varchar(64) NOT NULL,
+                LastLegacyId int         NOT NULL,
+                UpdatedTime  datetime2   NOT NULL CONSTRAINT DF_Watermark_Updated DEFAULT SYSUTCDATETIME(),
+                CONSTRAINT PK_Watermark PRIMARY KEY (LegacyTable)
+            );
+
             IF OBJECT_ID('migration.StepLog') IS NULL
             CREATE TABLE migration.StepLog
             (
@@ -169,6 +181,49 @@ public sealed class IdMap(string connectionString)
                 cached[legacyId] = modernId;
             }
         }
+    }
+
+    /// <summary>How far a bulk-written table has got, or zero when it has not started.</summary>
+    public async Task<int> GetWatermarkAsync(string legacyTable, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        await using var command = new SqlCommand(
+            "SELECT LastLegacyId FROM migration.Watermark WHERE LegacyTable = @t", connection);
+        command.Parameters.AddWithValue("@t", legacyTable);
+
+        var value = await command.ExecuteScalarAsync(cancellationToken);
+        return value is int id ? id : 0;
+    }
+
+    /// <summary>
+    /// Moves the watermark forward.
+    /// <para>
+    /// Written after each batch, not at the end: a run that dies halfway must leave the mark where
+    /// the data actually stops, or the next run either repeats rows or skips them.
+    /// </para>
+    /// </summary>
+    public async Task SetWatermarkAsync(
+        string legacyTable, int lastLegacyId, CancellationToken cancellationToken = default)
+    {
+        await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync(cancellationToken);
+
+        await using var command = new SqlCommand("""
+            MERGE migration.Watermark AS target
+            USING (VALUES (@t, @id)) AS source (LegacyTable, LastLegacyId)
+                ON target.LegacyTable = source.LegacyTable
+            WHEN MATCHED THEN UPDATE SET LastLegacyId = source.LastLegacyId,
+                                         UpdatedTime = SYSUTCDATETIME()
+            WHEN NOT MATCHED THEN INSERT (LegacyTable, LastLegacyId)
+                 VALUES (source.LegacyTable, source.LastLegacyId);
+            """, connection);
+
+        command.Parameters.AddWithValue("@t", legacyTable);
+        command.Parameters.AddWithValue("@id", lastLegacyId);
+
+        await command.ExecuteNonQueryAsync(cancellationToken);
     }
 
     /// <summary>Records that a step ran, and what it did.</summary>

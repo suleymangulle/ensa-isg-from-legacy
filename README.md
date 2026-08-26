@@ -90,7 +90,7 @@ dotnet tool install --global dotnet-ef  # first time only
 dotnet ef migrations add <Name> -p src/Ensa.EntityFrameworkCore -s src/Ensa.HttpApi.Host
 
 # Apply migrations and load seed data (idempotent — safe to re-run):
-DOTNET_ENVIRONMENT=Development dotnet run --project src/Ensa.DbMigrator
+dotnet run --project src/Ensa.DbMigrator
 ```
 
 The seeder creates 81 provinces, a starter district set, 171 permissions, 7 roles, a demo

@@ -70,9 +70,12 @@ The API verification scripts need the development certificate exported once; see
 `tools/api-tests/README.md`. On Windows run them with `PYTHONIOENCODING=utf-8`.
 
 The migrator reads `Ensa.HttpApi.Host`'s settings files and resolves the environment from
-`DOTNET_ENVIRONMENT` or `ASPNETCORE_ENVIRONMENT`. With neither set it runs as **Production**
-and looks for `Server=localhost`; on a developer machine prefix it with
-`DOTNET_ENVIRONMENT=Development` (or export it once) so it reaches LocalDB.
+`DOTNET_ENVIRONMENT` or `ASPNETCORE_ENVIRONMENT`. Its launch profile
+(`src/Ensa.DbMigrator/Properties/launchSettings.json`) pins **Development**, so `dotnet run` and
+Visual Studio's F5 both work from a fresh clone. Bypassing the profile (`--no-launch-profile`, a
+published binary, a container) resolves **Production**, which looks for `Server=localhost` and
+refuses to start without a column encryption key — both correct for a deployment. Set
+`DOTNET_ENVIRONMENT=Development` explicitly in that case.
 
 SQL Server must be reachable. On a developer machine LocalDB is used:
 `sqllocaldb start MSSQLLocalDB`. The connection string lives in

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Ensa.DbMigrator": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "//": "Ensa.HttpApi.Host has always had a profile pinning the environment; this project did not, so a fresh clone ran it as Production - which looks for Server=localhost and refuses to start without a column encryption key. Both are correct for a deployment and wrong for a developer pressing F5.",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+    "Ensa.DbMigrator (new encryption key)": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "//": "Prints a fresh AES-256 key and IV for a real deployment. Touches no database.",
+      "commandLineArgs": "--new-encryption-key",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

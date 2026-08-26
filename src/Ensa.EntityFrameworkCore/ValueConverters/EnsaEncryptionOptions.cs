@@ -81,13 +81,23 @@ public sealed class EnsaEncryptionOptions
         }
 
         throw new InvalidOperationException(
-            "Column encryption is not configured. Set Encryption:Key (32 bytes, base64) and "
-            + "Encryption:Iv (16 bytes, base64) through environment variables "
-            + "(Encryption__Key / Encryption__Iv), user-secrets or a key vault. They are "
-            + "deliberately absent from appsettings.json: a key in source control is a published "
-            + "key, and these columns hold statutory identity numbers. Generate a pair with "
-            + "'dotnet run --project src/Ensa.DbMigrator -- --new-encryption-key'. Note that "
-            + "changing the key makes existing encrypted columns unreadable.");
+            $"Column encryption is not configured and the environment is '{environmentName ?? "(unset)"}'."
+            + Environment.NewLine
+            + Environment.NewLine
+            + "If you are running this on a developer machine, the environment is the problem, not "
+            + "the key: it should be Development, which supplies both a local connection string "
+            + "and a development key. Visual Studio picks that up from the project's launch "
+            + "profile; from a plain shell, set it first: "
+            + "DOTNET_ENVIRONMENT=Development (or ASPNETCORE_ENVIRONMENT=Development)."
+            + Environment.NewLine
+            + Environment.NewLine
+            + "If this IS a real deployment, supply a key: set Encryption__Key (32 bytes, base64) "
+            + "and Encryption__Iv (16 bytes, base64) as environment variables, user-secrets or "
+            + "key-vault entries. They are deliberately absent from appsettings.json - a key in "
+            + "source control is a published key, and these columns hold statutory identity "
+            + "numbers. Generate a pair with "
+            + "'dotnet run --project src/Ensa.DbMigrator -- --new-encryption-key'. Changing the "
+            + "key makes existing encrypted columns unreadable.");
     }
 
     /// <summary>

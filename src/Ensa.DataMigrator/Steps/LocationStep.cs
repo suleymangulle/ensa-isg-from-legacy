@@ -116,7 +116,7 @@ public sealed class LocationStep : IMigrationStep
         {
             foreach (var city in missing)
             {
-                insertedPairs.Add((city.Id, DryRunId()));
+                insertedPairs.Add((city.Id, context.NextDryRunId()));
             }
         }
         else if (missing.Count > 0)
@@ -216,7 +216,7 @@ public sealed class LocationStep : IMigrationStep
 
                 if (context.DryRun)
                 {
-                    var placeholder = DryRunId();
+                    var placeholder = context.NextDryRunId();
                     existing[key] = placeholder;
                     insertedPairs.Add((district.Id, placeholder));
                     inserted++;
@@ -347,16 +347,6 @@ public sealed class LocationStep : IMigrationStep
 
     // ------------------------------------------------------------------ helpers
 
-    /// <summary>
-    /// Placeholder identity for a row a dry run would have inserted.
-    /// <para>
-    /// Negative on purpose: a real insert can never produce one, so a placeholder that leaked into
-    /// a write would break a foreign key immediately instead of pointing at an unrelated row.
-    /// </para>
-    /// </summary>
-    private static int DryRunId() => Interlocked.Decrement(ref _dryRunCounter);
-
-    private static int _dryRunCounter;
 
 
     /// <summary>

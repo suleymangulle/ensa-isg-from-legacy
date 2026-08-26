@@ -58,6 +58,7 @@ that cries wolf is a check nobody reads.
 | Step | Legacy source | Destination | Status |
 |---|---|---|---|
 | `locations` | `Sehir_T`, `Ilce_T`, `Mahalle_T` | `City`, `District`, `Neighborhood` | **done, verified** |
+| `tenancy` | `Firma_T` (`Kurum=1`), `Ofisler_T`, `Kullanici_T` | `Organization`, `Office`, `User` | **done, verified** |
 
 ### `locations` — what actually happened
 
@@ -83,6 +84,60 @@ Three findings worth keeping:
 - **Two neighbourhood names contained a stray CR/LF.** `.NET`'s `Trim()` removed it; SQL's
   `LTRIM/RTRIM` does not, which is why the verification reports those two separately rather than as
   failures. The migration cleaned the data rather than losing it.
+
+### `tenancy` — what actually happened
+
+```
+read 5,874   written 5,874
+  organizations: 1,040
+  offices:         956   (14 demoted from head office)
+  users:         3,878   (1,399 user names derived, 606 duplicate national ids dropped)
+
+verify: national ids 2,827/2,865 read back as 11 digits, 0 still ciphertext
+```
+
+**The legacy database encrypts some columns, and this nearly went unnoticed.** `Kullanici_T`'s
+`TCKimlikNo` (3,468 rows), `MedulaKullanici`, `MedulaSifre` and the whole of
+`PeriyodikMuayeneFormu_T` hold ciphertext that reads like ordinary text. The first run carried it
+across as-is and encrypted it a second time — unreadable by anything, and nothing objects. It
+surfaced only because the doubly-encrypted values no longer fitted the destination column and the
+truncation report said so.
+
+`LegacyCrypt` now reads them: Rijndael with a **256-bit block** (not AES — .NET cannot do this at
+all, hence BouncyCastle), CBC, PKCS7, PBKDF2 over a fixed salt. Two of the first 200 sampled values
+decrypted into *more ciphertext*: the legacy application encrypted some rows twice, so decryption
+repeats until it stops finding cipher. `--probe-crypt` proves the key before anything is written,
+and `verify` reads every migrated identity number back through the model, which is the only check
+that can tell a healthy value from a doubly-encrypted one.
+
+**`FirmaPersonel_T.TCKimlikNo` is not encrypted** — 0 of 275,323 rows — so the largest table is
+unaffected. That was checked against the data rather than assumed from the legacy attributes, which
+turned out to be misleading.
+
+**Passwords are not migrated.** `Kullanici_T.Sifre` is reversibly encrypted, not hashed. There is
+nothing to convert into a PBKDF2 hash, and converting would be wrong anyway: credentials stored in
+a form somebody can decrypt should be treated as already exposed. Every migrated user arrives with
+`MustChangePassword` and no usable password. **Operationally this means no migrated user can sign
+in until their password is reset** — that needs planning before the production run.
+
+### Other decisions this step forced
+
+| Finding | Decision |
+|---|---|
+| An organization's "authorised person's telephone" holds an e-mail address, too long for the column | Truncate, and report every shortened column by name and count. One bad row must not stop 1,039 good ones, and quiet truncation is worse than either. |
+| Two organizations flag several offices as head office; the schema allows one | The earliest keeps the flag, the rest are carried across as ordinary offices. 14 demoted, reported. |
+| The same national id appears on several accounts of one organization | The first keeps it; later accounts are written without it. The account is real, the identifier is ambiguous, and an ambiguous statutory identifier is worse than an absent one. 606 dropped. |
+| `Kullanici_T` has no user name — the legacy app signed people in by e-mail, but 600 accounts have none and 208 addresses are shared | E-mail when free, else e-mail with the legacy id appended, else `legacy.{id}`. Every fallback keeps the id visible so the account traces back. 1,399 derived. |
+| Deduplicating user names with an ordinal comparison failed 23 seconds in | The unique index lives in a `Turkish_CI_AS` database, where `I` and `ı` are the same letter. Deduplication now folds the way the collation compares. |
+| The step wrote the id map once at the end; a mid-run failure left 200 organizations with nothing pointing at them, and the next run collided | The map is written with the chunk that produced it. A run that dies halfway leaves a prefix the next run recognises. |
+
+### Assumptions on the record
+
+- Legacy `KurumTuru` → `OSGB`→`OSGB`, `Bireysel`→`BIREYSEL`, **`Kurumsal`→`ISGB`** (a corporate
+  customer running its own in-house unit is what an İSGB is), `ensa`→`OSGB` (the vendor's own row).
+- Legacy `PaketTuru` → `pro`→`PROFESYONEL`, `demo`→`DEMO`, `startup`→`BASLANGIC`, **`ensa`→`KURUMSAL`**
+  (the vendor's unrestricted plan has no counterpart; it maps to the widest one that exists).
+- 15 organizations have neither field set and fall back to `OSGB` / `DEMO`.
 
 ## Scope
 

@@ -64,6 +64,7 @@ that cries wolf is a check nobody reads.
 | `visits` | `Ziyaret_T` | `Visit` | **done, verified** |
 | `catalogues` | `Aktivite_T`, `Egitim_T`, `Periyot_T` + groups | `Activity`, `Training`, `Period` + groups | **done** |
 | `plans` | `CalismaPlani_T`, `EgitimPlani_T` + their line tables | `WorkPlan`, `TrainingPlan` + lines | **done, verified** |
+| `risks` | `RiskAnalizRaporu_T` + hazards, `Tehlike_T` | `RiskAssessmentReport`, `IdentifiedHazard`, `Hazard` | **done, verified** |
 | `reencrypt` | — | every encrypted column | **repair, see below** |
 
 ### `locations` — what actually happened
@@ -320,6 +321,39 @@ configured key. The rest are values that are not identity numbers in the source 
 `DbContext` to satisfy the guard would cost an hour and a half. So `EnsureNoConverters` accepts a
 list of columns the caller states it has **already converted by hand** — a deliberate, visible act.
 A column nobody names still stops the run.
+
+### `risks`
+
+```
+read 1,011,184   written 1,010,931   in 8m 23s
+  hazard categories       147
+  hazards               3,615
+  risk reports          6,839
+  identified hazards 1,000,330
+
+998,108 risk scores computed; longest control measure preserved at 13,004 characters
+```
+
+**A third under-sized column, and the one that mattered most.** `IdentifiedHazard.Measure` held
+2,000 characters against a longest real value of **13,004**, with 91,421 rows over 512. It is prose —
+what to do about a hazard, written by the specialist who assessed it — and it is the one text in
+this system where the tail matters as much as the head: truncating it cuts a safety instruction in
+half. It is now unbounded. (`RiskAssessmentReport.WorkplaceTelefonu` was 20 against a real 65.)
+
+**The risk score is computed, because the rebuilt schema stores it.** The legacy system recomputed
+it on every screen and kept no column. Leaving it at zero would make every migrated risk look
+negligible and every report sort by nothing, so it is calculated the way
+`IRiskAssessmentManager` does — likelihood × severity for a matrix, likelihood × frequency ×
+severity for Fine-Kinney.
+
+**`"matris"` is a five-by-five matrix, decided from the data.** The legacy column offers only
+`"matris"` and `"finekinney"` while the rebuilt enum distinguishes 3×3 from 5×5. Rather than pick by
+the name: 427,460 of 427,488 rows in matrix reports have a likelihood of five or less, and 267,856
+of three or less. A 3×3 would not produce the fours and fives; a 5×5 produces exactly this.
+
+**The specialist and physician stay as names.** The legacy columns hold what was typed, not a
+reference to a user. Matching on text would attach reports to the wrong person wherever two
+specialists share a name, so the names are kept and the user link left empty.
 
 ## Scope
 

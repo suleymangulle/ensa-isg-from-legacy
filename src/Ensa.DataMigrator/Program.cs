@@ -67,6 +67,7 @@ try
         new OperationsStep(),
         new VisitStep(),
         new PlanStep(),
+        new RiskStep(),
         new ReencryptStep(),
         new VerifyStep(),
     };

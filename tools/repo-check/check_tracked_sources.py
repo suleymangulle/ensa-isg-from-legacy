@@ -51,6 +51,7 @@ EXPECTED_ABSENT = (
     "tools/api-tests/ensa-dev-cert.pem", # makineye ozel, disa aktarilan sertifika
     ".claude/",                          # editor yerel ayarlari
     "received_mail.jsonl",               # sahte SMTP sunucusunun ciktisi
+    ".local.json",                       # yerel yapilandirma: kimlik bilgisi tasir, depo public
 )
 
 

@@ -1,0 +1,172 @@
+{
+  "nav": {
+    "documents": "Documents",
+    "forms": "Forms",
+    "archive": "Module archive"
+  },
+  "enums": {
+    "documentOwnerType": {
+      "0": "Unspecified",
+      "1": "Company",
+      "2": "Company employee",
+      "3": "User",
+      "4": "Work plan line",
+      "5": "Training plan line",
+      "6": "Risk assessment report",
+      "7": "Field observation report",
+      "8": "Equipment",
+      "9": "Workplace department",
+      "10": "Incident",
+      "11": "Invoice",
+      "12": "Health report",
+      "13": "Emergency action plan",
+      "14": "Bank",
+      "15": "Office",
+      "16": "Contract"
+    }
+  },
+  "document": {
+    "list": {
+      "title": "Documents",
+      "description": "Central register of stored files",
+      "create": "New document",
+      "searchPlaceholder": "Search by file name…",
+      "empty": "No documents found.",
+      "metadataOnlyNotice": "This screen manages document metadata only. Uploading and downloading the file itself is not available yet.",
+      "editAria": "Edit {{name}}",
+      "deleteAria": "Delete {{name}}",
+      "deleteTitle": "Delete document",
+      "deleteMessage": "The metadata record “{{name}}” will be deleted. Continue?",
+      "download": "Download"
+    },
+    "filters": {
+      "ownerType": "Owner type",
+      "allOwnerTypes": "All owner types",
+      "company": "Company",
+      "allCompanies": "All companies"
+    },
+    "fields": {
+      "documentName": "File name",
+      "extension": "Extension",
+      "contentType": "MIME type",
+      "sizeBytes": "Size",
+      "sha256": "SHA-256 digest",
+      "category": "Category",
+      "company": "Company",
+      "ownerType": "Owner type",
+      "ownerRecordId": "Owner record",
+      "creationTime": "Created",
+      "lastModificationTime": "Last modified",
+      "status": "Status"
+    },
+    "form": {
+      "createTitle": "New document",
+      "editTitle": "Edit document",
+      "pickFile": "Select file",
+      "pickFileHint": "The file is not uploaded. It is read in the browser only, to fill in the name, size, MIME type and SHA-256 digest.",
+      "hashUnavailable": "The browser cannot compute a digest here, so the duplicate check was skipped. Paste the digest manually if you have it.",
+      "hashFailed": "The digest could not be computed. Paste it manually if you have it.",
+      "hashing": "Computing the digest…",
+      "sha256Hint": "64 hexadecimal characters. Used to detect a file that is already registered.",
+      "invalidSize": "Enter a size of zero or more.",
+      "invalidSha256": "A SHA-256 digest is exactly 64 hexadecimal characters.",
+      "duplicateWarning": "These bytes are already registered as “{{name}}”. Saving adds a second metadata record for the same file.",
+      "noCompany": "No company (organisation-wide)",
+      "categoryHint": "Document category id. There is no category list endpoint yet.",
+      "ownerRecordHint": "Id of the record inside the selected owner type."
+    },
+    "detail": {
+      "fallbackTitle": "Document",
+      "subtitle": "{{size}}",
+      "download": "Download"
+    }
+  },
+  "form": {
+    "list": {
+      "title": "Forms",
+      "description": "Form and document templates used by OHS staff",
+      "create": "New form",
+      "searchPlaceholder": "Search by form name…",
+      "empty": "No forms found.",
+      "editAria": "Edit {{name}}",
+      "deleteAria": "Delete {{name}}",
+      "deleteTitle": "Delete form",
+      "deleteMessage": "The form “{{name}}” will be deleted. Continue?",
+      "download": "Download",
+      "noDocument": "No file attached to this template"
+    },
+    "filters": {
+      "categoryId": "Category",
+      "categoryPlaceholder": "Category id"
+    },
+    "fields": {
+      "formName": "Form name",
+      "categoryId": "Category",
+      "documentId": "Document",
+      "defaultForm": "Default form",
+      "status": "Status"
+    },
+    "editor": {
+      "createTitle": "New form",
+      "editTitle": "Edit form",
+      "categoryRequired": "A form category must be selected.",
+      "categoryHint": "Form category id. There is no category list endpoint yet.",
+      "documentHint": "Id of an already registered document. Uploading a file is not available yet."
+    }
+  },
+  "archive": {
+    "tabs": {
+      "all": "All entries",
+      "byModule": "By module record"
+    },
+    "list": {
+      "title": "Module archive",
+      "description": "Documents filed against a module record",
+      "create": "New entry",
+      "searchPlaceholder": "Search in descriptions…",
+      "empty": "No archive entries found.",
+      "companyFallback": "Company #{{id}}",
+      "editAria": "Edit entry {{id}}",
+      "deleteAria": "Delete entry {{id}}",
+      "deleteTitle": "Delete archive entry",
+      "deleteMessage": "Archive entry {{id}} will be deleted. Continue?"
+    },
+    "filters": {
+      "moduleType": "Module",
+      "allModules": "All modules",
+      "company": "Company",
+      "allCompanies": "All companies",
+      "year": "Year",
+      "allYears": "All years",
+      "month": "Month",
+      "allMonths": "All months"
+    },
+    "fields": {
+      "moduleType": "Module",
+      "moduleId": "Record id",
+      "company": "Company",
+      "documentId": "Document",
+      "lineId": "Line",
+      "period": "Period",
+      "description": "Description",
+      "moduleDescription": "Module note",
+      "creationTime": "Filed"
+    },
+    "byModule": {
+      "recordHint": "The key of the record inside the selected module.",
+      "show": "Show",
+      "tableLabel": "Archive entries of the module record",
+      "empty": "Nothing has been filed against this record.",
+      "prompt": "Choose a module and enter a record id to list its archive entries."
+    },
+    "editor": {
+      "createTitle": "New archive entry",
+      "editTitle": "Edit archive entry",
+      "moduleIdRequired": "A record id is required.",
+      "documentRequired": "A document must be selected.",
+      "companyRequired": "A company must be selected.",
+      "documentHint": "Id of an already registered document.",
+      "selectCompany": "Select a company"
+    }
+  }
+}

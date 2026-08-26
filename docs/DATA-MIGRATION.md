@@ -59,6 +59,7 @@ that cries wolf is a check nobody reads.
 |---|---|---|---|
 | `locations` | `Sehir_T`, `Ilce_T`, `Mahalle_T` | `City`, `District`, `Neighborhood` | **done, verified** |
 | `tenancy` | `Firma_T` (`Kurum=1`), `Ofisler_T`, `Kullanici_T` | `Organization`, `Office`, `User` | **done, verified** |
+| `companies` | `Firma_T`, `IsyeriBolum_T`, `FirmaPersonel_T` | `Company`, `WorkplaceDepartment`, `CompanyEmployee` | **done, verified** |
 
 ### `locations` — what actually happened
 
@@ -138,6 +139,68 @@ in until their password is reset** — that needs planning before the production
 - Legacy `PaketTuru` → `pro`→`PROFESYONEL`, `demo`→`DEMO`, `startup`→`BASLANGIC`, **`ensa`→`KURUMSAL`**
   (the vendor's unrestricted plan has no counterpart; it maps to the widest one that exists).
 - 15 organizations have neither field set and fall back to `OSGB` / `DEMO`.
+
+### `companies` — what actually happened
+
+```
+read 338,801   written 326,802
+  organization company records:     990
+  companies:                     31,393   (1,208 tenant references repaired)
+  departments:                   30,874   (duplicates merged)
+  employees:                    263,523
+  links: 2,693 branches to headquarters, 3,511 group companies, 1,227 users to their company
+
+verify: CompanyEmployee national ids  238,153/247,625 read back as 11 digits, 0 still ciphertext
+```
+
+A second run writes nothing.
+
+### Two product defects the data found
+
+The rebuilt schema had sized three columns from what the fields are called rather than from what
+they hold. The migration's truncation report is what said so, and they are fixed in the product
+(`WidenSsiNumberAndIbysCodeLists`) rather than worked around here:
+
+| Column | Was | Longest real value |
+|---|---|---|
+| `Company.SsiNumber` | 32 | **37** — an SSI registration number identifies the workplace to the state; shortening it produces a number belonging to nobody |
+| `CompanyEmployee.WorkMethodCode` | 32 | 82 |
+| `CompanyEmployee.WorkEnvironmentCode` | 32 | 417 |
+
+### Decisions this step forced
+
+| Finding | Decision |
+|---|---|
+| **1,260 companies name a `KurumId` that is not an organization.** Dropping them costs 31,556 employees | For 1,208 the row named is an ordinary company whose *own* `KurumId* is a real organization — the reference went one level short, and is followed **one hop only**. Two hops is a guess, and a company placed in the wrong organization is worse than one left behind: the tenant filter would show one provider another provider's client. The remaining 52 point at a row that does not exist. |
+| **2,706 employees belong to a `Kurum=1` row** — the organization's own staff | `Company.IsOrganizationRecord` exists for exactly this. Each organization now also has a company record, and 990 were created. Without it those employees were orphans. |
+| **1,462 identity numbers are longer than eleven characters** | Dropped, not truncated. Shortening one produces eleven digits that look valid and belong to somebody else. |
+| Duplicate SSI number within an organization | First keeps it, the rest are written without it — a registration number pointing at two workplaces identifies neither. |
+| Duplicate department name within a company | **Merged**, not nulled: a department has nothing but its name, so both legacy ids point at the one modern row. An employee referencing either then lands on the same department. |
+| A `LatLng` field parsing as latitude 11122 | Out of range is not a coordinate needing rounding; it means nothing and is dropped. |
+| 11,800 employees point at a company that does not exist in the legacy database | Unrecoverable. Reported, not hidden. |
+
+### Three mistakes of mine, and what they cost
+
+- **Positional column reads.** `KurumId` is the 52nd column and was read as the 53rd, which is a
+  `bit` — the run died on a type mismatch. Had the neighbour been another `int`, every one of
+  31,469 companies would have taken a wrong value in silence. The step now reads **by name**.
+- **The rewrite that fixed it inherited the same mistake.** The link stage builds its SQL inline
+  rather than in a `const string sql` block, so it fell outside the rewrite's reach and got the
+  employee query's column names. It failed loudly this time: a missing *name* throws, where a wrong
+  *position* returns a plausible number.
+- **The duplicate check did not know what earlier runs had written.** It was built from scratch each
+  time, so the resumed run — the normal case at 263,523 rows — collided on the unique index. The
+  company and user stages seed theirs from the destination; this one did not, and the difference
+  only appears on the second run.
+
+### Why the second pass is set-based
+
+Back-filling `HeadquarterCompanyId`, `GroupCorporateId` and `User.CompanyId` first attached one
+entity per row and called `SaveChanges`: about 30,000 round trips across a wide-area connection,
+and EF treats a row that does not match as a concurrency failure and abandons the step. For
+back-filling a foreign key neither is right — a row that is not there is a row to leave alone. A
+join against a `VALUES` list does it in batches and reports what it touched. Raw SQL is safe there
+because these are plain integer keys with no converter behind them.
 
 ## Scope
 

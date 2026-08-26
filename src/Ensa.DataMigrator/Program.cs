@@ -62,6 +62,7 @@ try
         new LocationStep(),
         new TenancyStep(),
         new CompanyStep(),
+        new OperationsStep(),
         new VerifyStep(),
     };
 

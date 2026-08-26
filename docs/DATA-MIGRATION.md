@@ -60,6 +60,7 @@ that cries wolf is a check nobody reads.
 | `locations` | `Sehir_T`, `Ilce_T`, `Mahalle_T` | `City`, `District`, `Neighborhood` | **done, verified** |
 | `tenancy` | `Firma_T` (`Kurum=1`), `Ofisler_T`, `Kullanici_T` | `Organization`, `Office`, `User` | **done, verified** |
 | `companies` | `Firma_T`, `IsyeriBolum_T`, `FirmaPersonel_T` | `Company`, `WorkplaceDepartment`, `CompanyEmployee` | **done, verified** |
+| `operations` | `Cihaz_T`, `FirmaIlgilenen_T` | `Equipment`, `AssignedSpecialist` | **done, verified** |
 
 ### `locations` — what actually happened
 
@@ -201,6 +202,28 @@ and EF treats a row that does not match as a concurrency failure and abandons th
 back-filling a foreign key neither is right — a row that is not there is a row to leave alone. A
 join against a `VALUES` list does it in batches and reports what it touched. Raw SQL is safe there
 because these are plain integer keys with no converter behind them.
+
+### `operations` — what actually happened
+
+```
+read 117,805   written 113,384
+  equipment:             53,480
+  assigned specialists:  59,904   (4,138 repeat assignments collapsed)
+```
+
+Clean on the first attempt — the earlier steps had already found the classes of problem this one
+would have hit.
+
+| Finding | Decision |
+|---|---|
+| The same person assigned to the same workplace in the same capacity, recorded again each renewal | One assignment; the repeat legacy ids point at it, so anything referring to them still resolves. 4,138 collapsed. |
+| Two legacy equipment categories against six in the rebuilt enum | Mapped one-to-one and nothing invented. A lifting appliance filed as `tesisat-techizat` stays installation equipment until somebody reclassifies it: guessing would put a machine under inspection rules that do not apply to it. |
+| `Cihaz_T.PeriyotId` points at a catalogue that is not migrated yet | Left null rather than carried across as a number that would land on an unrelated row. |
+
+**Worth telling the customer: the equipment inspection dates are almost entirely absent in the
+source.** `SonrakiMuayeneTarihi` is empty in all 53,607 legacy rows and `MuayeneTarihi` is filled in
+842. The migration is faithful — it copied what is there — but the overdue-inspection screen will
+show nothing until that data is entered. This is a gap in the legacy records, not in the migration.
 
 ## Scope
 

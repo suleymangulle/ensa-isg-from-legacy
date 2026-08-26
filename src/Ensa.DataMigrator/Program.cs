@@ -1,4 +1,5 @@
 using Ensa.DataMigrator.Infrastructure;
+using Ensa.EntityFrameworkCore.ValueConverters;
 using Ensa.DataMigrator.Steps;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,10 +61,13 @@ try
     var steps = new IMigrationStep[]
     {
         new LocationStep(),
+        new CatalogueStep(),
         new TenancyStep(),
         new CompanyStep(),
         new OperationsStep(),
         new VisitStep(),
+        new PlanStep(),
+        new ReencryptStep(),
         new VerifyStep(),
     };
 
@@ -77,6 +81,20 @@ try
 
         return 0;
     }
+
+    // Column encryption is a process-wide static that EF model building reads, normally set by
+    // AddEnsaEntityFrameworkCore. This tool builds its DbContext by hand, so without this the
+    // converter falls back to the published development key and everything written to an encrypted
+    // column is unreadable by the application - silently, because the migrator would then read it
+    // back with the same wrong key and find it perfectly healthy.
+    var encryption = new EnsaEncryptionOptions();
+    builder.Configuration.GetSection(EnsaEncryptionOptions.SectionName).Bind(encryption);
+    encryption.EnsureUsable(builder.Environment.EnvironmentName);
+    EnsaEncryptionOptions.SetCurrent(encryption);
+
+    Log.Information(
+        "Column encryption: {State}",
+        encryption.IsConfigured ? "configured" : "development fallback");
 
     var target = MigrationTarget.Resolve(
         builder.Configuration.GetConnectionString("Legacy"),

@@ -62,6 +62,9 @@ that cries wolf is a check nobody reads.
 | `companies` | `Firma_T`, `IsyeriBolum_T`, `FirmaPersonel_T` | `Company`, `WorkplaceDepartment`, `CompanyEmployee` | **done, verified** |
 | `operations` | `Cihaz_T`, `FirmaIlgilenen_T` | `Equipment`, `AssignedSpecialist` | **done, verified** |
 | `visits` | `Ziyaret_T` | `Visit` | **done, verified** |
+| `catalogues` | `Aktivite_T`, `Egitim_T`, `Periyot_T` + groups | `Activity`, `Training`, `Period` + groups | **done** |
+| `plans` | `CalismaPlani_T`, `EgitimPlani_T` + their line tables | `WorkPlan`, `TrainingPlan` + lines | **done, verified** |
+| `reencrypt` | — | every encrypted column | **repair, see below** |
 
 ### `locations` — what actually happened
 
@@ -256,6 +259,67 @@ A second run reads zero rows.
 | `IslemTuru` is empty in **all** 1,733,816 rows | Every visit is `Unspecified`. There is nothing to map, and inventing a type would be inventing a fact. |
 | The legacy schema records no completion flag | `Completed` stays false. A visit that happened is not distinguishable here from one that was only planned, so nothing is claimed. |
 | `DigerFirmaUzaklik` is a float used for whatever was to hand | Kept only when it is a plausible distance; one absurd value would otherwise stop the table. |
+
+### `catalogues` and `plans`
+
+```
+catalogues  read     804   written     804
+  periods 11, activity groups 9, activities 498 (207 with a parent), training groups 4,
+  trainings 282, statutory durations by hazard class 780
+
+plans       read 2,055,274   written 1,939,722   in 2m 05s
+  work plans      22,861   lines 1,045,151
+  training plans  19,277   lines   894,571
+```
+
+| Finding | Decision |
+|---|---|
+| `Aktivite_T.Tur` and `Egitim_T.Tur` hold `"Uzman"`, `"Doktor"` and stray numbers | They record which staff role performs the item, not what kind of item it is. `ActivityType` and `TrainingType` keep their defaults rather than taking a value from a same-named column. |
+| A training's subject group is three legacy booleans | Mapped exactly onto `TrainingSubjectGroup`. It matters more than it looks: `CompanyComplianceCalculator` splits safety from health training on this field, so a wrong value misreports every company's obligations. |
+| **`Durum = -1` on 159,405 work plan lines** | Not a stray value. `ISGDokumantasyon` writes it when the document attached to a line is deleted — the line reverts from done to **not done**. The first pass discarded it as out-of-range and threw away the state of those lines; read from the legacy source, not guessed. |
+| `OnayDurumu` is null in **all** 1,047,164 work plan lines | Nothing was ever approved in the legacy workflow. Zero approved lines is faithful, not a loss. |
+| 70,774 training plan lines point at a plan that does not exist | Broken referential integrity in the source. Skipped and reported; 2,864 of them are the reason the instructor identity number appears on only 167 lines rather than 3,035. |
+| The IBYS submission status is a free-text code from a service that has since changed | Not carried. Claiming a notification was accepted when nobody can check is worse than starting from not-sent; the original code and message are kept as text. |
+
+### `reencrypt` — the worst defect in this migration, and how it surfaced
+
+**Everything written to an encrypted column went in under the wrong key.** 250,490 identity numbers,
+tax numbers and Medula credentials.
+
+`EnsaEncryptionOptions.Current` is a process-wide static that EF model building reads, normally set
+by `AddEnsaEntityFrameworkCore`. The migrator builds its `DbContext` by hand and never called it, so
+the converter fell back to the published development key.
+
+**Nothing complained, and nothing would have.** The verification read the values back through the
+migrator's own context — the same wrong key — and reported them as perfectly healthy eleven-digit
+identity numbers. It would have surfaced the first time somebody opened an employee in the
+application, long after the migration was declared done.
+
+What exposed it was an unrelated guard: `BulkWriter` refused a plan line table because it has an
+encrypted column, which prompted the question of where the migrator's key came from at all.
+
+Two fixes, and a third thing worth recording:
+
+- The migrator now binds the encryption options from configuration and says which key it is using.
+- `ReencryptStep` rewrites every encrypted column from one key to another, discovering the columns
+  from the EF model so it cannot fall behind the configuration. It repaired **253,901** values and
+  is idempotent. This is also the key-rotation tool the domain documentation already said would be
+  needed one day.
+- **The first version of that repair reported all 254,873 values as already correct.**
+  `EncryptedStringConverter.Decrypt` catches its own failures and returns the input unchanged —
+  deliberate tolerance so an unencrypted row does not crash the application — which means a
+  try/catch around it can never fail. The test that works with this converter is whether the output
+  differs from the input.
+
+After the repair: **240,051 of 250,490** identity numbers read back as eleven digits under the
+configured key. The rest are values that are not identity numbers in the source either.
+
+### Bulk copy has one narrow, explicit door
+
+`WorkPlanLine.InstructorNationalId` is encrypted, and routing two million lines through the
+`DbContext` to satisfy the guard would cost an hour and a half. So `EnsureNoConverters` accepts a
+list of columns the caller states it has **already converted by hand** — a deliberate, visible act.
+A column nobody names still stops the run.
 
 ## Scope
 

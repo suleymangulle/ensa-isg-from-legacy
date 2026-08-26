@@ -39,7 +39,14 @@ public sealed class BulkWriter(string connectionString)
     /// column looks like every other one, and the value is only wrong when somebody reads it back.
     /// </para>
     /// </summary>
-    public static void EnsureNoConverters(DbContext db, string table)
+    /// <param name="preConverted">
+    /// Columns whose values the caller has already run through the converter itself. Naming one is a
+    /// deliberate act: it says "I encrypted this by hand", and a column left unnamed still stops the
+    /// run. Without this, a table with a single encrypted column would force two million rows
+    /// through the DbContext.
+    /// </param>
+    public static void EnsureNoConverters(
+        DbContext db, string table, IReadOnlyCollection<string>? preConverted = null)
     {
         var entityType = db.Model.GetEntityTypes()
             .FirstOrDefault(e => string.Equals(e.GetTableName(), table, StringComparison.OrdinalIgnoreCase));
@@ -52,6 +59,8 @@ public sealed class BulkWriter(string connectionString)
         var encrypted = entityType.GetProperties()
             .Where(p => p.GetValueConverter() is EncryptedStringConverter)
             .Select(p => p.Name)
+            .Where(name => preConverted is null
+                           || !preConverted.Contains(name, StringComparer.OrdinalIgnoreCase))
             .ToList();
 
         if (encrypted.Count > 0)
@@ -59,7 +68,8 @@ public sealed class BulkWriter(string connectionString)
             throw new InvalidOperationException(
                 $"'{table}' has encrypted column(s) ({string.Join(", ", encrypted)}) and cannot be "
                 + "written with bulk copy: the converter would be bypassed and the plaintext stored "
-                + "in a column every reader will try to decrypt. Use the DbContext for this table.");
+                + "in a column every reader will try to decrypt. Either write this table through the "
+                + "DbContext, or encrypt the column yourself and name it in preConverted.");
         }
     }
 

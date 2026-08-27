@@ -75,6 +75,7 @@ public sealed class UserSplitStep : IMigrationStep
         written += await Run(context, "UserMedulaCredential", MedulaSql, notes, cancellationToken);
         written += await Run(context, "PhoneNumber", PhoneSql, notes, cancellationToken);
 
+        written += await RolesAsync(context, notes, cancellationToken);
         written += await StaffTypesAsync(context, notes, cancellationToken);
         written += await OfficesAsync(context, notes, cancellationToken);
         written += await BaselinesAsync(context, notes, cancellationToken);
@@ -140,6 +141,68 @@ public sealed class UserSplitStep : IMigrationStep
         WHERE Gsm IS NOT NULL AND LEN(Gsm) > 0
           AND (PhoneNumber IS NULL OR LEN(PhoneNumber) = 0);
         """;
+
+    /// <summary>
+    /// Turns the three administrator booleans into the role assignments they already behave like.
+    /// <para>
+    /// <b>Why roles and not another column.</b> The token already converts these flags into role
+    /// claims — the comment on that code says it exists "so that TenantResolutionMiddleware and the
+    /// policies all look at one source: the role claim". They are roles in everything but storage.
+    /// Identity owns roles; putting them on a profile table instead would duplicate what
+    /// <c>UserRole</c> is for, which the identity contract forbids.
+    /// </para>
+    /// <para>
+    /// <b>Why these three and not the legacy permission flags.</b> The contract also says not to
+    /// turn every legacy authorization flag into a role. These are not permissions: they appear
+    /// nowhere in <c>Yetki_T</c> and the four gates never consult them. What they are is the answer
+    /// to "what is this person", which is what a role is.
+    /// </para>
+    /// <para>
+    /// The roles already exist and are host level: SystemAdministrator, OrganizationAdministrator,
+    /// OfficeAdministrator. Behaviour does not change — the same users end up with the same claims,
+    /// they just come from the table Identity keeps them in.
+    /// </para>
+    /// </summary>
+    private static async Task<int> RolesAsync(
+        MigrationContext context,
+        List<string> notes,
+        CancellationToken cancellationToken)
+    {
+        (string Column, string Role)[] flags =
+        [
+            ("SystemAdministrator", "SystemAdministrator"),
+            ("OrganizationAdmin", "OrganizationAdministrator"),
+            ("OfficeAdmin", "OfficeAdministrator"),
+        ];
+
+        var written = 0;
+        await using var connection = await context.OpenModernAsync(cancellationToken);
+
+        foreach (var (column, role) in flags)
+        {
+            await using var command = new SqlCommand(
+                $"""
+                 INSERT INTO ensa.UserRole (UserId, RoleId)
+                 SELECT u.Id, r.Id
+                 FROM ensa.[User] AS u
+                 CROSS JOIN (SELECT TOP 1 Id FROM ensa.Role WHERE Name = @role AND TenantId IS NULL) AS r
+                 WHERE u.[{column}] = 1
+                   AND NOT EXISTS (
+                       SELECT 1 FROM ensa.UserRole AS existing
+                       WHERE existing.UserId = u.Id AND existing.RoleId = r.Id);
+                 """, connection) { CommandTimeout = 600 };
+
+            command.Parameters.AddWithValue("@role", role);
+
+            var count = await command.ExecuteNonQueryAsync(cancellationToken);
+            written += count;
+
+            context.Logger.LogInformation("    role {Role}: {Count} assignment(s)", role, count);
+        }
+
+        notes.Add($"roles: {written} assignments");
+        return written;
+    }
 
     // ------------------------------------------------------------------ from the legacy source
 

@@ -431,6 +431,38 @@ user-split   read 13,816   written 13,816   in 00:03
 | MEDULA credentials on 297 users | Their own table, and only for the users that have one — 301 rows rather than 3,901, because giving the rest an empty row is storing nothing 3,600 times. |
 | `User.Gsm` is empty and `PhoneNumber` holds 2,439 numbers | The merge had already happened. `Gsm` is **not** classified as dead: it is still referenced by `AccountAppService` and `UserAppService`, and a column is not unused merely because it is null. |
 
+**The administrator flags became role assignments.** `SystemAdministrator`, `OrganizationAdmin`
+and `OfficeAdmin` were already being turned into role claims when a token was issued — the code
+doing it says so: *"so that TenantResolutionMiddleware and the policies all look at one source:
+the role claim"*. They were roles in everything but storage, and Identity owns roles, so keeping
+them as booleans on a table of our own duplicated what `UserRole` is for.
+
+They are **not** permissions, which is why converting them is allowed: they appear nowhere in
+`Yetki_T` and the four gates never consult them. What they answer is "what is this person".
+
+| Role | Assignments | Matches flag count |
+|---|---|---|
+| `SystemAdministrator` | 2 | 2 |
+| `OrganizationAdministrator` | 1,053 | 1,053 |
+| `OfficeAdministrator` | 97 | 97 |
+
+Zero users hold a flag without the matching role. Behaviour is unchanged — the same people end up
+with the same claims.
+
+### `verify-user-identity` — proving nothing broke before anything is dropped
+
+453 columns across the schema hold a `User.Id`: every `CreatorId`, `LastModifierId` and
+`DeleterId`, plus the explicit ones. Almost none are declared as foreign keys, because the
+architecture forbids navigation properties — the database will not stop a bad value, so something
+has to look.
+
+```
+id map     : 3,878 legacy users mapped, 0 whose modern id no longer exists
+references : 453 columns hold a user id, 0 of them have orphans
+```
+
+Read-only, and repeatable: it is meant to be run again immediately before the destructive step.
+
 Nothing was dropped. The old columns stay until the counts are verified and the application has
 moved over; a step that both moves and deletes leaves nothing to go back to.
 

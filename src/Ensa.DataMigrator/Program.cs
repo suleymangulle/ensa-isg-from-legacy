@@ -72,6 +72,7 @@ try
         new RiskStep(),
         new HealthStep(),
         new ReencryptStep(),
+        new UserIdentityVerifyStep(),
         new VerifyStep(),
     };
 

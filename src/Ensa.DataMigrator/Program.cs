@@ -1,4 +1,4 @@
-using Ensa.DataMigrator.Infrastructure;
+﻿using Ensa.DataMigrator.Infrastructure;
 using Ensa.EntityFrameworkCore.ValueConverters;
 using Ensa.DataMigrator.Steps;
 using Microsoft.Extensions.Configuration;
@@ -63,6 +63,7 @@ try
         new LocationStep(),
         new CatalogueStep(),
         new TenancyStep(),
+        new PasswordStep(),
         new CompanyStep(),
         new OperationsStep(),
         new VisitStep(),
@@ -110,6 +111,17 @@ try
     if (args.Contains("--probe-crypt", StringComparer.OrdinalIgnoreCase))
     {
         return await ProbeLegacyCryptAsync(target.LegacyConnectionString);
+    }
+
+    // Whether a migrated user can actually sign in. The sample check inside the password step
+    // proves a hash matches its plaintext; this proves the whole round trip against the running
+    // API, which is the only thing that answers "can these people log in".
+    if (args.Contains("--probe-login", StringComparer.OrdinalIgnoreCase))
+    {
+        return await ProbeLoginAsync(
+            target.LegacyConnectionString,
+            target.ModernConnectionString,
+            Values(args, "--api").FirstOrDefault() ?? "https://localhost:7001");
     }
 
     var dryRun = args.Contains("--dry-run", StringComparer.OrdinalIgnoreCase);
@@ -244,4 +256,122 @@ static List<string> Values(string[] args, string name)
     }
 
     return found;
+}
+
+/// <summary>
+/// Signs a migrated user in against the running API, to prove the password migration end to end.
+/// <para>
+/// The sample check inside <c>PasswordStep</c> proves a hash matches the plaintext it was made
+/// from. That is not the same as proving the application accepts it: the hash format, the security
+/// stamp, the user lookup and the token endpoint all sit between the two. This walks the whole path.
+/// </para>
+/// <para>
+/// <b>No password is printed.</b> The plaintext is decrypted, posted and dropped; only the user
+/// name and the HTTP status come out.
+/// </para>
+/// </summary>
+static async Task<int> ProbeLoginAsync(string legacyConnectionString, string modernConnectionString, string api)
+{
+    const int Sample = 5;
+
+    // Legacy id -> modern user, for users that actually received a hash.
+    var candidates = new List<(int LegacyId, string UserName)>();
+
+    await using (var modern = new Microsoft.Data.SqlClient.SqlConnection(modernConnectionString))
+    {
+        await modern.OpenAsync();
+        await using var command = new Microsoft.Data.SqlClient.SqlCommand(
+            $"""
+             SELECT TOP {Sample} m.LegacyId, u.UserName
+             FROM migration.IdMap AS m
+             JOIN ensa.[User] AS u ON u.Id = m.ModernId
+             WHERE m.LegacyTable = 'Kullanici_T'
+               AND u.PasswordHash IS NOT NULL AND LEN(u.PasswordHash) > 0
+               AND u.IsActive = 1 AND u.IsDeleted = 0
+             ORDER BY m.LegacyId;
+             """, modern);
+
+        await using var reader = await command.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            candidates.Add((reader.GetInt32(0), reader.GetString(1)));
+        }
+    }
+
+    if (candidates.Count == 0)
+    {
+        Log.Error("No migrated user has a password hash. Run the passwords step first.");
+        return 1;
+    }
+
+    var secrets = new Dictionary<int, string>();
+
+    await using (var legacy = new Microsoft.Data.SqlClient.SqlConnection(legacyConnectionString))
+    {
+        await legacy.OpenAsync();
+        var ids = string.Join(",", candidates.Select(c => c.LegacyId));
+        await using var command = new Microsoft.Data.SqlClient.SqlCommand(
+            $"SELECT KullaniciId, Sifre FROM Kullanici_T WHERE KullaniciId IN ({ids})", legacy);
+
+        await using var reader = await command.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            var plaintext = LegacyCrypt.TryDecrypt(reader.GetString(1));
+            if (!string.IsNullOrEmpty(plaintext))
+            {
+                secrets[reader.GetInt32(0)] = plaintext;
+            }
+        }
+    }
+
+    // The development certificate is self-signed; this probe is a local diagnostic, never a
+    // component of the application.
+    using var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = (_, _, _, _) => true
+    };
+    using var client = new HttpClient(handler) { BaseAddress = new Uri(api) };
+
+    var succeeded = 0;
+    var attempted = 0;
+
+    foreach (var (legacyId, userName) in candidates)
+    {
+        if (!secrets.TryGetValue(legacyId, out var password))
+        {
+            continue;
+        }
+
+        attempted++;
+
+        using var form = new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            ["grant_type"] = "password",
+            ["username"] = userName,
+            ["password"] = password,
+            ["scope"] = "openid profile email roles offline_access ensa",
+        });
+
+        try
+        {
+            using var response = await client.PostAsync("/connect/token", form);
+            var ok = response.IsSuccessStatusCode;
+            if (ok)
+            {
+                succeeded++;
+            }
+
+            Log.Information(
+                "  {UserName,-28} HTTP {Status} {Verdict}",
+                userName, (int)response.StatusCode, ok ? "SIGNED IN" : "REJECTED");
+        }
+        catch (HttpRequestException exception)
+        {
+            Log.Error("  {UserName,-28} could not reach {Api}: {Message}", userName, api, exception.Message);
+            return 1;
+        }
+    }
+
+    Log.Information("Migrated users signed in: {Succeeded}/{Attempted}", succeeded, attempted);
+    return succeeded == attempted && attempted > 0 ? 0 : 1;
 }

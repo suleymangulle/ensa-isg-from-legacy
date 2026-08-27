@@ -67,6 +67,7 @@ that cries wolf is a check nobody reads.
 | `risks` | `RiskAnalizRaporu_T` + hazards, `Tehlike_T` | `RiskAssessmentReport`, `IdentifiedHazard`, `Hazard` | **done, verified** |
 | `health` | `SKRS_Ilac_T`, `SKRS_ICD10_T`, `ERecete_T` + lines | `Medication`, `Icd10`, `EPrescription` + lines | **done, verified** |
 | `reencrypt` | — | every encrypted column | **repair, see below** |
+| `passwords` | `Kullanici_T.Sifre` | `User.PasswordHash` | **done, verified** |
 
 ### `locations` — what actually happened
 
@@ -384,6 +385,28 @@ them would attach one provider's prescription to another provider's employee.
 encrypted, so it goes through bulk copy with the converter applied by hand and the column named in
 the guard's `preConverted` list. All 603,894 encrypted values across the database read back under the
 configured key.
+
+### `passwords` — the users could not sign in
+
+The tenancy step created 3,878 users and never touched their passwords. Every one of them had a
+null `PasswordHash`; the eight accounts that did have one were the seeded administrator and the
+test users. **Not a single migrated user could sign in.**
+
+```
+passwords   read 3874   written 3874   in 02:10
+  3874 hashed, 0 unreadable, 0 unmapped, 50/50 sample hashes verified
+```
+
+| Finding | Decision |
+|---|---|
+| The legacy column is reversibly encrypted, not hashed | Decrypted with `LegacyCrypt` and immediately re-protected as a one-way ASP.NET Identity hash. The plaintext is never logged, never written to disk and does not outlive the method that hashes it. |
+| Three shapes in one column: 3,867 encrypted once, 4 encrypted twice, 3 never encrypted | `LegacyCrypt.TryDecrypt` already handled all three — it unwraps repeatedly, passes a plain value through untouched, and returns null for ciphertext it cannot read. Every one of the 3,874 decrypted. |
+| Hashing could have been hand-rolled PBKDF2 | It is `PasswordHasher<User>`, the framework's own service. The identity contract says to use the framework implementations for password hashing and security stamps rather than reproduce them. |
+| The passwords were readable by anyone with database access | `MustChangePassword` is left as the tenancy step set it. Carrying the password across is what lets people sign in; it is not a reason to trust it. |
+| A hash that matches its plaintext is not proof the application accepts it | `--probe-login` signs migrated users in against the running API. **5/5 real legacy users signed in**, HTTP 200. No password is printed. |
+
+The step is idempotent by inspection: a user who already has a hash is skipped, so a second run
+writes nothing — verified, 0 written and 3,874 skipped in under a second.
 
 ## Scope
 

@@ -16,6 +16,25 @@ the diagrams are output, and reviewing them is how a schema change gets a second
 | `ensa-database.svg` | All 188 tables with every column, grouped into the 16 modules, with all inferred relationships drawn. 2362 × 9522 — open it in a browser and zoom. |
 | `ensa-modules.svg` | One card per module and the traffic between them. The overview to read first. |
 | `modules/<module>.svg` | One module at readable size, plus the outside tables it points at, drawn faded. |
+| `NASIL-OKUNUR.md` | Turkish reader's guide: what the markers mean and what the tooltips say. |
+
+## Turkish hover notes
+
+Every label drawn on the page is English, because the labels are real table and column names.
+The explanations are Turkish, and they appear on hover -- **687 tooltips** on the full
+diagram, **2252** across all eighteen files, written for the people who commissioned the
+migration. See [NASIL-OKUNUR.md](NASIL-OKUNUR.md) for the reader's
+guide in Turkish.
+
+Hovering a table gives what a row is, why the table has the shape it has, its legacy table, its
+scope, its size and how many relationships touch it. The *why* is the part worth having: it
+records where the migration reshaped the legacy data -- a flat column group turned into rows, a
+table created from nothing, a tenancy call -- which is exactly what a reader cannot recover from
+the picture.
+
+The prose lives in `tools/gen-diagram/table_notes_tr.py`, one entry per table. The generator
+refuses to run if a table has no note, so the two cannot drift apart. Legacy table names are not
+kept there: they are read from each entity's own XML documentation at generation time.
 
 ## How to read a table box
 

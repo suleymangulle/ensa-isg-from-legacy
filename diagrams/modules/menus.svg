@@ -26,9 +26,16 @@
 <text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#0369a1">Menus</text>
 <text class="t" x="38" y="68" font-size="12" fill="#64748b">the navigation tree and per-tenant menu overrides — 11 tables, 94 rows</text>
 <line x1="34" y1="82" x2="1350" y2="82" stroke="#e2e8f0"/>
-<rect x="34" y="96.0" width="1316" height="577" rx="12" fill="#0369a1" fill-opacity="0.045" stroke="#0369a1" stroke-opacity="0.22"/>
+<rect x="34" y="96.0" width="1316" height="577" rx="12" fill="#0369a1" fill-opacity="0.045" stroke="#0369a1" stroke-opacity="0.22"><title>Menus modülü
+
+Gezinme ağacı ve kiracıya/kullanıcıya özel menü değişiklikleri.
+
+11 tablo · 94 satır</title></rect>
 <text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#0369a1">Menus</text>
-<rect x="34" y="707.0" width="1316" height="736" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"/>
+<rect x="34" y="707.0" width="1316" height="736" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"><title>Bu modülün dışındaki tablolar.
+
+Buradaki kutular başka modüllere ait; yalnızca yukarıdaki tabloların işaret
+ettiği için çizildiler ve soluk gösteriliyorlar.</title></rect>
 <text class="t" x="52" y="733.0" font-size="16" font-weight="700" fill="#94a3b8">referenced from other modules</text>
 <g id="relationships">
 <path d="M354 820.5 C504.0 820.5 40.0 529.0 52 529.0" fill="none" stroke="#0369a1" stroke-width="1" opacity="0.34" marker-end="url(#a-menus)"/>
@@ -47,18 +54,28 @@
 </g>
 <g id="tables">
 <g opacity="1">
-<title>CompanyModule — Menus — 0 rows, 3 columns</title>
+<title>CompanyModule  ·  Menus modülü
+
+NE      Bir firmaya açılmış modül — firma bazlı modül hakkı.
+ESKİ    FirmaModulBaglanti_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 9 sütun (3 çizili, 4 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="142.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyModule</text>
 <rect x="327" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="198.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="72" y="198.0" font-size="10" font-weight="500" fill="#1e293b">ModuleId</text>
+<text class="t" x="72" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>ModuleId
+
+→ Module tablosuna işaret ediyor.</title>ModuleId</text>
 <text class="m" x="345" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="213.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="345" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -68,12 +85,20 @@
 <text class="m" x="345" y="231.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>Icon — Menus — 0 rows, 5 columns</title>
+<title>Icon  ·  Menus modülü
+
+NE      İkon kataloğu kaydı.
+ESKİ    Icon_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 5 sütun
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="142.0" width="302" height="111" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Icon</text>
 <text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="198.0" font-size="10" font-weight="400" fill="#1e293b">LibraryCode</text>
@@ -87,12 +112,21 @@
 <text class="m" x="671" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 </g>
 <g opacity="1">
-<title>IconLibrary — Menus — 0 rows, 5 columns</title>
+<title>IconLibrary  ·  Menus modülü
+
+NE      İkon kütüphanesi: Font Awesome, Metronic, Line Awesome.
+NİÇİN   Host referans tablosu.
+ESKİ    IconLibrary_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 5 sütun
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="142.0" width="302" height="111" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">IconLibrary</text>
 <text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -106,12 +140,23 @@
 <text class="m" x="997" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 </g>
 <g opacity="1">
-<title>Menu — Menus — 1 rows, 8 columns</title>
+<title>Menu  ·  Menus modülü
+
+NE      Menü tanımı — kullanıcı tipi, kurum türü ve paket kombinasyonuna sunulan
+        ağacın kökü.
+NİÇİN   YENİ VARLIK. Eskiden menünün kökü diye bir kayıt yoktu; hangi menünün kime
+        gittiği kodun içine gömülüydü.
+ESKİ    Menu_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   1 satır · 12 sütun (8 çizili, 4 denetim)
+BAĞ     2 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="1030" y="142.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="1040" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Menu</text>
 <text class="m" x="1039" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -122,11 +167,15 @@
 <text class="t" x="1050" y="228.0" font-size="10" font-weight="400" fill="#1e293b">UserTypeCode·</text>
 <text class="m" x="1323" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
 <text class="m" x="1039" y="243.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="1050" y="243.0" font-size="10" font-weight="500" fill="#1e293b">OrganizationTypeId·</text>
+<text class="t" x="1050" y="243.0" font-size="10" font-weight="500" fill="#1e293b"><title>OrganizationTypeId
+
+→ OrganizationType tablosuna işaret ediyor.</title>OrganizationTypeId·</text>
 <text class="m" x="1323" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="258.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="1050" y="258.0" font-size="10" font-weight="500" fill="#1e293b">SubscriptionPlanId·</text>
+<text class="t" x="1050" y="258.0" font-size="10" font-weight="500" fill="#1e293b"><title>SubscriptionPlanId
+
+→ SubscriptionPlan tablosuna işaret ediyor.</title>SubscriptionPlanId·</text>
 <text class="m" x="1323" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="273.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="1323" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -139,19 +188,32 @@
 <text class="m" x="1323" y="306.0" font-size="8.8" fill="#64748b" text-anchor="end">1 rows</text>
 </g>
 <g opacity="1">
-<title>MenuElement — Menus — 0 rows, 11 columns</title>
+<title>MenuElement  ·  Menus modülü
+
+NE      Serbest menü elemanı: kendi metnini, ikonunu ve URL'sini taşıyan, kataloğa
+        bağlı olmayan düğüm.
+ESKİ    MenuEleman_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 15 sütun (11 çizili, 4 denetim)
+BAĞ     2 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="52" y="268.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 275.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="62" y="288.0" font-size="12.5" font-weight="600" fill="#ffffff">MenuElement</text>
 <text class="m" x="61" y="309.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="309.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="309.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="309.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="313.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="324.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="72" y="324.0" font-size="10" font-weight="500" fill="#1e293b">MenuId</text>
+<text class="t" x="72" y="324.0" font-size="10" font-weight="500" fill="#1e293b"><title>MenuId
+
+→ Menu tablosuna işaret ediyor.</title>MenuId</text>
 <text class="m" x="345" y="324.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="339.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="72" y="339.0" font-size="10" font-weight="500" fill="#1e293b">ParentMenuElementId·</text>
+<text class="t" x="72" y="339.0" font-size="10" font-weight="500" fill="#1e293b"><title>ParentMenuElementId
+
+→ MenuElement tablosuna işaret ediyor.</title>ParentMenuElementId·</text>
 <text class="m" x="345" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="354.0" font-size="10" font-weight="400" fill="#1e293b">Text</text>
@@ -179,12 +241,21 @@
 <text class="m" x="345" y="477.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MenuItem — Menus — 46 rows, 17 columns</title>
+<title>MenuItem  ·  Menus modülü
+
+NE      Yeniden kullanılabilir menü girdisi kataloğu: başlık, ikon ve URL.
+NİÇİN   Aynı sayfa birden çok menüde görünebilsin diye tanım tek yerde tutulur.
+ESKİ    MenuItem_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   46 satır · 21 sütun (17 çizili, 4 denetim)
+BAĞ     1 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="378" y="277.0" width="302" height="312" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 284.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="388" y="297.0" font-size="12.5" font-weight="600" fill="#ffffff">MenuItem</text>
 <text class="m" x="387" y="318.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="318.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="318.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="322.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="333.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -220,7 +291,9 @@
 <text class="t" x="398" y="513.0" font-size="10" font-weight="400" fill="#1e293b">CssStyle·</text>
 <text class="m" x="671" y="513.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <text class="m" x="387" y="528.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="398" y="528.0" font-size="10" font-weight="500" fill="#1e293b">ModuleId·</text>
+<text class="t" x="398" y="528.0" font-size="10" font-weight="500" fill="#1e293b"><title>ModuleId
+
+→ Module tablosuna işaret ediyor.</title>ModuleId·</text>
 <text class="m" x="671" y="528.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="532.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="543.0" font-size="10" font-weight="400" fill="#1e293b">SortOrder</text>
@@ -233,23 +306,39 @@
 <text class="m" x="671" y="576.0" font-size="8.8" fill="#64748b" text-anchor="end">46 rows</text>
 </g>
 <g opacity="1">
-<title>MenuNode — Menus — 46 rows, 10 columns</title>
+<title>MenuNode  ·  Menus modülü
+
+NE      Bir menü girdisinin bir menü içindeki hiyerarşik yerleşimi.
+NİÇİN   Aynı girdi farklı menülerde farklı yerlerde durabildiği için yerleşim,
+        girdinin kendisinden ayrıldı.
+ESKİ    MenuDetail_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   46 satır · 14 sütun (10 çizili, 4 denetim)
+BAĞ     3 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="704" y="277.0" width="302" height="207" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 284.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="714" y="297.0" font-size="12.5" font-weight="600" fill="#ffffff">MenuNode</text>
 <text class="m" x="713" y="318.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="318.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="318.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="322.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="333.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="724" y="333.0" font-size="10" font-weight="500" fill="#1e293b">MenuId</text>
+<text class="t" x="724" y="333.0" font-size="10" font-weight="500" fill="#1e293b"><title>MenuId
+
+→ Menu tablosuna işaret ediyor.</title>MenuId</text>
 <text class="m" x="997" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="348.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="724" y="348.0" font-size="10" font-weight="500" fill="#1e293b">MenuItemId</text>
+<text class="t" x="724" y="348.0" font-size="10" font-weight="500" fill="#1e293b"><title>MenuItemId
+
+→ MenuItem tablosuna işaret ediyor.</title>MenuItemId</text>
 <text class="m" x="997" y="348.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="352.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="363.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="724" y="363.0" font-size="10" font-weight="500" fill="#1e293b">ParentMenuNodeId·</text>
+<text class="t" x="724" y="363.0" font-size="10" font-weight="500" fill="#1e293b"><title>ParentMenuNodeId
+
+→ MenuNode tablosuna işaret ediyor.</title>ParentMenuNodeId·</text>
 <text class="m" x="997" y="363.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="378.0" font-size="10" font-weight="400" fill="#1e293b">Url·</text>
 <text class="m" x="997" y="378.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
@@ -272,12 +361,21 @@
 <text class="m" x="997" y="471.0" font-size="8.8" fill="#64748b" text-anchor="end">46 rows</text>
 </g>
 <g opacity="1">
-<title>MenuPage — Menus — 0 rows, 6 columns</title>
+<title>MenuPage  ·  Menus modülü
+
+NE      Sayfa–menü eşlemesi: bir URL açıldığında hangi menünün, hangi bölgede
+        gösterileceği.
+ESKİ    MenuPage_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 8 sütun (6 çizili, 2 denetim)
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="343.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 350.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="1040" y="363.0" font-size="12.5" font-weight="600" fill="#ffffff">MenuPage</text>
 <text class="m" x="1039" y="384.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="384.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="384.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="399.0" font-size="10" font-weight="400" fill="#1e293b">ProjectCode·</text>
@@ -298,12 +396,21 @@
 <text class="m" x="1323" y="477.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MenuType — Menus — 1 rows, 6 columns</title>
+<title>MenuType  ·  Menus modülü
+
+NE      Menü yerleşim tipi: yan menü, üst menü, hızlı erişim.
+NİÇİN   Host referans tablosu.
+ESKİ    MenuType_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   1 satır · 10 sütun (6 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="508.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 515.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="714" y="528.0" font-size="12.5" font-weight="600" fill="#ffffff">MenuType</text>
 <text class="m" x="713" y="549.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="549.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="549.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="549.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="553.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="564.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -324,18 +431,29 @@
 <text class="m" x="997" y="642.0" font-size="8.8" fill="#64748b" text-anchor="end">1 rows</text>
 </g>
 <g opacity="1">
-<title>Module — Menus — 0 rows, 5 columns</title>
+<title>Module  ·  Menus modülü
+
+NE      Hiyerarşik uygulama modülü: Eğitim, Risk Değerlendirme, Sağlık Gözetimi...
+NİÇİN   Hem menünün hem de firma bazlı modül yetkilendirmesinin dayandığı ağaç.
+ESKİ    Modul_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     1 ilişki çıkıyor · 4 ilişki geliyor</title>
 <rect x="52" y="514.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 521.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="62" y="534.0" font-size="12.5" font-weight="600" fill="#ffffff">Module</text>
 <text class="m" x="61" y="555.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="555.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="555.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="570.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
 <text class="m" x="345" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="61" y="585.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="72" y="585.0" font-size="10" font-weight="500" fill="#1e293b">ParentModuleId·</text>
+<text class="t" x="72" y="585.0" font-size="10" font-weight="500" fill="#1e293b"><title>ParentModuleId
+
+→ Module tablosuna işaret ediyor.</title>ParentModuleId·</text>
 <text class="m" x="345" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="600.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
@@ -348,20 +466,33 @@
 <text class="m" x="345" y="633.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>UserMenuOverride — Menus — 0 rows, 4 columns</title>
+<title>UserMenuOverride  ·  Menus modülü
+
+NE      Kullanıcıya özel menü değişikliği: bir girdiyi EK olarak gösterir ya da
+        GİZLER.
+ESKİ    KullaniciMenu_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 7 sütun (4 çizili, 2 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="514.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#0369a1" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 521.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0369a1"/>
 <text class="t" x="1040" y="534.0" font-size="12.5" font-weight="600" fill="#ffffff">UserMenuOverride</text>
 <rect x="1305" y="522.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="532.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="555.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="555.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="555.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="570.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="1050" y="570.0" font-size="10" font-weight="500" fill="#1e293b">UserId</text>
+<text class="t" x="1050" y="570.0" font-size="10" font-weight="500" fill="#1e293b"><title>UserId
+
+→ User tablosuna işaret ediyor.</title>UserId</text>
 <text class="m" x="1323" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="585.0" font-size="8.5" fill="#0369a1">▸</text>
-<text class="t" x="1050" y="585.0" font-size="10" font-weight="500" fill="#1e293b">MenuItemId</text>
+<text class="t" x="1050" y="585.0" font-size="10" font-weight="500" fill="#1e293b"><title>MenuItemId
+
+→ MenuItem tablosuna işaret ediyor.</title>MenuItemId</text>
 <text class="m" x="1323" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="600.0" font-size="10" font-weight="400" fill="#1e293b">Operation</text>
@@ -372,26 +503,45 @@
 <text class="m" x="1323" y="618.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>Archive — Documents — 0 rows, 11 columns</title>
+<title>Archive  ·  Documents modülü
+
+NE      Modül bazlı arşiv kaydı: bir faaliyetin ürettiği belgenin hangi modül,
+        satır ve aya ait olduğu.
+NİÇİN   LineId polimorfiktir — hangi satır tablosuna baktığı arşivlenen modüle
+        göre değişir.
+ESKİ    Archive_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 20 sütun (11 çizili, 7 denetim, 2 kapsam)
+BAĞ     3 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="753.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#475569" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 760.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#475569"/>
 <text class="t" x="62" y="773.0" font-size="12.5" font-weight="600" fill="#ffffff">Archive</text>
 <rect x="327" y="761.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="771.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="761.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="771.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="794.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="794.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="794.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="794.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="798.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="809.0" font-size="10" font-weight="400" fill="#1e293b">ModuleType</text>
 <text class="m" x="345" y="809.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="824.0" font-size="8.5" fill="#475569">▸</text>
-<text class="t" x="72" y="824.0" font-size="10" font-weight="500" fill="#1e293b">ModuleId</text>
+<text class="t" x="72" y="824.0" font-size="10" font-weight="500" fill="#1e293b"><title>ModuleId
+
+→ Module tablosuna işaret ediyor.</title>ModuleId</text>
 <text class="m" x="345" y="824.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="828.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="839.0" font-size="8.5" fill="#475569">▸</text>
-<text class="t" x="72" y="839.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId</text>
+<text class="t" x="72" y="839.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId</text>
 <text class="m" x="345" y="839.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
-<text class="t" x="72" y="854.0" font-size="10" font-weight="400" fill="#1e293b">LineId·</text>
+<text class="m" x="61" y="854.0" font-size="8.5" fill="#64748b">▹</text>
+<text class="t" x="72" y="854.0" font-size="10" font-weight="500" fill="#1e293b"><title>LineId
+
+Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya baktığını the archived module belirler,
+bu yüzden diyagramda ok çizilmiyor — tek bir ok yanlış olurdu.</title>LineId·</text>
 <text class="m" x="345" y="854.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="858.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="869.0" font-size="10" font-weight="400" fill="#1e293b">Month·</text>
@@ -407,7 +557,9 @@
 <text class="t" x="72" y="929.0" font-size="10" font-weight="400" fill="#1e293b">PreviousAddDate·</text>
 <text class="m" x="345" y="929.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <text class="m" x="61" y="944.0" font-size="8.5" fill="#475569">▸</text>
-<text class="t" x="72" y="944.0" font-size="10" font-weight="500" fill="#1e293b">PreviousAddedByUserId·</text>
+<text class="t" x="72" y="944.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreviousAddedByUserId
+
+→ User tablosuna işaret ediyor.</title>PreviousAddedByUserId·</text>
 <text class="m" x="345" y="944.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M53 948.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="53" y1="948.0" x2="353" y2="948.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -415,12 +567,22 @@
 <text class="m" x="345" y="962.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>OrganizationType — Tenancy — 4 rows, 5 columns</title>
+<title>OrganizationType  ·  Tenancy modülü
+
+NE      Kurum türü referansı: OSGB, işletme, bakanlık gibi.
+NİÇİN   İzin kataloğunda ZORUNLU KAPIDIR — bir yetkinin kuruma açılabilmesi için
+        önce kurum türüne açılmış olması gerekir.
+ESKİ    KurumTuru_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   4 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 5 ilişki geliyor</title>
 <rect x="378" y="753.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 760.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="388" y="773.0" font-size="12.5" font-weight="600" fill="#ffffff">OrganizationType</text>
 <text class="m" x="387" y="794.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="794.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="794.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="794.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="798.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="809.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -438,12 +600,22 @@
 <text class="m" x="671" y="872.0" font-size="8.8" fill="#64748b" text-anchor="end">4 rows</text>
 </g>
 <g opacity="0.45">
-<title>SubscriptionPlan — Tenancy — 5 rows, 5 columns</title>
+<title>SubscriptionPlan  ·  Tenancy modülü
+
+NE      Abonelik paketi referansı.
+NİÇİN   Host tablosu — tüm kiracılar aynı paket listesini paylaşır, bu yüzden
+        TenantId taşımaz.
+ESKİ    PaketTuru_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   5 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 6 ilişki geliyor</title>
 <rect x="704" y="753.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 760.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="714" y="773.0" font-size="12.5" font-weight="600" fill="#ffffff">SubscriptionPlan</text>
 <text class="m" x="713" y="794.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="794.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="794.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="794.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="798.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="809.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -461,14 +633,24 @@
 <text class="m" x="997" y="872.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
 </g>
 <g opacity="0.45">
-<title>User — Membership — 3 886 rows, 41 columns</title>
+<title>User  ·  Membership modülü
+
+NE      Sisteme giren kullanıcı: İSG uzmanı, işyeri hekimi, ofis personeli veya
+        firma kullanıcısı.
+NİÇİN   ASP.NET Core Identity tablosu, Ensa alanlarıyla genişletildi. Parola
+        hash'i ve T.C. kimlik numarası gibi alanlar sütun bazında şifrelidir.
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   3 886 satır · 50 sütun (41 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 43 ilişki geliyor</title>
 <rect x="1030" y="753.0" width="302" height="672" rx="7" fill="#ffffff" stroke="#7c3aed" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 760.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#7c3aed"/>
 <text class="t" x="1040" y="773.0" font-size="12.5" font-weight="600" fill="#ffffff">User</text>
 <rect x="1305" y="761.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="771.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="761.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="771.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="794.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="794.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="794.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="794.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="798.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="809.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -482,16 +664,22 @@
 <text class="m" x="1323" y="854.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="1031" y="858.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="869.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="869.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="t" x="1050" y="869.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId·</text>
 <text class="m" x="1323" y="869.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="884.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="884.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="t" x="1050" y="884.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId·</text>
 <text class="m" x="1323" y="884.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="888.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="899.0" font-size="10" font-weight="400" fill="#1e293b">Gsm·</text>
 <text class="m" x="1323" y="899.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
 <text class="m" x="1039" y="914.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="914.0" font-size="10" font-weight="500" fill="#1e293b">PhotoDocumentId·</text>
+<text class="t" x="1050" y="914.0" font-size="10" font-weight="500" fill="#1e293b"><title>PhotoDocumentId
+
+→ Document tablosuna işaret ediyor.</title>PhotoDocumentId·</text>
 <text class="m" x="1323" y="914.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="918.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="929.0" font-size="10" font-weight="400" fill="#1e293b">Color·</text>
@@ -512,7 +700,9 @@
 <text class="t" x="1050" y="1019.0" font-size="10" font-weight="400" fill="#1e293b">MonthlyWorkDurationMinutes·</text>
 <text class="m" x="1323" y="1019.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="1034.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="1034.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId·</text>
+<text class="t" x="1050" y="1034.0" font-size="10" font-weight="500" fill="#1e293b"><title>OfficeId
+
+→ Office tablosuna işaret ediyor.</title>OfficeId·</text>
 <text class="m" x="1323" y="1034.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1038.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1049.0" font-size="10" font-weight="400" fill="#1e293b">OfficeAdmin</text>

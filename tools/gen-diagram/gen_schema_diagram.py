@@ -41,6 +41,8 @@ import tempfile
 from collections import defaultdict
 from dataclasses import dataclass, field
 
+from table_notes_tr import MODULE_NOTES, NOTES
+
 REPOSITORY = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 CONFIGURATION_DIRECTORY = os.path.join(REPOSITORY, "src", "Ensa.HttpApi.Host")
 CONFIGURATION_FILES = ["appsettings.Development.local.json", "appsettings.Development.json"]
@@ -214,6 +216,11 @@ class Table:
     columns: list[Column] = field(default_factory=list)
     audit: list[str] = field(default_factory=list)
     scopes: list[str] = field(default_factory=list)
+    # The legacy table this one came from, read from the entity's own XML documentation.
+    legacy: str = ""
+    # How many relationships leave this table, and how many arrive at it.
+    outgoing: int = 0
+    incoming: int = 0
     # Filled in by the layout pass.
     x: float = 0.0
     y: float = 0.0
@@ -408,8 +415,68 @@ def read_module_map() -> dict[str, str]:
     return mapping
 
 
+def read_legacy_names() -> dict[str, str]:
+    """The legacy table each modern table came from.
+
+    Taken from the entity's own XML documentation -- every entity records its origin as
+    ``Legacy equivalent: <c>Xxx_T</c>`` -- rather than from a list kept alongside the notes,
+    so it cannot drift out of step with the code.
+    """
+    legacy: dict[str, str] = {}
+    if not os.path.isdir(ENTITY_CONFIGURATIONS):
+        return legacy
+
+    domain = os.path.join(REPOSITORY, "src", "Ensa.Domain")
+    entities: dict[str, str] = {}
+    for root, _, files in os.walk(domain):
+        for name in files:
+            if name.endswith(".cs"):
+                entities.setdefault(name[:-3], os.path.join(root, name))
+
+    for module in sorted(os.listdir(ENTITY_CONFIGURATIONS)):
+        folder = os.path.join(ENTITY_CONFIGURATIONS, module)
+        if not os.path.isdir(folder):
+            continue
+        for name in os.listdir(folder):
+            if not name.endswith("Configuration.cs"):
+                continue
+            with open(os.path.join(folder, name), encoding="utf-8-sig") as handle:
+                source = handle.read()
+            table = re.search(r'ToTable\("([^"]+)"', source)
+            entity = entities.get(name[: -len("Configuration.cs")])
+            if not table or not entity:
+                continue
+            with open(entity, encoding="utf-8-sig") as handle:
+                text = handle.read()
+
+            # Only the class-level documentation. Searching the whole file picks up a legacy
+            # *column* mentioned further down -- which is how Document once came out as
+            # "DosyaTuru" when its own summary says Document_T.
+            block = re.search(
+                r"((?:^[ \t]*///.*\n)+)[ \t]*public (?:sealed |abstract )?class ",
+                text,
+                re.M,
+            )
+            if not block:
+                continue
+
+            # "Legacy equivalent: X" is the deliberate statement of origin; a bare "Legacy: X"
+            # is often an aside about one column, so it is only the fallback.
+            for pattern in (
+                r"legacy equivalent:?\s*<c>([^<]+)</c>",
+                r"legacy:?\s*<c>([^<]+)</c>",
+            ):
+                found = re.search(pattern, block.group(1), re.IGNORECASE)
+                if found:
+                    legacy[table.group(1)] = found.group(1).strip()
+                    break
+
+    return legacy
+
+
 def read_schema(sqlcmd: str, connection: dict[str, str]) -> dict[str, Table]:
     modules = read_module_map()
+    legacy = read_legacy_names()
     counts = {name: int(value) for name, value in run_query(sqlcmd, connection, ROW_COUNT_QUERY)}
 
     tables: dict[str, Table] = {}
@@ -422,6 +489,7 @@ def read_schema(sqlcmd: str, connection: dict[str, str]) -> dict[str, Table]:
                 name=table_name,
                 module=modules.get(table_name, "Infrastructure"),
                 rows=counts.get(table_name, 0),
+                legacy=legacy.get(table_name, ""),
             )
             tables[table_name] = table
 
@@ -588,16 +656,63 @@ def draw_defs() -> list[str]:
     return parts
 
 
+def turkish_report(table: Table) -> str:
+    """The hover report for one table, in Turkish.
+
+    Everything drawn on the page is English, because the identifiers are English. This is the
+    one place the reader is spoken to in their own language, so it answers what the picture
+    cannot: what a row is, and why the table is shaped the way it is.
+
+    Native SVG tooltips do not reflow reliably, so the prose is wrapped here.
+    """
+    what, why = NOTES.get(table.name, ("", None))
+
+    lines = [f"{table.name}  ·  {table.module} modülü", ""]
+
+    def block(label: str, text: str) -> None:
+        wrapped = wrap(text, 74)
+        lines.append(f"{label:<8}{wrapped[0]}")
+        lines.extend(" " * 8 + piece for piece in wrapped[1:])
+
+    if what:
+        block("NE", what)
+    if why:
+        block("NİÇİN", why)
+    if table.legacy:
+        lines.append(f"{'ESKİ':<8}{table.legacy}")
+
+    scope = []
+    if "T" in table.scopes:
+        scope.append("kiracı (TenantId)")
+    if "C" in table.scopes:
+        scope.append("firma (CompanyId)")
+    lines.append(f"{'KAPSAM':<8}{' · '.join(scope) if scope else 'ortak (host) — kiracıdan bağımsız'}")
+
+    # The box only draws the columns that carry information; the audit and scope columns are
+    # collapsed. The total says so, otherwise the tooltip quietly contradicts the schema.
+    total = len(table.columns) + len(table.audit) + len(table.scopes)
+    hidden = []
+    if table.audit:
+        hidden.append(f"{len(table.audit)} denetim")
+    if table.scopes:
+        hidden.append(f"{len(table.scopes)} kapsam")
+    breakdown = f" ({len(table.columns)} çizili, {', '.join(hidden)})" if hidden else ""
+
+    lines.append(f"{'BOYUT':<8}{thousands(table.rows)} satır · {total} sütun{breakdown}")
+    lines.append(
+        f"{'BAĞ':<8}{table.outgoing} ilişki çıkıyor · {table.incoming} ilişki geliyor"
+    )
+
+    return "\n".join(lines)
+
+
 def draw_table(table: Table, dimmed: bool = False) -> list[str]:
     colour = MODULE_COLOURS.get(table.module, "#64748b")
     height = table.height
     opacity = "0.45" if dimmed else "1"
 
     parts = [f'<g opacity="{opacity}">']
-    parts.append(
-        f'<title>{escape(table.name)} \u2014 {table.module} \u2014 '
-        f'{thousands(table.rows)} rows, {len(table.columns)} columns</title>'
-    )
+    parts.append(f"<title>{escape(turkish_report(table))}</title>")
     parts.append(
         f'<rect x="{table.x}" y="{table.y}" width="{CELL_WIDTH}" height="{height:.0f}" rx="7" '
         f'fill="#ffffff" stroke="{colour}" stroke-width="1.1" filter="url(#drop)"/>'
@@ -634,6 +749,8 @@ def draw_table(table: Table, dimmed: bool = False) -> list[str]:
             glyph, glyph_colour, weight = "\u25c6", "#b45309", "600"
         elif column.references:
             glyph, glyph_colour, weight = "\u25b8", MODULE_COLOURS.get(table.module, "#334155"), "500"
+        elif column.polymorphic:
+            glyph, glyph_colour, weight = "\u25b9", "#64748b", "500"
         else:
             glyph, glyph_colour, weight = "", "#94a3b8", "400"
 
@@ -645,7 +762,27 @@ def draw_table(table: Table, dimmed: bool = False) -> list[str]:
 
         name = column.name + ("" if not column.nullable else "\u00b7")
         label = shorten(name, 30)
-        hover = f"<title>{escape(column.name)}</title>" if label != name else ""
+
+        # The tooltip belongs on the text element itself. A bare <title> dropped into the group
+        # would be ignored -- only the first child <title> of a group is ever shown, and that
+        # one is the table's own report.
+        if column.polymorphic:
+            explanation = (
+                f"{column.name}\n\n"
+                f"Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya bakt\u0131\u011f\u0131n\u0131 "
+                f"{column.polymorphic} belirler,\nbu y\u00fczden diyagramda ok \u00e7izilmiyor \u2014 tek bir "
+                f"ok yanl\u0131\u015f olurdu."
+            )
+        elif column.references:
+            explanation = f"{column.name}\n\n\u2192 {column.references} tablosuna i\u015faret ediyor."
+        elif column.is_key:
+            explanation = f"{column.name}\n\nBirincil anahtar."
+        elif label != name:
+            explanation = column.name
+        else:
+            explanation = ""
+
+        hover = f"<title>{escape(explanation)}</title>" if explanation else ""
         parts.append(
             f'<text class="t" x="{table.x + 20}" y="{baseline}" font-size="10" '
             f'font-weight="{weight}" fill="#1e293b">{hover}{escape(label)}</text>'
@@ -744,10 +881,17 @@ def draw_band(band: Band, width: float, table_count: int, row_count: int) -> lis
     x = MARGIN
     inner = width - MARGIN * 2
 
+    note = MODULE_NOTES.get(band.module, "")
+    tooltip = "\n".join(
+        [f"{band.module} modülü", ""]
+        + wrap(note, 74)
+        + ["", f"{table_count} tablo · {thousands(row_count)} satır"]
+    )
+
     return [
         f'<rect x="{x}" y="{band.y}" width="{inner}" height="{band.height:.0f}" rx="12" '
         f'fill="{colour}" fill-opacity="0.045" stroke="{colour}" stroke-opacity="0.22" '
-        f'stroke-width="1"/>',
+        f'stroke-width="1"><title>{escape(tooltip)}</title></rect>',
         f'<rect x="{x}" y="{band.y}" width="5" height="{band.height:.0f}" rx="2.5" fill="{colour}"/>',
         f'<text class="t" x="{x + 18}" y="{band.y + 26}" font-size="17" font-weight="700" '
         f'fill="{colour}">{escape(band.module)}</text>',
@@ -893,6 +1037,9 @@ def write_module_diagram(
                 columns=table.columns,
                 audit=table.audit,
                 scopes=table.scopes,
+                legacy=table.legacy,
+                outgoing=table.outgoing,
+                incoming=table.incoming,
             )
             placed.x = MARGIN + BAND_PADDING + index * (CELL_WIDTH + COLUMN_GAP)
             placed.y = bottoms[index]
@@ -901,10 +1048,24 @@ def write_module_diagram(
 
         bottom = max(bottoms) - TABLE_GAP + BAND_PADDING
         band_colour = colour if own else "#94a3b8"
+
+        if own:
+            tooltip = "\n".join(
+                [f"{module} modülü", ""]
+                + wrap(MODULE_NOTES.get(module, ""), 74)
+                + ["", f"{len(members)} tablo · {thousands(sum(t.rows for t in members))} satır"]
+            )
+        else:
+            tooltip = (
+                "Bu modülün dışındaki tablolar.\n\n"
+                "Buradaki kutular başka modüllere ait; yalnızca yukarıdaki tabloların işaret\n"
+                "ettiği için çizildiler ve soluk gösteriliyorlar."
+            )
+
         body.append(
             f'<rect x="{MARGIN}" y="{top}" width="{width - MARGIN * 2}" height="{bottom - top:.0f}" '
             f'rx="12" fill="{band_colour}" fill-opacity="0.045" stroke="{band_colour}" '
-            f'stroke-opacity="0.22"/>'
+            f'stroke-opacity="0.22"><title>{escape(tooltip)}</title></rect>'
         )
         body.append(
             f'<text class="t" x="{MARGIN + 18}" y="{top + 26}" font-size="16" font-weight="700" '
@@ -967,9 +1128,25 @@ def write_overview(tables: dict[str, Table], relationships: list[Relationship], 
 
         members = [t for t in tables.values() if t.module == module]
         colour = MODULE_COLOURS[module]
+        biggest = max(members, key=lambda item: item.rows, default=None)
+        card_tooltip = "\n".join(
+            [f"{module} modülü", ""]
+            + wrap(MODULE_NOTES.get(module, ""), 74)
+            + [
+                "",
+                f"{len(members)} tablo · {thousands(sum(t.rows for t in members))} satır",
+            ]
+            + (
+                [f"En kalabalık tablo: {biggest.name} ({thousands(biggest.rows)} satır)"]
+                if biggest is not None and biggest.rows
+                else []
+            )
+        )
+
         boxes += [
             f'<rect x="{x}" y="{y}" width="{card_width}" height="{card_height}" rx="10" '
-            f'fill="#ffffff" stroke="{colour}" stroke-width="1.2" filter="url(#drop)"/>',
+            f'fill="#ffffff" stroke="{colour}" stroke-width="1.2" filter="url(#drop)">'
+            f"<title>{escape(card_tooltip)}</title></rect>",
             f'<rect x="{x}" y="{y}" width="{card_width}" height="5" rx="2.5" fill="{colour}"/>',
             f'<text class="t" x="{x + 16}" y="{y + 34}" font-size="17" font-weight="700" '
             f'fill="{colour}">{escape(module)}</text>',
@@ -1004,7 +1181,9 @@ def write_overview(tables: dict[str, Table], relationships: list[Relationship], 
             f'{end[0]:.0f} {end[1]:.0f}" '
             f'fill="none" stroke="{colour}" stroke-width="{min(5.0, 0.7 + count * 0.28):.1f}" '
             f'opacity="0.30" marker-end="url(#a-{target.lower()})">'
-            f"<title>{escape(source)} \u2192 {escape(target)}: {count} relationships</title></path>"
+            f"<title>{escape(source)} \u2192 {escape(target)}\n\n"
+            f"{escape(source)} mod\u00fcl\u00fcnde {count} s\u00fctun, {escape(target)} mod\u00fcl\u00fcndeki bir "
+            f"tabloya i\u015faret ediyor.</title></path>"
         )
     edges.append("</g>")
 
@@ -1081,6 +1260,19 @@ def main() -> int:
 
     declared = [tuple(row) for row in run_query(sqlcmd, connection, FOREIGN_KEY_QUERY)]
     relationships = infer_relationships(tables, declared)
+
+    for relationship in relationships:
+        tables[relationship.source].outgoing += 1
+        tables[relationship.target].incoming += 1
+
+    # A table with no Turkish note would publish an empty tooltip, which is worse than no
+    # tooltip: the reader hovers, gets nothing, and stops trusting the rest. Fail instead.
+    unexplained = sorted(name for name in tables if name not in NOTES)
+    if unexplained:
+        sys.exit(
+            "these tables have no note in tools/gen-diagram/table_notes_tr.py:\n  "
+            + "\n  ".join(unexplained)
+        )
     os.makedirs(OUTPUT_DIRECTORY, exist_ok=True)
 
     written = [

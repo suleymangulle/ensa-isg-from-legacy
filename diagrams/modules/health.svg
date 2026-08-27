@@ -26,9 +26,17 @@
 <text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#15803d">Health</text>
 <text class="t" x="38" y="68" font-size="12" fill="#64748b">medical examinations, prescriptions, medications and diagnoses — 15 tables, 1 775 349 rows</text>
 <line x1="34" y1="82" x2="1676" y2="82" stroke="#e2e8f0"/>
-<rect x="34" y="96.0" width="1642" height="838" rx="12" fill="#15803d" fill-opacity="0.045" stroke="#15803d" stroke-opacity="0.22"/>
+<rect x="34" y="96.0" width="1642" height="838" rx="12" fill="#15803d" fill-opacity="0.045" stroke="#15803d" stroke-opacity="0.22"><title>Health modülü
+
+Sağlık gözetimi muayeneleri, e-reçeteler, ilaç ve tanı kod listeleri.
+Şifreli sütunların büyük kısmı bu modülde.
+
+15 tablo · 1 775 349 satır</title></rect>
 <text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#15803d">Health</text>
-<rect x="34" y="968.0" width="1642" height="736" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"/>
+<rect x="34" y="968.0" width="1642" height="736" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"><title>Bu modülün dışındaki tablolar.
+
+Buradaki kutular başka modüllere ait; yalnızca yukarıdaki tabloların işaret
+ettiği için çizildiler ve soluk gösteriliyorlar.</title></rect>
 <text class="t" x="52" y="994.0" font-size="16" font-weight="700" fill="#94a3b8">referenced from other modules</text>
 <g id="relationships">
 <path d="M354 239.5 C504.0 239.5 40.0 1029.0 52 1029.0" fill="none" stroke="#0f766e" stroke-width="1" opacity="0.34" marker-end="url(#a-companies)"/>
@@ -53,13 +61,24 @@
 </g>
 <g id="tables">
 <g opacity="1">
-<title>EPrescription — Health — 334 637 rows, 12 columns</title>
+<title>EPrescription  ·  Health modülü
+
+NE      İşyeri hekiminin yazdığı e-reçetenin başlığı (MEDULA kaydı).
+NİÇİN   334.637 reçetenin 321.973'ü (%96) T.C. kimlik numarası üzerinden kendi
+        kiracısındaki personel kaydına bağlanabildi; kalanı eski veride
+        eşleşmiyor.
+ESKİ    EPrescription_T
+KAPSAM  kiracı (TenantId)
+BOYUT   334 637 satır · 20 sütun (12 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="52" y="142.0" width="302" height="237" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EPrescription</text>
 <rect x="327" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="198.0" font-size="10" font-weight="400" fill="#1e293b">EPrescriptionCode·</text>
@@ -70,7 +89,9 @@
 <text class="t" x="72" y="228.0" font-size="10" font-weight="400" fill="#1e293b">PatientNationalId</text>
 <text class="m" x="345" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
 <text class="m" x="61" y="243.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="72" y="243.0" font-size="10" font-weight="500" fill="#1e293b">PatientCompanyEmployeeId·</text>
+<text class="t" x="72" y="243.0" font-size="10" font-weight="500" fill="#1e293b"><title>PatientCompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>PatientCompanyEmployeeId·</text>
 <text class="m" x="345" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="258.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
@@ -96,23 +117,35 @@
 <text class="m" x="345" y="366.0" font-size="8.8" fill="#64748b" text-anchor="end">334 637 rows</text>
 </g>
 <g opacity="1">
-<title>EPrescriptionDiagnosis — Health — 587 294 rows, 4 columns</title>
+<title>EPrescriptionDiagnosis  ·  Health modülü
+
+NE      E-reçetenin tanı (ICD-10) satırı.
+ESKİ    EPrescriptionDiagnosis_T
+KAPSAM  kiracı (TenantId)
+BOYUT   587 294 satır · 12 sütun (4 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="142.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EPrescriptionDiagnosis</text>
 <rect x="653" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="198.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b">EPrescriptionId</text>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>EPrescriptionId
+
+→ EPrescription tablosuna işaret ediyor.</title>EPrescriptionId</text>
 <text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="213.0" font-size="10" font-weight="400" fill="#1e293b">Icd10Code</text>
 <text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
 <rect x="379" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="228.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="398" y="228.0" font-size="10" font-weight="500" fill="#1e293b">Icd10Id·</text>
+<text class="t" x="398" y="228.0" font-size="10" font-weight="500" fill="#1e293b"><title>Icd10Id
+
+→ Icd10 tablosuna işaret ediyor.</title>Icd10Id·</text>
 <text class="m" x="671" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M379 232.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="379" y1="232.0" x2="679" y2="232.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -120,33 +153,52 @@
 <text class="m" x="671" y="246.0" font-size="8.8" fill="#64748b" text-anchor="end">587 294 rows</text>
 </g>
 <g opacity="1">
-<title>EPrescriptionMedication — Health — 818 981 rows, 13 columns</title>
+<title>EPrescriptionMedication  ·  Health modülü
+
+NE      E-reçetenin ilaç satırı.
+NİÇİN   SKRS referansları yalnızca FK ile bağlanır.
+ESKİ    EPrescriptionMedication_T
+KAPSAM  kiracı (TenantId)
+BOYUT   818 981 satır · 21 sütun (13 çizili, 7 denetim, 1 kapsam)
+BAĞ     5 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="142.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EPrescriptionMedication</text>
 <rect x="979" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="198.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="724" y="198.0" font-size="10" font-weight="500" fill="#1e293b">EPrescriptionId</text>
+<text class="t" x="724" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>EPrescriptionId
+
+→ EPrescription tablosuna işaret ediyor.</title>EPrescriptionId</text>
 <text class="m" x="997" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="213.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="724" y="213.0" font-size="10" font-weight="500" fill="#1e293b">MedicationId</text>
+<text class="t" x="724" y="213.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicationId
+
+→ Medication tablosuna işaret ediyor.</title>MedicationId</text>
 <text class="m" x="997" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="228.0" font-size="10" font-weight="400" fill="#1e293b">MedicationBarcode·</text>
 <text class="m" x="997" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
 <text class="m" x="713" y="243.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="724" y="243.0" font-size="10" font-weight="500" fill="#1e293b">UsageMethodId</text>
+<text class="t" x="724" y="243.0" font-size="10" font-weight="500" fill="#1e293b"><title>UsageMethodId
+
+→ MedicationRoute tablosuna işaret ediyor.</title>UsageMethodId</text>
 <text class="m" x="997" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="258.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="724" y="258.0" font-size="10" font-weight="500" fill="#1e293b">UsageDoseUnitId</text>
+<text class="t" x="724" y="258.0" font-size="10" font-weight="500" fill="#1e293b"><title>UsageDoseUnitId
+
+→ MedicationDoseUnit tablosuna işaret ediyor.</title>UsageDoseUnitId</text>
 <text class="m" x="997" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="273.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="724" y="273.0" font-size="10" font-weight="500" fill="#1e293b">UsagePeriodUnitId</text>
+<text class="t" x="724" y="273.0" font-size="10" font-weight="500" fill="#1e293b"><title>UsagePeriodUnitId
+
+→ MedicationFrequencyUnit tablosuna işaret ediyor.</title>UsagePeriodUnitId</text>
 <text class="m" x="997" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="288.0" font-size="10" font-weight="400" fill="#1e293b">Box</text>
@@ -169,12 +221,21 @@
 <text class="m" x="997" y="381.0" font-size="8.8" fill="#64748b" text-anchor="end">818 981 rows</text>
 </g>
 <g opacity="1">
-<title>Icd10 — Health — 15 774 rows, 7 columns</title>
+<title>Icd10  ·  Health modülü
+
+NE      SKRS ICD-10 tanı kodu referansı.
+NİÇİN   Host referans tablosu, 15.774 kayıt.
+ESKİ    SKRS_ICD10_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   15 774 satır · 11 sütun (7 çizili, 4 denetim)
+BAĞ     1 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="1030" y="142.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1040" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Icd10</text>
 <text class="m" x="1039" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -185,7 +246,9 @@
 <text class="t" x="1050" y="228.0" font-size="10" font-weight="400" fill="#1e293b">ParentCode·</text>
 <text class="m" x="1323" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
 <text class="m" x="1039" y="243.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1050" y="243.0" font-size="10" font-weight="500" fill="#1e293b">ParentIcd10Id·</text>
+<text class="t" x="1050" y="243.0" font-size="10" font-weight="500" fill="#1e293b"><title>ParentIcd10Id
+
+→ Icd10 tablosuna işaret ediyor.</title>ParentIcd10Id·</text>
 <text class="m" x="1323" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="258.0" font-size="10" font-weight="400" fill="#1e293b">Level·</text>
@@ -198,17 +261,27 @@
 <text class="m" x="1323" y="291.0" font-size="8.8" fill="#64748b" text-anchor="end">15 774 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExamComplaint — Health — 0 rows, 5 columns</title>
+<title>MedicalExamComplaint  ·  Health modülü
+
+NE      Muayene formunun anamnez/şikâyet satırı.
+NİÇİN   NORMALİZASYON: eski formdaki ~23 ayrı şifreli sütunun yerine geçti.
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="142.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1366" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExamComplaint</text>
 <rect x="1631" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1365" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="198.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1376" y="198.0" font-size="10" font-weight="500" fill="#1e293b">MedicalExaminationFormId</text>
+<text class="t" x="1376" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicalExaminationFormId
+
+→ MedicalExaminationForm tablosuna işaret ediyor.</title>MedicalExaminationFormId</text>
 <text class="m" x="1649" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="213.0" font-size="10" font-weight="400" fill="#1e293b">ComplaintType</text>
 <text class="m" x="1649" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -223,17 +296,28 @@
 <text class="m" x="1649" y="261.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExamHabit — Health — 0 rows, 8 columns</title>
+<title>MedicalExamHabit  ·  Health modülü
+
+NE      Alışkanlık satırı (tütün, alkol, madde).
+NİÇİN   NORMALİZASYON: eski iki sütunun yerine geçti; artık miktar ve süre ayrı
+        ayrı tutulur.
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 16 sütun (8 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="283.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 290.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="388" y="303.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExamHabit</text>
 <rect x="653" y="291.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="301.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="387" y="324.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="324.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="324.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="324.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="328.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="339.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="398" y="339.0" font-size="10" font-weight="500" fill="#1e293b">MedicalExaminationFormId</text>
+<text class="t" x="398" y="339.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicalExaminationFormId
+
+→ MedicalExaminationForm tablosuna işaret ediyor.</title>MedicalExaminationFormId</text>
 <text class="m" x="671" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="354.0" font-size="10" font-weight="400" fill="#1e293b">HabitType</text>
 <text class="m" x="671" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -256,17 +340,27 @@
 <text class="m" x="671" y="447.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExamImmunization — Health — 0 rows, 5 columns</title>
+<title>MedicalExamImmunization  ·  Health modülü
+
+NE      Muayenede beyan edilen aşı satırı.
+NİÇİN   NORMALİZASYON.
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="298.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 305.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1366" y="318.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExamImmunization</text>
 <rect x="1631" y="306.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="316.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1365" y="339.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="339.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="339.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="354.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1376" y="354.0" font-size="10" font-weight="500" fill="#1e293b">MedicalExaminationFormId</text>
+<text class="t" x="1376" y="354.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicalExaminationFormId
+
+→ MedicalExaminationForm tablosuna işaret ediyor.</title>MedicalExaminationFormId</text>
 <text class="m" x="1649" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="369.0" font-size="10" font-weight="400" fill="#1e293b">ImmunizationType</text>
 <text class="m" x="1649" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -281,17 +375,27 @@
 <text class="m" x="1649" y="417.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExamLabTest — Health — 0 rows, 6 columns</title>
+<title>MedicalExamLabTest  ·  Health modülü
+
+NE      Laboratuvar/tetkik satırı.
+NİÇİN   NORMALİZASYON: eskiden iki ayrı sütun grubuydu, tek tabloda birleştirildi.
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 14 sütun (6 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="328.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 335.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1040" y="348.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExamLabTest</text>
 <rect x="1305" y="336.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="346.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="369.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="369.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="369.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="373.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="384.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1050" y="384.0" font-size="10" font-weight="500" fill="#1e293b">MedicalExaminationFormId</text>
+<text class="t" x="1050" y="384.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicalExaminationFormId
+
+→ MedicalExaminationForm tablosuna işaret ediyor.</title>MedicalExaminationFormId</text>
 <text class="m" x="1323" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="399.0" font-size="10" font-weight="400" fill="#1e293b">LabTestType</text>
 <text class="m" x="1323" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -309,17 +413,27 @@
 <text class="m" x="1323" y="462.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExamPhysicalFinding — Health — 0 rows, 5 columns</title>
+<title>MedicalExamPhysicalFinding  ·  Health modülü
+
+NE      Fizik muayene bulgusu satırı (her vücut sistemi için bir satır).
+NİÇİN   NORMALİZASYON: eski formdaki sistem sistem ayrı sütunların yerine geçti.
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="403.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 410.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="62" y="423.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExamPhysicalFinding</text>
 <rect x="327" y="411.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="421.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="444.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="444.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="444.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="459.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="72" y="459.0" font-size="10" font-weight="500" fill="#1e293b">MedicalExaminationFormId</text>
+<text class="t" x="72" y="459.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicalExaminationFormId
+
+→ MedicalExaminationForm tablosuna işaret ediyor.</title>MedicalExaminationFormId</text>
 <text class="m" x="345" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="474.0" font-size="10" font-weight="400" fill="#1e293b">System</text>
 <text class="m" x="345" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -334,17 +448,28 @@
 <text class="m" x="345" y="522.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExamWorkCondition — Health — 0 rows, 4 columns</title>
+<title>MedicalExamWorkCondition  ·  Health modülü
+
+NE      "Bu koşulda çalışmaya uygun mu?" değerlendirme satırı.
+NİÇİN   NORMALİZASYON: eski şifreli düz sütunların yerine geçti.
+ESKİ    PeriodicExaminationForm_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 12 sütun (4 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="418.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 425.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="714" y="438.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExamWorkCondition</text>
 <rect x="979" y="426.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="436.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="713" y="459.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="459.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="459.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="463.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="474.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="724" y="474.0" font-size="10" font-weight="500" fill="#1e293b">MedicalExaminationFormId</text>
+<text class="t" x="724" y="474.0" font-size="10" font-weight="500" fill="#1e293b"><title>MedicalExaminationFormId
+
+→ MedicalExaminationForm tablosuna işaret ediyor.</title>MedicalExaminationFormId</text>
 <text class="m" x="997" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="489.0" font-size="10" font-weight="400" fill="#1e293b">ConditionType</text>
 <text class="m" x="997" y="489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -357,18 +482,31 @@
 <text class="m" x="997" y="522.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicalExaminationForm — Health — 0 rows, 27 columns</title>
+<title>MedicalExaminationForm  ·  Health modülü
+
+NE      Sağlık gözetimi muayene formunun BAŞLIK ve SONUÇ kaydı (EK-2 formu).
+NİÇİN   Eski form tek satırda yüzlerce sütun taşıyordu; altı ayrı satır tablosuna
+        bölündü. Yaklaşık 120 şifreli sütunu vardır, bu yüzden toplu kopyalama ile
+        değil DbContext üzerinden yazılmak zorundadır.
+ESKİ    PeriodicExaminationForm_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 36 sütun (27 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 6 ilişki geliyor</title>
 <rect x="1356" y="454.0" width="302" height="462" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 461.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1366" y="474.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExaminationForm</text>
 <rect x="1631" y="462.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="472.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1614" y="462.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="472.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1365" y="495.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="495.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="495.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="495.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="499.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="510.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1376" y="510.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1376" y="510.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1649" y="510.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="525.0" font-size="10" font-weight="400" fill="#1e293b">ReportType</text>
 <text class="m" x="1649" y="525.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -379,7 +517,9 @@
 <text class="m" x="1649" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <rect x="1357" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="570.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1376" y="570.0" font-size="10" font-weight="500" fill="#1e293b">PhysicianUserId·</text>
+<text class="t" x="1376" y="570.0" font-size="10" font-weight="500" fill="#1e293b"><title>PhysicianUserId
+
+→ User tablosuna işaret ediyor.</title>PhysicianUserId·</text>
 <text class="m" x="1649" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="585.0" font-size="10" font-weight="400" fill="#1e293b">HeightCm·</text>
 <text class="m" x="1649" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -407,13 +547,17 @@
 <text class="t" x="1376" y="720.0" font-size="10" font-weight="400" fill="#1e293b">Recommendations·</text>
 <text class="m" x="1649" y="720.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
 <text class="m" x="1365" y="735.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1376" y="735.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="1376" y="735.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="1649" y="735.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="739.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="750.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatus</text>
 <text class="m" x="1649" y="750.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="765.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1376" y="765.0" font-size="10" font-weight="500" fill="#1e293b">IbysQueryId·</text>
+<text class="t" x="1376" y="765.0" font-size="10" font-weight="500" fill="#1e293b"><title>IbysQueryId
+
+→ IbysQuery tablosuna işaret ediyor.</title>IbysQueryId·</text>
 <text class="m" x="1649" y="765.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="769.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="780.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatusCode·</text>
@@ -441,12 +585,21 @@
 <text class="m" x="1649" y="903.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>Medication — Health — 18 663 rows, 11 columns</title>
+<title>Medication  ·  Health modülü
+
+NE      SKRS ilaç referansı — e-reçete ilaç listesi.
+NİÇİN   Host referans tablosu, 18.663 kayıt.
+ESKİ    SKRS_Medication_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   18 663 satır · 15 sütun (11 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="378" y="484.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 491.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="388" y="504.0" font-size="12.5" font-weight="600" fill="#ffffff">Medication</text>
 <text class="m" x="387" y="525.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="525.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="525.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="525.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="529.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="540.0" font-size="10" font-weight="400" fill="#1e293b">MedicationName</text>
@@ -479,12 +632,20 @@
 <text class="m" x="671" y="693.0" font-size="8.8" fill="#64748b" text-anchor="end">18 663 rows</text>
 </g>
 <g opacity="1">
-<title>MedicationDoseUnit — Health — 0 rows, 5 columns</title>
+<title>MedicationDoseUnit  ·  Health modülü
+
+NE      SKRS ilaç doz birimi kod listesi (tablet, ölçek, ml).
+ESKİ    SKRS_MedicationDoseUnit_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="1030" y="499.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 506.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1040" y="519.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicationDoseUnit</text>
 <text class="m" x="1039" y="540.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="540.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="540.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="540.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="544.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="555.0" font-size="10" font-weight="400" fill="#1e293b">CodeTypeName·</text>
@@ -502,12 +663,20 @@
 <text class="m" x="1323" y="618.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicationFrequencyUnit — Health — 0 rows, 5 columns</title>
+<title>MedicationFrequencyUnit  ·  Health modülü
+
+NE      SKRS kullanım periyodu birimi kod listesi (saat, gün, hafta).
+ESKİ    SKRS_MedicationFrequencyUnit_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="52" y="559.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 566.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="62" y="579.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicationFrequencyUnit</text>
 <text class="m" x="61" y="600.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="600.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="600.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="604.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="615.0" font-size="10" font-weight="400" fill="#1e293b">CodeTypeName·</text>
@@ -525,12 +694,20 @@
 <text class="m" x="345" y="678.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>MedicationRoute — Health — 0 rows, 5 columns</title>
+<title>MedicationRoute  ·  Health modülü
+
+NE      SKRS ilaç uygulama yolu kod listesi (ağızdan, kas içi, damar içi).
+ESKİ    SKRS_MedicationRoute_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="704" y="559.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 566.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="714" y="579.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicationRoute</text>
 <text class="m" x="713" y="600.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="600.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="600.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="604.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="615.0" font-size="10" font-weight="400" fill="#1e293b">CodeTypeName·</text>
@@ -548,14 +725,24 @@
 <text class="m" x="997" y="678.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>CompanyEmployee — Companies — 263 527 rows, 36 columns</title>
+<title>CompanyEmployee  ·  Companies modülü
+
+NE      Müşteri işyerinde çalışan personel: kimlik ve istihdam bilgileri.
+NİÇİN   Muayene, eğitim, görev ataması — tüm yükümlülükler bu kişi kaydına
+        bağlanır. T.C. kimlik numarası sütun bazında şifrelidir.
+ESKİ    CompanyEmployee_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   263 527 satır · 45 sütun (36 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 18 ilişki geliyor</title>
 <rect x="52" y="1014.0" width="302" height="597" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 1021.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="62" y="1034.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployee</text>
 <rect x="327" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="1055.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="1055.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="1055.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -604,13 +791,17 @@
 <text class="m" x="345" y="1325.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="53" y="1329.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1340.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1340.0" font-size="10" font-weight="500" fill="#1e293b">OccupationCodeId·</text>
+<text class="t" x="72" y="1340.0" font-size="10" font-weight="500" fill="#1e293b"><title>OccupationCodeId
+
+→ OccupationCode tablosuna işaret ediyor.</title>OccupationCodeId·</text>
 <text class="m" x="345" y="1340.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1355.0" font-size="10" font-weight="400" fill="#1e293b">Occupation·</text>
 <text class="m" x="345" y="1355.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="53" y="1359.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1370.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1370.0" font-size="10" font-weight="500" fill="#1e293b">AssignedDepartmentId·</text>
+<text class="t" x="72" y="1370.0" font-size="10" font-weight="500" fill="#1e293b"><title>AssignedDepartmentId
+
+→ WorkplaceDepartment tablosuna işaret ediyor.</title>AssignedDepartmentId·</text>
 <text class="m" x="345" y="1370.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1385.0" font-size="10" font-weight="400" fill="#1e293b">AssignedDepartmentName·</text>
 <text class="m" x="345" y="1385.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
@@ -631,7 +822,9 @@
 <text class="m" x="345" y="1475.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="53" y="1479.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1490.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1490.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreEmploymentExaminationDocumentId</title>PreEmploymentExaminationDocum…</text>
+<text class="t" x="72" y="1490.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreEmploymentExaminationDocumentId
+
+→ Document tablosuna işaret ediyor.</title>PreEmploymentExaminationDocum…</text>
 <text class="m" x="345" y="1490.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1505.0" font-size="10" font-weight="400" fill="#1e293b">WorkMethodCode·</text>
 <text class="m" x="345" y="1505.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
@@ -642,7 +835,9 @@
 <text class="m" x="345" y="1535.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="53" y="1539.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1550.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1550.0" font-size="10" font-weight="500" fill="#1e293b">UserId·</text>
+<text class="t" x="72" y="1550.0" font-size="10" font-weight="500" fill="#1e293b"><title>UserId
+
+→ User tablosuna işaret ediyor.</title>UserId·</text>
 <text class="m" x="345" y="1550.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1565.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
 <text class="m" x="345" y="1565.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
@@ -655,18 +850,32 @@
 <text class="m" x="345" y="1598.0" font-size="8.8" fill="#64748b" text-anchor="end">263 527 rows</text>
 </g>
 <g opacity="0.45">
-<title>Document — Documents — 5 rows, 13 columns</title>
+<title>Document  ·  Documents modülü
+
+NE      Merkezî belge deposu — sistemdeki HER ikili içeriğin tek kaydı.
+NİÇİN   Eski sistemde belgeler modül modül farklı tablolara dağılmıştı. Tek
+        tabloda toplandı: yetki kontrolü, saklama ve SHA-256 doğrulaması tek
+        yerden yapılır. OwnerRecordId polimorfiktir — sahibi OwnerType'a göre
+        değişir.
+ESKİ    Document_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   5 satır · 22 sütun (13 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 29 ilişki geliyor</title>
 <rect x="378" y="1014.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#475569" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 1021.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#475569"/>
 <text class="t" x="388" y="1034.0" font-size="12.5" font-weight="600" fill="#ffffff">Document</text>
 <rect x="653" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="636" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="643.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="387" y="1055.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="1055.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="1055.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="1070.0" font-size="8.5" fill="#475569">▸</text>
-<text class="t" x="398" y="1070.0" font-size="10" font-weight="500" fill="#1e293b">DocumentCategoryId·</text>
+<text class="t" x="398" y="1070.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentCategoryId
+
+→ DocumentCategory tablosuna işaret ediyor.</title>DocumentCategoryId·</text>
 <text class="m" x="671" y="1070.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1085.0" font-size="10" font-weight="400" fill="#1e293b">DocumentName</text>
 <text class="m" x="671" y="1085.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(260)</text>
@@ -691,7 +900,11 @@
 <text class="t" x="398" y="1205.0" font-size="10" font-weight="400" fill="#1e293b">OwnerType</text>
 <text class="m" x="671" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
-<text class="t" x="398" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">OwnerRecordId·</text>
+<text class="m" x="387" y="1220.0" font-size="8.5" fill="#64748b">▹</text>
+<text class="t" x="398" y="1220.0" font-size="10" font-weight="500" fill="#1e293b"><title>OwnerRecordId
+
+Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya baktığını OwnerType belirler,
+bu yüzden diyagramda ok çizilmiyor — tek bir ok yanlış olurdu.</title>OwnerRecordId·</text>
 <text class="m" x="671" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1235.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="671" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -701,14 +914,26 @@
 <text class="m" x="671" y="1253.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
 </g>
 <g opacity="0.45">
-<title>IbysQuery — Ibys — 0 rows, 13 columns</title>
+<title>IbysQuery  ·  Ibys modülü
+
+NE      IBYS'ye (İSG Bilgi Yönetim Sistemi) gönderilen bildirim/sorgu kaydı.
+NİÇİN   Eski gönderim durum kodu TAŞINMADI: kodu üreten servis o günden beri
+        değişti ve doğrulanamıyor. Kabul edilmiş gibi göstermektense
+        gönderilmemişten başlamak doğru; orijinal kod ve mesaj metin olarak
+        saklandı.
+ESKİ    IBYSQueryNo_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 22 sütun (13 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 3 ilişki geliyor</title>
 <rect x="704" y="1014.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 1021.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#1d4ed8"/>
 <text class="t" x="714" y="1034.0" font-size="12.5" font-weight="600" fill="#ffffff">IbysQuery</text>
 <rect x="979" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="962" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="969.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="713" y="1055.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="1055.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="1055.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">QueryNo·</text>
@@ -734,7 +959,9 @@
 <text class="t" x="724" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">TimeStamp·</text>
 <text class="m" x="997" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(4000)</text>
 <text class="m" x="713" y="1205.0" font-size="8.5" fill="#1d4ed8">▸</text>
-<text class="t" x="724" y="1205.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId·</text>
+<text class="t" x="724" y="1205.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId·</text>
 <text class="m" x="997" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">XmlData·</text>
@@ -747,14 +974,24 @@
 <text class="m" x="997" y="1253.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>User — Membership — 3 886 rows, 41 columns</title>
+<title>User  ·  Membership modülü
+
+NE      Sisteme giren kullanıcı: İSG uzmanı, işyeri hekimi, ofis personeli veya
+        firma kullanıcısı.
+NİÇİN   ASP.NET Core Identity tablosu, Ensa alanlarıyla genişletildi. Parola
+        hash'i ve T.C. kimlik numarası gibi alanlar sütun bazında şifrelidir.
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   3 886 satır · 50 sütun (41 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 43 ilişki geliyor</title>
 <rect x="1030" y="1014.0" width="302" height="672" rx="7" fill="#ffffff" stroke="#7c3aed" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 1021.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#7c3aed"/>
 <text class="t" x="1040" y="1034.0" font-size="12.5" font-weight="600" fill="#ffffff">User</text>
 <rect x="1305" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="1022.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="1032.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="1055.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="1055.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="1055.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -768,16 +1005,22 @@
 <text class="m" x="1323" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="1031" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="1130.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="1130.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="t" x="1050" y="1130.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId·</text>
 <text class="m" x="1323" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="1145.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="1145.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="t" x="1050" y="1145.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId·</text>
 <text class="m" x="1323" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">Gsm·</text>
 <text class="m" x="1323" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
 <text class="m" x="1039" y="1175.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="1175.0" font-size="10" font-weight="500" fill="#1e293b">PhotoDocumentId·</text>
+<text class="t" x="1050" y="1175.0" font-size="10" font-weight="500" fill="#1e293b"><title>PhotoDocumentId
+
+→ Document tablosuna işaret ediyor.</title>PhotoDocumentId·</text>
 <text class="m" x="1323" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">Color·</text>
@@ -798,7 +1041,9 @@
 <text class="t" x="1050" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">MonthlyWorkDurationMinutes·</text>
 <text class="m" x="1323" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="1295.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="1295.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId·</text>
+<text class="t" x="1050" y="1295.0" font-size="10" font-weight="500" fill="#1e293b"><title>OfficeId
+
+→ Office tablosuna işaret ediyor.</title>OfficeId·</text>
 <text class="m" x="1323" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1299.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1310.0" font-size="10" font-weight="400" fill="#1e293b">OfficeAdmin</text>

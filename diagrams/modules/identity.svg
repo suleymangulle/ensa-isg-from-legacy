@@ -24,9 +24,13 @@
 <marker id="a-infrastructure" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6b7280" opacity="0.85"/></marker>
 </defs>
 <text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#a21caf">Identity</text>
-<text class="t" x="38" y="68" font-size="12" fill="#64748b">OpenIddict token, authorisation and client storage — 4 tables, 63 rows</text>
+<text class="t" x="38" y="68" font-size="12" fill="#64748b">OpenIddict token, authorisation and client storage — 4 tables, 66 rows</text>
 <line x1="34" y1="82" x2="1024" y2="82" stroke="#e2e8f0"/>
-<rect x="34" y="96.0" width="990" height="511" rx="12" fill="#a21caf" fill-opacity="0.045" stroke="#a21caf" stroke-opacity="0.22"/>
+<rect x="34" y="96.0" width="990" height="511" rx="12" fill="#a21caf" fill-opacity="0.045" stroke="#a21caf" stroke-opacity="0.22"><title>Identity modülü
+
+OpenIddict 7'nin token, yetkilendirme ve istemci deposu.
+
+4 tablo · 66 satır</title></rect>
 <text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#a21caf">Identity</text>
 <g id="relationships">
 <path d="M378 194.5 C348.0 194.5 384.0 157.0 354 157.0" fill="none" stroke="#a21caf" stroke-width="1" opacity="0.34" marker-end="url(#a-identity)"/>
@@ -35,12 +39,21 @@
 </g>
 <g id="tables">
 <g opacity="1">
-<title>OpenIddictApplications — Identity — 0 rows, 16 columns</title>
+<title>OpenIddictApplications  ·  Identity modülü
+
+NE      OAuth/OpenID istemci tanımı.
+NİÇİN   OpenIddict 7'nin kendi tablosu. Veritabanının bildirdiği dokuz gerçek
+        yabancı anahtar kısıtından bir kısmı buradan gelir.
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 16 sütun
+BAĞ     0 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="52" y="142.0" width="302" height="276" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
 <text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictApplications</text>
 <text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="198.0" font-size="10" font-weight="400" fill="#1e293b">ApplicationType·</text>
@@ -82,16 +95,26 @@
 <text class="m" x="345" y="408.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
 </g>
 <g opacity="1">
-<title>OpenIddictAuthorizations — Identity — 15 rows, 9 columns</title>
+<title>OpenIddictAuthorizations  ·  Identity modülü
+
+NE      Verilmiş yetkilendirme kaydı.
+NİÇİN   OpenIddict 7'nin kendi tablosu.
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   15 satır · 9 sütun
+BAĞ     1 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="378" y="142.0" width="302" height="192" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
 <text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictAuthorizations</text>
 <text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="198.0" font-size="8.5" fill="#a21caf">▸</text>
-<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b">ApplicationId·</text>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>ApplicationId
+
+→ OpenIddictApplications tablosuna işaret ediyor.</title>ApplicationId·</text>
 <text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="213.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
 <text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
@@ -116,12 +139,20 @@
 <text class="m" x="671" y="321.0" font-size="8.8" fill="#64748b" text-anchor="end">15 rows</text>
 </g>
 <g opacity="1">
-<title>OpenIddictScopes — Identity — 0 rows, 9 columns</title>
+<title>OpenIddictScopes  ·  Identity modülü
+
+NE      Tanımlı OAuth kapsamları.
+NİÇİN   OpenIddict 7'nin kendi tablosu.
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 9 sütun
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="142.0" width="302" height="171" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
 <text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictScopes</text>
 <text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="198.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
@@ -145,19 +176,31 @@
 <text class="m" x="997" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
 </g>
 <g opacity="1">
-<title>OpenIddictTokens — Identity — 48 rows, 13 columns</title>
+<title>OpenIddictTokens  ·  Identity modülü
+
+NE      Erişim ve yenileme token'ları.
+NİÇİN   OpenIddict 7'nin kendi tablosu.
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   51 satır · 13 sütun
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="337.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 344.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
 <text class="t" x="714" y="357.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictTokens</text>
 <text class="m" x="713" y="378.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="378.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="378.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="378.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="382.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="393.0" font-size="8.5" fill="#a21caf">▸</text>
-<text class="t" x="724" y="393.0" font-size="10" font-weight="500" fill="#1e293b">ApplicationId·</text>
+<text class="t" x="724" y="393.0" font-size="10" font-weight="500" fill="#1e293b"><title>ApplicationId
+
+→ OpenIddictApplications tablosuna işaret ediyor.</title>ApplicationId·</text>
 <text class="m" x="997" y="393.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="408.0" font-size="8.5" fill="#a21caf">▸</text>
-<text class="t" x="724" y="408.0" font-size="10" font-weight="500" fill="#1e293b">AuthorizationId·</text>
+<text class="t" x="724" y="408.0" font-size="10" font-weight="500" fill="#1e293b"><title>AuthorizationId
+
+→ OpenIddictAuthorizations tablosuna işaret ediyor.</title>AuthorizationId·</text>
 <text class="m" x="997" y="408.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="412.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="423.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
@@ -187,7 +230,7 @@
 <path d="M705 562.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="705" y1="562.0" x2="1005" y2="562.0" stroke="#e2e8f0" stroke-width="1"/>
 <text class="t" x="714" y="576.0" font-size="8.8" fill="#94a3b8">no audit</text>
-<text class="m" x="997" y="576.0" font-size="8.8" fill="#64748b" text-anchor="end">48 rows</text>
+<text class="m" x="997" y="576.0" font-size="8.8" fill="#64748b" text-anchor="end">51 rows</text>
 </g>
 </g>
 </svg>

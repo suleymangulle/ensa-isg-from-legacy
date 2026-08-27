@@ -1,4 +1,4 @@
-using Ensa.DataMigrator.Infrastructure;
+﻿using Ensa.DataMigrator.Infrastructure;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 
@@ -79,6 +79,8 @@ public sealed class UserSplitStep : IMigrationStep
         written += await StaffTypesAsync(context, notes, cancellationToken);
         written += await OfficesAsync(context, notes, cancellationToken);
         written += await BaselinesAsync(context, notes, cancellationToken);
+        written += await DefaultOfficesAsync(context, notes, cancellationToken);
+        written += await MissingStaffTypesAsync(context, notes, cancellationToken);
 
         return new StepResult(written, written, 0, string.Join("; ", notes));
     }
@@ -451,6 +453,80 @@ public sealed class UserSplitStep : IMigrationStep
 
         notes.Add($"cost baselines: {written} of {pending.Count + orphaned} rows"
                   + (orphaned > 0 ? $", {orphaned} unresolvable" : string.Empty));
+
+        return written;
+    }
+
+    /// <summary>
+    /// The office each user was assigned to on their own row, which is <b>not</b> the same data as
+    /// <c>KullaniciOfis_T</c>.
+    /// <para>
+    /// This was found by the column classification refusing to bless <c>OfficeId</c>: 3,558 users
+    /// carry one and only 1,651 of them had a matching assignment, because the legacy system kept a
+    /// per-user default office beside the many-to-many table. Dropping the column without this
+    /// would have quietly lost the office of 1,907 people.
+    /// </para>
+    /// </summary>
+    private static async Task<int> DefaultOfficesAsync(
+        MigrationContext context,
+        List<string> notes,
+        CancellationToken cancellationToken)
+    {
+        await using var connection = await context.OpenModernAsync(cancellationToken);
+
+        await using var command = new SqlCommand(
+            """
+            INSERT INTO ensa.UserOffice (UserId, OfficeId, MonthlyWorkDurationMinutes, TenantId, CreationTime, CreatorId)
+            SELECT u.Id, u.OfficeId, ISNULL(u.MonthlyWorkDurationMinutes, 0), u.TenantId, SYSDATETIME(), u.CreatorId
+            FROM ensa.[User] AS u
+            WHERE u.OfficeId IS NOT NULL
+              AND EXISTS (SELECT 1 FROM ensa.Office AS o WHERE o.Id = u.OfficeId)
+              AND NOT EXISTS (
+                  SELECT 1 FROM ensa.UserOffice AS existing
+                  WHERE existing.UserId = u.Id AND existing.OfficeId = u.OfficeId);
+            """, connection) { CommandTimeout = 1800 };
+
+        var written = await command.ExecuteNonQueryAsync(cancellationToken);
+
+        context.Logger.LogInformation("    default offices: {Written} assignment(s)", written);
+        notes.Add($"default offices: {written}");
+
+        return written;
+    }
+
+    /// <summary>
+    /// The 36 users whose type link stayed empty because their legacy <c>PersonelTuru</c> was
+    /// missing or unrecognised, while their <c>StaffRole</c> was set some other way.
+    /// <para>
+    /// The type table carries the same enum, so the link can be recovered from it. Not a guess:
+    /// zero users have a type that <i>disagrees</i> with their staff role — these simply have none.
+    /// </para>
+    /// </summary>
+    private static async Task<int> MissingStaffTypesAsync(
+        MigrationContext context,
+        List<string> notes,
+        CancellationToken cancellationToken)
+    {
+        await using var connection = await context.OpenModernAsync(cancellationToken);
+
+        await using var command = new SqlCommand(
+            """
+            UPDATE e
+            SET UserTypeId = t.Id
+            FROM ensa.UserEmployment AS e
+            JOIN ensa.[User] AS u ON u.Id = e.UserId
+            CROSS APPLY (
+                SELECT TOP 1 Id FROM ensa.UserType
+                WHERE StaffRole = u.StaffRole AND IsActive = 1
+                ORDER BY SortOrder
+            ) AS t
+            WHERE e.UserTypeId IS NULL AND u.StaffRole <> 0;
+            """, connection) { CommandTimeout = 1800 };
+
+        var written = await command.ExecuteNonQueryAsync(cancellationToken);
+
+        context.Logger.LogInformation("    recovered user types: {Written}", written);
+        notes.Add($"recovered types: {written}");
 
         return written;
     }

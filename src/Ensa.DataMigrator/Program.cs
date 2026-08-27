@@ -71,6 +71,10 @@ try
         new PlanStep(),
         new RiskStep(),
         new HealthStep(),
+        new PlanLineMapStep(),
+        new DocumentStep(),
+        new DocumentLinkStep(),
+        new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),
         new UserColumnClassifyStep(),
@@ -125,6 +129,17 @@ try
             target.LegacyConnectionString,
             target.ModernConnectionString,
             Values(args, "--api").FirstOrDefault() ?? "https://localhost:7001");
+    }
+
+    // The 132 GB of file payloads the document step deliberately leaves behind. Separate because
+    // it is a different kind of operation: it needs disk rather than a database, it runs for hours,
+    // and it is the one part of this migration that may have to be pointed at a different machine.
+    if (args.Contains("--export-documents", StringComparer.OrdinalIgnoreCase))
+    {
+        return await ExportDocumentsAsync(
+            target.LegacyConnectionString,
+            Values(args, "--to").FirstOrDefault(),
+            target.ModernConnectionString);
     }
 
     var dryRun = args.Contains("--dry-run", StringComparer.OrdinalIgnoreCase);
@@ -379,4 +394,142 @@ static async Task<int> ProbeLoginAsync(string legacyConnectionString, string mod
 
     Log.Information("Migrated users signed in: {Succeeded}/{Attempted}", succeeded, attempted);
     return succeeded == attempted && attempted > 0 ? 0 : 1;
+}
+
+/// <summary>
+/// Copies the legacy file payloads onto disk, in the layout the document storage reads.
+/// <para>
+/// The document step writes 109,883 metadata rows and no bytes; this writes the bytes. They are
+/// 132 GB, so it is a separate command: it is run once, it takes hours, and it needs a disk rather
+/// than a database. Each file is streamed straight from the legacy column to its final path
+/// without being held in memory, which is what makes an 88 MB row unremarkable.
+/// </para>
+/// <para>
+/// <b>Resumable, because it will be interrupted.</b> A file already on disk at the right size is
+/// left alone, so a second run continues rather than starts again. Every file is written to a
+/// temporary name first and moved into place, so an interrupted copy can never be mistaken for a
+/// complete one.
+/// </para>
+/// </summary>
+static async Task<int> ExportDocumentsAsync(
+    string legacyConnectionString,
+    string? destination,
+    string modernConnectionString)
+{
+    if (string.IsNullOrWhiteSpace(destination))
+    {
+        Log.Error("--export-documents needs --to <directory>, the document storage root.");
+        return 1;
+    }
+
+    var root = Path.GetFullPath(destination);
+    Directory.CreateDirectory(root);
+    Log.Information("Exporting document payloads to {Root}", root);
+
+    // The path is the destination's, not the legacy table's: it is built from the tenant the
+    // document step resolved. Reading it back from ensa.Document keeps the two in step even if
+    // the derivation ever changes, and it means a document the step skipped is skipped here too.
+    var targets = new Dictionary<int, (string Path, long Size)>();
+
+    await using (var modern = new Microsoft.Data.SqlClient.SqlConnection(modernConnectionString))
+    {
+        await modern.OpenAsync();
+        await using var command = new Microsoft.Data.SqlClient.SqlCommand(
+            """
+            SELECT m.LegacyId, d.StoragePath, d.SizeBytes
+            FROM migration.IdMap AS m
+            JOIN ensa.Document AS d ON d.Id = m.ModernId
+            WHERE m.LegacyTable = 'Dosya_T' AND d.StoragePath IS NOT NULL
+            ORDER BY m.LegacyId;
+            """, modern) { CommandTimeout = 600 };
+
+        await using var reader = await command.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            targets[reader.GetInt32(0)] = (reader.GetString(1), reader.GetInt64(2));
+        }
+    }
+
+    if (targets.Count == 0)
+    {
+        Log.Error("No document rows are mapped. Run the documents step first.");
+        return 1;
+    }
+
+    Log.Information("{Count} payload(s) to place", targets.Count);
+
+    var written = 0;
+    var already = 0;
+    var empty = 0;
+    var missing = 0;
+    long bytes = 0;
+
+    await using (var legacy = new Microsoft.Data.SqlClient.SqlConnection(legacyConnectionString))
+    {
+        await legacy.OpenAsync();
+
+        foreach (var (legacyId, target) in targets)
+        {
+            var fullPath = Path.Combine(root, target.Path.Replace('/', Path.DirectorySeparatorChar));
+
+            if (File.Exists(fullPath) && new FileInfo(fullPath).Length == target.Size)
+            {
+                already++;
+                continue;
+            }
+
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+
+            await using var command = new Microsoft.Data.SqlClient.SqlCommand(
+                "SELECT Dosya FROM Dosya_T WHERE DosyaId = @id", legacy) { CommandTimeout = 1800 };
+            command.Parameters.AddWithValue("@id", legacyId);
+
+            // SequentialAccess is the whole point: without it the provider buffers the entire
+            // 88 MB value before the first read, and the export needs as much memory as the
+            // largest file rather than as much as one buffer.
+            await using var reader = await command.ExecuteReaderAsync(
+                System.Data.CommandBehavior.SequentialAccess);
+
+            if (!await reader.ReadAsync())
+            {
+                missing++;
+                continue;
+            }
+
+            if (await reader.IsDBNullAsync(0))
+            {
+                empty++;
+                continue;
+            }
+
+            var temporaryPath = fullPath + ".partial";
+
+            await using (var source = reader.GetStream(0))
+            await using (var file = new FileStream(
+                             temporaryPath, FileMode.Create, FileAccess.Write, FileShare.None,
+                             bufferSize: 1 << 20, useAsync: true))
+            {
+                await source.CopyToAsync(file, 1 << 20);
+            }
+
+            File.Move(temporaryPath, fullPath, overwrite: true);
+
+            written++;
+            bytes += new FileInfo(fullPath).Length;
+
+            if (written % 500 == 0)
+            {
+                Log.Information(
+                    "  {Written} placed, {Skipped} already there, {Gigabytes:F1} GB copied",
+                    written, already, bytes / 1073741824d);
+            }
+        }
+    }
+
+    Log.Information(
+        "Document payloads: {Written} placed ({Gigabytes:F1} GB), {Already} already present, "
+        + "{Empty} empty in the legacy table, {Missing} legacy row(s) gone",
+        written, bytes / 1073741824d, already, empty, missing);
+
+    return 0;
 }

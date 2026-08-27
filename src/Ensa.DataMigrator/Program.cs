@@ -79,6 +79,7 @@ try
         new HealthFormStep(),
         new IbysStep(),
         new TrainingExamStep(),
+        new ReportStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),

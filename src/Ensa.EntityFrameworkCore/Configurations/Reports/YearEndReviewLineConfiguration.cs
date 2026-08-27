@@ -1,4 +1,4 @@
-using Ensa.Domain.Reports;
+﻿using Ensa.Domain.Reports;
 using Ensa.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,6 +18,9 @@ public class YearEndReviewLineConfiguration : IEntityTypeConfiguration<YearEndRe
     {
         builder.ToTable("YearEndReviewLine");
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.DateText)
+               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);
+
 
         builder.Property(x => x.Work)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);

@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Trainings;
 using Ensa.Application.Contracts.Trainings.Dtos;
 using Ensa.Application.Contracts.Trainings.Dtos.Navigations;
@@ -16,7 +15,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
 {
     /// <summary>Returns one progress record.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Training.Default)]
     [ProducesResponseType<EmployeeTrainingProgressDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<EmployeeTrainingProgressDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -24,7 +22,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
 
     /// <summary>All progress records of one employee.</summary>
     [HttpGet("employee/{employeeId:int}")]
-    [Authorize(EnsaPermissions.Training.Default)]
     [ProducesResponseType<ListResultDto<EmployeeTrainingProgressDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<EmployeeTrainingProgressDto>> GetForEmployeeAsync(
         int employeeId,
@@ -33,7 +30,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
 
     /// <summary>Progress with the employee, the training and the remaining seconds.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Training.Default)]
     [ProducesResponseType<EmployeeTrainingProgressNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<EmployeeTrainingProgressNavigationDto> GetNavigationAsync(
@@ -43,7 +39,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
 
     /// <summary>Starts (or resumes) an employee's remote training.</summary>
     [HttpPost("start")]
-    [Authorize(EnsaPermissions.Training.Create)]
     [ProducesResponseType<EmployeeTrainingProgressDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -54,7 +49,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
 
     /// <summary>Records elapsed time and the current page.</summary>
     [HttpPut("{id:int}/topic-progress")]
-    [Authorize(EnsaPermissions.Training.Update)]
     [ProducesResponseType<EmployeeTrainingProgressDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<EmployeeTrainingProgressDto> SaveTopicProgressAsync(
@@ -65,7 +59,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
 
     /// <summary>Records an exam attempt with its score.</summary>
     [HttpPost("{id:int}/exam")]
-    [Authorize(EnsaPermissions.Training.Update)]
     [ProducesResponseType<EmployeeTrainingProgressDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -78,7 +71,6 @@ public class EmployeeTrainingProgressController(IEmployeeTrainingProgressAppServ
     /// Progress across employees, paged and filterable — the "who has not finished" view.
     /// </summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Training.Default)]
     [ProducesResponseType<PagedResultDto<EmployeeTrainingProgressListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<EmployeeTrainingProgressListDto>> GetListAsync(
         [FromQuery] GetEmployeeTrainingProgressListInput input,

@@ -1,4 +1,4 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Membership;
 using Ensa.Application.Contracts.Membership.Dtos;
 using Ensa.Application.Contracts.Membership.Dtos.Navigations;
@@ -20,7 +20,6 @@ public class PermissionController(IPermissionAppService permissionAppService) : 
 {
     /// <summary>Paged, filterable permission list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Permission.Default)]
     [ProducesResponseType<PagedResultDto<PermissionDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<PermissionDto>> GetListAsync(
         [FromQuery] GetPermissionListInput input,
@@ -29,14 +28,12 @@ public class PermissionController(IPermissionAppService permissionAppService) : 
 
     /// <summary>The whole catalogue as a hierarchy, for the permission assignment screen.</summary>
     [HttpGet("tree")]
-    [Authorize(EnsaPermissions.Permission.Default)]
     [ProducesResponseType<PermissionTreeDto>(StatusCodes.Status200OK)]
     public Task<PermissionTreeDto> GetTreeAsync(CancellationToken cancellationToken)
         => permissionAppService.GetTreeAsync(cancellationToken);
 
     /// <summary>Effective permissions of one user plus the explicit grant/deny overrides.</summary>
     [HttpGet("user/{userId:int}")]
-    [Authorize(EnsaPermissions.Permission.Default)]
     [ProducesResponseType<UserPermissionsDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<UserPermissionsDto> GetUserPermissionsAsync(
@@ -46,7 +43,6 @@ public class PermissionController(IPermissionAppService permissionAppService) : 
 
     /// <summary>Replaces the explicit grant/deny overrides of one user.</summary>
     [HttpPut("user/{userId:int}")]
-    [Authorize(EnsaPermissions.Permission.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,7 +56,6 @@ public class PermissionController(IPermissionAppService permissionAppService) : 
     /// per-user grant.
     /// </summary>
     [HttpGet("user-type/{userTypeId:int}")]
-    [Authorize(EnsaPermissions.Permission.Default)]
     [ProducesResponseType<UserTypePermissionsDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<UserTypePermissionsDto> GetUserTypePermissionsAsync(
@@ -70,7 +65,6 @@ public class PermissionController(IPermissionAppService permissionAppService) : 
 
     /// <summary>Replaces the permission defaults of a staff type. The list is absolute.</summary>
     [HttpPut("user-type/{userTypeId:int}")]
-    [Authorize(EnsaPermissions.Permission.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> SaveUserTypePermissionsAsync(

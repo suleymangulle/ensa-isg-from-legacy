@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { http, type ListResult } from '@/api/http'
 import { decodeToken, tokenStore } from './tokenStore'
 
 export interface UserInfo {
@@ -62,7 +63,24 @@ function userFromToken(token: string): UserInfo | null {
       ...claimList(payload, 'role'),
       ...claimList(payload, 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'),
     ],
-    permissions: claimList(payload, 'ensa:permission'),
+    permissions: [],
+  }
+}
+
+/**
+ * Business permissions are not in the token, deliberately: a token that carried them would keep
+ * answering with what was true when it was issued, for as long as it lives. They are fetched from
+ * the API instead, where they are re-evaluated per request.
+ *
+ * This drives what the interface offers, never what it is allowed to do -- the server checks every
+ * call regardless, so an empty answer here degrades the menu, it does not open anything.
+ */
+async function fetchPermissions(): Promise<string[]> {
+  try {
+    const { data } = await http.get<ListResult<string>>('/api/account/permissions')
+    return data.items ?? []
+  } catch {
+    return []
   }
 }
 
@@ -72,13 +90,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const token = tokenStore.getAccessToken()
-    if (token) setUser(userFromToken(token))
-    setIsReady(true)
+    if (!token) {
+      setIsReady(true)
+      return
+    }
+
+    const signedIn = userFromToken(token)
+    setUser(signedIn)
+
+    if (!signedIn) {
+      setIsReady(true)
+      return
+    }
+
+    let cancelled = false
+    void fetchPermissions().then(permissions => {
+      if (!cancelled) setUser(current => (current ? { ...current, permissions } : current))
+      setIsReady(true)
+    })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const signIn = useCallback(async (userName: string, password: string) => {
     const response = await tokenStore.signIn(userName, password)
-    setUser(userFromToken(response.access_token))
+    const signedIn = userFromToken(response.access_token)
+    setUser(signedIn ? { ...signedIn, permissions: await fetchPermissions() } : signedIn)
   }, [])
 
   const signOut = useCallback(() => {

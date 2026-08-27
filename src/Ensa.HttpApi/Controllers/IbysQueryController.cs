@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Ibys;
 using Ensa.Application.Contracts.Ibys.Dtos;
 using Ensa.Application.Contracts.Ibys.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +22,6 @@ public class IbysQueryController(IIbysQueryAppService appService) : EnsaControll
 {
     /// <summary>Returns one submission record.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Ibys.Default)]
     [ProducesResponseType<IbysQueryDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<IbysQueryDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -31,7 +29,6 @@ public class IbysQueryController(IIbysQueryAppService appService) : EnsaControll
 
     /// <summary>Submission with the workplace, the employee and the attached forms.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Ibys.Default)]
     [ProducesResponseType<IbysQueryNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<IbysQueryNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -39,7 +36,6 @@ public class IbysQueryController(IIbysQueryAppService appService) : EnsaControll
 
     /// <summary>Paged, filterable list of submissions.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Ibys.Default)]
     [ProducesResponseType<PagedResultDto<IbysQueryListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<IbysQueryListDto>> GetListAsync(
         [FromQuery] GetIbysQueryListInput input,
@@ -48,7 +44,6 @@ public class IbysQueryController(IIbysQueryAppService appService) : EnsaControll
 
     /// <summary>Submissions of the given type still awaiting an IBYS result.</summary>
     [HttpGet("pending")]
-    [Authorize(EnsaPermissions.Ibys.Default)]
     [ProducesResponseType<ListResultDto<IbysQueryListDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<IbysQueryListDto>> GetPendingAsync(
         [FromQuery] IbysQueryType type,
@@ -61,7 +56,6 @@ public class IbysQueryController(IIbysQueryAppService appService) : EnsaControll
     /// <c>IIbysSubmissionManager</c>.
     /// </summary>
     [HttpPut("{id:int}/status")]
-    [Authorize(EnsaPermissions.Ibys.Update)]
     [ProducesResponseType<IbysQueryDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

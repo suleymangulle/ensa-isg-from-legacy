@@ -1,7 +1,6 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +12,6 @@ public class VisitController(IVisitAppService visitAppService) : EnsaController
 {
     /// <summary>Returns a single visit.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Visit.Default)]
     [ProducesResponseType<VisitDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<VisitDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -21,7 +19,6 @@ public class VisitController(IVisitAppService visitAppService) : EnsaController
 
     /// <summary>Paged, filterable visit list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Visit.Default)]
     [ProducesResponseType<PagedResultDto<VisitListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<VisitListDto>> GetListAsync(
         [FromQuery] GetVisitListInput input,
@@ -33,7 +30,6 @@ public class VisitController(IVisitAppService visitAppService) : EnsaController
     /// cannot ask for the organization's entire visit history.
     /// </summary>
     [HttpGet("calendar")]
-    [Authorize(EnsaPermissions.Visit.Default)]
     [ProducesResponseType<ListResultDto<VisitCalendarDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<ListResultDto<VisitCalendarDto>> GetCalendarAsync(
@@ -45,7 +41,6 @@ public class VisitController(IVisitAppService visitAppService) : EnsaController
 
     /// <summary>Creates a visit. Defaults the visiting user to the caller.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Visit.Create)]
     [ProducesResponseType<VisitDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<VisitDto> CreateAsync(
@@ -55,7 +50,6 @@ public class VisitController(IVisitAppService visitAppService) : EnsaController
 
     /// <summary>Updates a visit.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Visit.Update)]
     [ProducesResponseType<VisitDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<VisitDto> UpdateAsync(
@@ -66,7 +60,6 @@ public class VisitController(IVisitAppService visitAppService) : EnsaController
 
     /// <summary>Deletes a visit (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Visit.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

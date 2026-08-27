@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
 using Ensa.Application.Contracts.Communication.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 {
     /// <summary>Returns a single ticket.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.SupportTicket.Default)]
     [ProducesResponseType<SupportTicketDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<SupportTicketDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -28,7 +26,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>The ticket with its opener, its responder and the full message thread.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.SupportTicket.Default)]
     [ProducesResponseType<SupportTicketNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<SupportTicketNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -36,7 +33,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Paged, filterable ticket list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.SupportTicket.Default)]
     [ProducesResponseType<PagedResultDto<SupportTicketListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<SupportTicketListDto>> GetListAsync(
         [FromQuery] GetSupportTicketListInput input,
@@ -45,7 +41,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Opens a ticket in the caller's name.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.SupportTicket.Create)]
     [ProducesResponseType<SupportTicketDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<SupportTicketDto> CreateAsync(
@@ -55,7 +50,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Updates the subject or the assigned responder.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.SupportTicket.Update)]
     [ProducesResponseType<SupportTicketDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<SupportTicketDto> UpdateAsync(
@@ -66,7 +60,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Deletes the ticket together with its thread.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.SupportTicket.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -76,7 +69,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>The message thread of one ticket, oldest first.</summary>
     [HttpGet("{id:int}/messages")]
-    [Authorize(EnsaPermissions.SupportTicket.Default)]
     [ProducesResponseType<ListResultDto<SupportTicketMessageDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<SupportTicketMessageDto>> GetMessagesAsync(
@@ -86,7 +78,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Posts a message into the thread. Refused on a closed ticket.</summary>
     [HttpPost("{id:int}/messages")]
-    [Authorize(EnsaPermissions.SupportTicket.Create)]
     [ProducesResponseType<SupportTicketMessageDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -98,7 +89,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Closes the ticket.</summary>
     [HttpPost("{id:int}/close")]
-    [Authorize(EnsaPermissions.SupportTicket.Update)]
     [ProducesResponseType<SupportTicketDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -107,7 +97,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Reopens a closed or cancelled ticket.</summary>
     [HttpPost("{id:int}/reopen")]
-    [Authorize(EnsaPermissions.SupportTicket.Update)]
     [ProducesResponseType<SupportTicketDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -116,7 +105,6 @@ public class SupportTicketController(ISupportTicketAppService supportTicketAppSe
 
     /// <summary>Number of the caller's own tickets that are not yet closed.</summary>
     [HttpGet("open-count")]
-    [Authorize(EnsaPermissions.SupportTicket.Default)]
     [ProducesResponseType<OpenSupportTicketCountDto>(StatusCodes.Status200OK)]
     public Task<OpenSupportTicketCountDto> GetOpenCountAsync(CancellationToken cancellationToken)
         => supportTicketAppService.GetOpenCountAsync(cancellationToken);

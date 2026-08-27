@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Health;
 using Ensa.Application.Contracts.Health.Dtos;
 using Ensa.Application.Contracts.Health.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +20,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 {
     /// <summary>Returns one form including its clinical fields.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.MedicalExamination.Default)]
     [ProducesResponseType<MedicalExaminationFormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<MedicalExaminationFormDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -29,7 +27,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Form with the employee, the workplace and all six child collections.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.MedicalExamination.Default)]
     [ProducesResponseType<MedicalExaminationFormNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<MedicalExaminationFormNavigationDto> GetWithNavigationAsync(
@@ -39,7 +36,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Paged, filterable list. Carries no clinical fields.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.MedicalExamination.Default)]
     [ProducesResponseType<PagedResultDto<MedicalExaminationFormListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<MedicalExaminationFormListDto>> GetListAsync(
         [FromQuery] GetMedicalExaminationFormListInput input,
@@ -48,7 +44,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Most recent examination of an employee.</summary>
     [HttpGet("employee/{employeeId:int}/latest")]
-    [Authorize(EnsaPermissions.MedicalExamination.Default)]
     [ProducesResponseType<MedicalExaminationFormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public Task<MedicalExaminationFormDto?> GetLatestForEmployeeAsync(
@@ -58,7 +53,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Forms of a workplace whose validity has lapsed as of the given date.</summary>
     [HttpGet("company/{companyId:int}/expiring")]
-    [Authorize(EnsaPermissions.MedicalExamination.Default)]
     [ProducesResponseType<ListResultDto<MedicalExaminationFormListDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<MedicalExaminationFormListDto>> GetExpiringAsync(
         int companyId,
@@ -68,7 +62,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Creates a new examination form.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.MedicalExamination.Create)]
     [ProducesResponseType<MedicalExaminationFormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<MedicalExaminationFormDto> CreateAsync(
@@ -78,7 +71,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Updates an examination form.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<MedicalExaminationFormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<MedicalExaminationFormDto> UpdateAsync(
@@ -89,7 +81,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Deletes an examination form together with its clinical child rows.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.MedicalExamination.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -101,7 +92,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Replaces the complaint set of a form.</summary>
     [HttpPut("{id:int}/complaints")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<ListResultDto<MedicalExamComplaintDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MedicalExamComplaintDto>> SaveComplaintsAsync(
@@ -112,7 +102,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Replaces the physical finding set of a form.</summary>
     [HttpPut("{id:int}/physical-findings")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<ListResultDto<MedicalExamPhysicalFindingDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MedicalExamPhysicalFindingDto>> SavePhysicalFindingsAsync(
@@ -123,7 +112,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Replaces the laboratory test set of a form.</summary>
     [HttpPut("{id:int}/lab-tests")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<ListResultDto<MedicalExamLabTestDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MedicalExamLabTestDto>> SaveLabTestsAsync(
@@ -134,7 +122,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Replaces the habit set of a form.</summary>
     [HttpPut("{id:int}/habits")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<ListResultDto<MedicalExamHabitDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MedicalExamHabitDto>> SaveHabitsAsync(
@@ -145,7 +132,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Replaces the working condition assessment set of a form.</summary>
     [HttpPut("{id:int}/work-conditions")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<ListResultDto<MedicalExamWorkConditionDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MedicalExamWorkConditionDto>> SaveWorkConditionsAsync(
@@ -156,7 +142,6 @@ public class MedicalExaminationFormController(IMedicalExaminationFormAppService 
 
     /// <summary>Replaces the immunisation declaration set of a form.</summary>
     [HttpPut("{id:int}/immunizations")]
-    [Authorize(EnsaPermissions.MedicalExamination.Update)]
     [ProducesResponseType<ListResultDto<MedicalExamImmunizationDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MedicalExamImmunizationDto>> SaveImmunizationsAsync(

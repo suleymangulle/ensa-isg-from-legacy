@@ -1,8 +1,10 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Security.Claims;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Common;
+using Ensa.Domain.Membership;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.Abstractions;
 
 namespace Ensa.HttpApi.Host.Ambient;
@@ -66,34 +68,46 @@ public sealed class HttpContextCurrentUser(IHttpContextAccessor httpContextAcces
     }
 
     /// <summary>
-    /// The permission check looks at the <c>ensa:permission</c> claims on the token.
+    /// Whether the signed-in user holds a permission.
     /// <para>
-    /// This reads the <b>exact same</b> source as the <c>[Authorize(Policy = ...)]</c> policies,
-    /// so the controller and app service layers can never reach different decisions.
-    /// For the <c>SystemAdministrator</c> role the permissions are expanded while the token is
-    /// issued (see <c>PermissionResolver</c>); there is no extra shortcut here.
+    /// This asks <see cref="IPermissionManager"/>, the same authority the endpoint authorization
+    /// asks, so the controller layer and the application layer cannot reach different answers.
+    /// It deliberately does not read a claim: business permissions are not in the token, because a
+    /// token that carried them would keep answering with what was true when it was issued.
+    /// </para>
+    /// <para>
+    /// Synchronous because <c>ICurrentUser</c> is, and the call sites are few. The permission set
+    /// is resolved once per request and held, so several checks in one request cost one query.
     /// </para>
     /// </summary>
     public bool HasPermission(string permissionName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(permissionName);
 
-        var principal = Principal;
-        if (principal is null)
+        if (Id is not { } userId)
         {
             return false;
         }
 
-        foreach (var claim in principal.Claims)
+        var targets = _permissionTargets ??= ResolveTargets(userId);
+
+        return targets.Contains(permissionName);
+    }
+
+    private HashSet<string>? _permissionTargets;
+
+    private HashSet<string> ResolveTargets(int userId)
+    {
+        var manager = httpContextAccessor.HttpContext?.RequestServices.GetService<IPermissionManager>();
+
+        if (manager is null)
         {
-            if (string.Equals(claim.Type, EnsaClaimTypes.Permission, StringComparison.Ordinal)
-                && string.Equals(claim.Value, permissionName, StringComparison.Ordinal))
-            {
-                return true;
-            }
+            return [];
         }
 
-        return false;
+        var targets = manager.GetPermissionTargetsAsync(userId).GetAwaiter().GetResult();
+
+        return new HashSet<string>(targets, StringComparer.Ordinal);
     }
 
     private string? FindFirst(string claimType) => Principal?.FindFirst(claimType)?.Value;

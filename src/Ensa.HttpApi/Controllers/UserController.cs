@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Membership;
 using Ensa.Application.Contracts.Membership.Dtos;
 using Ensa.Application.Contracts.Membership.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 {
     /// <summary>Returns a single user.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.User.Default)]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<UserDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -27,7 +25,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Combined detail view: organization, offices, roles and effective permissions.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.User.Default)]
     [ProducesResponseType<UserNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<UserNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -35,7 +32,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Paged, filterable user list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.User.Default)]
     [ProducesResponseType<PagedResultDto<UserListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<UserListDto>> GetListAsync(
         [FromQuery] GetUserListInput input,
@@ -44,7 +40,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Lightweight records for drop-downs (at most 50).</summary>
     [HttpGet("lookup")]
-    [Authorize(EnsaPermissions.User.Default)]
     [ProducesResponseType<ListResultDto<LookupDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<LookupDto>> GetLookupAsync(
         [FromQuery] string? filter,
@@ -53,7 +48,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Creates a user together with its initial password and roles.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.User.Create)]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<UserDto> CreateAsync(
@@ -63,7 +57,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Updates the user. The payload carries no password and no user name.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.User.Update)]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<UserDto> UpdateAsync(
@@ -74,7 +67,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Deletes the user (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.User.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -85,7 +77,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
     /// refresh token of that user stops working.
     /// </summary>
     [HttpPost("{id:int}/reset-password")]
-    [Authorize(EnsaPermissions.User.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -97,7 +88,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Replaces the complete role set of the user.</summary>
     [HttpPut("{id:int}/roles")]
-    [Authorize(EnsaPermissions.User.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -109,7 +99,6 @@ public class UserController(IUserAppService userAppService) : EnsaController
 
     /// <summary>Activates or deactivates the user.</summary>
     [HttpPut("{id:int}/active-state")]
-    [Authorize(EnsaPermissions.User.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task SetActiveStateAsync(

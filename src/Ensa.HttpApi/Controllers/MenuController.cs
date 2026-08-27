@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Menus;
 using Ensa.Application.Contracts.Menus.Dtos;
 using Ensa.Application.Contracts.Menus.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +13,6 @@ public class MenuController(IMenuAppService menuAppService) : EnsaController
 {
     /// <summary>Returns a single menu definition.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Menu.Default)]
     [ProducesResponseType<MenuDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<MenuDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -22,7 +20,6 @@ public class MenuController(IMenuAppService menuAppService) : EnsaController
 
     /// <summary>Paged, filterable menu list (menu administration).</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Menu.Default)]
     [ProducesResponseType<PagedResultDto<MenuListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<MenuListDto>> GetListAsync(
         [FromQuery] GetMenuListInput input,

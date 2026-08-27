@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Companies;
 using Ensa.Application.Contracts.Companies.Dtos;
 using Ensa.Application.Contracts.Companies.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 {
     /// <summary>Returns a single employee record.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Default)]
     [ProducesResponseType<CompanyEmployeeDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CompanyEmployeeDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -31,7 +29,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
     /// immunizations, family history, work history, duties and latest trainings).
     /// </summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Default)]
     [ProducesResponseType<CompanyEmployeeNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CompanyEmployeeNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -39,7 +36,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Paged, filterable employee list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.CompanyEmployee.Default)]
     [ProducesResponseType<PagedResultDto<CompanyEmployeeListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<CompanyEmployeeListDto>> GetListAsync(
         [FromQuery] GetCompanyEmployeeListInput input,
@@ -48,7 +44,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Lightweight records for drop-down lists (at most 50).</summary>
     [HttpGet("lookup")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Default)]
     [ProducesResponseType<ListResultDto<LookupDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<LookupDto>> GetLookupAsync(
         [FromQuery] int? companyId,
@@ -58,7 +53,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Creates a new employee.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.CompanyEmployee.Create)]
     [ProducesResponseType<CompanyEmployeeDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<CompanyEmployeeDto> CreateAsync(
@@ -68,7 +62,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Updates an existing employee.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Update)]
     [ProducesResponseType<CompanyEmployeeDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CompanyEmployeeDto> UpdateAsync(
@@ -79,7 +72,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Deletes the employee (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -87,7 +79,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Terminates the employee and stores the exit date.</summary>
     [HttpPost("{id:int}/terminate")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Update)]
     [ProducesResponseType<CompanyEmployeeDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -99,7 +90,6 @@ public class CompanyEmployeeController(ICompanyEmployeeAppService companyEmploye
 
     /// <summary>Brings a terminated employee back into active service.</summary>
     [HttpPost("{id:int}/reinstate")]
-    [Authorize(EnsaPermissions.CompanyEmployee.Update)]
     [ProducesResponseType<CompanyEmployeeDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

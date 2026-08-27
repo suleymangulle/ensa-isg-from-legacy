@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Companies;
 using Ensa.Application.Contracts.Companies.Dtos;
 using Ensa.Application.Contracts.Companies.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +19,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 {
     /// <summary>Returns a single company record.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Company.Default)]
     [ProducesResponseType<CompanyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CompanyDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -28,7 +26,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 
     /// <summary>Composite view for the detail screen (city, branches, assigned specialists, departments).</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Company.Default)]
     [ProducesResponseType<CompanyNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CompanyNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -36,7 +33,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 
     /// <summary>Paged, filterable list of companies.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Company.Default)]
     [ProducesResponseType<PagedResultDto<CompanyListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<CompanyListDto>> GetListAsync(
         [FromQuery] GetCompanyListInput input,
@@ -45,7 +41,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 
     /// <summary>Lightweight records for drop-down lists (50 at most).</summary>
     [HttpGet("lookup")]
-    [Authorize(EnsaPermissions.Company.Default)]
     [ProducesResponseType<ListResultDto<LookupDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<LookupDto>> GetLookupAsync(
         [FromQuery] string? filter,
@@ -54,7 +49,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 
     /// <summary>Creates a new company.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Company.Create)]
     [ProducesResponseType<CompanyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<CompanyDto> CreateAsync(
@@ -64,7 +58,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 
     /// <summary>Updates an existing company.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Company.Update)]
     [ProducesResponseType<CompanyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CompanyDto> UpdateAsync(
@@ -75,7 +68,6 @@ public class CompanyController(ICompanyAppService companyAppService) : EnsaContr
 
     /// <summary>Deletes the company (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Company.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

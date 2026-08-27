@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Plans;
 using Ensa.Application.Contracts.Plans.Dtos;
 using Ensa.Application.Contracts.Plans.Dtos.Navigations;
@@ -17,7 +16,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 {
     /// <summary>Returns one plan header.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.WorkPlan.Default)]
     [ProducesResponseType<WorkPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<WorkPlanDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -25,7 +23,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Plan with the workplace, the staff and every line.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.WorkPlan.Default)]
     [ProducesResponseType<WorkPlanNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<WorkPlanNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -33,7 +30,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Paged, filterable plan list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.WorkPlan.Default)]
     [ProducesResponseType<PagedResultDto<WorkPlanListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<WorkPlanListDto>> GetListAsync(
         [FromQuery] GetWorkPlanListInput input,
@@ -42,7 +38,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>The workplace's plan in force for the given year.</summary>
     [HttpGet("active")]
-    [Authorize(EnsaPermissions.WorkPlan.Default)]
     [ProducesResponseType<WorkPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public Task<WorkPlanDto?> GetActivePlanAsync(
@@ -53,7 +48,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Creates a plan header.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.WorkPlan.Create)]
     [ProducesResponseType<WorkPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<WorkPlanDto> CreateAsync(
@@ -63,7 +57,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Updates a plan header.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.WorkPlan.Update)]
     [ProducesResponseType<WorkPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<WorkPlanDto> UpdateAsync(
@@ -74,7 +67,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Deletes a plan that carries no approved line.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.WorkPlan.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -84,7 +76,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>All lines of a plan.</summary>
     [HttpGet("{id:int}/lines")]
-    [Authorize(EnsaPermissions.WorkPlan.Default)]
     [ProducesResponseType<ListResultDto<WorkPlanLineDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<WorkPlanLineDto>> GetLinesAsync(int id, CancellationToken cancellationToken)
@@ -92,7 +83,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Adds a line to a plan.</summary>
     [HttpPost("{id:int}/lines")]
-    [Authorize(EnsaPermissions.WorkPlan.Create)]
     [ProducesResponseType<WorkPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<WorkPlanLineDto> AddLineAsync(
@@ -103,7 +93,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Updates a line.</summary>
     [HttpPut("{id:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.WorkPlan.Update)]
     [ProducesResponseType<WorkPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<WorkPlanLineDto> UpdateLineAsync(
@@ -115,7 +104,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Removes a line.</summary>
     [HttpDelete("{id:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.WorkPlan.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task RemoveLineAsync(int id, int lineId, CancellationToken cancellationToken)
@@ -123,7 +111,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Fills an empty plan with lines generated from the default activities.</summary>
     [HttpPost("{id:int}/generate-default-lines")]
-    [Authorize(EnsaPermissions.WorkPlan.Create)]
     [ProducesResponseType<ListResultDto<WorkPlanLineDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -135,7 +122,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Share of the plan's lines that reached <c>Completed</c>.</summary>
     [HttpGet("{id:int}/completion-rate")]
-    [Authorize(EnsaPermissions.WorkPlan.Default)]
     [ProducesResponseType<WorkPlanCompletionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<WorkPlanCompletionDto> GetCompletionRateAsync(int id, CancellationToken cancellationToken)
@@ -145,7 +131,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Submits a line for approval.</summary>
     [HttpPost("{id:int}/lines/{lineId:int}/submit")]
-    [Authorize(EnsaPermissions.WorkPlan.Update)]
     [ProducesResponseType<WorkPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -157,7 +142,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Approves a line that is awaiting approval.</summary>
     [HttpPost("{id:int}/lines/{lineId:int}/approve")]
-    [Authorize(EnsaPermissions.WorkPlan.Approve)]
     [ProducesResponseType<WorkPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -166,7 +150,6 @@ public class WorkPlanController(IWorkPlanAppService appService) : EnsaController
 
     /// <summary>Rejects a line that is awaiting approval, recording the reason.</summary>
     [HttpPost("{id:int}/lines/{lineId:int}/reject")]
-    [Authorize(EnsaPermissions.WorkPlan.Approve)]
     [ProducesResponseType<WorkPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

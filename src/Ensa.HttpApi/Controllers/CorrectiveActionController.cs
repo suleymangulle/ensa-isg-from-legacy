@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Risks;
 using Ensa.Application.Contracts.Risks.Dtos;
 using Ensa.Application.Contracts.Risks.Dtos.Navigations;
@@ -14,7 +13,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 {
     /// <summary>Returns a single corrective action.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Default)]
     [ProducesResponseType<CorrectiveActionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CorrectiveActionDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -22,7 +20,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Combined detail view: action, company, owner, documents and source line.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Default)]
     [ProducesResponseType<CorrectiveActionNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CorrectiveActionNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -30,7 +27,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Paged, filterable corrective action list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.CorrectiveAction.Default)]
     [ProducesResponseType<PagedResultDto<CorrectiveActionListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<CorrectiveActionListDto>> GetListAsync(
         [FromQuery] GetCorrectiveActionListInput input,
@@ -39,14 +35,12 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Dashboard indicator: number of actions still in progress for a company.</summary>
     [HttpGet("open-count/{companyId:int}")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Default)]
     [ProducesResponseType<int>(StatusCodes.Status200OK)]
     public Task<int> GetOpenCountAsync(int companyId, CancellationToken cancellationToken)
         => appService.GetOpenCountAsync(companyId, cancellationToken);
 
     /// <summary>Open actions whose deadline has already passed.</summary>
     [HttpGet("overdue")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Default)]
     [ProducesResponseType<ListResultDto<CorrectiveActionListDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<CorrectiveActionListDto>> GetOverdueAsync(
         [FromQuery] int? companyId,
@@ -55,7 +49,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Creates a new corrective action.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.CorrectiveAction.Create)]
     [ProducesResponseType<CorrectiveActionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<CorrectiveActionDto> CreateAsync(
@@ -65,7 +58,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Updates an existing corrective action (closing data is not touched).</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Update)]
     [ProducesResponseType<CorrectiveActionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<CorrectiveActionDto> UpdateAsync(
@@ -76,7 +68,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Closes an open corrective action with its result and result date.</summary>
     [HttpPost("{id:int}/close")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Approve)]
     [ProducesResponseType<CorrectiveActionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<CorrectiveActionDto> CloseAsync(
@@ -87,7 +78,6 @@ public class CorrectiveActionController(ICorrectiveActionAppService appService) 
 
     /// <summary>Deletes the corrective action (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.CorrectiveAction.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

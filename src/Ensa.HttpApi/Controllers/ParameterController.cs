@@ -1,7 +1,6 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Lookups;
 using Ensa.Application.Contracts.Lookups.Dtos;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,6 @@ public class ParameterController(IParameterAppService parameterAppService) : Ens
 {
     /// <summary>Returns a single parameter.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Lookups.Default)]
     [ProducesResponseType<ParameterDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ParameterDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -27,7 +25,6 @@ public class ParameterController(IParameterAppService parameterAppService) : Ens
 
     /// <summary>Paged, filterable parameter list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Lookups.Default)]
     [ProducesResponseType<PagedResultDto<ParameterListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<ParameterListDto>> GetListAsync(
         [FromQuery] GetParameterListInput input,
@@ -39,14 +36,12 @@ public class ParameterController(IParameterAppService parameterAppService) : Ens
     /// when the code is not defined, so callers can fall back to a default.
     /// </summary>
     [HttpGet("value/{code}")]
-    [Authorize(EnsaPermissions.Lookups.Default)]
     [ProducesResponseType<ParameterValueDto>(StatusCodes.Status200OK)]
     public Task<ParameterValueDto> GetValueAsync(string code, CancellationToken cancellationToken)
         => parameterAppService.GetValueAsync(code, cancellationToken);
 
     /// <summary>Creates a parameter.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Lookups.Create)]
     [ProducesResponseType<ParameterDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<ParameterDto> CreateAsync(
@@ -56,7 +51,6 @@ public class ParameterController(IParameterAppService parameterAppService) : Ens
 
     /// <summary>Updates the parameter. The code itself is immutable.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Lookups.Update)]
     [ProducesResponseType<ParameterDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ParameterDto> UpdateAsync(
@@ -67,7 +61,6 @@ public class ParameterController(IParameterAppService parameterAppService) : Ens
 
     /// <summary>Deletes the parameter.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Lookups.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

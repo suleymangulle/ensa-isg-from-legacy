@@ -1,3 +1,5 @@
+﻿using Ensa.HttpApi.Host.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Ensa.HttpApi.Host.Compliance;
 using Ensa.HttpApi.Host.Mailing;
 using Ensa.Domain.Communication;
@@ -213,29 +215,36 @@ public static class EnsaHttpApiHostModule
     // ------------------------------------------------------ Authorization
 
     /// <summary>
-    /// Registers one authorization policy under the same name for every permission in
-    /// <see cref="EnsaPermissions.GetAll"/>. Controllers consume them by writing
-    /// <c>[Authorize(EnsaPermissions.Company.Create)]</c>.
+    /// Wires authorization so that <c>[Authorize]</c> — parameterless, everywhere — is the whole
+    /// contract a controller states.
+    /// <para>
+    /// There is one requirement and no per-permission policies. A policy named after a permission
+    /// would put the permission identifier back into the attribute that consumes it, which is the
+    /// arrangement this replaces: the controller is not supposed to know what it requires. Which
+    /// permission applies is answered at request time from the endpoint map, and whether the user
+    /// holds it is answered by <c>IPermissionManager</c> — the faithful port of the legacy
+    /// four-gate query.
+    /// </para>
+    /// <para>
+    /// The requirement is added to the <b>default</b> policy, so a bare <c>[Authorize]</c> picks it
+    /// up, and to the <b>fallback</b> policy, so an endpoint that forgot to say anything at all is
+    /// still checked rather than open.
+    /// </para>
     /// </summary>
     private static void AddEnsaAuthorization(IServiceCollection services)
     {
+        services.AddSingleton<IEndpointPermissionMap, EndpointPermissionMap>();
+        services.AddScoped<IAuthorizationHandler, EndpointPermissionHandler>();
+
         services.AddAuthorization(options =>
         {
-            foreach (var permission in EnsaPermissions.GetAll())
-            {
-                options.AddPolicy(permission, policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim(EnsaClaimTypes.Permission, permission);
-                });
-            }
+            var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .AddRequirements(new EndpointPermissionRequirement())
+                .Build();
 
-            // An extra policy for the endpoints that require host administrator rights.
-            options.AddPolicy(EnsaRoles.SystemAdministrator, policy =>
-            {
-                policy.RequireAuthenticatedUser();
-                policy.RequireClaim(OpenIddictConstants.Claims.Role, EnsaRoles.SystemAdministrator);
-            });
+            options.DefaultPolicy = policy;
+            options.FallbackPolicy = policy;
         });
     }
 

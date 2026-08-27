@@ -1,9 +1,8 @@
-using Ensa.Domain.Shared.Exceptions;
+﻿using Ensa.Domain.Shared.Exceptions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Documents;
 using Ensa.Application.Contracts.Documents.Dtos;
 using Ensa.Application.Contracts.Documents.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +34,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
     /// </para>
     /// </summary>
     [HttpPost("upload")]
-    [Authorize(EnsaPermissions.Document.Create)]
     [ProducesResponseType<DocumentDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [RequestSizeLimit(MaxUploadBytes)]
@@ -77,7 +75,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
     /// </para>
     /// </summary>
     [HttpGet("{id:int}/content")]
-    [Authorize(EnsaPermissions.Document.Default)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DownloadAsync(int id, CancellationToken cancellationToken)
@@ -90,7 +87,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Returns the metadata of a single document.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Document.Default)]
     [ProducesResponseType<DocumentDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<DocumentDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -98,7 +94,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Returns the document together with its category and owning company.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Document.Default)]
     [ProducesResponseType<DocumentNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<DocumentNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -106,7 +101,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Paged, filterable document list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Document.Default)]
     [ProducesResponseType<PagedResultDto<DocumentListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<DocumentListDto>> GetListAsync(
         [FromQuery] GetDocumentListInput input,
@@ -115,7 +109,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Every file attached to one polymorphic owner record.</summary>
     [HttpGet("by-owner/{ownerType}/{ownerId:int}")]
-    [Authorize(EnsaPermissions.Document.Default)]
     [ProducesResponseType<ListResultDto<DocumentListDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<DocumentListDto>> GetByOwnerAsync(
         DocumentOwnerType ownerType,
@@ -128,7 +121,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
     /// Responds with <c>204 No Content</c> when nothing matches.
     /// </summary>
     [HttpGet("by-hash/{sha256}")]
-    [Authorize(EnsaPermissions.Document.Default)]
     [ProducesResponseType<DocumentDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public Task<DocumentDto?> FindBySha256Async(string sha256, CancellationToken cancellationToken)
@@ -136,7 +128,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Creates the metadata row. The binary is transferred separately.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Document.Create)]
     [ProducesResponseType<DocumentDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<DocumentDto> CreateAsync(
@@ -146,7 +137,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Updates the metadata. The storage coordinates cannot be changed.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Document.Update)]
     [ProducesResponseType<DocumentDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<DocumentDto> UpdateAsync(
@@ -157,7 +147,6 @@ public class DocumentController(IDocumentAppService documentAppService) : EnsaCo
 
     /// <summary>Deletes the metadata row (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Document.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Reports;
 using Ensa.Application.Contracts.Reports.Dtos;
 using Ensa.Application.Contracts.Reports.Dtos.Navigations;
@@ -20,7 +19,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 {
     /// <summary>Returns a single report header.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<ActivityReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ActivityReportDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -28,7 +26,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>The report with its workplace and its data rows.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<ActivityReportNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ActivityReportNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -36,7 +33,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Paged, filterable report list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<PagedResultDto<ActivityReportListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<ActivityReportListDto>> GetListAsync(
         [FromQuery] GetActivityReportListInput input,
@@ -45,7 +41,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Creates a report header.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Report.Create)]
     [ProducesResponseType<ActivityReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<ActivityReportDto> CreateAsync(
@@ -55,7 +50,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Updates a report header.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Report.Update)]
     [ProducesResponseType<ActivityReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ActivityReportDto> UpdateAsync(
@@ -66,7 +60,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Deletes the report together with its data rows.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Report.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -76,7 +69,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Data rows of one report, in display order.</summary>
     [HttpGet("{id:int}/lines")]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<ListResultDto<ActivityReportLineDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<ActivityReportLineDto>> GetLinesAsync(int id, CancellationToken cancellationToken)
@@ -84,7 +76,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Adds a data row.</summary>
     [HttpPost("{id:int}/lines")]
-    [Authorize(EnsaPermissions.Report.Create)]
     [ProducesResponseType<ActivityReportLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ActivityReportLineDto> AddLineAsync(
@@ -95,7 +86,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Updates a data row.</summary>
     [HttpPut("{id:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.Report.Update)]
     [ProducesResponseType<ActivityReportLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ActivityReportLineDto> UpdateLineAsync(
@@ -107,7 +97,6 @@ public class ActivityReportController(IActivityReportAppService activityReportAp
 
     /// <summary>Removes a data row.</summary>
     [HttpDelete("{id:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.Report.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task RemoveLineAsync(int id, int lineId, CancellationToken cancellationToken)

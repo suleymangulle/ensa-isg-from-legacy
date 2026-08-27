@@ -1,7 +1,6 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Documents;
 using Ensa.Application.Contracts.Documents.Dtos;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,6 @@ public class FormController(IFormAppService formAppService) : EnsaController
 {
     /// <summary>Returns a single form definition.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Form.Default)]
     [ProducesResponseType<FormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<FormDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -27,7 +25,6 @@ public class FormController(IFormAppService formAppService) : EnsaController
 
     /// <summary>Paged, filterable form list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Form.Default)]
     [ProducesResponseType<PagedResultDto<FormListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<FormListDto>> GetListAsync(
         [FromQuery] GetFormListInput input,
@@ -36,7 +33,6 @@ public class FormController(IFormAppService formAppService) : EnsaController
 
     /// <summary>Lightweight records for drop-downs (at most 50).</summary>
     [HttpGet("lookup")]
-    [Authorize(EnsaPermissions.Form.Default)]
     [ProducesResponseType<ListResultDto<LookupDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<LookupDto>> GetLookupAsync(
         [FromQuery] string? filter,
@@ -45,7 +41,6 @@ public class FormController(IFormAppService formAppService) : EnsaController
 
     /// <summary>Creates a form definition.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Form.Create)]
     [ProducesResponseType<FormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<FormDto> CreateAsync(
@@ -55,7 +50,6 @@ public class FormController(IFormAppService formAppService) : EnsaController
 
     /// <summary>Updates the form definition.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Form.Update)]
     [ProducesResponseType<FormDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<FormDto> UpdateAsync(
@@ -66,7 +60,6 @@ public class FormController(IFormAppService formAppService) : EnsaController
 
     /// <summary>Deletes the form definition.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Form.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

@@ -1,6 +1,7 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Documents;
 using Ensa.Domain.Membership;
+using Ensa.Domain.Shared;
 using Ensa.Domain.Membership.Navigations;
 using Ensa.Domain.Lookups;
 using Ensa.Domain.Shared.Enums;
@@ -26,6 +27,63 @@ public class UserRepository(
 {
     private readonly IDataFilter _dataFilter = dataFilter;
     private readonly ICurrentTenant _currentTenant = currentTenant;
+
+    /// <summary>
+    /// The account, the person, the contract and the role assignments, answered in one query.
+    /// <para>
+    /// These five facts used to be five columns on <c>User</c>. They now live in the tables that
+    /// own them, and asking four tables at every call site would be four chances to ask the wrong
+    /// one — so authorization asks this instead.
+    /// </para>
+    /// <para>
+    /// The joins are left joins on purpose: a user with no profile row or no employment row is a
+    /// broken record, not an authorized one, and the defaults below say so — inactive, no type.
+    /// </para>
+    /// </summary>
+    public async Task<UserAuthorizationFacts?> GetAuthorizationFactsAsync(
+        int userId,
+        CancellationToken ct = default)
+    {
+        // The soft-delete filter is disabled deliberately: a deleted user must produce facts that
+        // say "deleted", not nothing at all, so the caller can tell the two apart.
+        using (_dataFilter.Disable<ISoftDelete>())
+        {
+            var facts = await (
+                from user in Context.Set<User>().AsNoTracking()
+                where user.Id == userId
+                join profileRow in Context.Set<UserProfile>().AsNoTracking()
+                    on user.Id equals profileRow.UserId into profiles
+                from profile in profiles.DefaultIfEmpty()
+                join employmentRow in Context.Set<UserEmployment>().AsNoTracking()
+                    on user.Id equals employmentRow.UserId into employments
+                from employment in employments.DefaultIfEmpty()
+                select new
+                {
+                    IsActive = profile != null && profile.IsActive,
+                    user.IsDeleted,
+                    UserTypeId = employment != null ? employment.UserTypeId : null,
+                    user.TenantId,
+                }).FirstOrDefaultAsync(ct);
+
+            if (facts is null)
+            {
+                return null;
+            }
+
+            var isSystemAdministrator = await (
+                from assignment in Context.Set<IdentityUserRole<int>>().AsNoTracking()
+                join role in Context.Set<Role>().AsNoTracking() on assignment.RoleId equals role.Id
+                where assignment.UserId == userId && role.Name == EnsaRoleNames.SystemAdministrator
+                select role.Id).AnyAsync(ct);
+
+            return new UserAuthorizationFacts(
+                facts.IsActive,
+                facts.IsDeleted,
+                isSystemAdministrator,
+                facts.UserTypeId,
+                facts.TenantId);
+        }
+    }
 
     /// <summary>
     /// Computes the user's EFFECTIVE permissions (see <see cref="IPermissionManager"/> for the rule order).

@@ -181,7 +181,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
             join profile in Context.Set<UserProfile>().AsNoTracking()
                 on account.Id equals profile.UserId
             where account.Id == userId && profile.IsActive
-            select new { account.Id, account.TenantId, account.CompanyId })
+            select new { account.Id, account.TenantId, profile.CompanyId })
             .FirstOrDefaultAsync(ct);
 
         if (user is null)

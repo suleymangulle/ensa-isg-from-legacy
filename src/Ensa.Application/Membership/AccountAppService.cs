@@ -63,7 +63,7 @@ public class AccountAppService(
             Color = profile?.Color,
             TenantId = user.TenantId,
             OfficeId = office?.OfficeId,
-            CompanyId = user.CompanyId,
+            CompanyId = profile?.CompanyId,
             StaffRole = staffRole,
             SystemAdministrator = roles.Contains(EnsaRoleNames.SystemAdministrator),
             OrganizationAdmin = roles.Contains(EnsaRoleNames.OrganizationAdministrator),

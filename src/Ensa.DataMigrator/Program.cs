@@ -291,7 +291,7 @@ static async Task<int> ProbeLoginAsync(string legacyConnectionString, string mod
              JOIN ensa.UserProfile AS p ON p.UserId = u.Id
              WHERE m.LegacyTable = 'Kullanici_T'
                AND u.PasswordHash IS NOT NULL AND LEN(u.PasswordHash) > 0
-               AND p.IsActive = 1 AND u.IsDeleted = 0
+               AND p.IsActive = 1 AND p.IsDeleted = 0
              ORDER BY m.LegacyId;
              """, modern);
 

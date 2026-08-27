@@ -411,7 +411,7 @@ public sealed class TenancyStep : IMigrationStep
         // built together and written together, because a user without a profile cannot act:
         // authorization reads whether an account is usable from there.
         var batch = new List<(int LegacyId, User Entity, UserProfile Profile,
-            UserEmployment Employment, UserMedulaCredential? Medula)>();
+            UserEmployment Employment, UserMedulaCredential? Medula, UserOffice? Office)>();
 
         // (organization, national id) is unique in the rebuilt schema. Whoever comes first keeps
         // the number; a later account with the same one is written without it.
@@ -487,11 +487,7 @@ public sealed class TenancyStep : IMigrationStep
                     PhoneNumber = Fit(context, "User", "PhoneNumber", Text(reader, 5))
                                   ?? Fit(context, "User", "PhoneNumber", Text(reader, 6)),
 
-                    // FirmaId points at a client company, which the companies step has not created
-                    // yet. It is resolved there rather than left pointing at nothing.
-                    CompanyId = null,
                     TenantId = tenantId,
-                    IsDeleted = !reader.IsDBNull(29) && reader.GetBoolean(29),
 
                     // No password is carried over here. The legacy column holds reversibly
                     // encrypted text rather than a hash, so PasswordStep decrypts and re-protects
@@ -515,6 +511,10 @@ public sealed class TenancyStep : IMigrationStep
                     Color = Fit(context, "UserProfile", "Color", Text(reader, 23)),
                     IsActive = !reader.IsDBNull(10) && reader.GetBoolean(10),
                     ContractApproved = Int(reader, 27) is > 0,
+
+                    // FirmaId points at a client company, which the companies step has not created
+                    // yet. It is resolved there rather than left pointing at nothing.
+                    CompanyId = null,
                     MustChangePassword = true,
                     IsDeleted = !reader.IsDBNull(29) && reader.GetBoolean(29),
                 };
@@ -547,8 +547,21 @@ public sealed class TenancyStep : IMigrationStep
                         BranchCode = branchCode,
                     };
 
+                // The office the legacy row names, written as an assignment.
+                // Kullanici_T.OfisId and KullaniciOfis_T are two different facts in the legacy
+                // schema -- a per-user default beside a many-to-many table -- and carrying only
+                // the second one is how 1,907 people lost their office the first time round.
+                var office = MapId(officeMap, Int(reader, 20)) is { } assignedOfficeId
+                    ? new UserOffice
+                    {
+                        TenantId = tenantId,
+                        OfficeId = assignedOfficeId,
+                        MonthlyWorkDurationMinutes = Int(reader, 19) ?? 0,
+                    }
+                    : null;
+
                 taken.Add(CollationFold(user.NormalizedUserName));
-                batch.Add((legacyId, user, profile, employment, medula));
+                batch.Add((legacyId, user, profile, employment, medula, office));
             }
         }
 
@@ -574,6 +587,12 @@ public sealed class TenancyStep : IMigrationStep
                     {
                         credential.UserId = item.Entity.Id;
                         db.Set<UserMedulaCredential>().Add(credential);
+                    }
+
+                    if (item.Office is { } assignment)
+                    {
+                        assignment.UserId = item.Entity.Id;
+                        db.Set<UserOffice>().Add(assignment);
                     }
                 }
 

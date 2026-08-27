@@ -15,6 +15,7 @@ kullanicinin kendine istedigi yetkiyi vermesi demektir. Bu betik tam olarak onu 
 
 import json
 import os
+import time
 import sys
 import urllib.error
 import urllib.parse
@@ -87,7 +88,9 @@ print("=== YETKI YUKSELTME DENEMESI ===")
 
 admin = token_for("admin", "Ensa!2026")
 
-stamp = "esc26"
+# A fresh name each run: deleting a user marks the profile, and the account row -- with
+# its user name -- stays for the audit trail, exactly as it should.
+stamp = str(int(time.time()))
 username = "escalation.probe." + stamp
 password = "Escalate!2026"
 

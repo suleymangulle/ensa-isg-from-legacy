@@ -54,8 +54,13 @@ public class UserRepository(
         // would be filtered away. The user would then read as inactive and be refused a token,
         // which is exactly how this broke the first time. The lookup is by explicit user id, so
         // the filter protects nothing here.
+        // Company scope too, and for the same reason as tenancy: this question is asked while
+        // somebody signs in, before their company is known. The profile of a company-bound user
+        // would be filtered away, the company claim would never be written, and the user would
+        // then see nothing -- the filter fails closed, so a missing answer is not a small bug.
         using (_dataFilter.Disable<ISoftDelete>())
         using (_dataFilter.Disable<IMultiTenant>())
+        using (_dataFilter.Disable<ICompanyScoped>())
         {
             var facts = await (
                 from user in Context.Set<User>().AsNoTracking()
@@ -69,8 +74,13 @@ public class UserRepository(
                 select new
                 {
                     IsActive = profile != null && profile.IsActive,
-                    user.IsDeleted,
+
+                    // Deletion is recorded on the profile: the account row is Identity's and
+                    // carries nothing of ours but the tenant. A user with no profile at all reads
+                    // as deleted, which is the safe end of that question.
+                    IsDeleted = profile == null || profile.IsDeleted,
                     UserTypeId = employment != null ? employment.UserTypeId : null,
+                    CompanyId = profile != null ? profile.CompanyId : null,
                     user.TenantId,
                 }).FirstOrDefaultAsync(ct);
 
@@ -90,7 +100,8 @@ public class UserRepository(
                 facts.IsDeleted,
                 isSystemAdministrator,
                 facts.UserTypeId,
-                facts.TenantId);
+                facts.TenantId,
+                facts.CompanyId);
         }
     }
 
@@ -136,7 +147,7 @@ public class UserRepository(
 
         if (query.CompanyId is { } companyId)
         {
-            rows = rows.Where(x => x.account.CompanyId == companyId);
+            rows = rows.Where(x => x.profile != null && x.profile.CompanyId == companyId);
         }
 
         if (query.StaffRole is { } staffRole)
@@ -170,6 +181,28 @@ public class UserRepository(
             .ToListAsync(ct);
 
         return (page, total);
+    }
+
+    /// <inheritdoc />
+    public async Task<(UserProfile? Profile, UserEmployment? Employment, UserOffice? Office)> GetPersonAsync(
+        int userId,
+        CancellationToken ct = default)
+    {
+        using (_dataFilter.Disable<ISoftDelete>())
+        using (_dataFilter.Disable<IMultiTenant>())
+        using (_dataFilter.Disable<ICompanyScoped>())
+        {
+            var profile = await Context.Set<UserProfile>().AsNoTracking()
+                .FirstOrDefaultAsync(p => p.UserId == userId, ct);
+
+            var employment = await Context.Set<UserEmployment>().AsNoTracking()
+                .FirstOrDefaultAsync(e => e.UserId == userId, ct);
+
+            var office = await Context.Set<UserOffice>().AsNoTracking()
+                .FirstOrDefaultAsync(o => o.UserId == userId, ct);
+
+            return (profile, employment, office);
+        }
     }
 
     /// <inheritdoc />

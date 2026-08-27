@@ -66,8 +66,6 @@ public sealed class MembershipSeeder(
             var role = new Role
             {
                 Name = name,
-                Description = description,
-                IsStatic = true,
                 TenantId = null
             };
 
@@ -77,6 +75,17 @@ public sealed class MembershipSeeder(
                 throw new InvalidOperationException(
                     $"Could not create role '{name}': {ErrorsCombine(result)}");
             }
+
+            // The description and the "the application depends on this by name" flag are ours,
+            // so they go in our own table rather than on Identity's role.
+            context.Add(new RoleProfile
+            {
+                RoleId = role.Id,
+                Description = description,
+                IsStatic = true,
+            });
+
+            await context.SaveChangesAsync();
 
             logger.LogInformation("Role created: {Role}", name);
         }

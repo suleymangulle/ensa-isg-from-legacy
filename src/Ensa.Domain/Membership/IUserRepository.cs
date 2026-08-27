@@ -39,6 +39,20 @@ public interface IUserRepository : IRepository<User>
         UserListQuery query,
         CancellationToken ct = default);
 
+    /// <summary>
+    /// The person, the contract and the office of one user, found by id with the ambient filters
+    /// off.
+    /// <para>
+    /// The caller has already named the user, so the tenant and company filters protect nothing
+    /// here — and they do real harm: an administrator resolving a customer's profile sits outside
+    /// that customer's tenant and company, so the filtered query returns nothing and the screen
+    /// shows an empty person. That has now been the same mistake three times.
+    /// </para>
+    /// </summary>
+    Task<(UserProfile? Profile, UserEmployment? Employment, UserOffice? Office)> GetPersonAsync(
+        int userId,
+        CancellationToken ct = default);
+
     Task<UserNavigation?> GetWithNavigationAsync(int id, CancellationToken ct = default);
 
     /// <summary>

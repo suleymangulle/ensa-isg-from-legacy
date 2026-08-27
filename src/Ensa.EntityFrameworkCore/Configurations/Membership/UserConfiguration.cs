@@ -34,9 +34,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         // ---- Foreign key indexes ----
 
-        builder.HasIndex(x => x.CompanyId);
-        builder.HasIndex(x => x.PermissionGroupId);
-        builder.HasIndex(x => new { x.TenantId, x.IsDeleted });
+        builder.HasIndex(x => x.TenantId);
 
         // ---- Identity index correction ----
 

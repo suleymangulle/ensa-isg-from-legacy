@@ -411,9 +411,11 @@ public sealed class AuthorizationController(
         }
 
         // The company claim - present only for a user who belongs to one client workplace. It is
-        // what narrows every company-scoped query to that workplace, so it is written from the
-        // user record and can never be supplied by the caller.
-        if (user.CompanyId is { } companyId)
+        // what narrows every company-scoped query to that workplace, so it is read from the
+        // stored record and can never be supplied by the caller.
+        var facts = await userRepository.GetAuthorizationFactsAsync(user.Id);
+
+        if (facts?.CompanyId is { } companyId)
         {
             identity.AddClaim(new Claim(
                 EnsaClaimTypes.CompanyId, companyId.ToString(CultureInfo.InvariantCulture)));

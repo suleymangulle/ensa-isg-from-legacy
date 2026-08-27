@@ -1,4 +1,4 @@
-using Ensa.Domain.Membership;
+﻿using Ensa.Domain.Membership;
 using Ensa.Domain.Shared;
 using Ensa.EntityFrameworkCore.ValueConverters;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +40,7 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
                .IsUnique()
                .HasFilter("[IsDeleted] = 0 AND [NationalId] IS NOT NULL");
 
+        builder.HasIndex(x => x.CompanyId);
         builder.HasIndex(x => x.CityId);
         builder.HasIndex(x => x.DistrictId);
         builder.HasIndex(x => x.PhotoDocumentId);

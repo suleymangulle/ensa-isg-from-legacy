@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using Ensa.Application.Contracts.Membership.Dtos;
 using Ensa.Domain.Membership;
 
@@ -97,13 +97,10 @@ public class MembershipAutoMapperProfile : Profile
             .ForMember(d => d.TwoFactorEnabled, o => o.Ignore())
             .ForMember(d => d.LockoutEnd, o => o.Ignore())
             .ForMember(d => d.LockoutEnabled, o => o.Ignore())
-            .ForMember(d => d.AccessFailedCount, o => o.Ignore())
-            // Privilege flags - granted through roles, never through a user form.
-            .ForMember(d => d.OrganizationAdmin, o => o.Ignore())
-            .ForMember(d => d.SystemAdministrator, o => o.Ignore())
-            .ForMember(d => d.ContractApproved, o => o.Ignore())
-            .ForMember(d => d.MustChangePassword, o => o.Ignore())
-            // Encrypted external credentials - managed by the Medula integration screen.
-            .ForMember(d => d.MedulaUserName, o => o.Ignore())
-            .ForMember(d => d.MedulaPassword, o => o.Ignore());
+            .ForMember(d => d.AccessFailedCount, o => o.Ignore());
+
+        // The privilege flags and the MEDULA credentials used to be ignored here, because a user
+        // form must not grant a privilege or write another system's password. They are not
+        // ignored any more -- they are not on the user at all. Privileges are role assignments,
+        // and the credentials are their own table.
 }

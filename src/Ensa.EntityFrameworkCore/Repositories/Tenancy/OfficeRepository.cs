@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Lookups;
 using Ensa.Domain.Tenancy;
@@ -73,10 +73,12 @@ public class OfficeRepository(EnsaDbContext context, IDataFilter dataFilter)
             .Where(ko => ko.OfficeId == id)
             .Select(ko => ko.UserId);
 
-        navigation.UserCount = await Context.Set<User>()
+        // Every office a user works in is an assignment now -- the per-user "default office"
+        // column was folded into UserOffice, so the assignments are the whole answer.
+        navigation.UserCount = await Context.Set<UserProfile>()
             .AsNoTracking()
             .CountAsync(
-                k => k.IsActive && (k.OfficeId == id || assignedUserIds.Contains(k.Id)),
+                p => p.IsActive && assignedUserIds.Contains(p.UserId),
                 cancellationToken);
 
         return navigation;

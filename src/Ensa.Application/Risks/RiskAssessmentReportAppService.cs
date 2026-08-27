@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Application.Contracts.Risks;
@@ -11,6 +11,7 @@ using Ensa.Domain.Risks;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
+using Ensa.Domain.Membership;
 
 namespace Ensa.Application.Risks;
 
@@ -39,6 +40,7 @@ public class RiskAssessmentReportAppService(
     IRepository<RiskAssessmentImprovementAction> improvementActionRepository,
     IRepository<RiskAssessmentProtectedGroup> protectedGroupRepository,
     IRepository<RiskAssessmentParticipant> participantRepository,
+    IUserRepository userRepository,
     IRepository<RiskAssessmentHistoryRecord> historyRecordRepository,
     IReadOnlyRepository<Company> companyRepository,
     IRiskAssessmentManager riskAssessmentManager)
@@ -69,16 +71,23 @@ public class RiskAssessmentReportAppService(
 
         var method = navigation.Report.ReportMethod;
 
+        // Both names in one query. They are on the profile now, so the report's own
+        // navigation cannot carry them.
+        var names = await userRepository.GetDisplaysAsync(
+            new[] { navigation.Specialist?.Id, navigation.Physician?.Id }
+                .Where(x => x.HasValue).Select(x => x!.Value),
+            cancellationToken);
+
         var dto = new RiskAssessmentReportNavigationDto
         {
             Report = MapReport(navigation.Report),
             Company = RiskLookupHelper.Lookup(navigation.Company?.Id, navigation.Company?.CompanyName),
             Specialist = RiskLookupHelper.Lookup(
                 navigation.Specialist?.Id,
-                FullName(navigation.Specialist?.Name, navigation.Specialist?.LastName)),
+                FullName(names, navigation.Specialist?.Id)),
             Physician = RiskLookupHelper.Lookup(
                 navigation.Physician?.Id,
-                FullName(navigation.Physician?.Name, navigation.Physician?.LastName)),
+                FullName(names, navigation.Physician?.Id)),
             IdentifiedHazards =
             [
                 .. navigation.IdentifiedHazards.Select(h => new IdentifiedHazardNavigationDto
@@ -632,6 +641,6 @@ public class RiskAssessmentReportAppService(
         return filter.Build();
     }
 
-    private static string FullName(string? name, string? lastName)
-        => $"{name} {lastName}".Trim();
+    private static string FullName(IReadOnlyDictionary<int, UserDisplay> names, int? userId)
+        => userId is { } id && names.TryGetValue(id, out var display) ? display.DisplayName : string.Empty;
 }

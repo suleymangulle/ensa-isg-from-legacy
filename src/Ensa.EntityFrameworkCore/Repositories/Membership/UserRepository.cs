@@ -100,6 +100,79 @@ public class UserRepository(
     /// per collection element (no N+1).
     /// </remarks>
     /// <inheritdoc />
+    public async Task<(List<UserListRow> Rows, int Total)> GetListAsync(
+        UserListQuery query,
+        CancellationToken ct = default)
+    {
+        ArgumentNullException.ThrowIfNull(query);
+
+        // The filter used to be one predicate over User, because every field it touches was a
+        // column on that row. They are spread across four tables now -- the account, the person,
+        // the contract and the office assignments -- which is more than an Expression handed in
+        // from the application layer can express, so the query lives here.
+        var rows =
+            from account in GetReadOnlyQueryable()
+            join profileRow in Context.Set<UserProfile>().AsNoTracking()
+                on account.Id equals profileRow.UserId into profiles
+            from profile in profiles.DefaultIfEmpty()
+            join employmentRow in Context.Set<UserEmployment>().AsNoTracking()
+                on account.Id equals employmentRow.UserId into employments
+            from employment in employments.DefaultIfEmpty()
+            select new { account, profile, employment };
+
+        if (query.Search is { Length: > 0 } search)
+        {
+            rows = rows.Where(x =>
+                (x.profile != null && (x.profile.Name.Contains(search) || x.profile.LastName.Contains(search)))
+                || (x.account.UserName != null && x.account.UserName.Contains(search))
+                || (x.account.Email != null && x.account.Email.Contains(search))
+                || (x.account.PhoneNumber != null && x.account.PhoneNumber.Contains(search)));
+        }
+
+        if (query.IsActive is { } isActive)
+        {
+            rows = rows.Where(x => x.profile != null && x.profile.IsActive == isActive);
+        }
+
+        if (query.CompanyId is { } companyId)
+        {
+            rows = rows.Where(x => x.account.CompanyId == companyId);
+        }
+
+        if (query.StaffRole is { } staffRole)
+        {
+            var typeIds = Context.Set<UserType>().AsNoTracking()
+                .Where(t => t.StaffRole == staffRole)
+                .Select(t => t.Id);
+
+            rows = rows.Where(x => x.employment != null && typeIds.Contains(x.employment.UserTypeId!.Value));
+        }
+
+        if (query.OfficeId is { } officeId)
+        {
+            var assigned = Context.Set<UserOffice>().AsNoTracking()
+                .Where(o => o.OfficeId == officeId)
+                .Select(o => o.UserId);
+
+            rows = rows.Where(x => assigned.Contains(x.account.Id));
+        }
+
+        var total = await rows.CountAsync(ct);
+
+        // Sorted on the name, which is where a user list is always sorted, and that is on the
+        // profile.
+        var page = await rows
+            .OrderBy(x => x.profile != null ? x.profile.Name : x.account.UserName)
+            .ThenBy(x => x.profile != null ? x.profile.LastName : string.Empty)
+            .Skip(query.SkipCount)
+            .Take(query.MaxResultCount)
+            .Select(x => new UserListRow(x.account, x.profile, x.employment))
+            .ToListAsync(ct);
+
+        return (page, total);
+    }
+
+    /// <inheritdoc />
     public async Task<Dictionary<int, UserDisplay>> GetDisplaysAsync(
         IEnumerable<int> userIds,
         CancellationToken ct = default)
@@ -158,6 +231,9 @@ public class UserRepository(
 
         var employment = await Context.Set<UserEmployment>().AsNoTracking()
             .FirstOrDefaultAsync(e => e.UserId == id, ct);
+
+        navigation.Profile = profile;
+        navigation.Employment = employment;
 
         if (user.TenantId is int organizationId)
         {
@@ -280,10 +356,12 @@ public class UserRepository(
             return Task.FromResult(false);
         }
 
-        return GetReadOnlyQueryable()
+        // The identity number is on the profile, and the unique index with it.
+        return Context.Set<UserProfile>()
+            .AsNoTracking()
             .AnyAsync(
-                k => k.NationalId == nationalId
-                     && (exceptUserId == null || k.Id != exceptUserId),
+                p => p.NationalId == nationalId
+                     && (exceptUserId == null || p.UserId != exceptUserId),
                 ct);
     }
 
@@ -309,18 +387,29 @@ public class UserRepository(
 
     /// <inheritdoc />
     /// <remarks>The assignment table is embedded as an <c>IN (...)</c> subquery — a single round trip.</remarks>
-    public Task<List<User>> GetByOfficeAsync(int officeId, CancellationToken ct = default)
+    public async Task<List<User>> GetByOfficeAsync(int officeId, CancellationToken ct = default)
     {
         var assignedIds = Context.Set<UserOffice>()
             .AsNoTracking()
             .Where(ko => ko.OfficeId == officeId)
             .Select(ko => ko.UserId);
 
-        return GetReadOnlyQueryable()
-            .Where(k => k.IsActive && (k.OfficeId == officeId || assignedIds.Contains(k.Id)))
-            .OrderBy(k => k.Name)
-            .ThenBy(k => k.LastName)
+        // The office is an assignment, and the name and the active flag are on the profile,
+        // so the whole question is asked there and the accounts are brought back by id.
+        var userIds = await Context.Set<UserProfile>()
+            .AsNoTracking()
+            .Where(p => p.IsActive && assignedIds.Contains(p.UserId))
+            .OrderBy(p => p.Name)
+            .ThenBy(p => p.LastName)
+            .Select(p => p.UserId)
             .ToListAsync(ct);
+
+        var accounts = await GetReadOnlyQueryable()
+            .Where(k => userIds.Contains(k.Id))
+            .ToListAsync(ct);
+
+        // Kept in the order the profiles came back in.
+        return [.. userIds.Select(id => accounts.Find(a => a.Id == id)).OfType<User>()];
     }
 
     /// <inheritdoc />
@@ -328,7 +417,7 @@ public class UserRepository(
     /// Role names are matched on <c>NormalizedName</c> and all roles are resolved in a SINGLE query
     /// (no query per role).
     /// </remarks>
-    public Task<List<User>> GetByRolesAsync(IEnumerable<string> roleNames, CancellationToken ct = default)
+    public async Task<List<User>> GetByRolesAsync(IEnumerable<string> roleNames, CancellationToken ct = default)
     {
         var normalizedNames = (roleNames ?? [])
             .Where(name => !string.IsNullOrWhiteSpace(name))
@@ -338,7 +427,7 @@ public class UserRepository(
 
         if (normalizedNames.Count == 0)
         {
-            return Task.FromResult(new List<User>());
+            return [];
         }
 
         var roleIds = Context.Set<Role>()
@@ -351,11 +440,21 @@ public class UserRepository(
             .Where(ur => roleIds.Contains(ur.RoleId))
             .Select(ur => ur.UserId);
 
-        return GetReadOnlyQueryable()
-            .Where(k => k.IsActive && userIds.Contains(k.Id))
-            .OrderBy(k => k.Name)
-            .ThenBy(k => k.LastName)
+        // Ordered and filtered on the profile, since that is where the name and the active flag
+        // are; the accounts come back by id and keep that order.
+        var orderedIds = await Context.Set<UserProfile>()
+            .AsNoTracking()
+            .Where(p => p.IsActive && userIds.Contains(p.UserId))
+            .OrderBy(p => p.Name)
+            .ThenBy(p => p.LastName)
+            .Select(p => p.UserId)
             .ToListAsync(ct);
+
+        var accounts = await GetReadOnlyQueryable()
+            .Where(k => orderedIds.Contains(k.Id))
+            .ToListAsync(ct);
+
+        return [.. orderedIds.Select(id => accounts.Find(a => a.Id == id)).OfType<User>()];
     }
 
     /// <inheritdoc />

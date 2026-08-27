@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Companies;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Lookups;
@@ -115,9 +115,9 @@ public class OrganizationRepository(EnsaDbContext context, IDataFilter dataFilte
 
             navigation.HeadquarterOffice = navigation.Offices.Find(o => o.HeadquarterOffice);
 
-            navigation.ActiveUserCount = await Context.Set<User>()
+            navigation.ActiveUserCount = await Context.Set<UserProfile>()
                 .AsNoTracking()
-                .CountAsync(k => k.TenantId == id && k.IsActive, cancellationToken);
+                .CountAsync(p => p.TenantId == id && p.IsActive, cancellationToken);
 
             navigation.ActiveCompanyCount = await Context.Set<Company>()
                 .AsNoTracking()
@@ -142,9 +142,9 @@ public class OrganizationRepository(EnsaDbContext context, IDataFilter dataFilte
     {
         using (_dataFilter.Disable<IMultiTenant>())
         {
-            return await Context.Set<User>()
+            return await Context.Set<UserProfile>()
                 .AsNoTracking()
-                .CountAsync(k => k.TenantId == organizationId && k.IsActive, cancellationToken);
+                .CountAsync(p => p.TenantId == organizationId && p.IsActive, cancellationToken);
         }
     }
 

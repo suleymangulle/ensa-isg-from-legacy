@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Companies;
 using Ensa.Domain.Companies.Navigations;
 using Ensa.Domain.Membership;
@@ -91,10 +91,10 @@ public class CompanyRepository(EnsaDbContext context, IDataFilter dataFilter)
         var assignedSpecialistUserIds = navigation.AssignedSpecialists.Select(fi => fi.UserId).Distinct().ToList();
         if (assignedSpecialistUserIds.Count > 0)
         {
-            navigation.RelatedTcMembershipNumbers = await Context.Set<User>()
+            navigation.RelatedTcMembershipNumbers = await Context.Set<UserProfile>()
                 .AsNoTracking()
-                .Where(k => assignedSpecialistUserIds.Contains(k.Id) && k.NationalId != null)
-                .Select(k => k.NationalId!)
+                .Where(p => assignedSpecialistUserIds.Contains(p.UserId) && p.NationalId != null)
+                .Select(p => p.NationalId!)
                 .Distinct()
                 .ToListAsync(cancellationToken);
         }

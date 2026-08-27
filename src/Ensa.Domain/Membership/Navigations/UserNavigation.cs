@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Ensa.Domain.Common;
 using Ensa.Domain.Tenancy;
 
@@ -48,6 +48,15 @@ public class UserNavigation : NavigationEntity<User>
     public List<Permission> Permissions { get; set; } = [];
 
     /// <summary>User type metadata (name/icon) — the counterpart of <c>User.StaffRole</c>.</summary>
+    /// <summary>
+    /// The person. Carried here because the screen that reads this navigation shows a name, an
+    /// address and a photograph, and none of those are on the account any more.
+    /// </summary>
+    public UserProfile? Profile { get; set; }
+
+    /// <summary>The contract, for the hire date, the salary and the user type link.</summary>
+    public UserEmployment? Employment { get; set; }
+
     public UserType? UserType { get; set; }
 
     /// <summary>Province name (lookup — the <c>City</c> table is defined in another module).</summary>

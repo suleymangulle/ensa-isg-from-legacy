@@ -31,6 +31,14 @@ public interface IUserRepository : IRepository<User>
         IEnumerable<int> userIds,
         CancellationToken ct = default);
 
+    /// <summary>
+    /// One page of the user list, with the person and the contract joined on. See
+    /// <see cref="UserListQuery"/> for why this is not a predicate.
+    /// </summary>
+    Task<(List<UserListRow> Rows, int Total)> GetListAsync(
+        UserListQuery query,
+        CancellationToken ct = default);
+
     Task<UserNavigation?> GetWithNavigationAsync(int id, CancellationToken ct = default);
 
     /// <summary>

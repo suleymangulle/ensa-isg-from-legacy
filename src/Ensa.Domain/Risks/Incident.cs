@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Shared.Enums;
 
 namespace Ensa.Domain.Risks;
@@ -27,6 +27,12 @@ public class Incident : FullAuditedTenantEntity, ICompanyScoped
 
     /// <summary>Accident type; meaningful only for work accidents and no-damage incidents. (Legacy: <c>KazaTuru byte?</c>)</summary>
     public AccidentType AccidentType { get; set; } = AccidentType.Unspecified;
+
+    /// <summary>
+    /// How severe the accident was. (Legacy: <c>Olay_T.KazaTuru</c>, which despite its name is a
+    /// severity scale, not a mechanism.)
+    /// </summary>
+    public AccidentSeverity AccidentSeverity { get; set; } = AccidentSeverity.Unspecified;
 
     /// <summary>Date and time the incident occurred.</summary>
     public DateTime IncidentDate { get; set; }

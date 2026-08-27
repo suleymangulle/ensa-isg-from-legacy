@@ -561,7 +561,19 @@ export enum IncidentType {
   NoInjuryIncident = 4,
 }
 
-/** Accident type. (Legacy: Olay_T.KazaTuru byte?) */
+/** How severe a work accident was. (Legacy: Olay_T.KazaTuru.) The legacy column is named after the accident's type but records its severity: the seven options the form offers are "narrowly avoided", three bands of lost work days, limb loss, disablement and death. That is a different question from , which asks what happened - a fall, a burn, an electric shock - and answering one with the other would turn "more than three days lost" into "entrapment". The legacy system records no mechanism at all, so stays for every migrated incident and this carries what was actually written down. */
+export enum AccidentSeverity {
+  Unspecified = 0,
+  NarrowlyAvoided = 1,
+  UpToThreeLostDays = 2,
+  MoreThanThreeLostDays = 3,
+  LimbLoss = 4,
+  Disablement = 5,
+  Fatal = 6,
+  PropertyDamage = 7,
+}
+
+/** Accident type - what physically happened. (No legacy equivalent; see .) */
 export enum AccidentType {
   Unspecified = 0,
   Fall = 1,

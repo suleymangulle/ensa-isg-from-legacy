@@ -1,4 +1,4 @@
-namespace Ensa.Domain.Shared.Enums;
+﻿namespace Ensa.Domain.Shared.Enums;
 
 // ------------------------------------------------------------------
 // Work plan / training plan
@@ -276,7 +276,48 @@ public enum IncidentType
     NoInjuryIncident = 4
 }
 
-/// <summary>Accident type. (Legacy: Olay_T.KazaTuru byte?)</summary>
+/// <summary>
+/// How severe a work accident was.
+/// <para>
+/// (Legacy: <c>Olay_T.KazaTuru</c>.) The legacy column is named after the accident's type but
+/// records its severity: the seven options the form offers are "narrowly avoided", three bands of
+/// lost work days, limb loss, disablement and death. That is a different question from
+/// <see cref="AccidentType"/>, which asks what happened - a fall, a burn, an electric shock - and
+/// answering one with the other would turn "more than three days lost" into "entrapment".
+/// </para>
+/// <para>
+/// The legacy system records no mechanism at all, so <see cref="AccidentType"/> stays
+/// <see cref="AccidentType.Unspecified"/> for every migrated incident and this carries what was
+/// actually written down.
+/// </para>
+/// </summary>
+public enum AccidentSeverity
+{
+    Unspecified = 0,
+
+    /// <summary>Hafif atlatilan kaza - no injury of consequence.</summary>
+    NarrowlyAvoided = 1,
+
+    /// <summary>3 gun veya daha az is kaybi.</summary>
+    UpToThreeLostDays = 2,
+
+    /// <summary>3 gunden fazla is kaybi.</summary>
+    MoreThanThreeLostDays = 3,
+
+    /// <summary>Uzuv kaybi.</summary>
+    LimbLoss = 4,
+
+    /// <summary>Sakatlanma.</summary>
+    Disablement = 5,
+
+    /// <summary>Olum.</summary>
+    Fatal = 6,
+
+    /// <summary>Maddi hasar - damage to property, nobody hurt.</summary>
+    PropertyDamage = 7
+}
+
+/// <summary>Accident type - what physically happened. (No legacy equivalent; see <see cref="AccidentSeverity"/>.)</summary>
 public enum AccidentType
 {
     Unspecified = 0,

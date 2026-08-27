@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using Ensa.DataMigrator.Infrastructure;
 using Ensa.Domain.Documents;
@@ -276,9 +276,24 @@ public sealed class DocumentStep : IMigrationStep
     /// <see cref="StorageNamespace"/> and the id, rendered the way the storage expects it.
     /// </summary>
     public static string DeriveStorageName(int legacyDocumentId)
+        => Derive($"{StorageNamespace}:{legacyDocumentId}");
+
+    /// <summary>
+    /// The same, for a file the legacy schema kept inline in some other table rather than in
+    /// <c>Dosya_T</c> — the observation photographs and the evacuation plans.
+    /// <para>
+    /// <paramref name="source"/> names the column it came from, so the same row id in two
+    /// different tables cannot produce the same key. It is deliberately not the plain
+    /// <c>Dosya_T</c> form: those files already have names on disk, and a key that changed would
+    /// orphan every one of them.
+    /// </para>
+    /// </summary>
+    public static string DeriveStorageName(string source, int legacyId)
+        => Derive($"{StorageNamespace}:{source}:{legacyId}");
+
+    private static string Derive(string material)
     {
-        var digest = SHA256.HashData(
-            Encoding.UTF8.GetBytes($"{StorageNamespace}:{legacyDocumentId}"));
+        var digest = SHA256.HashData(Encoding.UTF8.GetBytes(material));
 
         var bytes = digest.AsSpan(0, 16).ToArray();
 

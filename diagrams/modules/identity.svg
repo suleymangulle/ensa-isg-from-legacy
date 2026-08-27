@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1058" height="675" viewBox="0 0 1058 675" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<title>Ensa — Identity</title>
+<rect width="1058" height="675" fill="#fbfcfe"/>
+<defs>
+<style>.t{font-family:Segoe UI,Inter,Helvetica,Arial,sans-serif}.m{font-family:Consolas,Menlo,DejaVu Sans Mono,monospace}</style>
+<filter id="drop" x="-12%" y="-12%" width="130%" height="130%">
+<feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.16"/>
+</filter>
+<marker id="a-tenancy" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#4338ca" opacity="0.85"/></marker>
+<marker id="a-membership" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#7c3aed" opacity="0.85"/></marker>
+<marker id="a-identity" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a21caf" opacity="0.85"/></marker>
+<marker id="a-menus" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0369a1" opacity="0.85"/></marker>
+<marker id="a-companies" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0f766e" opacity="0.85"/></marker>
+<marker id="a-lookups" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0e7490" opacity="0.85"/></marker>
+<marker id="a-risks" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#b91c1c" opacity="0.85"/></marker>
+<marker id="a-plans" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#c2410c" opacity="0.85"/></marker>
+<marker id="a-trainings" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a16207" opacity="0.85"/></marker>
+<marker id="a-health" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#15803d" opacity="0.85"/></marker>
+<marker id="a-documents" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#475569" opacity="0.85"/></marker>
+<marker id="a-finance" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#9f1239" opacity="0.85"/></marker>
+<marker id="a-ibys" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#1d4ed8" opacity="0.85"/></marker>
+<marker id="a-communication" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6d28d9" opacity="0.85"/></marker>
+<marker id="a-reports" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#854d0e" opacity="0.85"/></marker>
+<marker id="a-infrastructure" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6b7280" opacity="0.85"/></marker>
+</defs>
+<text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#a21caf">Identity</text>
+<text class="t" x="38" y="68" font-size="12" fill="#64748b">OpenIddict token, authorisation and client storage — 4 tables, 63 rows</text>
+<line x1="34" y1="82" x2="1024" y2="82" stroke="#e2e8f0"/>
+<rect x="34" y="96.0" width="990" height="511" rx="12" fill="#a21caf" fill-opacity="0.045" stroke="#a21caf" stroke-opacity="0.22"/>
+<text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#a21caf">Identity</text>
+<g id="relationships">
+<path d="M378 194.5 C348.0 194.5 384.0 157.0 354 157.0" fill="none" stroke="#a21caf" stroke-width="1" opacity="0.34" marker-end="url(#a-identity)"/>
+<path d="M704 389.5 C554.0 389.5 504.0 157.0 354 157.0" fill="none" stroke="#a21caf" stroke-width="1" opacity="0.34" marker-end="url(#a-identity)"/>
+<path d="M704 404.5 C674.0 404.5 710.0 157.0 680 157.0" fill="none" stroke="#a21caf" stroke-width="1" opacity="0.34" marker-end="url(#a-identity)"/>
+</g>
+<g id="tables">
+<g opacity="1">
+<title>OpenIddictApplications — Identity — 0 rows, 16 columns</title>
+<rect x="52" y="142.0" width="302" height="276" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
+<text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictApplications</text>
+<text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="198.0" font-size="10" font-weight="400" fill="#1e293b">ApplicationType·</text>
+<text class="m" x="345" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<text class="t" x="72" y="213.0" font-size="10" font-weight="400" fill="#1e293b">ClientId·</text>
+<text class="m" x="345" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(100)</text>
+<rect x="53" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="228.0" font-size="10" font-weight="400" fill="#1e293b">ClientSecret·</text>
+<text class="m" x="345" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="72" y="243.0" font-size="10" font-weight="400" fill="#1e293b">ClientType·</text>
+<text class="m" x="345" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<rect x="53" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="258.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
+<text class="m" x="345" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<text class="t" x="72" y="273.0" font-size="10" font-weight="400" fill="#1e293b">ConsentType·</text>
+<text class="m" x="345" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<rect x="53" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="288.0" font-size="10" font-weight="400" fill="#1e293b">DisplayName·</text>
+<text class="m" x="345" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="72" y="303.0" font-size="10" font-weight="400" fill="#1e293b">DisplayNames·</text>
+<text class="m" x="345" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="53" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="318.0" font-size="10" font-weight="400" fill="#1e293b">JsonWebKeySet·</text>
+<text class="m" x="345" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="72" y="333.0" font-size="10" font-weight="400" fill="#1e293b">Permissions·</text>
+<text class="m" x="345" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="53" y="337.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="348.0" font-size="10" font-weight="400" fill="#1e293b">PostLogoutRedirectUris·</text>
+<text class="m" x="345" y="348.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="72" y="363.0" font-size="10" font-weight="400" fill="#1e293b">Properties·</text>
+<text class="m" x="345" y="363.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="53" y="367.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="378.0" font-size="10" font-weight="400" fill="#1e293b">RedirectUris·</text>
+<text class="m" x="345" y="378.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="72" y="393.0" font-size="10" font-weight="400" fill="#1e293b">Requirements·</text>
+<text class="m" x="345" y="393.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="53" y="397.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="408.0" font-size="10" font-weight="400" fill="#1e293b">Settings·</text>
+<text class="m" x="345" y="408.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+</g>
+<g opacity="1">
+<title>OpenIddictAuthorizations — Identity — 15 rows, 9 columns</title>
+<rect x="378" y="142.0" width="302" height="192" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
+<text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictAuthorizations</text>
+<text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="198.0" font-size="8.5" fill="#a21caf">▸</text>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b">ApplicationId·</text>
+<text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="213.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
+<text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<rect x="379" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="228.0" font-size="10" font-weight="400" fill="#1e293b">CreationDate·</text>
+<text class="m" x="671" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="398" y="243.0" font-size="10" font-weight="400" fill="#1e293b">Properties·</text>
+<text class="m" x="671" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="379" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="258.0" font-size="10" font-weight="400" fill="#1e293b">Scopes·</text>
+<text class="m" x="671" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="398" y="273.0" font-size="10" font-weight="400" fill="#1e293b">Status·</text>
+<text class="m" x="671" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<rect x="379" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="288.0" font-size="10" font-weight="400" fill="#1e293b">Subject·</text>
+<text class="m" x="671" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(400)</text>
+<text class="t" x="398" y="303.0" font-size="10" font-weight="400" fill="#1e293b">Type·</text>
+<text class="m" x="671" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<path d="M379 307.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="307.0" x2="679" y2="307.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="321.0" font-size="8.8" fill="#94a3b8">no audit</text>
+<text class="m" x="671" y="321.0" font-size="8.8" fill="#64748b" text-anchor="end">15 rows</text>
+</g>
+<g opacity="1">
+<title>OpenIddictScopes — Identity — 0 rows, 9 columns</title>
+<rect x="704" y="142.0" width="302" height="171" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
+<text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictScopes</text>
+<text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="198.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
+<text class="m" x="997" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<text class="t" x="724" y="213.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
+<text class="m" x="997" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="705" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="228.0" font-size="10" font-weight="400" fill="#1e293b">Descriptions·</text>
+<text class="m" x="997" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="724" y="243.0" font-size="10" font-weight="400" fill="#1e293b">DisplayName·</text>
+<text class="m" x="997" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="705" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="258.0" font-size="10" font-weight="400" fill="#1e293b">DisplayNames·</text>
+<text class="m" x="997" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="724" y="273.0" font-size="10" font-weight="400" fill="#1e293b">Name·</text>
+<text class="m" x="997" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(200)</text>
+<rect x="705" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="288.0" font-size="10" font-weight="400" fill="#1e293b">Properties·</text>
+<text class="m" x="997" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="724" y="303.0" font-size="10" font-weight="400" fill="#1e293b">Resources·</text>
+<text class="m" x="997" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+</g>
+<g opacity="1">
+<title>OpenIddictTokens — Identity — 48 rows, 13 columns</title>
+<rect x="704" y="337.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#a21caf" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 344.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a21caf"/>
+<text class="t" x="714" y="357.0" font-size="12.5" font-weight="600" fill="#ffffff">OpenIddictTokens</text>
+<text class="m" x="713" y="378.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="378.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="378.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="382.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="393.0" font-size="8.5" fill="#a21caf">▸</text>
+<text class="t" x="724" y="393.0" font-size="10" font-weight="500" fill="#1e293b">ApplicationId·</text>
+<text class="m" x="997" y="393.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="408.0" font-size="8.5" fill="#a21caf">▸</text>
+<text class="t" x="724" y="408.0" font-size="10" font-weight="500" fill="#1e293b">AuthorizationId·</text>
+<text class="m" x="997" y="408.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="412.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="423.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyToken·</text>
+<text class="m" x="997" y="423.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<text class="t" x="724" y="438.0" font-size="10" font-weight="400" fill="#1e293b">CreationDate·</text>
+<text class="m" x="997" y="438.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="705" y="442.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="453.0" font-size="10" font-weight="400" fill="#1e293b">ExpirationDate·</text>
+<text class="m" x="997" y="453.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="724" y="468.0" font-size="10" font-weight="400" fill="#1e293b">Payload·</text>
+<text class="m" x="997" y="468.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="705" y="472.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="483.0" font-size="10" font-weight="400" fill="#1e293b">Properties·</text>
+<text class="m" x="997" y="483.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="724" y="498.0" font-size="10" font-weight="400" fill="#1e293b">RedemptionDate·</text>
+<text class="m" x="997" y="498.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="705" y="502.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="513.0" font-size="10" font-weight="400" fill="#1e293b">ReferenceId·</text>
+<text class="m" x="997" y="513.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(100)</text>
+<text class="t" x="724" y="528.0" font-size="10" font-weight="400" fill="#1e293b">Status·</text>
+<text class="m" x="997" y="528.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(50)</text>
+<rect x="705" y="532.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="543.0" font-size="10" font-weight="400" fill="#1e293b">Subject·</text>
+<text class="m" x="997" y="543.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(400)</text>
+<text class="t" x="724" y="558.0" font-size="10" font-weight="400" fill="#1e293b">Type·</text>
+<text class="m" x="997" y="558.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(150)</text>
+<path d="M705 562.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="562.0" x2="1005" y2="562.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="576.0" font-size="8.8" fill="#94a3b8">no audit</text>
+<text class="m" x="997" y="576.0" font-size="8.8" fill="#64748b" text-anchor="end">48 rows</text>
+</g>
+</g>
+</svg>

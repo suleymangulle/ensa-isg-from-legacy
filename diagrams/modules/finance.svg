@@ -1,0 +1,678 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1710" height="1322" viewBox="0 0 1710 1322" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<title>Ensa — Finance</title>
+<rect width="1710" height="1322" fill="#fbfcfe"/>
+<defs>
+<style>.t{font-family:Segoe UI,Inter,Helvetica,Arial,sans-serif}.m{font-family:Consolas,Menlo,DejaVu Sans Mono,monospace}</style>
+<filter id="drop" x="-12%" y="-12%" width="130%" height="130%">
+<feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.16"/>
+</filter>
+<marker id="a-tenancy" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#4338ca" opacity="0.85"/></marker>
+<marker id="a-membership" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#7c3aed" opacity="0.85"/></marker>
+<marker id="a-identity" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a21caf" opacity="0.85"/></marker>
+<marker id="a-menus" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0369a1" opacity="0.85"/></marker>
+<marker id="a-companies" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0f766e" opacity="0.85"/></marker>
+<marker id="a-lookups" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0e7490" opacity="0.85"/></marker>
+<marker id="a-risks" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#b91c1c" opacity="0.85"/></marker>
+<marker id="a-plans" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#c2410c" opacity="0.85"/></marker>
+<marker id="a-trainings" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a16207" opacity="0.85"/></marker>
+<marker id="a-health" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#15803d" opacity="0.85"/></marker>
+<marker id="a-documents" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#475569" opacity="0.85"/></marker>
+<marker id="a-finance" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#9f1239" opacity="0.85"/></marker>
+<marker id="a-ibys" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#1d4ed8" opacity="0.85"/></marker>
+<marker id="a-communication" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6d28d9" opacity="0.85"/></marker>
+<marker id="a-reports" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#854d0e" opacity="0.85"/></marker>
+<marker id="a-infrastructure" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6b7280" opacity="0.85"/></marker>
+</defs>
+<text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#9f1239">Finance</text>
+<text class="t" x="38" y="68" font-size="12" fill="#64748b">invoices, cash registers, ledgers and penalties — 14 tables, 0 rows</text>
+<line x1="34" y1="82" x2="1676" y2="82" stroke="#e2e8f0"/>
+<rect x="34" y="96.0" width="1642" height="808" rx="12" fill="#9f1239" fill-opacity="0.045" stroke="#9f1239" stroke-opacity="0.22"/>
+<text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#9f1239">Finance</text>
+<rect x="34" y="938.0" width="1642" height="316" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"/>
+<text class="t" x="52" y="964.0" font-size="16" font-weight="700" fill="#94a3b8">referenced from other modules</text>
+<g id="relationships">
+<path d="M354 284.5 C504.0 284.5 554.0 999.0 704 999.0" fill="none" stroke="#475569" stroke-width="1" opacity="0.34" marker-end="url(#a-documents)"/>
+<path d="M680 209.5 C830.0 209.5 1206.0 999.0 1356 999.0" fill="none" stroke="#4338ca" stroke-width="1" opacity="0.34" marker-end="url(#a-tenancy)"/>
+<path d="M704 194.5 C674.0 194.5 710.0 157.0 680 157.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M1006 209.5 C1156.0 209.5 554.0 403.0 704 403.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M1006 299.5 C1036.0 299.5 1000.0 157.0 1030 157.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M1332 209.5 c 26 0 26 -17 0 -17" fill="none" stroke="#9f1239" stroke-width="1.1" opacity="0.55" marker-end="url(#a-finance)"/>
+<path d="M1356 254.5 C1206.0 254.5 1670.0 999.0 1658 999.0" fill="none" stroke="#4338ca" stroke-width="1" opacity="0.34" marker-end="url(#a-tenancy)"/>
+<path d="M1332 335.5 C1362.0 335.5 1326.0 157.0 1356 157.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M1030 350.5 C880.0 350.5 1482.0 559.0 1332 559.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M354 395.5 C504.0 395.5 40.0 157.0 52 157.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M354 470.5 C504.0 470.5 554.0 999.0 704 999.0" fill="none" stroke="#475569" stroke-width="1" opacity="0.34" marker-end="url(#a-documents)"/>
+<path d="M680 521.5 C830.0 521.5 1206.0 418.0 1356 418.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M704 701.5 C554.0 701.5 504.0 999.0 354 999.0" fill="none" stroke="#0e7490" stroke-width="1" opacity="0.34" marker-end="url(#a-lookups)"/>
+<path d="M704 716.5 C674.0 716.5 710.0 999.0 680 999.0" fill="none" stroke="#0e7490" stroke-width="1" opacity="0.34" marker-end="url(#a-lookups)"/>
+<path d="M1006 731.5 C1036.0 731.5 1000.0 999.0 1030 999.0" fill="none" stroke="#0e7490" stroke-width="1" opacity="0.34" marker-end="url(#a-lookups)"/>
+<path d="M1006 851.5 C1156.0 851.5 554.0 999.0 704 999.0" fill="none" stroke="#475569" stroke-width="1" opacity="0.34" marker-end="url(#a-documents)"/>
+<path d="M354 581.5 C504.0 581.5 554.0 529.0 704 529.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+<path d="M354 596.5 C504.0 596.5 1206.0 418.0 1356 418.0" fill="none" stroke="#9f1239" stroke-width="1" opacity="0.34" marker-end="url(#a-finance)"/>
+</g>
+<g id="tables">
+<g opacity="1">
+<title>Bank — Finance — 0 rows, 8 columns</title>
+<rect x="52" y="142.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Bank</text>
+<rect x="327" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="198.0" font-size="10" font-weight="400" fill="#1e293b">BankName</text>
+<text class="m" x="345" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="213.0" font-size="10" font-weight="400" fill="#1e293b">Iban</text>
+<text class="m" x="345" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(34)</text>
+<rect x="53" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="228.0" font-size="10" font-weight="400" fill="#1e293b">Recipient</text>
+<text class="m" x="345" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="243.0" font-size="10" font-weight="400" fill="#1e293b">BranchName·</text>
+<text class="m" x="345" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="258.0" font-size="10" font-weight="400" fill="#1e293b">AccountNo·</text>
+<text class="m" x="345" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="72" y="273.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="345" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="53" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="288.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="72" y="288.0" font-size="10" font-weight="500" fill="#1e293b">ImageDocumentId·</text>
+<text class="m" x="345" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M53 292.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="292.0" x2="353" y2="292.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="306.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="345" y="306.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>CashRegister — Finance — 0 rows, 5 columns</title>
+<rect x="378" y="142.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">CashRegister</text>
+<rect x="653" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="400" fill="#1e293b">CashRegisterName</text>
+<text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="m" x="387" y="213.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="398" y="213.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId</text>
+<text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="228.0" font-size="10" font-weight="400" fill="#1e293b">HeadquarterCashRegister</text>
+<text class="m" x="671" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="243.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="671" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M379 247.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="247.0" x2="679" y2="247.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="261.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="671" y="261.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>CashTransaction — Finance — 0 rows, 11 columns</title>
+<rect x="704" y="142.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">CashTransaction</text>
+<rect x="979" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="198.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="198.0" font-size="10" font-weight="500" fill="#1e293b">CashRegisterId</text>
+<text class="m" x="997" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="213.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="213.0" font-size="10" font-weight="500" fill="#1e293b">PaymentMethodId</text>
+<text class="m" x="997" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="228.0" font-size="10" font-weight="400" fill="#1e293b">OperationType</text>
+<text class="m" x="997" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="243.0" font-size="10" font-weight="400" fill="#1e293b">OperationAmount</text>
+<text class="m" x="997" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="705" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="258.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
+<text class="m" x="997" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="724" y="273.0" font-size="10" font-weight="400" fill="#1e293b">SourceModule</text>
+<text class="m" x="997" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="288.0" font-size="10" font-weight="400" fill="#1e293b">SourceRecordId·</text>
+<text class="m" x="997" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="303.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="303.0" font-size="10" font-weight="500" fill="#1e293b">ExitItemId·</text>
+<text class="m" x="997" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="318.0" font-size="10" font-weight="400" fill="#1e293b">OperationDate·</text>
+<text class="m" x="997" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="724" y="333.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="997" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M705 337.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="337.0" x2="1005" y2="337.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="351.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="997" y="351.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>ExpenseCategory — Finance — 0 rows, 4 columns</title>
+<rect x="1030" y="142.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="1040" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">ExpenseCategory</text>
+<rect x="1305" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="1039" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Description</text>
+<text class="m" x="1323" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="m" x="1039" y="213.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="1050" y="213.0" font-size="10" font-weight="500" fill="#1e293b">ParentExpenseCategoryId·</text>
+<text class="m" x="1323" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="228.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1323" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1031 232.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="232.0" x2="1331" y2="232.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="246.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="1323" y="246.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Invoice — Finance — 0 rows, 12 columns</title>
+<rect x="1356" y="142.0" width="302" height="237" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1356 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="1366" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Invoice</text>
+<rect x="1631" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="1614" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="1365" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1376" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1649" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="198.0" font-size="10" font-weight="400" fill="#1e293b">InvoiceNo</text>
+<text class="m" x="1649" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="1376" y="213.0" font-size="10" font-weight="400" fill="#1e293b">InvoiceDate</text>
+<text class="m" x="1649" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="1357" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="228.0" font-size="10" font-weight="400" fill="#1e293b">InvoiceType</text>
+<text class="m" x="1649" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1376" y="243.0" font-size="10" font-weight="400" fill="#1e293b">SourceModule</text>
+<text class="m" x="1649" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1365" y="258.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="1376" y="258.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId·</text>
+<text class="m" x="1649" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1376" y="273.0" font-size="10" font-weight="400" fill="#1e293b">AccountCurrentName</text>
+<text class="m" x="1649" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="1357" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="288.0" font-size="10" font-weight="400" fill="#1e293b">InvoiceDescription·</text>
+<text class="m" x="1649" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="1376" y="303.0" font-size="10" font-weight="400" fill="#1e293b">InWords·</text>
+<text class="m" x="1649" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="1357" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="318.0" font-size="10" font-weight="400" fill="#1e293b">Total</text>
+<text class="m" x="1649" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<text class="t" x="1376" y="333.0" font-size="10" font-weight="400" fill="#1e293b">VatTotal</text>
+<text class="m" x="1649" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="1357" y="337.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="348.0" font-size="10" font-weight="400" fill="#1e293b">GeneralTotal</text>
+<text class="m" x="1649" y="348.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<path d="M1357 352.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1357" y1="352.0" x2="1657" y2="352.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1366" y="366.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1649" y="366.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>InvoiceLine — Finance — 0 rows, 12 columns</title>
+<rect x="1030" y="283.0" width="302" height="237" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 290.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="1040" y="303.0" font-size="12.5" font-weight="600" fill="#ffffff">InvoiceLine</text>
+<rect x="1305" y="291.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="301.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="1288" y="291.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="301.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="1039" y="324.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="324.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="324.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="328.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1039" y="339.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="1050" y="339.0" font-size="10" font-weight="500" fill="#1e293b">InvoiceId</text>
+<text class="m" x="1323" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="1039" y="354.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="1050" y="354.0" font-size="10" font-weight="500" fill="#1e293b">ServiceItemId·</text>
+<text class="m" x="1323" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="358.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="369.0" font-size="10" font-weight="400" fill="#1e293b">LineDescription</text>
+<text class="m" x="1323" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="1050" y="384.0" font-size="10" font-weight="400" fill="#1e293b">Count</text>
+<text class="m" x="1323" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,4)</text>
+<rect x="1031" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="399.0" font-size="10" font-weight="400" fill="#1e293b">Unit</text>
+<text class="m" x="1323" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="1050" y="414.0" font-size="10" font-weight="400" fill="#1e293b">UnitPrice</text>
+<text class="m" x="1323" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="1031" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="429.0" font-size="10" font-weight="400" fill="#1e293b">TotalAmount</text>
+<text class="m" x="1323" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<text class="t" x="1050" y="444.0" font-size="10" font-weight="400" fill="#1e293b">VatRate</text>
+<text class="m" x="1323" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="459.0" font-size="10" font-weight="400" fill="#1e293b">VatAmount</text>
+<text class="m" x="1323" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<text class="t" x="1050" y="474.0" font-size="10" font-weight="400" fill="#1e293b">GrossWithVatAmount</text>
+<text class="m" x="1323" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="1031" y="478.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="489.0" font-size="10" font-weight="400" fill="#1e293b">OrderNo</text>
+<text class="m" x="1323" y="489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M1031 493.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="493.0" x2="1331" y2="493.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="507.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1323" y="507.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>InvoiceTemplate — Finance — 0 rows, 6 columns</title>
+<rect x="378" y="298.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 305.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="388" y="318.0" font-size="12.5" font-weight="600" fill="#ffffff">InvoiceTemplate</text>
+<rect x="653" y="306.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="316.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="339.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="339.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="354.0" font-size="10" font-weight="400" fill="#1e293b">ModuleType</text>
+<text class="m" x="671" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="369.0" font-size="10" font-weight="400" fill="#1e293b">OnValue</text>
+<text class="m" x="671" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="379" y="373.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="384.0" font-size="10" font-weight="400" fill="#1e293b">DesignName</text>
+<text class="m" x="671" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="398" y="399.0" font-size="10" font-weight="400" fill="#1e293b">Design</text>
+<text class="m" x="671" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="379" y="403.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="414.0" font-size="10" font-weight="400" fill="#1e293b">IsPrimaryDesign</text>
+<text class="m" x="671" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M379 418.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="418.0" x2="679" y2="418.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="432.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="671" y="432.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Payment — Finance — 0 rows, 7 columns</title>
+<rect x="52" y="343.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 350.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="62" y="363.0" font-size="12.5" font-weight="600" fill="#ffffff">Payment</text>
+<rect x="327" y="351.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="361.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="384.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="384.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="399.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="72" y="399.0" font-size="10" font-weight="500" fill="#1e293b">BankId</text>
+<text class="m" x="345" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="414.0" font-size="10" font-weight="400" fill="#1e293b">Amount</text>
+<text class="m" x="345" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="53" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="429.0" font-size="10" font-weight="400" fill="#1e293b">Status</text>
+<text class="m" x="345" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="444.0" font-size="10" font-weight="400" fill="#1e293b">NotificationDate</text>
+<text class="m" x="345" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="53" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="459.0" font-size="10" font-weight="400" fill="#1e293b">ApprovalDate·</text>
+<text class="m" x="345" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="m" x="61" y="474.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="72" y="474.0" font-size="10" font-weight="500" fill="#1e293b">ReceiptDocumentId·</text>
+<text class="m" x="345" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M53 478.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="478.0" x2="353" y2="478.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="492.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="345" y="492.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>PaymentMethod — Finance — 0 rows, 3 columns</title>
+<rect x="704" y="388.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 395.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="714" y="408.0" font-size="12.5" font-weight="600" fill="#ffffff">PaymentMethod</text>
+<text class="m" x="713" y="429.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="429.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="433.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="444.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
+<text class="m" x="997" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="724" y="459.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="997" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M705 463.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="463.0" x2="1005" y2="463.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="477.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="997" y="477.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Penalty — Finance — 0 rows, 7 columns</title>
+<rect x="1356" y="403.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1356 410.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="1366" y="423.0" font-size="12.5" font-weight="600" fill="#ffffff">Penalty</text>
+<text class="m" x="1365" y="444.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1376" y="444.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1649" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="459.0" font-size="10" font-weight="400" fill="#1e293b">TreeNodeCode·</text>
+<text class="m" x="1649" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="1376" y="474.0" font-size="10" font-weight="400" fill="#1e293b">LawArticle</text>
+<text class="m" x="1649" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="1357" y="478.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="489.0" font-size="10" font-weight="400" fill="#1e293b">PenaltyArticle</text>
+<text class="m" x="1649" y="489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="1376" y="504.0" font-size="10" font-weight="400" fill="#1e293b">LawArticleReferencedOffence·</text>
+<text class="m" x="1649" y="504.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<rect x="1357" y="508.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="519.0" font-size="10" font-weight="400" fill="#1e293b">MultiplierCalculate</text>
+<text class="m" x="1649" y="519.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="534.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1649" y="534.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1357 538.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1357" y1="538.0" x2="1657" y2="538.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1366" y="552.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1649" y="552.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>PenaltyAmount — Finance — 0 rows, 6 columns</title>
+<rect x="378" y="469.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 476.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="388" y="489.0" font-size="12.5" font-weight="600" fill="#ffffff">PenaltyAmount</text>
+<text class="m" x="387" y="510.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="510.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="510.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="514.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="525.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="398" y="525.0" font-size="10" font-weight="500" fill="#1e293b">PenaltyId</text>
+<text class="m" x="671" y="525.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="540.0" font-size="10" font-weight="400" fill="#1e293b">HazardClass</text>
+<text class="m" x="671" y="540.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="544.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="555.0" font-size="10" font-weight="400" fill="#1e293b">EmployeeCountRange</text>
+<text class="m" x="671" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="570.0" font-size="10" font-weight="400" fill="#1e293b">Amount</text>
+<text class="m" x="671" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="379" y="574.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="585.0" font-size="10" font-weight="400" fill="#1e293b">ValidityYear</text>
+<text class="m" x="671" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M379 589.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="589.0" x2="679" y2="589.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="603.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="671" y="603.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>PenaltySurvey — Finance — 0 rows, 21 columns</title>
+<rect x="704" y="514.0" width="302" height="372" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 521.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="714" y="534.0" font-size="12.5" font-weight="600" fill="#ffffff">PenaltySurvey</text>
+<rect x="979" y="522.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="532.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="713" y="555.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="555.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="570.0" font-size="10" font-weight="400" fill="#1e293b">CompanyTitle</text>
+<text class="m" x="997" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="724" y="585.0" font-size="10" font-weight="400" fill="#1e293b">FacilityName·</text>
+<text class="m" x="997" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="705" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="600.0" font-size="10" font-weight="400" fill="#1e293b">FacilityOwner·</text>
+<text class="m" x="997" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="724" y="615.0" font-size="10" font-weight="400" fill="#1e293b">FacilityOwnerDuty·</text>
+<text class="m" x="997" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="705" y="619.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="630.0" font-size="10" font-weight="400" fill="#1e293b">FacilityOwnerGsm·</text>
+<text class="m" x="997" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="t" x="724" y="645.0" font-size="10" font-weight="400" fill="#1e293b">EmployerNameLastName·</text>
+<text class="m" x="997" y="645.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="705" y="649.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="660.0" font-size="10" font-weight="400" fill="#1e293b">Phone·</text>
+<text class="m" x="997" y="660.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="t" x="724" y="675.0" font-size="10" font-weight="400" fill="#1e293b">Fax·</text>
+<text class="m" x="997" y="675.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<rect x="705" y="679.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="690.0" font-size="10" font-weight="400" fill="#1e293b">Email·</text>
+<text class="m" x="997" y="690.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="m" x="713" y="705.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="705.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="m" x="997" y="705.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="709.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="720.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="720.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="m" x="997" y="720.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="735.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="735.0" font-size="10" font-weight="500" fill="#1e293b">NeighborhoodId·</text>
+<text class="m" x="997" y="735.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="739.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="750.0" font-size="10" font-weight="400" fill="#1e293b">Address·</text>
+<text class="m" x="997" y="750.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<text class="t" x="724" y="765.0" font-size="10" font-weight="400" fill="#1e293b">InvoiceAddress·</text>
+<text class="m" x="997" y="765.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="705" y="769.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="780.0" font-size="10" font-weight="400" fill="#1e293b">TaxTaxOffice·</text>
+<text class="m" x="997" y="780.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="724" y="795.0" font-size="10" font-weight="400" fill="#1e293b">TaxNumber·</text>
+<text class="m" x="997" y="795.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<rect x="705" y="799.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="810.0" font-size="10" font-weight="400" fill="#1e293b">WorkerCount·</text>
+<text class="m" x="997" y="810.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="825.0" font-size="10" font-weight="400" fill="#1e293b">SsiRegistrationNumber·</text>
+<text class="m" x="997" y="825.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="705" y="829.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="840.0" font-size="10" font-weight="400" fill="#1e293b">HazardClass</text>
+<text class="m" x="997" y="840.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="855.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="724" y="855.0" font-size="10" font-weight="500" fill="#1e293b">LogoDocumentId·</text>
+<text class="m" x="997" y="855.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M705 859.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="859.0" x2="1005" y2="859.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="873.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="997" y="873.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>PenaltySurveyLine — Finance — 0 rows, 7 columns</title>
+<rect x="52" y="529.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 536.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="62" y="549.0" font-size="12.5" font-weight="600" fill="#ffffff">PenaltySurveyLine</text>
+<rect x="327" y="537.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="547.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="570.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="570.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="574.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="585.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="72" y="585.0" font-size="10" font-weight="500" fill="#1e293b">PenaltySurveyId</text>
+<text class="m" x="345" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="61" y="600.0" font-size="8.5" fill="#9f1239">▸</text>
+<text class="t" x="72" y="600.0" font-size="10" font-weight="500" fill="#1e293b">PenaltyId</text>
+<text class="m" x="345" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="604.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="615.0" font-size="10" font-weight="400" fill="#1e293b">SurveyAnswer</text>
+<text class="m" x="345" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="72" y="630.0" font-size="10" font-weight="400" fill="#1e293b">PenaltyAmount</text>
+<text class="m" x="345" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<rect x="53" y="634.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="645.0" font-size="10" font-weight="400" fill="#1e293b">Multiplier</text>
+<text class="m" x="345" y="645.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,4)</text>
+<text class="t" x="72" y="660.0" font-size="10" font-weight="400" fill="#1e293b">MultiplierCalculate</text>
+<text class="m" x="345" y="660.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M53 664.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="664.0" x2="353" y2="664.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="678.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="345" y="678.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>ServiceItem — Finance — 0 rows, 8 columns</title>
+<rect x="1030" y="544.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#9f1239" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 551.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#9f1239"/>
+<text class="t" x="1040" y="564.0" font-size="12.5" font-weight="600" fill="#ffffff">ServiceItem</text>
+<rect x="1305" y="552.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="562.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="1039" y="585.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="585.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="600.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
+<text class="m" x="1323" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="1050" y="615.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
+<text class="m" x="1323" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="1031" y="619.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="630.0" font-size="10" font-weight="400" fill="#1e293b">Unit</text>
+<text class="m" x="1323" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="1050" y="645.0" font-size="10" font-weight="400" fill="#1e293b">DefaultValue</text>
+<text class="m" x="1323" y="645.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="649.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="660.0" font-size="10" font-weight="400" fill="#1e293b">VatRate</text>
+<text class="m" x="1323" y="660.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1050" y="675.0" font-size="10" font-weight="400" fill="#1e293b">CardType</text>
+<text class="m" x="1323" y="675.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="679.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="690.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1323" y="690.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1031 694.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="694.0" x2="1331" y2="694.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="708.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1323" y="708.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="0.45">
+<title>City — Lookups — 81 rows, 3 columns</title>
+<rect x="52" y="984.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 991.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
+<text class="t" x="62" y="1004.0" font-size="12.5" font-weight="600" fill="#ffffff">City</text>
+<text class="m" x="61" y="1025.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="1025.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="1029.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1040.0" font-size="10" font-weight="400" fill="#1e293b">CityName</text>
+<text class="m" x="345" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="1055.0" font-size="10" font-weight="400" fill="#1e293b">PlateCodeCode</text>
+<text class="m" x="345" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M53 1059.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="1059.0" x2="353" y2="1059.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="1073.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="345" y="1073.0" font-size="8.8" fill="#64748b" text-anchor="end">81 rows</text>
+</g>
+<g opacity="0.45">
+<title>District — Lookups — 1 108 rows, 5 columns</title>
+<rect x="378" y="984.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 991.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
+<text class="t" x="388" y="1004.0" font-size="12.5" font-weight="600" fill="#ffffff">District</text>
+<text class="m" x="387" y="1025.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="1025.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1029.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1040.0" font-size="10" font-weight="400" fill="#1e293b">DistrictName</text>
+<text class="m" x="671" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="m" x="387" y="1055.0" font-size="8.5" fill="#0e7490">▸</text>
+<text class="t" x="398" y="1055.0" font-size="10" font-weight="500" fill="#1e293b">CityId</text>
+<text class="m" x="671" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">IlCode·</text>
+<text class="m" x="671" y="1070.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="1085.0" font-size="10" font-weight="400" fill="#1e293b">DistrictCode·</text>
+<text class="m" x="671" y="1085.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M379 1089.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="1089.0" x2="679" y2="1089.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="1103.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="671" y="1103.0" font-size="8.8" fill="#64748b" text-anchor="end">1 108 rows</text>
+</g>
+<g opacity="0.45">
+<title>Document — Documents — 5 rows, 13 columns</title>
+<rect x="704" y="984.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#475569" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 991.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#475569"/>
+<text class="t" x="714" y="1004.0" font-size="12.5" font-weight="600" fill="#ffffff">Document</text>
+<rect x="979" y="992.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="1002.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="962" y="992.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="969.5" y="1002.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="713" y="1025.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="1025.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="1029.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="1040.0" font-size="8.5" fill="#475569">▸</text>
+<text class="t" x="724" y="1040.0" font-size="10" font-weight="500" fill="#1e293b">DocumentCategoryId·</text>
+<text class="m" x="997" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="1055.0" font-size="10" font-weight="400" fill="#1e293b">DocumentName</text>
+<text class="m" x="997" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(260)</text>
+<rect x="705" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">StorageName</text>
+<text class="m" x="997" y="1070.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="724" y="1085.0" font-size="10" font-weight="400" fill="#1e293b">Extension·</text>
+<text class="m" x="997" y="1085.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="705" y="1089.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1100.0" font-size="10" font-weight="400" fill="#1e293b">ContentType·</text>
+<text class="m" x="997" y="1100.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="724" y="1115.0" font-size="10" font-weight="400" fill="#1e293b">SizeBytes</text>
+<text class="m" x="997" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bigint</text>
+<rect x="705" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1130.0" font-size="10" font-weight="400" fill="#1e293b">Content·</text>
+<text class="m" x="997" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">varbinary(max)</text>
+<text class="t" x="724" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">StoragePath·</text>
+<text class="m" x="997" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="705" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">Sha256·</text>
+<text class="m" x="997" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="724" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">OwnerType</text>
+<text class="m" x="997" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">OwnerRecordId·</text>
+<text class="m" x="997" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="1205.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="997" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M705 1209.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="1209.0" x2="1005" y2="1209.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="1223.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="997" y="1223.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
+</g>
+<g opacity="0.45">
+<title>Neighborhood — Lookups — 29 024 rows, 3 columns</title>
+<rect x="1030" y="984.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 991.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
+<text class="t" x="1040" y="1004.0" font-size="12.5" font-weight="600" fill="#ffffff">Neighborhood</text>
+<text class="m" x="1039" y="1025.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="1025.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="1029.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1040.0" font-size="10" font-weight="400" fill="#1e293b">NeighborhoodName</text>
+<text class="m" x="1323" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="m" x="1039" y="1055.0" font-size="8.5" fill="#0e7490">▸</text>
+<text class="t" x="1050" y="1055.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId</text>
+<text class="m" x="1323" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M1031 1059.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="1059.0" x2="1331" y2="1059.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="1073.0" font-size="8.8" fill="#94a3b8">no audit</text>
+<text class="m" x="1323" y="1073.0" font-size="8.8" fill="#64748b" text-anchor="end">29 024 rows</text>
+</g>
+<g opacity="0.45">
+<title>Office — Tenancy — 957 rows, 11 columns</title>
+<rect x="1356" y="984.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1356 991.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
+<text class="t" x="1366" y="1004.0" font-size="12.5" font-weight="600" fill="#ffffff">Office</text>
+<rect x="1631" y="992.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="1002.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="1614" y="992.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="1002.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="1365" y="1025.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1376" y="1025.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1649" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1029.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1040.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
+<text class="m" x="1649" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="1376" y="1055.0" font-size="10" font-weight="400" fill="#1e293b">Phone·</text>
+<text class="m" x="1649" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<rect x="1357" y="1059.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">Fax·</text>
+<text class="m" x="1649" y="1070.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="t" x="1376" y="1085.0" font-size="10" font-weight="400" fill="#1e293b">Address·</text>
+<text class="m" x="1649" y="1085.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="1357" y="1089.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1365" y="1100.0" font-size="8.5" fill="#4338ca">▸</text>
+<text class="t" x="1376" y="1100.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="m" x="1649" y="1100.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="1365" y="1115.0" font-size="8.5" fill="#4338ca">▸</text>
+<text class="t" x="1376" y="1115.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="m" x="1649" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1130.0" font-size="10" font-weight="400" fill="#1e293b">AuthorizedPerson·</text>
+<text class="m" x="1649" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="1376" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">AuthorizedEmail·</text>
+<text class="m" x="1649" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="1357" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">HeadquarterOffice</text>
+<text class="m" x="1649" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1649" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1357 1179.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1357" y1="1179.0" x2="1657" y2="1179.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1366" y="1193.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1649" y="1193.0" font-size="8.8" fill="#64748b" text-anchor="end">957 rows</text>
+</g>
+</g>
+</svg>

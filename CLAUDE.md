@@ -63,6 +63,7 @@ python tools/api-tests/dev_stack.py           # SPA -> Vite proxy -> API, end to
 python tools/i18n-check/check_locales.py      # no missing or unpaired translation key
 python tools/gen-enums/gen_enums.py           # regenerate the SPA enums from the backend
 python tools/gen-enums/gen_permissions.py     # regenerate the SPA permission constants
+python tools/gen-diagram/gen_schema_diagram.py # redraw diagrams/ from the live schema
 python tools/gen-enums/gen_menu.py            # regenerate the menu seed from the SPA navigation
 ```
 

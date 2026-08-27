@@ -1,0 +1,447 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1058" height="1577" viewBox="0 0 1058 1577" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<title>Ensa — Communication</title>
+<rect width="1058" height="1577" fill="#fbfcfe"/>
+<defs>
+<style>.t{font-family:Segoe UI,Inter,Helvetica,Arial,sans-serif}.m{font-family:Consolas,Menlo,DejaVu Sans Mono,monospace}</style>
+<filter id="drop" x="-12%" y="-12%" width="130%" height="130%">
+<feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.16"/>
+</filter>
+<marker id="a-tenancy" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#4338ca" opacity="0.85"/></marker>
+<marker id="a-membership" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#7c3aed" opacity="0.85"/></marker>
+<marker id="a-identity" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a21caf" opacity="0.85"/></marker>
+<marker id="a-menus" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0369a1" opacity="0.85"/></marker>
+<marker id="a-companies" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0f766e" opacity="0.85"/></marker>
+<marker id="a-lookups" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0e7490" opacity="0.85"/></marker>
+<marker id="a-risks" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#b91c1c" opacity="0.85"/></marker>
+<marker id="a-plans" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#c2410c" opacity="0.85"/></marker>
+<marker id="a-trainings" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a16207" opacity="0.85"/></marker>
+<marker id="a-health" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#15803d" opacity="0.85"/></marker>
+<marker id="a-documents" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#475569" opacity="0.85"/></marker>
+<marker id="a-finance" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#9f1239" opacity="0.85"/></marker>
+<marker id="a-ibys" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#1d4ed8" opacity="0.85"/></marker>
+<marker id="a-communication" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6d28d9" opacity="0.85"/></marker>
+<marker id="a-reports" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#854d0e" opacity="0.85"/></marker>
+<marker id="a-infrastructure" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6b7280" opacity="0.85"/></marker>
+</defs>
+<text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#6d28d9">Communication</text>
+<text class="t" x="38" y="68" font-size="12" fill="#64748b">site visits, outbound mail, notifications and support requests — 7 tables, 1 733 770 rows</text>
+<line x1="34" y1="82" x2="1024" y2="82" stroke="#e2e8f0"/>
+<rect x="34" y="96.0" width="990" height="643" rx="12" fill="#6d28d9" fill-opacity="0.045" stroke="#6d28d9" stroke-opacity="0.22"/>
+<text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#6d28d9">Communication</text>
+<rect x="34" y="773.0" width="990" height="736" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"/>
+<text class="t" x="52" y="799.0" font-size="16" font-weight="700" fill="#94a3b8">referenced from other modules</text>
+<g id="relationships">
+<path d="M704 194.5 C674.0 194.5 710.0 157.0 680 157.0" fill="none" stroke="#6d28d9" stroke-width="1" opacity="0.34" marker-end="url(#a-communication)"/>
+<path d="M704 209.5 C554.0 209.5 504.0 834.0 354 834.0" fill="none" stroke="#475569" stroke-width="1" opacity="0.34" marker-end="url(#a-documents)"/>
+<path d="M354 410.5 C384.0 410.5 348.0 834.0 378 834.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M354 425.5 C384.0 425.5 348.0 834.0 378 834.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M354 440.5 C384.0 440.5 348.0 834.0 378 834.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M378 455.5 C348.0 455.5 384.0 358.0 354 358.0" fill="none" stroke="#6d28d9" stroke-width="1" opacity="0.34" marker-end="url(#a-communication)"/>
+<path d="M680 485.5 C830.0 485.5 228.0 834.0 378 834.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M680 500.5 C830.0 500.5 228.0 834.0 378 834.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M704 521.5 C674.0 521.5 710.0 834.0 680 834.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+</g>
+<g id="tables">
+<g opacity="1">
+<title>EmailSettings — Communication — 0 rows, 8 columns</title>
+<rect x="52" y="142.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EmailSettings</text>
+<rect x="327" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Email</text>
+<text class="m" x="345" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="72" y="213.0" font-size="10" font-weight="400" fill="#1e293b">Password</text>
+<text class="m" x="345" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(704)</text>
+<rect x="53" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="228.0" font-size="10" font-weight="400" fill="#1e293b">Pop3Server</text>
+<text class="m" x="345" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="72" y="243.0" font-size="10" font-weight="400" fill="#1e293b">SmtpServer</text>
+<text class="m" x="345" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="53" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="258.0" font-size="10" font-weight="400" fill="#1e293b">Port</text>
+<text class="m" x="345" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="273.0" font-size="10" font-weight="400" fill="#1e293b">SslUse</text>
+<text class="m" x="345" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="53" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="288.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="345" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M53 292.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="292.0" x2="353" y2="292.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="306.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="345" y="306.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Mail — Communication — 0 rows, 12 columns</title>
+<rect x="378" y="142.0" width="302" height="237" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Mail</text>
+<rect x="653" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Sender</text>
+<text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="398" y="213.0" font-size="10" font-weight="400" fill="#1e293b">Recipient</text>
+<text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<rect x="379" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="228.0" font-size="10" font-weight="400" fill="#1e293b">Topic</text>
+<text class="m" x="671" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="398" y="243.0" font-size="10" font-weight="400" fill="#1e293b">Content</text>
+<text class="m" x="671" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="379" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="258.0" font-size="10" font-weight="400" fill="#1e293b">ContentFormat</text>
+<text class="m" x="671" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="273.0" font-size="10" font-weight="400" fill="#1e293b">MailPriority</text>
+<text class="m" x="671" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="288.0" font-size="10" font-weight="400" fill="#1e293b">MailType</text>
+<text class="m" x="671" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="303.0" font-size="10" font-weight="400" fill="#1e293b">MailStatus</text>
+<text class="m" x="671" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="318.0" font-size="10" font-weight="400" fill="#1e293b">ErrorMessage·</text>
+<text class="m" x="671" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="398" y="333.0" font-size="10" font-weight="400" fill="#1e293b">SubmissionDate·</text>
+<text class="m" x="671" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="379" y="337.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="348.0" font-size="10" font-weight="400" fill="#1e293b">AttemptCount</text>
+<text class="m" x="671" y="348.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M379 352.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="352.0" x2="679" y2="352.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="366.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="671" y="366.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>MailAttachment — Communication — 0 rows, 4 columns</title>
+<rect x="704" y="142.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">MailAttachment</text>
+<rect x="979" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="198.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="724" y="198.0" font-size="10" font-weight="500" fill="#1e293b">MailId</text>
+<text class="m" x="997" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="213.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="724" y="213.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId</text>
+<text class="m" x="997" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="228.0" font-size="10" font-weight="400" fill="#1e293b">OrderNo</text>
+<text class="m" x="997" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M705 232.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="232.0" x2="1005" y2="232.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="246.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="997" y="246.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Message — Communication — 0 rows, 7 columns</title>
+<rect x="704" y="283.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 290.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="714" y="303.0" font-size="12.5" font-weight="600" fill="#ffffff">Message</text>
+<rect x="979" y="291.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="301.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="962" y="291.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="969.5" y="301.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="713" y="324.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="324.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="324.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="328.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="339.0" font-size="10" font-weight="400" fill="#1e293b">MessageType</text>
+<text class="m" x="997" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="354.0" font-size="10" font-weight="400" fill="#1e293b">Content</text>
+<text class="m" x="997" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(4000)</text>
+<rect x="705" y="358.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="369.0" font-size="10" font-weight="400" fill="#1e293b">RecipientId</text>
+<text class="m" x="997" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="384.0" font-size="10" font-weight="400" fill="#1e293b">SenderId</text>
+<text class="m" x="997" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="399.0" font-size="10" font-weight="400" fill="#1e293b">IsRead</text>
+<text class="m" x="997" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="724" y="414.0" font-size="10" font-weight="400" fill="#1e293b">ReadDate·</text>
+<text class="m" x="997" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<path d="M705 418.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="418.0" x2="1005" y2="418.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="432.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="997" y="432.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>SupportTicket — Communication — 0 rows, 7 columns</title>
+<rect x="52" y="343.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 350.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="62" y="363.0" font-size="12.5" font-weight="600" fill="#ffffff">SupportTicket</text>
+<rect x="327" y="351.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="361.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="384.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="384.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="399.0" font-size="10" font-weight="400" fill="#1e293b">Topic</text>
+<text class="m" x="345" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="m" x="61" y="414.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="72" y="414.0" font-size="10" font-weight="500" fill="#1e293b">OpenedByUserId</text>
+<text class="m" x="345" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="429.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="72" y="429.0" font-size="10" font-weight="500" fill="#1e293b">ResponderUserId·</text>
+<text class="m" x="345" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="61" y="444.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="72" y="444.0" font-size="10" font-weight="500" fill="#1e293b">ClosedByUserId·</text>
+<text class="m" x="345" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="459.0" font-size="10" font-weight="400" fill="#1e293b">Status</text>
+<text class="m" x="345" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="474.0" font-size="10" font-weight="400" fill="#1e293b">ClosingDate·</text>
+<text class="m" x="345" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<path d="M53 478.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="478.0" x2="353" y2="478.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="492.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="345" y="492.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>SupportTicketMessage — Communication — 0 rows, 6 columns</title>
+<rect x="378" y="403.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 410.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="388" y="423.0" font-size="12.5" font-weight="600" fill="#ffffff">SupportTicketMessage</text>
+<rect x="653" y="411.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="421.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="444.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="444.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="459.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="398" y="459.0" font-size="10" font-weight="500" fill="#1e293b">SupportTicketId</text>
+<text class="m" x="671" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="474.0" font-size="10" font-weight="400" fill="#1e293b">Message</text>
+<text class="m" x="671" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(4000)</text>
+<rect x="379" y="478.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="489.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="398" y="489.0" font-size="10" font-weight="500" fill="#1e293b">SenderUserId</text>
+<text class="m" x="671" y="489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="387" y="504.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="398" y="504.0" font-size="10" font-weight="500" fill="#1e293b">FieldUserId</text>
+<text class="m" x="671" y="504.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="508.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="519.0" font-size="10" font-weight="400" fill="#1e293b">IsRead</text>
+<text class="m" x="671" y="519.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M379 523.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="523.0" x2="679" y2="523.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="537.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="671" y="537.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Visit — Communication — 1 733 770 rows, 13 columns</title>
+<rect x="704" y="469.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#6d28d9" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 476.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#6d28d9"/>
+<text class="t" x="714" y="489.0" font-size="12.5" font-weight="600" fill="#ffffff">Visit</text>
+<rect x="979" y="477.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="487.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="962" y="477.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="969.5" y="487.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="713" y="510.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="510.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="510.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="514.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="525.0" font-size="8.5" fill="#6d28d9">▸</text>
+<text class="t" x="724" y="525.0" font-size="10" font-weight="500" fill="#1e293b">UserId</text>
+<text class="m" x="997" y="525.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="540.0" font-size="10" font-weight="400" fill="#1e293b">VisitDate</text>
+<text class="m" x="997" y="540.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="705" y="544.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="555.0" font-size="10" font-weight="400" fill="#1e293b">Start·</text>
+<text class="m" x="997" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="724" y="570.0" font-size="10" font-weight="400" fill="#1e293b">End·</text>
+<text class="m" x="997" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="705" y="574.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="585.0" font-size="10" font-weight="400" fill="#1e293b">OperationType</text>
+<text class="m" x="997" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="600.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
+<text class="m" x="997" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<rect x="705" y="604.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="615.0" font-size="10" font-weight="400" fill="#1e293b">Color·</text>
+<text class="m" x="997" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(16)</text>
+<text class="t" x="724" y="630.0" font-size="10" font-weight="400" fill="#1e293b">ScheduledWeek·</text>
+<text class="m" x="997" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="634.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="645.0" font-size="10" font-weight="400" fill="#1e293b">ScheduledMonth·</text>
+<text class="m" x="997" y="645.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="660.0" font-size="10" font-weight="400" fill="#1e293b">RegionCode·</text>
+<text class="m" x="997" y="660.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="664.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="675.0" font-size="10" font-weight="400" fill="#1e293b">OtherCompanyDistanceKm·</text>
+<text class="m" x="997" y="675.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(9,2)</text>
+<text class="t" x="724" y="690.0" font-size="10" font-weight="400" fill="#1e293b">Completed</text>
+<text class="m" x="997" y="690.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M705 694.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="694.0" x2="1005" y2="694.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="708.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="997" y="708.0" font-size="8.8" fill="#64748b" text-anchor="end">1 733 770 rows</text>
+</g>
+<g opacity="0.45">
+<title>Document — Documents — 5 rows, 13 columns</title>
+<rect x="52" y="819.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#475569" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 826.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#475569"/>
+<text class="t" x="62" y="839.0" font-size="12.5" font-weight="600" fill="#ffffff">Document</text>
+<rect x="327" y="827.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="837.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="310" y="827.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="837.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="61" y="860.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="860.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="860.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="864.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="875.0" font-size="8.5" fill="#475569">▸</text>
+<text class="t" x="72" y="875.0" font-size="10" font-weight="500" fill="#1e293b">DocumentCategoryId·</text>
+<text class="m" x="345" y="875.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="890.0" font-size="10" font-weight="400" fill="#1e293b">DocumentName</text>
+<text class="m" x="345" y="890.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(260)</text>
+<rect x="53" y="894.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="905.0" font-size="10" font-weight="400" fill="#1e293b">StorageName</text>
+<text class="m" x="345" y="905.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="72" y="920.0" font-size="10" font-weight="400" fill="#1e293b">Extension·</text>
+<text class="m" x="345" y="920.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="53" y="924.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="935.0" font-size="10" font-weight="400" fill="#1e293b">ContentType·</text>
+<text class="m" x="345" y="935.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="950.0" font-size="10" font-weight="400" fill="#1e293b">SizeBytes</text>
+<text class="m" x="345" y="950.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bigint</text>
+<rect x="53" y="954.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="965.0" font-size="10" font-weight="400" fill="#1e293b">Content·</text>
+<text class="m" x="345" y="965.0" font-size="8.8" fill="#94a3b8" text-anchor="end">varbinary(max)</text>
+<text class="t" x="72" y="980.0" font-size="10" font-weight="400" fill="#1e293b">StoragePath·</text>
+<text class="m" x="345" y="980.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="53" y="984.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="995.0" font-size="10" font-weight="400" fill="#1e293b">Sha256·</text>
+<text class="m" x="345" y="995.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="72" y="1010.0" font-size="10" font-weight="400" fill="#1e293b">OwnerType</text>
+<text class="m" x="345" y="1010.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="1014.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1025.0" font-size="10" font-weight="400" fill="#1e293b">OwnerRecordId·</text>
+<text class="m" x="345" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1040.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="345" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M53 1044.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="1044.0" x2="353" y2="1044.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="1058.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="345" y="1058.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
+</g>
+<g opacity="0.45">
+<title>User — Membership — 3 886 rows, 41 columns</title>
+<rect x="378" y="819.0" width="302" height="672" rx="7" fill="#ffffff" stroke="#7c3aed" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 826.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#7c3aed"/>
+<text class="t" x="388" y="839.0" font-size="12.5" font-weight="600" fill="#ffffff">User</text>
+<rect x="653" y="827.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="837.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="636" y="827.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="643.5" y="837.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="387" y="860.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="860.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="860.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="864.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="875.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
+<text class="m" x="671" y="875.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="398" y="890.0" font-size="10" font-weight="400" fill="#1e293b">LastName</text>
+<text class="m" x="671" y="890.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="379" y="894.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="905.0" font-size="10" font-weight="400" fill="#1e293b">NationalId·</text>
+<text class="m" x="671" y="905.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="398" y="920.0" font-size="10" font-weight="400" fill="#1e293b">Address·</text>
+<text class="m" x="671" y="920.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="379" y="924.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="935.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="398" y="935.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="m" x="671" y="935.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="387" y="950.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="398" y="950.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="m" x="671" y="950.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="954.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="965.0" font-size="10" font-weight="400" fill="#1e293b">Gsm·</text>
+<text class="m" x="671" y="965.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="m" x="387" y="980.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="398" y="980.0" font-size="10" font-weight="500" fill="#1e293b">PhotoDocumentId·</text>
+<text class="m" x="671" y="980.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="984.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="995.0" font-size="10" font-weight="400" fill="#1e293b">Color·</text>
+<text class="m" x="671" y="995.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(16)</text>
+<text class="t" x="398" y="1010.0" font-size="10" font-weight="400" fill="#1e293b">StaffRole</text>
+<text class="m" x="671" y="1010.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1014.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1025.0" font-size="10" font-weight="400" fill="#1e293b">HireDate·</text>
+<text class="m" x="671" y="1025.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="398" y="1040.0" font-size="10" font-weight="400" fill="#1e293b">TerminationDate·</text>
+<text class="m" x="671" y="1040.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="379" y="1044.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1055.0" font-size="10" font-weight="400" fill="#1e293b">GrossSalary·</text>
+<text class="m" x="671" y="1055.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<text class="t" x="398" y="1070.0" font-size="10" font-weight="400" fill="#1e293b">PartTime</text>
+<text class="m" x="671" y="1070.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="379" y="1074.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1085.0" font-size="10" font-weight="400" fill="#1e293b">MonthlyWorkDurationMinutes·</text>
+<text class="m" x="671" y="1085.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="387" y="1100.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="398" y="1100.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId·</text>
+<text class="m" x="671" y="1100.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1104.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1115.0" font-size="10" font-weight="400" fill="#1e293b">OfficeAdmin</text>
+<text class="m" x="671" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1130.0" font-size="10" font-weight="400" fill="#1e293b">PermissionGroupId·</text>
+<text class="m" x="671" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1134.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="671" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">OrganizationAdmin</text>
+<text class="m" x="671" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="379" y="1164.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">SystemAdministrator</text>
+<text class="m" x="671" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">ContractApproved</text>
+<text class="m" x="671" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="379" y="1194.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1205.0" font-size="10" font-weight="400" fill="#1e293b">MustChangePassword</text>
+<text class="m" x="671" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">BranchCode·</text>
+<text class="m" x="671" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="379" y="1224.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1235.0" font-size="10" font-weight="400" fill="#1e293b">MedulaUserName·</text>
+<text class="m" x="671" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(704)</text>
+<text class="t" x="398" y="1250.0" font-size="10" font-weight="400" fill="#1e293b">MedulaPassword·</text>
+<text class="m" x="671" y="1250.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(704)</text>
+<rect x="379" y="1254.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1265.0" font-size="10" font-weight="400" fill="#1e293b">UserName·</text>
+<text class="m" x="671" y="1265.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="398" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">NormalizedUserName·</text>
+<text class="m" x="671" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="379" y="1284.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1295.0" font-size="10" font-weight="400" fill="#1e293b">Email·</text>
+<text class="m" x="671" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="398" y="1310.0" font-size="10" font-weight="400" fill="#1e293b">NormalizedEmail·</text>
+<text class="m" x="671" y="1310.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="379" y="1314.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1325.0" font-size="10" font-weight="400" fill="#1e293b">EmailConfirmed</text>
+<text class="m" x="671" y="1325.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1340.0" font-size="10" font-weight="400" fill="#1e293b">PasswordHash·</text>
+<text class="m" x="671" y="1340.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="379" y="1344.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1355.0" font-size="10" font-weight="400" fill="#1e293b">SecurityStamp·</text>
+<text class="m" x="671" y="1355.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="398" y="1370.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyStamp·</text>
+<text class="m" x="671" y="1370.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="379" y="1374.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1385.0" font-size="10" font-weight="400" fill="#1e293b">PhoneNumber·</text>
+<text class="m" x="671" y="1385.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="398" y="1400.0" font-size="10" font-weight="400" fill="#1e293b">PhoneNumberConfirmed</text>
+<text class="m" x="671" y="1400.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="379" y="1404.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1415.0" font-size="10" font-weight="400" fill="#1e293b">TwoFactorEnabled</text>
+<text class="m" x="671" y="1415.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1430.0" font-size="10" font-weight="400" fill="#1e293b">LockoutEnd·</text>
+<text class="m" x="671" y="1430.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetimeoffset</text>
+<rect x="379" y="1434.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1445.0" font-size="10" font-weight="400" fill="#1e293b">LockoutEnabled</text>
+<text class="m" x="671" y="1445.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="398" y="1460.0" font-size="10" font-weight="400" fill="#1e293b">AccessFailedCount</text>
+<text class="m" x="671" y="1460.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M379 1464.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="1464.0" x2="679" y2="1464.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="1478.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="671" y="1478.0" font-size="8.8" fill="#64748b" text-anchor="end">3 886 rows</text>
+</g>
+</g>
+</svg>

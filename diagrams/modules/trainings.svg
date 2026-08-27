@@ -1,0 +1,949 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1710" height="1832" viewBox="0 0 1710 1832" font-family="Segoe UI,Helvetica,Arial,sans-serif">
+<title>Ensa — Trainings</title>
+<rect width="1710" height="1832" fill="#fbfcfe"/>
+<defs>
+<style>.t{font-family:Segoe UI,Inter,Helvetica,Arial,sans-serif}.m{font-family:Consolas,Menlo,DejaVu Sans Mono,monospace}</style>
+<filter id="drop" x="-12%" y="-12%" width="130%" height="130%">
+<feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.16"/>
+</filter>
+<marker id="a-tenancy" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#4338ca" opacity="0.85"/></marker>
+<marker id="a-membership" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#7c3aed" opacity="0.85"/></marker>
+<marker id="a-identity" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a21caf" opacity="0.85"/></marker>
+<marker id="a-menus" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0369a1" opacity="0.85"/></marker>
+<marker id="a-companies" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0f766e" opacity="0.85"/></marker>
+<marker id="a-lookups" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#0e7490" opacity="0.85"/></marker>
+<marker id="a-risks" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#b91c1c" opacity="0.85"/></marker>
+<marker id="a-plans" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#c2410c" opacity="0.85"/></marker>
+<marker id="a-trainings" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#a16207" opacity="0.85"/></marker>
+<marker id="a-health" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#15803d" opacity="0.85"/></marker>
+<marker id="a-documents" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#475569" opacity="0.85"/></marker>
+<marker id="a-finance" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#9f1239" opacity="0.85"/></marker>
+<marker id="a-ibys" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#1d4ed8" opacity="0.85"/></marker>
+<marker id="a-communication" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6d28d9" opacity="0.85"/></marker>
+<marker id="a-reports" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#854d0e" opacity="0.85"/></marker>
+<marker id="a-infrastructure" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0.6 L8 4 L0 7.4 z" fill="#6b7280" opacity="0.85"/></marker>
+</defs>
+<text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#a16207">Trainings</text>
+<text class="t" x="38" y="68" font-size="12" fill="#64748b">training catalogue, plans, attendance and certificates — 14 tables, 914 914 rows</text>
+<line x1="34" y1="82" x2="1676" y2="82" stroke="#e2e8f0"/>
+<rect x="34" y="96.0" width="1642" height="898" rx="12" fill="#a16207" fill-opacity="0.045" stroke="#a16207" stroke-opacity="0.22"/>
+<text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#a16207">Trainings</text>
+<rect x="34" y="1028.0" width="1642" height="736" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"/>
+<text class="t" x="52" y="1054.0" font-size="16" font-weight="700" fill="#94a3b8">referenced from other modules</text>
+<g id="relationships">
+<path d="M680 1171.5 C830.0 1171.5 1206.0 298.0 1356 298.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M378 1186.5 C348.0 1186.5 384.0 499.0 354 499.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M354 194.5 C504.0 194.5 40.0 1089.0 52 1089.0" fill="none" stroke="#0f766e" stroke-width="1" opacity="0.34" marker-end="url(#a-companies)"/>
+<path d="M354 209.5 C504.0 209.5 880.0 283.0 1030 283.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M354 254.5 C504.0 254.5 554.0 157.0 704 157.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M378 194.5 C348.0 194.5 384.0 1089.0 354 1089.0" fill="none" stroke="#0f766e" stroke-width="1" opacity="0.34" marker-end="url(#a-companies)"/>
+<path d="M680 224.5 C830.0 224.5 228.0 529.0 378 529.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M680 284.5 C830.0 284.5 880.0 157.0 1030 157.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M680 314.5 C710.0 314.5 674.0 157.0 704 157.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M704 194.5 C554.0 194.5 504.0 1089.0 354 1089.0" fill="none" stroke="#0f766e" stroke-width="1" opacity="0.34" marker-end="url(#a-companies)"/>
+<path d="M1006 209.5 C1156.0 209.5 1206.0 298.0 1356 298.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M704 224.5 C674.0 224.5 710.0 529.0 680 529.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M1006 329.5 C1156.0 329.5 1206.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M1006 344.5 C1156.0 344.5 1206.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M1356 194.5 C1326.0 194.5 1362.0 283.0 1332 283.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M1030 320.5 C880.0 320.5 1482.0 157.0 1332 157.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M1356 365.5 C1206.0 365.5 1156.0 433.0 1006 433.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M354 395.5 C504.0 395.5 1206.0 298.0 1356 298.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M680 425.5 C830.0 425.5 1206.0 298.0 1356 298.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M680 440.5 C830.0 440.5 880.0 157.0 1030 157.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M1332 551.5 C1362.0 551.5 1326.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M1332 566.5 C1362.0 566.5 1326.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M1332 581.5 C1362.0 581.5 1326.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M354 536.5 C504.0 536.5 880.0 439.0 1030 439.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M354 551.5 C504.0 551.5 1206.0 298.0 1356 298.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M354 716.5 c 26 0 26 -17 0 -17" fill="none" stroke="#a16207" stroke-width="1.1" opacity="0.55" marker-end="url(#a-trainings)"/>
+<path d="M354 731.5 C504.0 731.5 1206.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M354 746.5 C504.0 746.5 1206.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M354 836.5 C504.0 836.5 1206.0 1089.0 1356 1089.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
+<path d="M354 896.5 C504.0 896.5 880.0 1089.0 1030 1089.0" fill="none" stroke="#1d4ed8" stroke-width="1" opacity="0.34" marker-end="url(#a-ibys)"/>
+<path d="M354 941.5 C504.0 941.5 554.0 1089.0 704 1089.0" fill="none" stroke="#475569" stroke-width="1" opacity="0.34" marker-end="url(#a-documents)"/>
+<path d="M680 566.5 C830.0 566.5 1206.0 298.0 1356 298.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+<path d="M704 611.5 C674.0 611.5 710.0 529.0 680 529.0" fill="none" stroke="#a16207" stroke-width="1" opacity="0.34" marker-end="url(#a-trainings)"/>
+</g>
+<g id="tables">
+<g opacity="1">
+<title>EmployeeExamAnswer — Trainings — 0 rows, 8 columns</title>
+<rect x="52" y="142.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeExamAnswer</text>
+<rect x="327" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="198.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="198.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="m" x="345" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="61" y="213.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="213.0" font-size="10" font-weight="500" fill="#1e293b">ExamQuestionId</text>
+<text class="m" x="345" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="228.0" font-size="10" font-weight="400" fill="#1e293b">Answer·</text>
+<text class="m" x="345" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="72" y="243.0" font-size="10" font-weight="400" fill="#1e293b">IsCorrect</text>
+<text class="m" x="345" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="53" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="258.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="258.0" font-size="10" font-weight="500" fill="#1e293b">EmployeeTrainingProgressId</text>
+<text class="m" x="345" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="273.0" font-size="10" font-weight="400" fill="#1e293b">TestType</text>
+<text class="m" x="345" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="288.0" font-size="10" font-weight="400" fill="#1e293b">CevaplanmaDate</text>
+<text class="m" x="345" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<path d="M53 292.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="292.0" x2="353" y2="292.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="306.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="345" y="306.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>EmployeeTrainingLog — Trainings — 0 rows, 10 columns</title>
+<rect x="378" y="142.0" width="302" height="207" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeTrainingLog</text>
+<rect x="653" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="198.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="213.0" font-size="10" font-weight="400" fill="#1e293b">Operation</text>
+<text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="228.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="228.0" font-size="10" font-weight="500" fill="#1e293b">TrainingTopicId·</text>
+<text class="m" x="671" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="243.0" font-size="10" font-weight="400" fill="#1e293b">Page·</text>
+<text class="m" x="671" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="258.0" font-size="10" font-weight="400" fill="#1e293b">ElapsedDurationSeconds·</text>
+<text class="m" x="671" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="273.0" font-size="10" font-weight="400" fill="#1e293b">RemainingDurationSeconds·</text>
+<text class="m" x="671" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="288.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="288.0" font-size="10" font-weight="500" fill="#1e293b">ExamId·</text>
+<text class="m" x="671" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="303.0" font-size="10" font-weight="400" fill="#1e293b">ExamNote·</text>
+<text class="m" x="671" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="318.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="318.0" font-size="10" font-weight="500" fill="#1e293b">EmployeeTrainingProgressId·</text>
+<text class="m" x="671" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M379 322.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="322.0" x2="679" y2="322.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="336.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="671" y="336.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>EmployeeTrainingProgress — Trainings — 0 rows, 13 columns</title>
+<rect x="704" y="142.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeTrainingProgress</text>
+<rect x="979" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="198.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="724" y="198.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="m" x="997" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="213.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="724" y="213.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="m" x="997" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="228.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="724" y="228.0" font-size="10" font-weight="500" fill="#1e293b">TrainingTopicId·</text>
+<text class="m" x="997" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="243.0" font-size="10" font-weight="400" fill="#1e293b">FirstTestCompleted</text>
+<text class="m" x="997" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="705" y="247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="258.0" font-size="10" font-weight="400" fill="#1e293b">FirstTestNote·</text>
+<text class="m" x="997" y="258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="273.0" font-size="10" font-weight="400" fill="#1e293b">LatestTestCompleted</text>
+<text class="m" x="997" y="273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="705" y="277.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="288.0" font-size="10" font-weight="400" fill="#1e293b">LatestTestNote·</text>
+<text class="m" x="997" y="288.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="303.0" font-size="10" font-weight="400" fill="#1e293b">ElapsedDurationSeconds</text>
+<text class="m" x="997" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="318.0" font-size="10" font-weight="400" fill="#1e293b">ActivePage</text>
+<text class="m" x="997" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="713" y="333.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="724" y="333.0" font-size="10" font-weight="500" fill="#1e293b">TrainingSpecialistUserId·</text>
+<text class="m" x="997" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="337.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="348.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="724" y="348.0" font-size="10" font-weight="500" fill="#1e293b">TrainingPhysicianUserId·</text>
+<text class="m" x="997" y="348.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="363.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="997" y="363.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M705 367.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="367.0" x2="1005" y2="367.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="381.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="997" y="381.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Exam — Trainings — 0 rows, 3 columns</title>
+<rect x="1030" y="142.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="1040" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Exam</text>
+<rect x="1305" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="1039" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="198.0" font-size="10" font-weight="400" fill="#1e293b">Title</text>
+<text class="m" x="1323" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="1050" y="213.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1323" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1031 217.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="217.0" x2="1331" y2="217.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="231.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1323" y="231.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>ExamAnswer — Trainings — 0 rows, 4 columns</title>
+<rect x="1356" y="142.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1356 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="1366" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">ExamAnswer</text>
+<rect x="1631" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="1365" y="183.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1376" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1649" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1365" y="198.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="1376" y="198.0" font-size="10" font-weight="500" fill="#1e293b">ExamQuestionId</text>
+<text class="m" x="1649" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1376" y="213.0" font-size="10" font-weight="400" fill="#1e293b">AnswerText</text>
+<text class="m" x="1649" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<rect x="1357" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="228.0" font-size="10" font-weight="400" fill="#1e293b">IsCorrect</text>
+<text class="m" x="1649" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1357 232.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1357" y1="232.0" x2="1657" y2="232.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1366" y="246.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1649" y="246.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>ExamQuestion — Trainings — 0 rows, 5 columns</title>
+<rect x="1030" y="268.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 275.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="1040" y="288.0" font-size="12.5" font-weight="600" fill="#ffffff">ExamQuestion</text>
+<rect x="1305" y="276.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="286.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="1039" y="309.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="309.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="309.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="313.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1039" y="324.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="1050" y="324.0" font-size="10" font-weight="500" fill="#1e293b">ExamId</text>
+<text class="m" x="1323" y="324.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1050" y="339.0" font-size="10" font-weight="400" fill="#1e293b">Text</text>
+<text class="m" x="1323" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<rect x="1031" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="354.0" font-size="10" font-weight="400" fill="#1e293b">CorrectAnswer·</text>
+<text class="m" x="1323" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="1050" y="369.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1323" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1031 373.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="373.0" x2="1331" y2="373.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="387.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1323" y="387.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>Training — Trainings — 282 rows, 14 columns</title>
+<rect x="1356" y="283.0" width="302" height="267" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1356 290.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="1366" y="303.0" font-size="12.5" font-weight="600" fill="#ffffff">Training</text>
+<rect x="1631" y="291.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="301.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="1365" y="324.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1376" y="324.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1649" y="324.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="328.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="339.0" font-size="10" font-weight="400" fill="#1e293b">TrainingName</text>
+<text class="m" x="1649" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="1376" y="354.0" font-size="10" font-weight="400" fill="#1e293b">TrainingCode·</text>
+<text class="m" x="1649" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="1357" y="358.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1365" y="369.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="1376" y="369.0" font-size="10" font-weight="500" fill="#1e293b">TrainingGroupId·</text>
+<text class="m" x="1649" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1376" y="384.0" font-size="10" font-weight="400" fill="#1e293b">TrainingType</text>
+<text class="m" x="1649" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="399.0" font-size="10" font-weight="400" fill="#1e293b">TopicGroup</text>
+<text class="m" x="1649" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1376" y="414.0" font-size="10" font-weight="400" fill="#1e293b">MandatoryTraining</text>
+<text class="m" x="1649" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="1357" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="429.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1649" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="444.0" font-size="10" font-weight="400" fill="#1e293b">IbysTrainingCode·</text>
+<text class="m" x="1649" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="459.0" font-size="10" font-weight="400" fill="#1e293b">IncludedInDefaultPlan</text>
+<text class="m" x="1649" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="474.0" font-size="10" font-weight="400" fill="#1e293b">DefaultTraining</text>
+<text class="m" x="1649" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="1357" y="478.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="489.0" font-size="10" font-weight="400" fill="#1e293b">DefaultCount</text>
+<text class="m" x="1649" y="489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1376" y="504.0" font-size="10" font-weight="400" fill="#1e293b">DefaultStartMonthOffset</text>
+<text class="m" x="1649" y="504.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="508.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="519.0" font-size="10" font-weight="400" fill="#1e293b">DefaultElementCondition</text>
+<text class="m" x="1649" y="519.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M1357 523.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1357" y1="523.0" x2="1657" y2="523.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1366" y="537.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1649" y="537.0" font-size="8.8" fill="#64748b" text-anchor="end">282 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingDuration — Trainings — 780 rows, 4 columns</title>
+<rect x="52" y="343.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 350.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="62" y="363.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingDuration</text>
+<rect x="327" y="351.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="361.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="61" y="384.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="384.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="399.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="399.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="m" x="345" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="414.0" font-size="10" font-weight="400" fill="#1e293b">HazardClass</text>
+<text class="m" x="345" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="429.0" font-size="10" font-weight="400" fill="#1e293b">DurationMinutes</text>
+<text class="m" x="345" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M53 433.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="433.0" x2="353" y2="433.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="447.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="345" y="447.0" font-size="8.8" fill="#64748b" text-anchor="end">780 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingExam — Trainings — 0 rows, 4 columns</title>
+<rect x="378" y="373.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 380.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="388" y="393.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingExam</text>
+<rect x="653" y="381.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="391.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="414.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="414.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="429.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="429.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="m" x="671" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="387" y="444.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="444.0" font-size="10" font-weight="500" fill="#1e293b">ExamId</text>
+<text class="m" x="671" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="459.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="671" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M379 463.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="463.0" x2="679" y2="463.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="477.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="671" y="477.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingGroup — Trainings — 4 rows, 4 columns</title>
+<rect x="704" y="418.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 425.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="714" y="438.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingGroup</text>
+<text class="m" x="713" y="459.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="459.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="463.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="474.0" font-size="10" font-weight="400" fill="#1e293b">TrainingGroupName</text>
+<text class="m" x="997" y="474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="724" y="489.0" font-size="10" font-weight="400" fill="#1e293b">TrainingGroupCode·</text>
+<text class="m" x="997" y="489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="705" y="493.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="504.0" font-size="10" font-weight="400" fill="#1e293b">OrderNo·</text>
+<text class="m" x="997" y="504.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M705 508.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="508.0" x2="1005" y2="508.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="522.0" font-size="8.8" fill="#94a3b8">created · modified</text>
+<text class="m" x="997" y="522.0" font-size="8.8" fill="#64748b" text-anchor="end">4 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingPlan — Trainings — 19 277 rows, 11 columns</title>
+<rect x="1030" y="424.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 431.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="1040" y="444.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingPlan</text>
+<rect x="1305" y="432.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="442.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="1288" y="432.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="442.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="1039" y="465.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="465.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="465.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="469.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="480.0" font-size="10" font-weight="400" fill="#1e293b">StartDate</text>
+<text class="m" x="1323" y="480.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="1050" y="495.0" font-size="10" font-weight="400" fill="#1e293b">RevisionNo·</text>
+<text class="m" x="1323" y="495.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="1031" y="499.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="510.0" font-size="10" font-weight="400" fill="#1e293b">RevisionDate</text>
+<text class="m" x="1323" y="510.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="1050" y="525.0" font-size="10" font-weight="400" fill="#1e293b">DocumentNo·</text>
+<text class="m" x="1323" y="525.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="1031" y="529.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="540.0" font-size="10" font-weight="400" fill="#1e293b">PublicationDate</text>
+<text class="m" x="1323" y="540.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="m" x="1039" y="555.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="1050" y="555.0" font-size="10" font-weight="500" fill="#1e293b">SpecialistUserId·</text>
+<text class="m" x="1323" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1039" y="570.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="1050" y="570.0" font-size="10" font-weight="500" fill="#1e293b">PhysicianUserId·</text>
+<text class="m" x="1323" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="1039" y="585.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="1050" y="585.0" font-size="10" font-weight="500" fill="#1e293b">ApproverUserId·</text>
+<text class="m" x="1323" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="600.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1323" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1050" y="615.0" font-size="10" font-weight="400" fill="#1e293b">Transferred</text>
+<text class="m" x="1323" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M1031 619.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="619.0" x2="1331" y2="619.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="633.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1323" y="633.0" font-size="8.8" fill="#64748b" text-anchor="end">19 277 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingPlanLine — Trainings — 894 571 rows, 29 columns</title>
+<rect x="52" y="484.0" width="302" height="492" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 491.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="62" y="504.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingPlanLine</text>
+<rect x="327" y="492.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="502.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="310" y="492.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="502.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="61" y="525.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="525.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="525.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="529.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="540.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="540.0" font-size="10" font-weight="500" fill="#1e293b">TrainingPlanId</text>
+<text class="m" x="345" y="540.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="61" y="555.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="555.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="m" x="345" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="570.0" font-size="10" font-weight="400" fill="#1e293b">DurationMinutes</text>
+<text class="m" x="345" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="585.0" font-size="10" font-weight="400" fill="#1e293b">Year·</text>
+<text class="m" x="345" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="600.0" font-size="10" font-weight="400" fill="#1e293b">Month·</text>
+<text class="m" x="345" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="615.0" font-size="10" font-weight="400" fill="#1e293b">Status</text>
+<text class="m" x="345" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="619.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="630.0" font-size="10" font-weight="400" fill="#1e293b">RejectionReason·</text>
+<text class="m" x="345" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="72" y="645.0" font-size="10" font-weight="400" fill="#1e293b">ApprovalStatus·</text>
+<text class="m" x="345" y="645.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="649.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="660.0" font-size="10" font-weight="400" fill="#1e293b">PerformedDate·</text>
+<text class="m" x="345" y="660.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="72" y="675.0" font-size="10" font-weight="400" fill="#1e293b">Source·</text>
+<text class="m" x="345" y="675.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<rect x="53" y="679.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="690.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
+<text class="m" x="345" y="690.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="72" y="705.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="345" y="705.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="53" y="709.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="720.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="720.0" font-size="10" font-weight="500" fill="#1e293b">PreviousLineId·</text>
+<text class="m" x="345" y="720.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="61" y="735.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="735.0" font-size="10" font-weight="500" fill="#1e293b">ForApprovalSenderUserId·</text>
+<text class="m" x="345" y="735.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="739.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="750.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="750.0" font-size="10" font-weight="500" fill="#1e293b">ApproverUserId·</text>
+<text class="m" x="345" y="750.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="765.0" font-size="10" font-weight="400" fill="#1e293b">ForApprovalSendingDate·</text>
+<text class="m" x="345" y="765.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="53" y="769.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="780.0" font-size="10" font-weight="400" fill="#1e293b">ApprovalDate·</text>
+<text class="m" x="345" y="780.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="72" y="795.0" font-size="10" font-weight="400" fill="#1e293b">InstructorNationalId·</text>
+<text class="m" x="345" y="795.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<rect x="53" y="799.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="810.0" font-size="10" font-weight="400" fill="#1e293b">InstructorTitle·</text>
+<text class="m" x="345" y="810.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="825.0" font-size="10" font-weight="400" fill="#1e293b">InstructorFullName·</text>
+<text class="m" x="345" y="825.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="829.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="840.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="840.0" font-size="10" font-weight="500" fill="#1e293b">InstructorUserId·</text>
+<text class="m" x="345" y="840.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="855.0" font-size="10" font-weight="400" fill="#1e293b">TrainingLocation·</text>
+<text class="m" x="345" y="855.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="859.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="870.0" font-size="10" font-weight="400" fill="#1e293b">TrainingType·</text>
+<text class="m" x="345" y="870.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="885.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatus</text>
+<text class="m" x="345" y="885.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="889.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="900.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="900.0" font-size="10" font-weight="500" fill="#1e293b">IbysQueryId·</text>
+<text class="m" x="345" y="900.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="915.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatusCode·</text>
+<text class="m" x="345" y="915.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="53" y="919.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="930.0" font-size="10" font-weight="400" fill="#1e293b">IbysMessage·</text>
+<text class="m" x="345" y="930.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="m" x="61" y="945.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="72" y="945.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="m" x="345" y="945.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M53 949.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="949.0" x2="353" y2="949.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="963.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="345" y="963.0" font-size="8.8" fill="#64748b" text-anchor="end">894 571 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingTopic — Trainings — 0 rows, 6 columns</title>
+<rect x="378" y="514.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 521.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="388" y="534.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingTopic</text>
+<rect x="653" y="522.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="532.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="555.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="555.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="559.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="570.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="398" y="570.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="m" x="671" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="585.0" font-size="10" font-weight="400" fill="#1e293b">TopicTitle</text>
+<text class="m" x="671" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="379" y="589.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="600.0" font-size="10" font-weight="400" fill="#1e293b">PresentationAddress·</text>
+<text class="m" x="671" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<text class="t" x="398" y="615.0" font-size="10" font-weight="400" fill="#1e293b">PresentationPageCount</text>
+<text class="m" x="671" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="619.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="630.0" font-size="10" font-weight="400" fill="#1e293b">TopicOrder</text>
+<text class="m" x="671" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M379 634.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="634.0" x2="679" y2="634.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="648.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="671" y="648.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="1">
+<title>TrainingTopicDuration — Trainings — 0 rows, 4 columns</title>
+<rect x="704" y="559.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 566.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
+<text class="t" x="714" y="579.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingTopicDuration</text>
+<rect x="979" y="567.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="577.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="713" y="600.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="600.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="600.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="604.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="615.0" font-size="8.5" fill="#a16207">▸</text>
+<text class="t" x="724" y="615.0" font-size="10" font-weight="500" fill="#1e293b">TrainingTopicId</text>
+<text class="m" x="997" y="615.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="630.0" font-size="10" font-weight="400" fill="#1e293b">HazardClass</text>
+<text class="m" x="997" y="630.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="634.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="645.0" font-size="10" font-weight="400" fill="#1e293b">DurationMinutes</text>
+<text class="m" x="997" y="645.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M705 649.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="649.0" x2="1005" y2="649.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="663.0" font-size="8.8" fill="#94a3b8">created</text>
+<text class="m" x="997" y="663.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="0.45">
+<title>CompanyEmployee — Companies — 263 527 rows, 36 columns</title>
+<rect x="52" y="1074.0" width="302" height="597" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M52 1081.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
+<text class="t" x="62" y="1094.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployee</text>
+<rect x="327" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="310" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="61" y="1115.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="72" y="1115.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="345" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1130.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
+<text class="m" x="345" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">LastName</text>
+<text class="m" x="345" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">FatherName·</text>
+<text class="m" x="345" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="72" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">MotherName·</text>
+<text class="m" x="345" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">NationalId·</text>
+<text class="m" x="345" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="72" y="1205.0" font-size="10" font-weight="400" fill="#1e293b">BirthLocation·</text>
+<text class="m" x="345" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">BirthDate·</text>
+<text class="m" x="345" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="72" y="1235.0" font-size="10" font-weight="400" fill="#1e293b">Gender</text>
+<text class="m" x="345" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="1239.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1250.0" font-size="10" font-weight="400" fill="#1e293b">EducationLevel</text>
+<text class="m" x="345" y="1250.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1265.0" font-size="10" font-weight="400" fill="#1e293b">MaritalStatus</text>
+<text class="m" x="345" y="1265.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="53" y="1269.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">ChildCount·</text>
+<text class="m" x="345" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1295.0" font-size="10" font-weight="400" fill="#1e293b">Phone·</text>
+<text class="m" x="345" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<rect x="53" y="1299.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1310.0" font-size="10" font-weight="400" fill="#1e293b">Gsm·</text>
+<text class="m" x="345" y="1310.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="t" x="72" y="1325.0" font-size="10" font-weight="400" fill="#1e293b">Email·</text>
+<text class="m" x="345" y="1325.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="53" y="1329.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1340.0" font-size="10" font-weight="400" fill="#1e293b">HomeAddress·</text>
+<text class="m" x="345" y="1340.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<text class="t" x="72" y="1355.0" font-size="10" font-weight="400" fill="#1e293b">EmergencyPerson·</text>
+<text class="m" x="345" y="1355.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1359.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1370.0" font-size="10" font-weight="400" fill="#1e293b">EmergencyPersonPhone·</text>
+<text class="m" x="345" y="1370.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="t" x="72" y="1385.0" font-size="10" font-weight="400" fill="#1e293b">Duty·</text>
+<text class="m" x="345" y="1385.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1389.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="1400.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="72" y="1400.0" font-size="10" font-weight="500" fill="#1e293b">OccupationCodeId·</text>
+<text class="m" x="345" y="1400.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1415.0" font-size="10" font-weight="400" fill="#1e293b">Occupation·</text>
+<text class="m" x="345" y="1415.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1419.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="1430.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="72" y="1430.0" font-size="10" font-weight="500" fill="#1e293b">AssignedDepartmentId·</text>
+<text class="m" x="345" y="1430.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1445.0" font-size="10" font-weight="400" fill="#1e293b">AssignedDepartmentName·</text>
+<text class="m" x="345" y="1445.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1449.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1460.0" font-size="10" font-weight="400" fill="#1e293b">HireDate·</text>
+<text class="m" x="345" y="1460.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="72" y="1475.0" font-size="10" font-weight="400" fill="#1e293b">TerminationDate·</text>
+<text class="m" x="345" y="1475.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="53" y="1479.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1490.0" font-size="10" font-weight="400" fill="#1e293b">PreEmploymentExamination·</text>
+<text class="m" x="345" y="1490.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="72" y="1505.0" font-size="10" font-weight="400" fill="#1e293b">PreEmploymentExaminationDate·</text>
+<text class="m" x="345" y="1505.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="53" y="1509.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1520.0" font-size="10" font-weight="400" fill="#1e293b"><title>PreEmploymentNextExaminationDate</title>PreEmploymentNextExaminationD…</text>
+<text class="m" x="345" y="1520.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="72" y="1535.0" font-size="10" font-weight="400" fill="#1e293b"><title>PreEmploymentExaminationPerformedBy</title>PreEmploymentExaminationPerfo…</text>
+<text class="m" x="345" y="1535.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="53" y="1539.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="1550.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="72" y="1550.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreEmploymentExaminationDocumentId</title>PreEmploymentExaminationDocum…</text>
+<text class="m" x="345" y="1550.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1565.0" font-size="10" font-weight="400" fill="#1e293b">WorkMethodCode·</text>
+<text class="m" x="345" y="1565.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="53" y="1569.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1580.0" font-size="10" font-weight="400" fill="#1e293b">WorkEnvironmentCode·</text>
+<text class="m" x="345" y="1580.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<text class="t" x="72" y="1595.0" font-size="10" font-weight="400" fill="#1e293b">WorkEquipmentCode·</text>
+<text class="m" x="345" y="1595.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="53" y="1599.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="61" y="1610.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="72" y="1610.0" font-size="10" font-weight="500" fill="#1e293b">UserId·</text>
+<text class="m" x="345" y="1610.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="72" y="1625.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
+<text class="m" x="345" y="1625.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<rect x="53" y="1629.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="72" y="1640.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="345" y="1640.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M53 1644.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="53" y1="1644.0" x2="353" y2="1644.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="62" y="1658.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="345" y="1658.0" font-size="8.8" fill="#64748b" text-anchor="end">263 527 rows</text>
+</g>
+<g opacity="0.45">
+<title>CompanyEmployeeDocument — Companies — 0 rows, 19 columns</title>
+<rect x="378" y="1074.0" width="302" height="342" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M378 1081.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
+<text class="t" x="388" y="1094.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployeeDocument</text>
+<rect x="653" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<text class="m" x="387" y="1115.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="398" y="1115.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="671" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="1130.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1130.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="m" x="671" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="387" y="1145.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1145.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId</text>
+<text class="m" x="671" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">DocumentDate·</text>
+<text class="m" x="671" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="m" x="387" y="1175.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1175.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId·</text>
+<text class="m" x="671" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="1190.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1190.0" font-size="10" font-weight="500" fill="#1e293b">TrainingPlanLineId·</text>
+<text class="m" x="671" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="387" y="1205.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1205.0" font-size="10" font-weight="500" fill="#1e293b">WorkPlanLineId·</text>
+<text class="m" x="671" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="1220.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1220.0" font-size="10" font-weight="500" fill="#1e293b">CertificateId·</text>
+<text class="m" x="671" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="1235.0" font-size="10" font-weight="400" fill="#1e293b">OtherCertificateName·</text>
+<text class="m" x="671" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="379" y="1239.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1250.0" font-size="10" font-weight="400" fill="#1e293b">TeamDocumentType</text>
+<text class="m" x="671" y="1250.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="1265.0" font-size="10" font-weight="400" fill="#1e293b">GroupCode·</text>
+<text class="m" x="671" y="1265.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="379" y="1269.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">Source·</text>
+<text class="m" x="671" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="398" y="1295.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatus</text>
+<text class="m" x="671" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="379" y="1299.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1310.0" font-size="10" font-weight="400" fill="#1e293b">IbysSubmissionAttempt·</text>
+<text class="m" x="671" y="1310.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="1325.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatusCode·</text>
+<text class="m" x="671" y="1325.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="379" y="1329.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="398" y="1340.0" font-size="10" font-weight="400" fill="#1e293b">IbysMessage·</text>
+<text class="m" x="671" y="1340.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="398" y="1355.0" font-size="10" font-weight="400" fill="#1e293b">IbysNotificationNo·</text>
+<text class="m" x="671" y="1355.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="379" y="1359.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="387" y="1370.0" font-size="8.5" fill="#0f766e">▸</text>
+<text class="t" x="398" y="1370.0" font-size="10" font-weight="500" fill="#1e293b">IbysQueryId·</text>
+<text class="m" x="671" y="1370.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="398" y="1385.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="671" y="1385.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M379 1389.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="379" y1="1389.0" x2="679" y2="1389.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="388" y="1403.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="671" y="1403.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="0.45">
+<title>Document — Documents — 5 rows, 13 columns</title>
+<rect x="704" y="1074.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#475569" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M704 1081.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#475569"/>
+<text class="t" x="714" y="1094.0" font-size="12.5" font-weight="600" fill="#ffffff">Document</text>
+<rect x="979" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="962" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="969.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="713" y="1115.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="724" y="1115.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="997" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="713" y="1130.0" font-size="8.5" fill="#475569">▸</text>
+<text class="t" x="724" y="1130.0" font-size="10" font-weight="500" fill="#1e293b">DocumentCategoryId·</text>
+<text class="m" x="997" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">DocumentName</text>
+<text class="m" x="997" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(260)</text>
+<rect x="705" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">StorageName</text>
+<text class="m" x="997" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="724" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">Extension·</text>
+<text class="m" x="997" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="705" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">ContentType·</text>
+<text class="m" x="997" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="724" y="1205.0" font-size="10" font-weight="400" fill="#1e293b">SizeBytes</text>
+<text class="m" x="997" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bigint</text>
+<rect x="705" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">Content·</text>
+<text class="m" x="997" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">varbinary(max)</text>
+<text class="t" x="724" y="1235.0" font-size="10" font-weight="400" fill="#1e293b">StoragePath·</text>
+<text class="m" x="997" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="705" y="1239.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1250.0" font-size="10" font-weight="400" fill="#1e293b">Sha256·</text>
+<text class="m" x="997" y="1250.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="724" y="1265.0" font-size="10" font-weight="400" fill="#1e293b">OwnerType</text>
+<text class="m" x="997" y="1265.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="705" y="1269.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="724" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">OwnerRecordId·</text>
+<text class="m" x="997" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="724" y="1295.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="997" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<path d="M705 1299.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="705" y1="1299.0" x2="1005" y2="1299.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="714" y="1313.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="997" y="1313.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
+</g>
+<g opacity="0.45">
+<title>IbysQuery — Ibys — 0 rows, 13 columns</title>
+<rect x="1030" y="1074.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1030 1081.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#1d4ed8"/>
+<text class="t" x="1040" y="1094.0" font-size="12.5" font-weight="600" fill="#ffffff">IbysQuery</text>
+<rect x="1305" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="1288" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="1039" y="1115.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1050" y="1115.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1323" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1130.0" font-size="10" font-weight="400" fill="#1e293b">QueryNo·</text>
+<text class="m" x="1323" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<text class="t" x="1050" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">QueryType</text>
+<text class="m" x="1323" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">Status</text>
+<text class="m" x="1323" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="t" x="1050" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">StatusCode</text>
+<text class="m" x="1323" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1190.0" font-size="10" font-weight="400" fill="#1e293b">IbysMessage·</text>
+<text class="m" x="1323" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
+<text class="t" x="1050" y="1205.0" font-size="10" font-weight="400" fill="#1e293b">SubmissionDate</text>
+<text class="m" x="1323" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="1031" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">GroupId·</text>
+<text class="m" x="1323" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="1050" y="1235.0" font-size="10" font-weight="400" fill="#1e293b">IbysVersion·</text>
+<text class="m" x="1323" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="1031" y="1239.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1250.0" font-size="10" font-weight="400" fill="#1e293b">TimeStamp·</text>
+<text class="m" x="1323" y="1250.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(4000)</text>
+<text class="m" x="1039" y="1265.0" font-size="8.5" fill="#1d4ed8">▸</text>
+<text class="t" x="1050" y="1265.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId·</text>
+<text class="m" x="1323" y="1265.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1031" y="1269.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1050" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">XmlData·</text>
+<text class="m" x="1323" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="1050" y="1295.0" font-size="10" font-weight="400" fill="#1e293b">SignedData·</text>
+<text class="m" x="1323" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<path d="M1031 1299.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1031" y1="1299.0" x2="1331" y2="1299.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1040" y="1313.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1323" y="1313.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
+</g>
+<g opacity="0.45">
+<title>User — Membership — 3 886 rows, 41 columns</title>
+<rect x="1356" y="1074.0" width="302" height="672" rx="7" fill="#ffffff" stroke="#7c3aed" stroke-width="1.1" filter="url(#drop)"/>
+<path d="M1356 1081.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#7c3aed"/>
+<text class="t" x="1366" y="1094.0" font-size="12.5" font-weight="600" fill="#ffffff">User</text>
+<rect x="1631" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
+<rect x="1614" y="1082.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="1092.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
+<text class="m" x="1365" y="1115.0" font-size="8.5" fill="#b45309">◆</text>
+<text class="t" x="1376" y="1115.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="m" x="1649" y="1115.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1119.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1130.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
+<text class="m" x="1649" y="1130.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<text class="t" x="1376" y="1145.0" font-size="10" font-weight="400" fill="#1e293b">LastName</text>
+<text class="m" x="1649" y="1145.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
+<rect x="1357" y="1149.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1160.0" font-size="10" font-weight="400" fill="#1e293b">NationalId·</text>
+<text class="m" x="1649" y="1160.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
+<text class="t" x="1376" y="1175.0" font-size="10" font-weight="400" fill="#1e293b">Address·</text>
+<text class="m" x="1649" y="1175.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
+<rect x="1357" y="1179.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="m" x="1365" y="1190.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="1376" y="1190.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="m" x="1649" y="1190.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="1365" y="1205.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="1376" y="1205.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="m" x="1649" y="1205.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1209.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1220.0" font-size="10" font-weight="400" fill="#1e293b">Gsm·</text>
+<text class="m" x="1649" y="1220.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
+<text class="m" x="1365" y="1235.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="1376" y="1235.0" font-size="10" font-weight="500" fill="#1e293b">PhotoDocumentId·</text>
+<text class="m" x="1649" y="1235.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1239.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1250.0" font-size="10" font-weight="400" fill="#1e293b">Color·</text>
+<text class="m" x="1649" y="1250.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(16)</text>
+<text class="t" x="1376" y="1265.0" font-size="10" font-weight="400" fill="#1e293b">StaffRole</text>
+<text class="m" x="1649" y="1265.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1269.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1280.0" font-size="10" font-weight="400" fill="#1e293b">HireDate·</text>
+<text class="m" x="1649" y="1280.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<text class="t" x="1376" y="1295.0" font-size="10" font-weight="400" fill="#1e293b">TerminationDate·</text>
+<text class="m" x="1649" y="1295.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
+<rect x="1357" y="1299.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1310.0" font-size="10" font-weight="400" fill="#1e293b">GrossSalary·</text>
+<text class="m" x="1649" y="1310.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
+<text class="t" x="1376" y="1325.0" font-size="10" font-weight="400" fill="#1e293b">PartTime</text>
+<text class="m" x="1649" y="1325.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="1357" y="1329.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1340.0" font-size="10" font-weight="400" fill="#1e293b">MonthlyWorkDurationMinutes·</text>
+<text class="m" x="1649" y="1340.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<text class="m" x="1365" y="1355.0" font-size="8.5" fill="#7c3aed">▸</text>
+<text class="t" x="1376" y="1355.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId·</text>
+<text class="m" x="1649" y="1355.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1359.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1370.0" font-size="10" font-weight="400" fill="#1e293b">OfficeAdmin</text>
+<text class="m" x="1649" y="1370.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1385.0" font-size="10" font-weight="400" fill="#1e293b">PermissionGroupId·</text>
+<text class="m" x="1649" y="1385.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<rect x="1357" y="1389.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1400.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
+<text class="m" x="1649" y="1400.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1415.0" font-size="10" font-weight="400" fill="#1e293b">OrganizationAdmin</text>
+<text class="m" x="1649" y="1415.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="1357" y="1419.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1430.0" font-size="10" font-weight="400" fill="#1e293b">SystemAdministrator</text>
+<text class="m" x="1649" y="1430.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1445.0" font-size="10" font-weight="400" fill="#1e293b">ContractApproved</text>
+<text class="m" x="1649" y="1445.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="1357" y="1449.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1460.0" font-size="10" font-weight="400" fill="#1e293b">MustChangePassword</text>
+<text class="m" x="1649" y="1460.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1475.0" font-size="10" font-weight="400" fill="#1e293b">BranchCode·</text>
+<text class="m" x="1649" y="1475.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
+<rect x="1357" y="1479.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1490.0" font-size="10" font-weight="400" fill="#1e293b">MedulaUserName·</text>
+<text class="m" x="1649" y="1490.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(704)</text>
+<text class="t" x="1376" y="1505.0" font-size="10" font-weight="400" fill="#1e293b">MedulaPassword·</text>
+<text class="m" x="1649" y="1505.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(704)</text>
+<rect x="1357" y="1509.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1520.0" font-size="10" font-weight="400" fill="#1e293b">UserName·</text>
+<text class="m" x="1649" y="1520.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="1376" y="1535.0" font-size="10" font-weight="400" fill="#1e293b">NormalizedUserName·</text>
+<text class="m" x="1649" y="1535.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="1357" y="1539.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1550.0" font-size="10" font-weight="400" fill="#1e293b">Email·</text>
+<text class="m" x="1649" y="1550.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<text class="t" x="1376" y="1565.0" font-size="10" font-weight="400" fill="#1e293b">NormalizedEmail·</text>
+<text class="m" x="1649" y="1565.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
+<rect x="1357" y="1569.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1580.0" font-size="10" font-weight="400" fill="#1e293b">EmailConfirmed</text>
+<text class="m" x="1649" y="1580.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1595.0" font-size="10" font-weight="400" fill="#1e293b">PasswordHash·</text>
+<text class="m" x="1649" y="1595.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="1357" y="1599.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1610.0" font-size="10" font-weight="400" fill="#1e293b">SecurityStamp·</text>
+<text class="m" x="1649" y="1610.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="1376" y="1625.0" font-size="10" font-weight="400" fill="#1e293b">ConcurrencyStamp·</text>
+<text class="m" x="1649" y="1625.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<rect x="1357" y="1629.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1640.0" font-size="10" font-weight="400" fill="#1e293b">PhoneNumber·</text>
+<text class="m" x="1649" y="1640.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
+<text class="t" x="1376" y="1655.0" font-size="10" font-weight="400" fill="#1e293b">PhoneNumberConfirmed</text>
+<text class="m" x="1649" y="1655.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<rect x="1357" y="1659.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1670.0" font-size="10" font-weight="400" fill="#1e293b">TwoFactorEnabled</text>
+<text class="m" x="1649" y="1670.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1685.0" font-size="10" font-weight="400" fill="#1e293b">LockoutEnd·</text>
+<text class="m" x="1649" y="1685.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetimeoffset</text>
+<rect x="1357" y="1689.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
+<text class="t" x="1376" y="1700.0" font-size="10" font-weight="400" fill="#1e293b">LockoutEnabled</text>
+<text class="m" x="1649" y="1700.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
+<text class="t" x="1376" y="1715.0" font-size="10" font-weight="400" fill="#1e293b">AccessFailedCount</text>
+<text class="m" x="1649" y="1715.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
+<path d="M1357 1719.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
+<line x1="1357" y1="1719.0" x2="1657" y2="1719.0" stroke="#e2e8f0" stroke-width="1"/>
+<text class="t" x="1366" y="1733.0" font-size="8.8" fill="#94a3b8">created · modified · soft-delete</text>
+<text class="m" x="1649" y="1733.0" font-size="8.8" fill="#64748b" text-anchor="end">3 886 rows</text>
+</g>
+</g>
+</svg>

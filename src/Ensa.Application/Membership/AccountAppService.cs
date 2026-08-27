@@ -1,8 +1,11 @@
-using System.Globalization;
+﻿using System.Globalization;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Membership;
 using Ensa.Application.Contracts.Membership.Dtos;
 using Ensa.Domain.Membership;
+using Ensa.Domain.Repositories;
+using Ensa.Domain.Shared.Enums;
+using Ensa.Domain.Shared;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -17,7 +20,12 @@ namespace Ensa.Application.Membership;
 public class AccountAppService(
     IServiceProvider serviceProvider,
     UserManager<User> userManager,
-    IPermissionResolver permissionResolver)
+    IPermissionResolver permissionResolver,
+    IUserRepository userRepository,
+    IReadOnlyRepository<UserProfile> userProfileRepository,
+    IReadOnlyRepository<UserEmployment> userEmploymentRepository,
+    IReadOnlyRepository<UserOffice> userOfficeRepository,
+    IReadOnlyRepository<UserType> userTypeRepository)
     : EnsaAppService(serviceProvider), IAccountAppService
 {
     /// <inheritdoc />
@@ -26,29 +34,43 @@ public class AccountAppService(
         var user = await GetCurrentUserAsync();
         var roles = await userManager.GetRolesAsync(user);
 
+        // The person, the contract and the office. A profile is written when an account is
+        // created, so a user without one is a record from before the split; the screen shows
+        // what it can rather than failing on it.
+        var profile = await userProfileRepository.FindAsync(p => p.UserId == user.Id);
+        var employment = await userEmploymentRepository.FindAsync(e => e.UserId == user.Id);
+        var office = await userOfficeRepository.FindAsync(o => o.UserId == user.Id);
+
+        // Through the type the employment points at, rather than a copy of that type's own
+        // enum kept on the user row beside it.
+        var staffRole = employment?.UserTypeId is int typeId
+            ? (await userTypeRepository.FindAsync(t => t.Id == typeId))?.StaffRole
+              ?? StaffRole.Unspecified
+            : StaffRole.Unspecified;
+
         return new ProfileDto
         {
             Id = user.Id,
             UserName = user.UserName ?? string.Empty,
-            Name = user.Name,
-            LastName = user.LastName,
-            FullName = user.GetDisplayName(),
+            Name = profile?.Name ?? string.Empty,
+            LastName = profile?.LastName ?? string.Empty,
+            FullName = user.GetDisplayName(profile),
             Email = user.Email,
             EmailConfirmed = user.EmailConfirmed,
             PhoneNumber = user.PhoneNumber,
-            Gsm = user.Gsm,
-            PhotoDocumentId = user.PhotoDocumentId,
-            Color = user.Color,
+            Gsm = user.PhoneNumber,
+            PhotoDocumentId = profile?.PhotoDocumentId,
+            Color = profile?.Color,
             TenantId = user.TenantId,
-            OfficeId = user.OfficeId,
+            OfficeId = office?.OfficeId,
             CompanyId = user.CompanyId,
-            StaffRole = user.StaffRole,
-            SystemAdministrator = user.SystemAdministrator,
-            OrganizationAdmin = user.OrganizationAdmin,
-            OfficeAdmin = user.OfficeAdmin,
+            StaffRole = staffRole,
+            SystemAdministrator = roles.Contains(EnsaRoleNames.SystemAdministrator),
+            OrganizationAdmin = roles.Contains(EnsaRoleNames.OrganizationAdministrator),
+            OfficeAdmin = roles.Contains(EnsaRoleNames.OfficeAdministrator),
             Roles = [.. roles],
-            MustChangePassword = user.MustChangePassword,
-            ContractApproved = user.ContractApproved,
+            MustChangePassword = profile?.MustChangePassword ?? false,
+            ContractApproved = profile?.ContractApproved ?? false,
             LockoutEnd = user.LockoutEnd
         };
     }
@@ -91,7 +113,9 @@ public class AccountAppService(
         var user = await userManager.FindByIdAsync(userId.ToString(CultureInfo.InvariantCulture))
                    ?? throw new EntityNotFoundException(typeof(User), userId);
 
-        if (!user.CanSignIn())
+        var facts = await userRepository.GetAuthorizationFactsAsync(user.Id);
+
+        if (facts is not { } who || !who.CanSignIn())
         {
             throw new EnsaAuthorizationException("Your account is not active.", "Ensa:UserNotActive");
         }

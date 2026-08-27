@@ -64,6 +64,7 @@ try
         new CatalogueStep(),
         new TenancyStep(),
         new PasswordStep(),
+        new UserSplitStep(),
         new CompanyStep(),
         new OperationsStep(),
         new VisitStep(),

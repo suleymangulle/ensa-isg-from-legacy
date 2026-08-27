@@ -1,4 +1,4 @@
-using Ensa.Domain.Trainings;
+﻿using Ensa.Domain.Trainings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -19,8 +19,13 @@ public class EmployeeTrainingProgressConfiguration : IEntityTypeConfiguration<Em
         builder.ToTable("EmployeeTrainingProgress");
         builder.HasKey(x => x.Id);
 
-        builder.HasIndex(x => new { x.CompanyEmployeeId, x.TrainingId, x.TrainingTopicId })
-               .IsUnique();
+        // A worker's progress through one topic. NOT unique: the legacy system writes a new
+        // progress row each time a worker retakes a topic rather than updating the existing one,
+        // and 25 of the 6,500 migrated rows are retakes with genuinely different scores and
+        // durations. Merging them would be worse than keeping them, because every exam answer
+        // names the progress row it belongs to -- collapsing three attempts into one moves a
+        // worker's answers onto an attempt they were not given for.
+        builder.HasIndex(x => new { x.CompanyEmployeeId, x.TrainingId, x.TrainingTopicId });
 
         // Foreign key indexes (no relationship is configured — index only).
         builder.HasIndex(x => x.TrainingId);

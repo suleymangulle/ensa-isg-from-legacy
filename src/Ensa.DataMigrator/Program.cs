@@ -73,6 +73,7 @@ try
         new HealthStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),
+        new UserColumnClassifyStep(),
         new VerifyStep(),
     };
 

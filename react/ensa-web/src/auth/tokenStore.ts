@@ -11,6 +11,14 @@ export interface TokenResponse {
   expires_in: number
 }
 
+/**
+ * The client this application is registered as in OpenIddict. A public client - the SPA runs in
+ * a browser, where a secret would be readable by anyone who opens the developer tools - so this
+ * identifies the application without authenticating it. The grants and scopes it may ask for are
+ * declared once, on the server, against this id.
+ */
+const CLIENT_ID = 'ensa-spa'
+
 /** The OpenIddict token endpoint expects `application/x-www-form-urlencoded`. */
 const tokenClient = axios.create({
   baseURL: '/',
@@ -59,6 +67,7 @@ export const tokenStore = {
   async signIn(userName: string, password: string): Promise<TokenResponse> {
     const body = new URLSearchParams({
       grant_type: 'password',
+      client_id: CLIENT_ID,
       username: userName,
       password,
       scope: 'openid profile email roles offline_access ensa',
@@ -75,6 +84,7 @@ export const tokenStore = {
     try {
       const body = new URLSearchParams({
         grant_type: 'refresh_token',
+        client_id: CLIENT_ID,
         refresh_token: refreshToken,
       })
       const { data } = await tokenClient.post<TokenResponse>('connect/token', body)

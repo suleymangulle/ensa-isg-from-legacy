@@ -72,7 +72,7 @@ def call(path, token=None, form=None, body=None, method=None):
 
 def login(user_name, password):
     code, body = call("/connect/token", form={
-        "grant_type": "password", "username": user_name,
+        "grant_type": "password", "client_id": "ensa-spa", "username": user_name,
         "password": password, "scope": SCOPE})
     return (json.loads(body)["access_token"] if code == 200 else None), code
 

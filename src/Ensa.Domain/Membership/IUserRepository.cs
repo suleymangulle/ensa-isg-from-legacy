@@ -20,7 +20,6 @@ public interface IUserRepository : IRepository<User>
     /// </summary>
     Task<UserAuthorizationFacts?> GetAuthorizationFactsAsync(int userId, CancellationToken ct = default);
 
-    Task<List<Permission>> GetPermissionsAsync(int userId, CancellationToken ct = default);
 
     /// <summary>Loads the user together with organization, office, role and permission data in a single call.</summary>
     Task<UserNavigation?> GetWithNavigationAsync(int id, CancellationToken ct = default);

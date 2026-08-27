@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
@@ -60,11 +60,18 @@ public class SupportTicketAppService(
             ? await userRepository.FindAsync(responderId, cancellationToken)
             : null;
 
+        // Every name this view shows, in one query. Names live on the profile now, so a
+        // User in hand is no longer enough to render one.
+        var names = await userRepository.GetDisplaysAsync(
+            new[] { openedBy?.Id, responder?.Id }.Where(x => x.HasValue).Select(x => x!.Value),
+            cancellationToken);
+
+
         return new SupportTicketNavigationDto
         {
             SupportTicket = ObjectMapper.Map<SupportTicket, SupportTicketDto>(ticket),
-            OpenedByUser = ToLookup(openedBy),
-            ResponderUser = ToLookup(responder),
+            OpenedByUser = ToLookup(names, openedBy),
+            ResponderUser = ToLookup(names, responder),
             Messages =
             [
                 .. ObjectMapper
@@ -346,16 +353,20 @@ public class SupportTicketAppService(
 
     // -----------------------------------------------------------------
 
-    private static LookupDto? ToLookup(User? user)
-        => user is null
-            ? null
-            : new LookupDto
+    /// <summary>
+    /// The name, the account and whether it is still in use — three things that used to be on one
+    /// row and are now spread across the account and the profile, so they are fetched together.
+    /// </summary>
+    private static LookupDto? ToLookup(IReadOnlyDictionary<int, UserDisplay> names, User? user)
+        => user is not null && names.TryGetValue(user.Id, out var display)
+            ? new LookupDto
             {
-                Id = user.Id,
-                DisplayName = user.FullName,
-                Code = user.UserName,
-                IsActive = user.IsActive
-            };
+                Id = display.Id,
+                DisplayName = display.DisplayName,
+                Code = display.UserName,
+                IsActive = display.IsActive
+            }
+            : null;
 
     private static Expression<Func<SupportTicket, bool>>? BuildFilter(
         GetSupportTicketListInput input,

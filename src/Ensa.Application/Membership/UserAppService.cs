@@ -248,13 +248,42 @@ public class UserAppService(
         // a phone number therefore has nothing to send here, and an absolute map would erase the
         // stored value. An omitted national id means "keep the current one", exactly as an
         // omitted password does elsewhere; clearing one is a deliberate act, not a side effect.
-        var previousNationalId = user.NationalId;
+        var profile = await userProfileRepository.FindAsync(p => p.UserId == id, cancellationToken)
+                      ?? throw new EntityNotFoundException(typeof(UserProfile), id);
+
+        var employment = await userEmploymentRepository.FindAsync(e => e.UserId == id, cancellationToken);
 
         ObjectMapper.Map(input, user);
 
-        if (string.IsNullOrWhiteSpace(input.NationalId))
+        profile.Name = input.Name;
+        profile.LastName = input.LastName;
+        profile.Address = input.Address;
+        profile.CityId = input.CityId;
+        profile.DistrictId = input.DistrictId;
+        profile.PhotoDocumentId = input.PhotoDocumentId;
+        profile.Color = input.Color;
+        profile.IsActive = input.IsActive;
+
+        // An empty identity number means "leave it alone" rather than "clear it": the field is
+        // encrypted and write-only on the form, so a blank one is a form that did not send it.
+        if (!string.IsNullOrWhiteSpace(input.NationalId))
         {
-            user.NationalId = previousNationalId;
+            profile.NationalId = input.NationalId;
+        }
+
+        if (employment is not null)
+        {
+            employment.HireDate = input.HireDate;
+            employment.TerminationDate = input.TerminationDate;
+            employment.GrossSalary = input.GrossSalary;
+            employment.PartTime = input.PartTime;
+        }
+
+        await userProfileRepository.UpdateAsync(profile, autoSave: true, cancellationToken);
+
+        if (employment is not null)
+        {
+            await userEmploymentRepository.UpdateAsync(employment, autoSave: true, cancellationToken);
         }
 
         // The e-mail is a normalized lookup key, so it goes through the manager rather than
@@ -312,8 +341,15 @@ public class UserAppService(
         // Force a fresh sign-in: rotating the stamp invalidates every outstanding refresh token.
         EnsureIdentitySucceeded(await userManager.UpdateSecurityStampAsync(user));
 
-        user.MustChangePassword = true;
-        EnsureIdentitySucceeded(await userManager.UpdateAsync(user));
+        // The flag is on the profile now. Somebody else has just chosen this password, so the
+        // owner has to replace it before doing anything else.
+        var profile = await userProfileRepository.FindAsync(p => p.UserId == id, cancellationToken);
+
+        if (profile is not null)
+        {
+            profile.MustChangePassword = true;
+            await userProfileRepository.UpdateAsync(profile, autoSave: true, cancellationToken);
+        }
 
         Logger.LogInformation("Password reset for user {UserId} by {ActorId}.", id, CurrentUser.Id);
     }
@@ -373,13 +409,16 @@ public class UserAppService(
                 .WithData("UserName", user.UserName);
         }
 
-        if (user.IsActive == isActive)
+        var profile = await userProfileRepository.FindAsync(p => p.UserId == id, cancellationToken)
+                      ?? throw new EntityNotFoundException(typeof(UserProfile), id);
+
+        if (profile.IsActive == isActive)
         {
             return;
         }
 
-        user.IsActive = isActive;
-        EnsureIdentitySucceeded(await userManager.UpdateAsync(user));
+        profile.IsActive = isActive;
+        await userProfileRepository.UpdateAsync(profile, autoSave: true, cancellationToken);
 
         if (!isActive)
         {

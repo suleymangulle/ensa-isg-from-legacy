@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Application.Contracts.Plans;
@@ -10,6 +10,7 @@ using Ensa.Domain.Repositories;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
+using Ensa.Domain.Membership;
 
 namespace Ensa.Application.Plans;
 
@@ -34,7 +35,8 @@ public class WorkPlanAppService(
     IWorkPlanManager workPlanManager,
     IActivityRepository activityRepository,
     IRepository<WorkPlanLine> lineRepository,
-    IReadOnlyRepository<Company> companyRepository)
+    IReadOnlyRepository<Company> companyRepository,
+    IUserRepository userRepository)
     : EnsaAppService(serviceProvider), IWorkPlanAppService
 {
     /// <inheritdoc />
@@ -60,6 +62,16 @@ public class WorkPlanAppService(
         var navigation = await planRepository.GetWithNavigationAsync(id, cancellationToken)
                          ?? throw new EntityNotFoundException(typeof(WorkPlan), id);
 
+        // Every name this view shows, in one query. Names live on the profile now, so a
+        // User in hand is no longer enough to render one.
+        var names = await userRepository.GetDisplaysAsync(
+            new[] { navigation.Specialist?.Id, navigation.Physician?.Id, navigation.Approver?.Id }
+                .Concat(navigation.Lines.Select(l => l.InstructorUser?.Id))
+                .Where(x => x.HasValue)
+                .Select(x => x!.Value),
+            cancellationToken);
+
+
         return new WorkPlanNavigationDto
         {
             WorkPlan = ObjectMapper.Map<WorkPlan, WorkPlanDto>(navigation.WorkPlan),
@@ -72,16 +84,16 @@ public class WorkPlanAppService(
                     Code = navigation.Company.SsiNumber,
                     IsActive = navigation.Company.IsActive
                 },
-            SpecialistFullName = FullName(navigation.Specialist),
-            PhysicianFullName = FullName(navigation.Physician),
-            ApproverFullName = FullName(navigation.Approver),
+            SpecialistFullName = FullName(names, navigation.Specialist),
+            PhysicianFullName = FullName(names, navigation.Physician),
+            ApproverFullName = FullName(names, navigation.Approver),
             Lines =
             [
                 .. navigation.Lines.Select(l => new WorkPlanLineNavigationDto
                 {
                     Line = ObjectMapper.Map<WorkPlanLine, WorkPlanLineDto>(l.WorkPlanLine),
                     ActivityName = l.ActivityName,
-                    InstructorUserFullName = FullName(l.InstructorUser),
+                    InstructorUserFullName = FullName(names, l.InstructorUser),
                     DocumentName = l.DocumentName
                 })
             ]
@@ -507,8 +519,17 @@ public class WorkPlanAppService(
         return line;
     }
 
-    private static string? FullName(Ensa.Domain.Membership.User? user)
-        => user is null ? null : $"{user.Name} {user.LastName}".Trim();
+    /// <summary>
+    /// The name to show for a user, looked up by id. The name lives on the profile now, so a
+    /// User in hand is no longer enough to produce one — and the caller has already fetched
+    /// every name it needs in a single query.
+    /// </summary>
+    private static string? FullName(
+        IReadOnlyDictionary<int, UserDisplay> names,
+        Ensa.Domain.Membership.User? user)
+        => user is not null && names.TryGetValue(user.Id, out var display)
+            ? display.DisplayName
+            : null;
 
     private static Expression<Func<WorkPlan, bool>>? BuildFilter(GetWorkPlanListInput input)
     {

@@ -22,6 +22,15 @@ public interface IUserRepository : IRepository<User>
 
 
     /// <summary>Loads the user together with organization, office, role and permission data in a single call.</summary>
+    /// <summary>
+    /// Display details for a set of users, in one query. Ids with no user are simply absent from
+    /// the result rather than throwing: a screen showing a deleted person's old work should show
+    /// what it can.
+    /// </summary>
+    Task<Dictionary<int, UserDisplay>> GetDisplaysAsync(
+        IEnumerable<int> userIds,
+        CancellationToken ct = default);
+
     Task<UserNavigation?> GetWithNavigationAsync(int id, CancellationToken ct = default);
 
     /// <summary>

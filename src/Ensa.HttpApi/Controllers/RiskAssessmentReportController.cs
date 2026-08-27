@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Risks;
 using Ensa.Application.Contracts.Risks.Dtos;
 using Ensa.Application.Contracts.Risks.Dtos.Navigations;
@@ -18,7 +17,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 {
     /// <summary>Returns a single risk assessment report header.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.RiskAssessment.Default)]
     [ProducesResponseType<RiskAssessmentReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<RiskAssessmentReportDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -26,7 +24,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Combined detail view: report, company, signatories and every child collection.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.RiskAssessment.Default)]
     [ProducesResponseType<RiskAssessmentReportNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<RiskAssessmentReportNavigationDto> GetWithNavigationAsync(
@@ -36,7 +33,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Paged, filterable report list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.RiskAssessment.Default)]
     [ProducesResponseType<PagedResultDto<RiskAssessmentReportListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<RiskAssessmentReportListDto>> GetListAsync(
         [FromQuery] GetRiskAssessmentReportListInput input,
@@ -45,7 +41,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Reports already expired at the given date or expiring within the window.</summary>
     [HttpGet("expiring")]
-    [Authorize(EnsaPermissions.RiskAssessment.Default)]
     [ProducesResponseType<ListResultDto<RiskAssessmentReportListDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<RiskAssessmentReportListDto>> GetExpiringAsync(
         [FromQuery] DateTime asOf,
@@ -56,7 +51,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>The report currently in force for a company.</summary>
     [HttpGet("active/{companyId:int}")]
-    [Authorize(EnsaPermissions.RiskAssessment.Default)]
     [ProducesResponseType<RiskAssessmentReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public Task<RiskAssessmentReportDto?> GetActiveForCompanyAsync(
@@ -66,7 +60,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Creates a new risk assessment report.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.RiskAssessment.Create)]
     [ProducesResponseType<RiskAssessmentReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<RiskAssessmentReportDto> CreateAsync(
@@ -76,7 +69,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Updates an existing risk assessment report.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<RiskAssessmentReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<RiskAssessmentReportDto> UpdateAsync(
@@ -87,7 +79,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Deletes the report together with its child records (soft delete).</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.RiskAssessment.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -97,7 +88,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Adds a hazard line; the risk score is computed by the domain manager.</summary>
     [HttpPost("{id:int}/hazards")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<IdentifiedHazardDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<IdentifiedHazardDto> AddIdentifiedHazardAsync(
@@ -108,7 +98,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Updates a hazard line and re-scores it.</summary>
     [HttpPut("{id:int}/hazards/{hazardId:int}")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<IdentifiedHazardDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<IdentifiedHazardDto> UpdateIdentifiedHazardAsync(
@@ -120,7 +109,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Removes a hazard line and its control measures.</summary>
     [HttpDelete("{id:int}/hazards/{hazardId:int}")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task RemoveIdentifiedHazardAsync(int id, int hazardId, CancellationToken cancellationToken)
@@ -130,7 +118,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Adds a control measure to a hazard line.</summary>
     [HttpPost("hazards/{hazardId:int}/control-measures")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<ControlMeasureDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ControlMeasureDto> AddControlMeasureAsync(
@@ -141,7 +128,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Marks a control measure as completed.</summary>
     [HttpPost("control-measures/{controlMeasureId:int}/complete")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<ControlMeasureDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<ControlMeasureDto> CompleteControlMeasureAsync(
@@ -154,7 +140,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Replaces the exposed person groups flagged on the header.</summary>
     [HttpPut("{id:int}/exposed-groups")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<ListResultDto<RiskAssessmentExposedGroupDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<RiskAssessmentExposedGroupDto>> SetExposedGroupsAsync(
         int id,
@@ -164,7 +149,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Replaces the existing control measures flagged on the header.</summary>
     [HttpPut("{id:int}/existing-control-measures")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<ListResultDto<RiskAssessmentControlMeasureDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<RiskAssessmentControlMeasureDto>> SetExistingControlMeasuresAsync(
         int id,
@@ -174,7 +158,6 @@ public class RiskAssessmentReportController(IRiskAssessmentReportAppService appS
 
     /// <summary>Replaces the improvement recommendations flagged on the header.</summary>
     [HttpPut("{id:int}/improvement-actions")]
-    [Authorize(EnsaPermissions.RiskAssessment.Update)]
     [ProducesResponseType<ListResultDto<RiskAssessmentImprovementActionDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<RiskAssessmentImprovementActionDto>> SetImprovementActionsAsync(
         int id,

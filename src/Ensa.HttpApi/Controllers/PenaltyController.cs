@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Finance;
 using Ensa.Application.Contracts.Finance.Dtos;
 using Ensa.Application.Contracts.Finance.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Shared.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +23,6 @@ public class PenaltyController(
 {
     /// <summary>Returns a single fine article.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PenaltyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltyDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -32,7 +30,6 @@ public class PenaltyController(
 
     /// <summary>The fine article together with its full amount matrix.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PenaltyNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltyNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -40,7 +37,6 @@ public class PenaltyController(
 
     /// <summary>Paged, filterable fine catalogue.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PagedResultDto<PenaltyListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<PenaltyListDto>> GetListAsync(
         [FromQuery] GetPenaltyListInput input,
@@ -49,7 +45,6 @@ public class PenaltyController(
 
     /// <summary>Creates a fine article.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Penalty.Create)]
     [ProducesResponseType<PenaltyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<PenaltyDto> CreateAsync(
@@ -59,7 +54,6 @@ public class PenaltyController(
 
     /// <summary>Updates a fine article.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Penalty.Update)]
     [ProducesResponseType<PenaltyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltyDto> UpdateAsync(
@@ -70,7 +64,6 @@ public class PenaltyController(
 
     /// <summary>Deletes a fine article together with its amount matrix.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Penalty.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -80,7 +73,6 @@ public class PenaltyController(
 
     /// <summary>The amount matrix of one fine article.</summary>
     [HttpGet("{id:int}/amounts")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<ListResultDto<PenaltyAmountDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<PenaltyAmountDto>> GetAmountsAsync(int id, CancellationToken cancellationToken)
@@ -88,7 +80,6 @@ public class PenaltyController(
 
     /// <summary>Adds a matrix cell.</summary>
     [HttpPost("{id:int}/amounts")]
-    [Authorize(EnsaPermissions.Penalty.Create)]
     [ProducesResponseType<PenaltyAmountDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<PenaltyAmountDto> AddAmountAsync(
@@ -99,7 +90,6 @@ public class PenaltyController(
 
     /// <summary>Updates a matrix cell.</summary>
     [HttpPut("{id:int}/amounts/{amountId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Update)]
     [ProducesResponseType<PenaltyAmountDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltyAmountDto> UpdateAmountAsync(
@@ -111,7 +101,6 @@ public class PenaltyController(
 
     /// <summary>Removes a matrix cell.</summary>
     [HttpDelete("{id:int}/amounts/{amountId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task RemoveAmountAsync(int id, int amountId, CancellationToken cancellationToken)
@@ -119,7 +108,6 @@ public class PenaltyController(
 
     /// <summary>The amount that applies to a workplace profile for a given year.</summary>
     [HttpGet("{id:int}/applicable-amount")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<ApplicablePenaltyAmountDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -135,7 +123,6 @@ public class PenaltyController(
 
     /// <summary>Returns a single fine-risk survey.</summary>
     [HttpGet("surveys/{surveyId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PenaltySurveyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltySurveyDto> GetSurveyAsync(int surveyId, CancellationToken cancellationToken)
@@ -143,7 +130,6 @@ public class PenaltyController(
 
     /// <summary>Paged, filterable survey list.</summary>
     [HttpGet("surveys")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PagedResultDto<PenaltySurveyListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<PenaltySurveyListDto>> GetSurveyListAsync(
         [FromQuery] GetPenaltySurveyListInput input,
@@ -152,7 +138,6 @@ public class PenaltyController(
 
     /// <summary>Creates a fine-risk survey.</summary>
     [HttpPost("surveys")]
-    [Authorize(EnsaPermissions.Penalty.Create)]
     [ProducesResponseType<PenaltySurveyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<PenaltySurveyDto> CreateSurveyAsync(
@@ -162,7 +147,6 @@ public class PenaltyController(
 
     /// <summary>Updates a fine-risk survey.</summary>
     [HttpPut("surveys/{surveyId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Update)]
     [ProducesResponseType<PenaltySurveyDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltySurveyDto> UpdateSurveyAsync(
@@ -173,7 +157,6 @@ public class PenaltyController(
 
     /// <summary>Deletes a survey together with its answer lines.</summary>
     [HttpDelete("surveys/{surveyId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteSurveyAsync(int surveyId, CancellationToken cancellationToken)
@@ -181,7 +164,6 @@ public class PenaltyController(
 
     /// <summary>Paged answer lines of a survey.</summary>
     [HttpGet("surveys/lines")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PagedResultDto<PenaltySurveyLineDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PagedResultDto<PenaltySurveyLineDto>> GetSurveyLinesAsync(
@@ -191,7 +173,6 @@ public class PenaltyController(
 
     /// <summary>Records an answer. The amount is resolved from the catalogue server-side.</summary>
     [HttpPost("surveys/{surveyId:int}/lines")]
-    [Authorize(EnsaPermissions.Penalty.Create)]
     [ProducesResponseType<PenaltySurveyLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<PenaltySurveyLineDto> AddSurveyLineAsync(
@@ -202,7 +183,6 @@ public class PenaltyController(
 
     /// <summary>Updates an answer.</summary>
     [HttpPut("surveys/{surveyId:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Update)]
     [ProducesResponseType<PenaltySurveyLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltySurveyLineDto> UpdateSurveyLineAsync(
@@ -214,7 +194,6 @@ public class PenaltyController(
 
     /// <summary>Removes an answer.</summary>
     [HttpDelete("surveys/{surveyId:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.Penalty.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task RemoveSurveyLineAsync(int surveyId, int lineId, CancellationToken cancellationToken)
@@ -222,7 +201,6 @@ public class PenaltyController(
 
     /// <summary>Total fine exposure computed from the answered lines.</summary>
     [HttpGet("surveys/{surveyId:int}/total")]
-    [Authorize(EnsaPermissions.Penalty.Default)]
     [ProducesResponseType<PenaltySurveyTotalDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<PenaltySurveyTotalDto> CalculateSurveyTotalAsync(

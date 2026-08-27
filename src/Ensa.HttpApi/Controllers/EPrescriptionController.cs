@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Health;
 using Ensa.Application.Contracts.Health.Dtos;
 using Ensa.Application.Contracts.Health.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +20,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 {
     /// <summary>Returns one prescription header.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.EPrescription.Default)]
     [ProducesResponseType<EPrescriptionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<EPrescriptionDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -29,7 +27,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 
     /// <summary>Prescription with the patient, medication lines and diagnosis lines.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.EPrescription.Default)]
     [ProducesResponseType<EPrescriptionNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<EPrescriptionNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -37,7 +34,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 
     /// <summary>Paged, filterable list of prescriptions.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.EPrescription.Default)]
     [ProducesResponseType<PagedResultDto<EPrescriptionListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<EPrescriptionListDto>> GetListAsync(
         [FromQuery] GetEPrescriptionListInput input,
@@ -46,7 +42,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 
     /// <summary>Creates a prescription together with its medication and diagnosis lines.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.EPrescription.Create)]
     [ProducesResponseType<EPrescriptionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<EPrescriptionDto> CreateAsync(
@@ -56,7 +51,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 
     /// <summary>Updates the header and replaces both line sets.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.EPrescription.Update)]
     [ProducesResponseType<EPrescriptionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<EPrescriptionDto> UpdateAsync(
@@ -67,7 +61,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 
     /// <summary>Deletes a prescription that has not been submitted yet.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.EPrescription.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -75,7 +68,6 @@ public class EPrescriptionController(IEPrescriptionAppService appService) : Ensa
 
     /// <summary>Cancels a prescription, recording the reason.</summary>
     [HttpPost("{id:int}/cancel")]
-    [Authorize(EnsaPermissions.EPrescription.Update)]
     [ProducesResponseType<EPrescriptionDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

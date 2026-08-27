@@ -1,6 +1,5 @@
-using Ensa.Application.Contracts.Communication;
+﻿using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +24,6 @@ public class EmailSettingsController(IEmailSettingsAppService emailSettingsAppSe
     /// </para>
     /// </summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Mail.Default)]
     [ProducesResponseType<EmailSettingsDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult<EmailSettingsDto>> GetAsync(CancellationToken cancellationToken)
@@ -39,7 +37,6 @@ public class EmailSettingsController(IEmailSettingsAppService emailSettingsAppSe
     /// stored value.
     /// </summary>
     [HttpPut]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType<EmailSettingsDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<EmailSettingsDto> SaveAsync(
@@ -49,7 +46,6 @@ public class EmailSettingsController(IEmailSettingsAppService emailSettingsAppSe
 
     /// <summary>Removes the configured account.</summary>
     [HttpDelete]
-    [Authorize(EnsaPermissions.Mail.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteAsync(CancellationToken cancellationToken)

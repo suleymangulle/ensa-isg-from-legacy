@@ -1,8 +1,7 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
 using Ensa.Application.Contracts.Communication.Dtos.Navigations;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 {
     /// <summary>Returns a single mail.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Mail.Default)]
     [ProducesResponseType<MailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<MailDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -30,7 +28,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>The mail together with its attachments, resolved to file names.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Mail.Default)]
     [ProducesResponseType<MailNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<MailNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -38,7 +35,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Paged, filterable mail list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Mail.Default)]
     [ProducesResponseType<PagedResultDto<MailListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<MailListDto>> GetListAsync(
         [FromQuery] GetMailListInput input,
@@ -47,7 +43,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Creates a mail as a draft.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Mail.Create)]
     [ProducesResponseType<MailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<MailDto> CreateAsync(
@@ -57,7 +52,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Edits a draft or failed mail. Refused once the mail has been sent.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType<MailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -69,7 +63,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Deletes the mail together with its attachment rows.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Mail.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -79,7 +72,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Hands a draft or failed mail to the sending queue.</summary>
     [HttpPost("{id:int}/queue")]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType<MailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -88,7 +80,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Queued mails waiting to be sent — the background worker's inbox.</summary>
     [HttpGet("pending")]
-    [Authorize(EnsaPermissions.Mail.Default)]
     [ProducesResponseType<ListResultDto<MailDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<MailDto>> GetPendingAsync(
         [FromQuery] int maxResultCount,
@@ -97,7 +88,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Records a successful delivery.</summary>
     [HttpPost("{id:int}/mark-sent")]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType<MailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -106,7 +96,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Records a failed delivery attempt.</summary>
     [HttpPost("{id:int}/mark-failed")]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType<MailDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -120,7 +109,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Attachments of one mail.</summary>
     [HttpGet("{id:int}/attachments")]
-    [Authorize(EnsaPermissions.Mail.Default)]
     [ProducesResponseType<ListResultDto<MailAttachmentDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<MailAttachmentDto>> GetAttachmentsAsync(int id, CancellationToken cancellationToken)
@@ -128,7 +116,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Attaches a stored document.</summary>
     [HttpPost("{id:int}/attachments")]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType<MailAttachmentDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -140,7 +127,6 @@ public class MailController(IMailAppService mailAppService) : EnsaController
 
     /// <summary>Detaches a file.</summary>
     [HttpDelete("{id:int}/attachments/{attachmentId:int}")]
-    [Authorize(EnsaPermissions.Mail.Update)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

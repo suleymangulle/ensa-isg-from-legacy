@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Reports;
 using Ensa.Application.Contracts.Reports.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +18,6 @@ public class OhsReportController(IOhsReportAppService ohsReportAppService) : Ens
 {
     /// <summary>Returns a single OHS report.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<OhsReportDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<OhsReportDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -27,7 +25,6 @@ public class OhsReportController(IOhsReportAppService ohsReportAppService) : Ens
 
     /// <summary>Paged, filterable OHS report list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<PagedResultDto<OhsReportListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<OhsReportListDto>> GetListAsync(
         [FromQuery] GetOhsReportListInput input,
@@ -36,7 +33,6 @@ public class OhsReportController(IOhsReportAppService ohsReportAppService) : Ens
 
     /// <summary>Reports of one office in a period.</summary>
     [HttpGet("office/{officeId:int}")]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<ListResultDto<OhsReportDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<ListResultDto<OhsReportDto>> GetOfficeReportsAsync(
@@ -51,7 +47,6 @@ public class OhsReportController(IOhsReportAppService ohsReportAppService) : Ens
     /// with zero where the report has no row.
     /// </summary>
     [HttpGet("{id:int}/hazard-class-breakdown")]
-    [Authorize(EnsaPermissions.Report.Default)]
     [ProducesResponseType<ListResultDto<OhsReportHazardClassBreakdownDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<OhsReportHazardClassBreakdownDto>> GetHazardClassBreakdownAsync(

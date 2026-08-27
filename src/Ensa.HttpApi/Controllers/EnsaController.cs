@@ -1,9 +1,9 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Security.Claims;
-using Ensa.Application.Contracts.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Ensa.Application.Contracts.Permissions;
 
 namespace Ensa.HttpApi.Controllers;
 
@@ -21,8 +21,7 @@ namespace Ensa.HttpApi.Controllers;
 /// public class CompanyController(ICompanyAppService companyAppService) : EnsaController
 /// {
 ///     [HttpGet("{id:int}")]
-///     [Authorize(EnsaPermissions.Company.Default)]
-///     [ProducesResponseType&lt;CompanyDto&gt;(StatusCodes.Status200OK)]
+//////     [ProducesResponseType&lt;CompanyDto&gt;(StatusCodes.Status200OK)]
 ///     public Task&lt;CompanyDto&gt; GetAsync(int id, CancellationToken ct)
 ///         =&gt; companyAppService.GetAsync(id, ct);
 /// }

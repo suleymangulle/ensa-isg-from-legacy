@@ -1,4 +1,4 @@
-using Ensa.Application.Contracts.Common;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Application.Contracts.Tenancy;
 using Ensa.Application.Contracts.Tenancy.Dtos;
@@ -21,7 +21,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 {
     /// <summary>Returns a single organization record.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.Tenant.Default)]
     [ProducesResponseType<OrganizationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<OrganizationDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -29,7 +28,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 
     /// <summary>Combined view for the detail screen (type, plan, location, offices, counters).</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.Tenant.Default)]
     [ProducesResponseType<OrganizationNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<OrganizationNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -37,7 +35,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 
     /// <summary>Paged, filterable organization list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.Tenant.Default)]
     [ProducesResponseType<PagedResultDto<OrganizationListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<OrganizationListDto>> GetListAsync(
         [FromQuery] GetOrganizationListInput input,
@@ -46,7 +43,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 
     /// <summary>Lightweight records for drop-down lists (at most 50).</summary>
     [HttpGet("lookup")]
-    [Authorize(EnsaPermissions.Tenant.Default)]
     [ProducesResponseType<ListResultDto<LookupDto>>(StatusCodes.Status200OK)]
     public Task<ListResultDto<LookupDto>> GetLookupAsync(
         [FromQuery] string? filter,
@@ -55,7 +51,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 
     /// <summary>Creates a new organization.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.Tenant.Create)]
     [ProducesResponseType<OrganizationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<OrganizationDto> CreateAsync(
@@ -65,7 +60,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 
     /// <summary>Updates an existing organization.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.Tenant.Update)]
     [ProducesResponseType<OrganizationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<OrganizationDto> UpdateAsync(
@@ -76,7 +70,6 @@ public class OrganizationController(IOrganizationAppService organizationAppServi
 
     /// <summary>Deactivates and soft-deletes the organization.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.Tenant.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)

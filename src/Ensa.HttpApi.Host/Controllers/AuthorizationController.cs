@@ -1,4 +1,4 @@
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Globalization;
 using System.Security.Claims;
 using Ensa.Application.Contracts.Permissions;
@@ -421,11 +421,12 @@ public sealed class AuthorizationController(
             identity.AddClaim(new Claim(OpenIddictConstants.Claims.Role, role));
         }
 
-        // Permissions (multiple) — the claim the authorization policies read.
-        foreach (var permission in await permissionResolver.GetPermissionsAsync(user, cancellationToken))
-        {
-            identity.AddClaim(new Claim(EnsaClaimTypes.Permission, permission));
-        }
+        // Business permissions are deliberately NOT written into the token. They are the
+        // application's own authorization model, evaluated per request against the permission
+        // tables, and a token that carried them would be a copy that goes stale the moment an
+        // administrator changes what someone may do — for as long as the token lives. The client
+        // asks /api/account/permissions for what it should show; the server never trusts that
+        // answer, it re-evaluates.
 
         // Security stamp: lets a password change invalidate the older refresh tokens.
         identity.AddClaim(new Claim(SecurityStampClaimType, await userManager.GetSecurityStampAsync(user)));

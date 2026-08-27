@@ -1,5 +1,4 @@
-using Ensa.Application.Contracts.Common;
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Trainings;
 using Ensa.Application.Contracts.Trainings.Dtos;
 using Ensa.Application.Contracts.Trainings.Dtos.Navigations;
@@ -17,7 +16,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 {
     /// <summary>Returns one plan header.</summary>
     [HttpGet("{id:int}")]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<TrainingPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<TrainingPlanDto> GetAsync(int id, CancellationToken cancellationToken)
@@ -25,7 +23,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Plan with the workplace, the staff and every line.</summary>
     [HttpGet("{id:int}/detail")]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<TrainingPlanNavigationDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<TrainingPlanNavigationDto> GetWithNavigationAsync(int id, CancellationToken cancellationToken)
@@ -33,7 +30,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Paged, filterable plan list.</summary>
     [HttpGet]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<PagedResultDto<TrainingPlanListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<TrainingPlanListDto>> GetListAsync(
         [FromQuery] GetTrainingPlanListInput input,
@@ -42,7 +38,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>The workplace's plan in force for the given year.</summary>
     [HttpGet("active")]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<TrainingPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public Task<TrainingPlanDto?> GetActivePlanAsync(
@@ -53,7 +48,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Lines that have not yet reached <c>Completed</c>.</summary>
     [HttpGet("{id:int}/incomplete-lines")]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<ListResultDto<TrainingPlanLineDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<TrainingPlanLineDto>> GetIncompleteLinesAsync(
@@ -63,7 +57,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Creates a plan header.</summary>
     [HttpPost]
-    [Authorize(EnsaPermissions.TrainingPlan.Create)]
     [ProducesResponseType<TrainingPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Task<TrainingPlanDto> CreateAsync(
@@ -73,7 +66,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Updates a plan header.</summary>
     [HttpPut("{id:int}")]
-    [Authorize(EnsaPermissions.TrainingPlan.Update)]
     [ProducesResponseType<TrainingPlanDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<TrainingPlanDto> UpdateAsync(
@@ -84,7 +76,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Deletes a plan that carries no approved line.</summary>
     [HttpDelete("{id:int}")]
-    [Authorize(EnsaPermissions.TrainingPlan.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task DeleteAsync(int id, CancellationToken cancellationToken)
@@ -98,7 +89,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
     /// single plan's lines.
     /// </summary>
     [HttpGet("lines")]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<PagedResultDto<TrainingPlanLineListDto>>(StatusCodes.Status200OK)]
     public Task<PagedResultDto<TrainingPlanLineListDto>> GetLineListAsync(
         [FromQuery] GetTrainingPlanLineListInput input,
@@ -107,7 +97,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>All lines of a plan.</summary>
     [HttpGet("{id:int}/lines")]
-    [Authorize(EnsaPermissions.TrainingPlan.Default)]
     [ProducesResponseType<ListResultDto<TrainingPlanLineDto>>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<ListResultDto<TrainingPlanLineDto>> GetLinesAsync(int id, CancellationToken cancellationToken)
@@ -115,7 +104,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Adds a line to a plan.</summary>
     [HttpPost("{id:int}/lines")]
-    [Authorize(EnsaPermissions.TrainingPlan.Create)]
     [ProducesResponseType<TrainingPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<TrainingPlanLineDto> AddLineAsync(
@@ -126,7 +114,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Updates a line.</summary>
     [HttpPut("{id:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.TrainingPlan.Update)]
     [ProducesResponseType<TrainingPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task<TrainingPlanLineDto> UpdateLineAsync(
@@ -138,7 +125,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Removes a line.</summary>
     [HttpDelete("{id:int}/lines/{lineId:int}")]
-    [Authorize(EnsaPermissions.TrainingPlan.Delete)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public Task RemoveLineAsync(int id, int lineId, CancellationToken cancellationToken)
@@ -148,7 +134,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Submits a line for approval.</summary>
     [HttpPost("{id:int}/lines/{lineId:int}/submit")]
-    [Authorize(EnsaPermissions.TrainingPlan.Update)]
     [ProducesResponseType<TrainingPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -160,7 +145,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Approves a line that is awaiting approval.</summary>
     [HttpPost("{id:int}/lines/{lineId:int}/approve")]
-    [Authorize(EnsaPermissions.TrainingPlan.Approve)]
     [ProducesResponseType<TrainingPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -169,7 +153,6 @@ public class TrainingPlanController(ITrainingPlanAppService appService) : EnsaCo
 
     /// <summary>Rejects a line that is awaiting approval, recording the reason.</summary>
     [HttpPost("{id:int}/lines/{lineId:int}/reject")]
-    [Authorize(EnsaPermissions.TrainingPlan.Approve)]
     [ProducesResponseType<TrainingPlanLineDto>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -113,6 +113,7 @@ try
     builder.Services.AddScoped<IDataSeeder, DistrictSeeder>();
     builder.Services.AddScoped<IDataSeeder, OpenIddictSeeder>();
     builder.Services.AddScoped<IDataSeeder, AuthorizationSeeder>();
+    builder.Services.AddScoped<IDataSeeder, PermissionEndpointSeeder>();
     builder.Services.AddScoped<IDataSeeder, MenuSeeder>();
     builder.Services.AddScoped<IDataSeeder, MembershipSeeder>();
 

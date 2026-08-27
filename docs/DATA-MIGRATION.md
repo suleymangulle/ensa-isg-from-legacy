@@ -69,6 +69,23 @@ that cries wolf is a check nobody reads.
 | `reencrypt` | — | every encrypted column | **repair, see below** |
 | `passwords` | `Kullanici_T.Sifre` | `User.PasswordHash` | **done, verified** |
 | `user-split` | `User` columns, `KullaniciOfis_T`, `BazalKullanici_T` | `UserProfile`, `UserEmployment`, `UserMedulaCredential`, `UserOffice`, `StaffCostBaseline` | **done, verified** |
+| `plan-line-map` | `CalismaPlaniSatirlari_T`, `EgitimPlaniSatirlari_T` | rebuilds the id map the bulk write did not keep | **done, verified** |
+| `documents` | `Dosya_T`, `DosyaKategori_T` | `Document`, `DocumentCategory` | **done, verified** |
+| `document-links` | `FirmaPersonelGorev_T`, `IsyeriBolumEvrak_T`, `CihazEvrak_T`, `SabitEvraklarFirma_T` + 6 more | `CompanyEmployeeDuty`, `DepartmentDocument`, `EquipmentDocument`, `CompanyStandardDocument` + 6 more | **done, verified** |
+| `employee-documents` | `FirmaPersonelDosya_T` | `CompanyEmployeeDocument` | **done, verified** |
+| `operations-extra` | `SahaGozlemRaporu_T`, `DOF_T`, `Olay_T`, `AcilDurumEylemPlani_T` + lines | `FieldObservationReport`, `CorrectiveAction`, `Incident`, `EmergencyActionPlan` + lines | **done, verified** |
+| `finance` | `Faturalar_T`, `FirmaHareket_T`, `Kasa_T`, `KasaDetay_T` + 5 more | `Invoice`, `CompanyLedgerEntry`, `CashRegister`, `CashTransaction` + 5 more | **done, verified** |
+| `health-forms` | `PeriyodikMuayeneFormu_T` (135 columns) | `MedicalExaminationForm` + 6 child tables, `EmployeeHealthInfo`, `EmployeeFamilyHistory`, `EmployeeWorkHistory` | **done, verified** |
+| `ibys` | `IBYSSorguNo_T`, `IBYSIsco08MeslekKodlari_T` + 9 more | `IbysQuery`, `IbysIsco08OccupationCode` + 9 more | **done, verified** |
+| `training-exams` | `PersonelSoruCevap_T`, `PersonelEgitimIlerlemeDurum_T`, `EgitimKonu_T` + 5 more | `EmployeeExamAnswer`, `EmployeeTrainingProgress`, `TrainingTopic` + 5 more | **done, verified** |
+| `reports` | `ISGRapor_T`, `FaliyetRaporu_T`, `YSDRaporu_T`, `FirmaKontrol_T` + lines | `OhsReport`, `ActivityReport`, `YearEndReviewReport`, `CompanyCheck` + lines | **done, verified** |
+| `lookups` | `MeslekKodu_T`, `Numara_T`, `Parameter_T`, `Icon_T` + 17 more | `OccupationCode`, `NumberSequence`, `Parameter`, `Icon` + 17 more | **done, verified** |
+| `commercial` | `SozlesmeliFirmalar_T`, `CustomerPackage_T`, `Ceza_T`, `ModulArsivDetay_T` + 15 more | `OrganizationContract`, `ProspectOrganization`, `Penalty`, `ModuleArchiveItem` + 15 more | **done, verified** |
+| `logs` | `PersonelLoglamasi_T`, `Mail_T` | `EmployeeTrainingLog`, `Mail` | **done, verified** |
+| `risk-detail` | `RiskAnalizRaporu_T` checklist columns | `RiskAssessmentExposedGroup`, `ControlMeasure`, `ImprovementAction`, `ProtectedGroup`, `Participant`, `EmployeeImmunization` | **done, verified** |
+
+**Where it stands: 167 of the 193 destination tables hold data, 30.6 million rows.** The 26 that do
+not are accounted for under *Scope* below — none of them is an omission.
 
 ### `locations` — what actually happened
 
@@ -474,21 +491,60 @@ wrote 0.
 
 ### Carried across
 
-Reference catalogues, tenancy, the core business records and the operational history: companies and
-their employees, departments, equipment, visits, work and training plans, risk assessments,
-corrective actions, field observations, incidents, emergency plans, medical examinations,
-e-prescriptions, invoices, cash movements and documents.
+**30.6 million rows into 167 of the 193 destination tables.** Reference catalogues, tenancy and the
+core business records: companies and their employees, departments, equipment, visits, work and
+training plans, risk assessments and their checklists, corrective actions, field observations,
+incidents, emergency plans, medical examinations and everything the 135-column form breaks into,
+e-prescriptions, invoices, the company ledger, cash movements, penalties, contracts and prospects,
+the ministry's IBYS notifications and reference lists, the e-learning record down to each of the
+159,961 answers a worker gave, the 19.8 million training-log events behind their study time, and
+109,871 documents attached to the records they belong to.
 
 ### Deliberately not carried across
 
+Every exclusion below is a decision on the record rather than an omission, and each one names what
+would go wrong if it were carried.
+
 | Legacy table | Rows | Why not |
 |---|---|---|
-| `PersonelLoglamasi_T` | 19,819,018 | Page-level tracking of remote training sessions. It records how the old training player was used, not what anyone was trained in — the training results themselves are in `PersonelEgitimIlerlemeDurum_T`, which is migrated. Half the database for none of the meaning. |
-| `Log_T` | 7,720,637 | The old application's own audit trail, in its own format. The new system writes its own; importing another application's log would leave one table whose entries nothing can interpret. |
-| `Firma_T_NCE`, `OLDCOMPANIES`, `BazalFirmaTablosu`, `deneme`, `TemGosterAlan` | 31,000+ | Backup copies and scratch tables left in the schema. |
+| `Log_T` | 7,722,484 | The old application's own diagnostics: which `.cshtml` page and which C# method ran, with a parameter dump. Those pages and methods do not exist in the rebuilt system, so the rows would be diagnostics for an application nobody can run any more, filling the table the new one wants for its own. **`--include-legacy-log` carries it** for anybody who disagrees — one flag, not one migration. |
+| `Yetki_T`, `YetkiBaglanti_T`, `YetkiKisit_T` | 5,883 | The legacy permission model. The rebuilt system defines its own permissions against its own endpoints, and the two are not the same shape. Held back deliberately: these tables will be populated from the new application rather than from the old one. |
+| `FirmaUyarilar_T` | 25,327 | Superseded by a live computation. `ComplianceSummaryWorker` keeps `CompanyComplianceSummary` current and has already produced 29,143 measured rows; writing the legacy snapshot over them would replace measured values with stale ones. |
+| `Menu_T`, `MenuDetail_T`, `MenuItem_T`, `MenuPage_T`, `MenuType_T`, `YeniMenu_T` | 3,435 | The legacy menu, whose entries name legacy pages. The rebuilt menu is **generated** from the SPA's own navigation by `tools/gen-enums/gen_menu.py` and asserted against it by `tools/api-tests/frontend_menu.py`. Importing the old one would both break that check and produce a menu of links to pages that do not exist. |
+| `Firma_T_NCE`, `OLDCOMPANIES`, `BazalFirmaTablosu`, `deneme` | 31,000+ | Backup copies and scratch tables left in the schema. |
+| `Temsilci_T.KulAdi` / `.Sifre`, `AyarlarEmail_T.Sifre`, `CustomerPackage_T.Password` | — | Credentials, not data. The sales representatives signed in through a separate door and the prospect passwords were stored in plaintext to be mailed out. The rebuilt system has one identity store; copying a second set of credentials into a table that is not it would create accounts nothing authenticates and nobody can revoke. |
 
-Together these account for **27.5 of the 40 million rows**. Excluding them is what makes the rest
-tractable; each exclusion is listed here so it is a decision on the record rather than an omission.
+### Destination tables that are empty, and why
+
+Twenty-six of the 193 tables hold nothing after a complete run:
+
+- **7** have no legacy source and are not expected to: `RoleClaim`, `UserClaim`, `UserLogin`,
+  `UserToken` fill at runtime; `PermissionRestriction`, `PermissionScope` and `UserPermission`
+  belong to the permission model above.
+- **15** have no legacy table at all in this database — `Archive`, `Bank`, `CompanyTag`,
+  `ContractTemplate`, `ControlMeasure`, `Form`, `InvoiceTemplate`, `MailAttachment`,
+  `MessageTemplate`, `Payment`, `Person`, `SnapshotReport`, `SupportTicket`,
+  `SupportTicketMessage`, `UserMenuOverride`. The rebuilt schema anticipates them; the legacy
+  system never had them.
+- **2** are the deliberate exclusions above: `Log` and the menu tables `MenuElement` / `MenuPage`.
+- **1**, `EmergencyPlanSection`, is empty because the source is: all nine narrative columns of
+  `AcilDurumEylemPlani_T` are blank in every one of its 3,906 rows. The step reports that in words
+  rather than as a bare zero.
+
+### The file payloads
+
+`Dosya_T` alone holds **132 GB** of `varbinary(max)`, and four other tables keep files inline. The
+migration carries the metadata and a `StoragePath` naming exactly where `FileSystemDocumentStorage`
+will look for each file; the bytes are placed by a separate, resumable command:
+
+```
+dotnet run --project src/Ensa.DataMigrator -- --confirm EnsaDbDEv --export-documents --to D:/EnsaFiles
+```
+
+It walks five sources — `Dosya_T`, the field observation photographs, the evacuation plans, the
+archived reports and the penalty survey logos — and skips any file already on disk at the right
+size. Until it has run, a document row is a record of a file whose content is not yet on disk,
+which is the case `IDocumentStorage.OpenAsync` already returns `null` for.
 
 ## Where the credentials live
 

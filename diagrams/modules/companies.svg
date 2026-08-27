@@ -26,9 +26,16 @@
 <text class="t" x="38" y="46" font-size="26" font-weight="700" fill="#0f766e">Companies</text>
 <text class="t" x="38" y="68" font-size="12" fill="#64748b">customer companies, their departments, employees and equipment — 25 tables, 415 751 rows</text>
 <line x1="34" y1="82" x2="2002" y2="82" stroke="#e2e8f0"/>
-<rect x="34" y="96.0" width="1968" height="1141" rx="12" fill="#0f766e" fill-opacity="0.045" stroke="#0f766e" stroke-opacity="0.22"/>
+<rect x="34" y="96.0" width="1968" height="1141" rx="12" fill="#0f766e" fill-opacity="0.045" stroke="#0f766e" stroke-opacity="0.22"><title>Companies modülü
+
+Müşteri firmalar, bölümleri, personeli ve ekipmanı. Alanın çekirdeği.
+
+25 tablo · 415 751 satır</title></rect>
 <text class="t" x="52" y="122.0" font-size="16" font-weight="700" fill="#0f766e">Companies</text>
-<rect x="34" y="1271.0" width="1968" height="1762" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"/>
+<rect x="34" y="1271.0" width="1968" height="1762" rx="12" fill="#94a3b8" fill-opacity="0.045" stroke="#94a3b8" stroke-opacity="0.22"><title>Bu modülün dışındaki tablolar.
+
+Buradaki kutular başka modüllere ait; yalnızca yukarıdaki tabloların işaret
+ettiği için çizildiler ve soluk gösteriliyorlar.</title></rect>
 <text class="t" x="52" y="1297.0" font-size="16" font-weight="700" fill="#94a3b8">referenced from other modules</text>
 <g id="relationships">
 <path d="M354 194.5 C504.0 194.5 880.0 2358.0 1030 2358.0" fill="none" stroke="#7c3aed" stroke-width="1" opacity="0.34" marker-end="url(#a-membership)"/>
@@ -97,18 +104,29 @@
 </g>
 <g id="tables">
 <g opacity="1">
-<title>AssignedSpecialist — Companies — 59 904 rows, 8 columns</title>
+<title>AssignedSpecialist  ·  Companies modülü
+
+NE      Firmaya atanmış hizmet personeli: İSG uzmanı, işyeri hekimi veya DSP.
+NİÇİN   İSG-KATİP'e bildirilen atamanın sistemdeki karşılığı.
+ESKİ    AssignedSpecialist_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   59 904 satır · 17 sütun (8 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="52" y="142.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="62" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">AssignedSpecialist</text>
 <rect x="327" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="198.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="198.0" font-size="10" font-weight="500" fill="#1e293b">UserId</text>
+<text class="t" x="72" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>UserId
+
+→ User tablosuna işaret ediyor.</title>UserId</text>
 <text class="m" x="345" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="213.0" font-size="10" font-weight="400" fill="#1e293b">StaffRole</text>
 <text class="m" x="345" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -131,20 +149,32 @@
 <text class="m" x="345" y="306.0" font-size="8.8" fill="#64748b" text-anchor="end">59 904 rows</text>
 </g>
 <g opacity="1">
-<title>AssignedSpecialistDocument — Companies — 0 rows, 5 columns</title>
+<title>AssignedSpecialistDocument  ·  Companies modülü
+
+NE      Atama evrakı: sözleşme, İSG-KATİP çıktısı ve benzeri.
+ESKİ    AssignedSpecialistDocument_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="142.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="388" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">AssignedSpecialistDocument</text>
 <rect x="653" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="387" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="198.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b">AssignedSpecialistId</text>
+<text class="t" x="398" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>AssignedSpecialistId
+
+→ AssignedSpecialist tablosuna işaret ediyor.</title>AssignedSpecialistId</text>
 <text class="m" x="671" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="387" y="213.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="213.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId</text>
+<text class="t" x="398" y="213.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId</text>
 <text class="m" x="671" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="228.0" font-size="10" font-weight="400" fill="#1e293b">DocumentDate</text>
@@ -157,13 +187,24 @@
 <text class="m" x="671" y="261.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>Company — Companies — 32 389 rows, 68 columns</title>
+<title>Company  ·  Companies modülü
+
+NE      Müşteri işyeri (firma). Alanın çekirdek kaydıdır.
+NİÇİN   Neredeyse her İSG süreci buraya bağlanır. ADR-034 gereği firma kullanıcısı
+        yalnızca kendi firmasının satırlarını görür; filtre KAPALI BAŞARISIZ olur,
+        yani CompanyId'si olmayan kayıt firma kullanıcısından gizlenir.
+ESKİ    Company_T
+KAPSAM  kiracı (TenantId)
+BOYUT   32 389 satır · 76 sütun (68 çizili, 7 denetim, 1 kapsam)
+BAĞ     9 ilişki çıkıyor · 3 ilişki geliyor</title>
 <rect x="704" y="142.0" width="302" height="1077" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="714" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">Company</text>
 <rect x="979" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="713" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="198.0" font-size="10" font-weight="400" fill="#1e293b">CompanyName</text>
@@ -187,7 +228,9 @@
 <text class="m" x="997" y="303.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="705" y="307.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="318.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="318.0" font-size="10" font-weight="500" fill="#1e293b">OccupationCodeId·</text>
+<text class="t" x="724" y="318.0" font-size="10" font-weight="500" fill="#1e293b"><title>OccupationCodeId
+
+→ OccupationCode tablosuna işaret ediyor.</title>OccupationCodeId·</text>
 <text class="m" x="997" y="318.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="333.0" font-size="10" font-weight="400" fill="#1e293b">HazardClass</text>
 <text class="m" x="997" y="333.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -195,11 +238,15 @@
 <text class="t" x="724" y="348.0" font-size="10" font-weight="400" fill="#1e293b">OrganizationTypeVerified</text>
 <text class="m" x="997" y="348.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
 <text class="m" x="713" y="363.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="363.0" font-size="10" font-weight="500" fill="#1e293b">OrganizationTypeId·</text>
+<text class="t" x="724" y="363.0" font-size="10" font-weight="500" fill="#1e293b"><title>OrganizationTypeId
+
+→ OrganizationType tablosuna işaret ediyor.</title>OrganizationTypeId·</text>
 <text class="m" x="997" y="363.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="367.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="378.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="378.0" font-size="10" font-weight="500" fill="#1e293b">SubscriptionPlanId·</text>
+<text class="t" x="724" y="378.0" font-size="10" font-weight="500" fill="#1e293b"><title>SubscriptionPlanId
+
+→ SubscriptionPlan tablosuna işaret ediyor.</title>SubscriptionPlanId·</text>
 <text class="m" x="997" y="378.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="393.0" font-size="10" font-weight="400" fill="#1e293b">IsOrganizationRecord</text>
 <text class="m" x="997" y="393.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -212,7 +259,9 @@
 <text class="t" x="724" y="438.0" font-size="10" font-weight="400" fill="#1e293b">WorkplaceType</text>
 <text class="m" x="997" y="438.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="453.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="453.0" font-size="10" font-weight="500" fill="#1e293b">HeadquarterCompanyId·</text>
+<text class="t" x="724" y="453.0" font-size="10" font-weight="500" fill="#1e293b"><title>HeadquarterCompanyId
+
+→ Company tablosuna işaret ediyor.</title>HeadquarterCompanyId·</text>
 <text class="m" x="997" y="453.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="457.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="468.0" font-size="10" font-weight="400" fill="#1e293b">BranchNo·</text>
@@ -233,17 +282,23 @@
 <text class="t" x="724" y="558.0" font-size="10" font-weight="400" fill="#1e293b">InvoiceAddress·</text>
 <text class="m" x="997" y="558.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <text class="m" x="713" y="573.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="573.0" font-size="10" font-weight="500" fill="#1e293b">CityId</text>
+<text class="t" x="724" y="573.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId</text>
 <text class="m" x="997" y="573.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="577.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="588.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="588.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId</text>
+<text class="t" x="724" y="588.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId</text>
 <text class="m" x="997" y="588.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="603.0" font-size="10" font-weight="400" fill="#1e293b">QuarterId·</text>
 <text class="m" x="997" y="603.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="607.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="618.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="618.0" font-size="10" font-weight="500" fill="#1e293b">NeighborhoodId·</text>
+<text class="t" x="724" y="618.0" font-size="10" font-weight="500" fill="#1e293b"><title>NeighborhoodId
+
+→ Neighborhood tablosuna işaret ediyor.</title>NeighborhoodId·</text>
 <text class="m" x="997" y="618.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="633.0" font-size="10" font-weight="400" fill="#1e293b">Latitude·</text>
 <text class="m" x="997" y="633.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(9,6)</text>
@@ -279,7 +334,9 @@
 <text class="m" x="997" y="813.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
 <rect x="705" y="817.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="828.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="828.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId</text>
+<text class="t" x="724" y="828.0" font-size="10" font-weight="500" fill="#1e293b"><title>OfficeId
+
+→ Office tablosuna işaret ediyor.</title>OfficeId</text>
 <text class="m" x="997" y="828.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="843.0" font-size="10" font-weight="400" fill="#1e293b">RegionCode·</text>
 <text class="m" x="997" y="843.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -337,7 +394,9 @@
 <text class="t" x="724" y="1158.0" font-size="10" font-weight="400" fill="#1e293b">NoteRecordedBy·</text>
 <text class="m" x="997" y="1158.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="713" y="1173.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="724" y="1173.0" font-size="10" font-weight="500" fill="#1e293b">LogoDocumentId·</text>
+<text class="t" x="724" y="1173.0" font-size="10" font-weight="500" fill="#1e293b"><title>LogoDocumentId
+
+→ Document tablosuna işaret ediyor.</title>LogoDocumentId·</text>
 <text class="m" x="997" y="1173.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1177.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="1188.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
@@ -348,18 +407,30 @@
 <text class="m" x="997" y="1206.0" font-size="8.8" fill="#64748b" text-anchor="end">32 389 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyActivity — Companies — 0 rows, 3 columns</title>
+<title>CompanyActivity  ·  Companies modülü
+
+NE      Firmanın hizmet kapsamına dahil edilmiş aktivite/doküman tanımı.
+NİÇİN   NORMALİZASYON: eski sistem aktiviteyi serbest metinle tekrarlıyordu;
+        katalog kaydına bağlandı.
+ESKİ    CompanyActivity_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 7 sütun (3 çizili, 2 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="142.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1040" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyActivity</text>
 <rect x="1305" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="198.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1050" y="198.0" font-size="10" font-weight="500" fill="#1e293b">ActivityId</text>
+<text class="t" x="1050" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>ActivityId
+
+→ Activity tablosuna işaret ediyor.</title>ActivityId</text>
 <text class="m" x="1323" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="213.0" font-size="10" font-weight="400" fill="#1e293b">ActivityCode·</text>
 <text class="m" x="1323" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
@@ -369,14 +440,22 @@
 <text class="m" x="1323" y="231.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyCheck — Companies — 0 rows, 5 columns</title>
+<title>CompanyCheck  ·  Companies modülü
+
+NE      Firmanın belirli bir aya ait kontrol listesi başlığı.
+ESKİ    CompanyControlItem_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 14 sütun (5 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="142.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1366" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyCheck</text>
 <rect x="1631" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1614" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1365" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="198.0" font-size="10" font-weight="400" fill="#1e293b">CheckMonth</text>
@@ -387,7 +466,9 @@
 <text class="t" x="1376" y="228.0" font-size="10" font-weight="400" fill="#1e293b">Status</text>
 <text class="m" x="1649" y="228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="243.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="243.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="1376" y="243.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="1649" y="243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1357 247.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1357" y1="247.0" x2="1657" y2="247.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -395,20 +476,32 @@
 <text class="m" x="1649" y="261.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyCheckLine — Companies — 0 rows, 5 columns</title>
+<title>CompanyCheckLine  ·  Companies modülü
+
+NE      Aylık kontrol listesindeki tek bir maddenin sonucu.
+ESKİ    CompanyControlItemLine_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 10 sütun (5 çizili, 4 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1682" y="142.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 149.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1692" y="162.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyCheckLine</text>
 <rect x="1957" y="150.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="160.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1691" y="183.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="183.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="183.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="183.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="187.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1691" y="198.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1702" y="198.0" font-size="10" font-weight="500" fill="#1e293b">CompanyControlItemId</text>
+<text class="t" x="1702" y="198.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyControlItemId
+
+→ ControlItem tablosuna işaret ediyor.</title>CompanyControlItemId</text>
 <text class="m" x="1975" y="198.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1691" y="213.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1702" y="213.0" font-size="10" font-weight="500" fill="#1e293b">ControlItemId</text>
+<text class="t" x="1702" y="213.0" font-size="10" font-weight="500" fill="#1e293b"><title>ControlItemId
+
+→ ControlItem tablosuna işaret ediyor.</title>ControlItemId</text>
 <text class="m" x="1975" y="213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="228.0" font-size="10" font-weight="400" fill="#1e293b">ControlItemStatus</text>
@@ -421,14 +514,24 @@
 <text class="m" x="1975" y="261.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyComplianceSummary — Companies — 29 057 rows, 8 columns</title>
+<title>CompanyComplianceSummary  ·  Companies modülü
+
+NE      Firmanın bekleyen yükümlülüklerinin sayısal özeti.
+NİÇİN   DENORMALİZE tablodur — bilerek. Uyum panelinin her açılışta milyonlarca
+        satır taraması yerine önceden hesaplanmış sayıları okuması için var.
+ESKİ    CompanyUyarilar_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   29 057 satır · 14 sütun (8 çizili, 4 denetim, 2 kapsam)
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="268.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 275.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1040" y="288.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyComplianceSummary</text>
 <rect x="1305" y="276.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="286.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="276.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="286.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="309.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="309.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="309.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="309.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="313.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="324.0" font-size="10" font-weight="400" fill="#1e293b">IsSafetyTrainingNoneCount·</text>
@@ -454,14 +557,24 @@
 <text class="m" x="1323" y="432.0" font-size="8.8" fill="#64748b" text-anchor="end">29 057 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyEmployee — Companies — 263 527 rows, 36 columns</title>
+<title>CompanyEmployee  ·  Companies modülü
+
+NE      Müşteri işyerinde çalışan personel: kimlik ve istihdam bilgileri.
+NİÇİN   Muayene, eğitim, görev ataması — tüm yükümlülükler bu kişi kaydına
+        bağlanır. T.C. kimlik numarası sütun bazında şifrelidir.
+ESKİ    CompanyEmployee_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   263 527 satır · 45 sütun (36 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 18 ilişki geliyor</title>
 <rect x="378" y="298.0" width="302" height="597" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 305.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="388" y="318.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployee</text>
 <rect x="653" y="306.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="316.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="636" y="306.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="643.5" y="316.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="387" y="339.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="339.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="339.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="354.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -510,13 +623,17 @@
 <text class="m" x="671" y="609.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="379" y="613.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="624.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="624.0" font-size="10" font-weight="500" fill="#1e293b">OccupationCodeId·</text>
+<text class="t" x="398" y="624.0" font-size="10" font-weight="500" fill="#1e293b"><title>OccupationCodeId
+
+→ OccupationCode tablosuna işaret ediyor.</title>OccupationCodeId·</text>
 <text class="m" x="671" y="624.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="639.0" font-size="10" font-weight="400" fill="#1e293b">Occupation·</text>
 <text class="m" x="671" y="639.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="379" y="643.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="654.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="654.0" font-size="10" font-weight="500" fill="#1e293b">AssignedDepartmentId·</text>
+<text class="t" x="398" y="654.0" font-size="10" font-weight="500" fill="#1e293b"><title>AssignedDepartmentId
+
+→ WorkplaceDepartment tablosuna işaret ediyor.</title>AssignedDepartmentId·</text>
 <text class="m" x="671" y="654.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="669.0" font-size="10" font-weight="400" fill="#1e293b">AssignedDepartmentName·</text>
 <text class="m" x="671" y="669.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
@@ -537,7 +654,9 @@
 <text class="m" x="671" y="759.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="379" y="763.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="774.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="774.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreEmploymentExaminationDocumentId</title>PreEmploymentExaminationDocum…</text>
+<text class="t" x="398" y="774.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreEmploymentExaminationDocumentId
+
+→ Document tablosuna işaret ediyor.</title>PreEmploymentExaminationDocum…</text>
 <text class="m" x="671" y="774.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="789.0" font-size="10" font-weight="400" fill="#1e293b">WorkMethodCode·</text>
 <text class="m" x="671" y="789.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
@@ -548,7 +667,9 @@
 <text class="m" x="671" y="819.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="379" y="823.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="834.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="834.0" font-size="10" font-weight="500" fill="#1e293b">UserId·</text>
+<text class="t" x="398" y="834.0" font-size="10" font-weight="500" fill="#1e293b"><title>UserId
+
+→ User tablosuna işaret ediyor.</title>UserId·</text>
 <text class="m" x="671" y="834.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="849.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
 <text class="m" x="671" y="849.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
@@ -561,37 +682,58 @@
 <text class="m" x="671" y="882.0" font-size="8.8" fill="#64748b" text-anchor="end">263 527 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyEmployeeDocument — Companies — 0 rows, 19 columns</title>
+<title>CompanyEmployeeDocument  ·  Companies modülü
+
+NE      Personel ile belge arasındaki bağ: eğitim katılım belgesi, sertifika,
+        sağlık raporu.
+ESKİ    CompanyEmployeeDocument_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 27 sütun (19 çizili, 7 denetim, 1 kapsam)
+BAĞ     7 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="298.0" width="302" height="342" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 305.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1366" y="318.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployeeDocument</text>
 <rect x="1631" y="306.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="316.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1365" y="339.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="339.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="339.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="354.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="354.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1376" y="354.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1649" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="369.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="369.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId</text>
+<text class="t" x="1376" y="369.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId</text>
 <text class="m" x="1649" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="373.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="384.0" font-size="10" font-weight="400" fill="#1e293b">DocumentDate·</text>
 <text class="m" x="1649" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <text class="m" x="1365" y="399.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="399.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId·</text>
+<text class="t" x="1376" y="399.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingId
+
+→ Training tablosuna işaret ediyor.</title>TrainingId·</text>
 <text class="m" x="1649" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="403.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="414.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="414.0" font-size="10" font-weight="500" fill="#1e293b">TrainingPlanLineId·</text>
+<text class="t" x="1376" y="414.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingPlanLineId
+
+→ TrainingPlanLine tablosuna işaret ediyor.</title>TrainingPlanLineId·</text>
 <text class="m" x="1649" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="429.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="429.0" font-size="10" font-weight="500" fill="#1e293b">WorkPlanLineId·</text>
+<text class="t" x="1376" y="429.0" font-size="10" font-weight="500" fill="#1e293b"><title>WorkPlanLineId
+
+→ WorkPlanLine tablosuna işaret ediyor.</title>WorkPlanLineId·</text>
 <text class="m" x="1649" y="429.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="433.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="444.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="444.0" font-size="10" font-weight="500" fill="#1e293b">CertificateId·</text>
+<text class="t" x="1376" y="444.0" font-size="10" font-weight="500" fill="#1e293b"><title>CertificateId
+
+→ Certificate tablosuna işaret ediyor.</title>CertificateId·</text>
 <text class="m" x="1649" y="444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="459.0" font-size="10" font-weight="400" fill="#1e293b">OtherCertificateName·</text>
 <text class="m" x="1649" y="459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
@@ -617,7 +759,9 @@
 <text class="m" x="1649" y="579.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
 <rect x="1357" y="583.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="594.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="594.0" font-size="10" font-weight="500" fill="#1e293b">IbysQueryId·</text>
+<text class="t" x="1376" y="594.0" font-size="10" font-weight="500" fill="#1e293b"><title>IbysQueryId
+
+→ IbysQuery tablosuna işaret ediyor.</title>IbysQueryId·</text>
 <text class="m" x="1649" y="594.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="609.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="1649" y="609.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -627,20 +771,33 @@
 <text class="m" x="1649" y="627.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyEmployeeDuty — Companies — 0 rows, 4 columns</title>
+<title>CompanyEmployeeDuty  ·  Companies modülü
+
+NE      Personele verilmiş İSG görevi: ilk yardımcı, söndürme ekibi, çalışan
+        temsilcisi, kurul üyesi.
+ESKİ    CompanyEmployeeDuty_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 12 sütun (4 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="1682" y="298.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 305.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1692" y="318.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployeeDuty</text>
 <rect x="1957" y="306.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="316.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1691" y="339.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="339.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="339.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="339.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="343.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1691" y="354.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1702" y="354.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1702" y="354.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1975" y="354.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1691" y="369.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1702" y="369.0" font-size="10" font-weight="500" fill="#1e293b">DutyId</text>
+<text class="t" x="1702" y="369.0" font-size="10" font-weight="500" fill="#1e293b"><title>DutyId
+
+→ Duty tablosuna işaret ediyor.</title>DutyId</text>
 <text class="m" x="1975" y="369.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="373.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="384.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
@@ -651,20 +808,32 @@
 <text class="m" x="1975" y="402.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyEmployeeDutyDocument — Companies — 0 rows, 5 columns</title>
+<title>CompanyEmployeeDutyDocument  ·  Companies modülü
+
+NE      Görevi belgeleyen evrak: ilk yardımcı sertifikası, görevlendirme yazısı.
+ESKİ    CompanyEmployeeDutyDocument_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="343.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 350.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="62" y="363.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyEmployeeDutyDocument</text>
 <rect x="327" y="351.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="361.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="384.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="384.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="384.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="399.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="399.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeDutyId</text>
+<text class="t" x="72" y="399.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeDutyId
+
+→ CompanyEmployeeDuty tablosuna işaret ediyor.</title>CompanyEmployeeDutyId</text>
 <text class="m" x="345" y="399.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="414.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="414.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId</text>
+<text class="t" x="72" y="414.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId</text>
 <text class="m" x="345" y="414.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="418.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="429.0" font-size="10" font-weight="400" fill="#1e293b">DocumentDate</text>
@@ -677,14 +846,25 @@
 <text class="m" x="345" y="462.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyLedgerEntry — Companies — 0 rows, 8 columns</title>
+<title>CompanyLedgerEntry  ·  Companies modülü
+
+NE      Firmaya ait cari hareket (borç veya alacak).
+NİÇİN   NORMALİZASYON: kaynak modül eskiden serbest metindi, enum'a çevrildi.
+        OperationId polimorfiktir — hangi tabloya baktığı kaynak modüle göre
+        değişir.
+ESKİ    CompanyHareket_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 14 sütun (8 çizili, 4 denetim, 2 kapsam)
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1682" y="439.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 446.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1692" y="459.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyLedgerEntry</text>
 <rect x="1957" y="447.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="457.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1940" y="447.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1947.5" y="457.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1691" y="480.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="480.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="480.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="480.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="484.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="495.0" font-size="10" font-weight="400" fill="#1e293b">Date</text>
@@ -702,7 +882,11 @@
 <text class="t" x="1702" y="570.0" font-size="10" font-weight="400" fill="#1e293b">SourceModule</text>
 <text class="m" x="1975" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="574.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
-<text class="t" x="1702" y="585.0" font-size="10" font-weight="400" fill="#1e293b">OperationId·</text>
+<text class="m" x="1691" y="585.0" font-size="8.5" fill="#64748b">▹</text>
+<text class="t" x="1702" y="585.0" font-size="10" font-weight="500" fill="#1e293b"><title>OperationId
+
+Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya baktığını SourceModule belirler,
+bu yüzden diyagramda ok çizilmiyor — tek bir ok yanlış olurdu.</title>OperationId·</text>
 <text class="m" x="1975" y="585.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1683 589.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1683" y1="589.0" x2="1983" y2="589.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -710,14 +894,23 @@
 <text class="m" x="1975" y="603.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyTag — Companies — 0 rows, 3 columns</title>
+<title>CompanyTag  ·  Companies modülü
+
+NE      Firmaya özel serbest tanım/etiket; rapor ve şablonlarda yer tutucu olarak
+        kullanılır.
+ESKİ    CompanyTag_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 7 sütun (3 çizili, 2 denetim, 2 kapsam)
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="469.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 476.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1040" y="489.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyTag</text>
 <rect x="1305" y="477.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="487.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="477.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="487.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="510.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="510.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="510.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="510.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="514.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="525.0" font-size="10" font-weight="400" fill="#1e293b">TagCode</text>
@@ -730,20 +923,31 @@
 <text class="m" x="1323" y="558.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>CompanyTrainingProgressMode — Companies — 0 rows, 4 columns</title>
+<title>CompanyTrainingProgressMode  ·  Companies modülü
+
+NE      Firmanın uzaktan eğitim portalındaki ilerleme modu ayarı.
+NİÇİN   Personelin konuları sırayla mı yoksa serbestçe mi geçebileceğini belirler.
+ESKİ    CompanyTrainingTransition_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 8 sütun (4 çizili, 2 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="499.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 506.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="62" y="519.0" font-size="12.5" font-weight="600" fill="#ffffff">CompanyTrainingProgressMode</text>
 <rect x="327" y="507.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="517.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="507.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="517.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="540.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="540.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="540.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="540.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="544.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="555.0" font-size="10" font-weight="400" fill="#1e293b">TransitionMode</text>
 <text class="m" x="345" y="555.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="570.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="570.0" font-size="10" font-weight="500" fill="#1e293b">UserId</text>
+<text class="t" x="72" y="570.0" font-size="10" font-weight="500" fill="#1e293b"><title>UserId
+
+→ User tablosuna işaret ediyor.</title>UserId</text>
 <text class="m" x="345" y="570.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="574.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="585.0" font-size="10" font-weight="400" fill="#1e293b">Date</text>
@@ -754,19 +958,30 @@
 <text class="m" x="345" y="603.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>ControlItem — Companies — 0 rows, 7 columns</title>
+<title>ControlItem  ·  Companies modülü
+
+NE      Kontrol listesi maddesinin tanımı.
+NİÇİN   Kurum bazında tanımlanır.
+ESKİ    ControlItem_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 15 sütun (7 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="1030" y="595.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 602.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1040" y="615.0" font-size="12.5" font-weight="600" fill="#ffffff">ControlItem</text>
 <rect x="1305" y="603.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="613.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="636.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="636.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="636.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="636.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="640.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="651.0" font-size="10" font-weight="400" fill="#1e293b">ControlItemName</text>
 <text class="m" x="1323" y="651.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
 <text class="m" x="1039" y="666.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1050" y="666.0" font-size="10" font-weight="500" fill="#1e293b">PeriodId·</text>
+<text class="t" x="1050" y="666.0" font-size="10" font-weight="500" fill="#1e293b"><title>PeriodId
+
+→ Period tablosuna işaret ediyor.</title>PeriodId·</text>
 <text class="m" x="1323" y="666.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="670.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="681.0" font-size="10" font-weight="400" fill="#1e293b">PeriodUnit</text>
@@ -784,17 +999,27 @@
 <text class="m" x="1323" y="744.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>DepartmentDocument — Companies — 0 rows, 10 columns</title>
+<title>DepartmentDocument  ·  Companies modülü
+
+NE      İşyeri bölümüne ait belge: ölçüm raporu, muayene sertifikası, ruhsat.
+ESKİ    WorkplaceDepartmentDocument_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 18 sütun (10 çizili, 7 denetim, 1 kapsam)
+BAĞ     4 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="640.0" width="302" height="207" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 647.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="62" y="660.0" font-size="12.5" font-weight="600" fill="#ffffff">DepartmentDocument</text>
 <rect x="327" y="648.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="658.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="681.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="681.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="681.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="681.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="685.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="696.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="696.0" font-size="10" font-weight="500" fill="#1e293b">WorkplaceDepartmentId</text>
+<text class="t" x="72" y="696.0" font-size="10" font-weight="500" fill="#1e293b"><title>WorkplaceDepartmentId
+
+→ WorkplaceDepartment tablosuna işaret ediyor.</title>WorkplaceDepartmentId</text>
 <text class="m" x="345" y="696.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="711.0" font-size="10" font-weight="400" fill="#1e293b">DocumentCode·</text>
 <text class="m" x="345" y="711.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
@@ -802,7 +1027,9 @@
 <text class="t" x="72" y="726.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
 <text class="m" x="345" y="726.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <text class="m" x="61" y="741.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="741.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="72" y="741.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="345" y="741.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="745.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="756.0" font-size="10" font-weight="400" fill="#1e293b">ExaminationDate·</text>
@@ -813,11 +1040,15 @@
 <text class="t" x="72" y="786.0" font-size="10" font-weight="400" fill="#1e293b">ExaminationPerformedBy·</text>
 <text class="m" x="345" y="786.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="61" y="801.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="801.0" font-size="10" font-weight="500" fill="#1e293b">ActivityId·</text>
+<text class="t" x="72" y="801.0" font-size="10" font-weight="500" fill="#1e293b"><title>ActivityId
+
+→ Activity tablosuna işaret ediyor.</title>ActivityId·</text>
 <text class="m" x="345" y="801.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="805.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="816.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="816.0" font-size="10" font-weight="500" fill="#1e293b">WorkPlanLineId·</text>
+<text class="t" x="72" y="816.0" font-size="10" font-weight="500" fill="#1e293b"><title>WorkPlanLineId
+
+→ WorkPlanLine tablosuna işaret ediyor.</title>WorkPlanLineId·</text>
 <text class="m" x="345" y="816.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M53 820.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="53" y1="820.0" x2="353" y2="820.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -825,17 +1056,29 @@
 <text class="m" x="345" y="834.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>EmployeeFamilyHistory — Companies — 0 rows, 4 columns</title>
+<title>EmployeeFamilyHistory  ·  Companies modülü
+
+NE      Personelin aile öyküsü — ailede bilinen hastalıklar.
+NİÇİN   NORMALİZASYON: eski FamilyHistory sütun grubunun yerine geçen satırlar.
+        Artık kaç hastalık girileceğinin sınırı yok.
+ESKİ    CompanyEmployee_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 12 sütun (4 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1682" y="640.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 647.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1692" y="660.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeFamilyHistory</text>
 <rect x="1957" y="648.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="658.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1691" y="681.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="681.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="681.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="681.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="685.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1691" y="696.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1702" y="696.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1702" y="696.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1975" y="696.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1702" y="711.0" font-size="10" font-weight="400" fill="#1e293b">Relation</text>
 <text class="m" x="1975" y="711.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -848,17 +1091,29 @@
 <text class="m" x="1975" y="744.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>EmployeeHealthInfo — Companies — 0 rows, 5 columns</title>
+<title>EmployeeHealthInfo  ·  Companies modülü
+
+NE      Personelin değişmeyen sağlık bilgisi (kan grubu, alerji).
+NİÇİN   NORMALİZASYON: eskiden personel tablosundaki düz sütunlardı; 1-1 ayrı
+        kayda taşındı.
+ESKİ    CompanyEmployee_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="664.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 671.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1366" y="684.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeHealthInfo</text>
 <rect x="1631" y="672.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="682.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1365" y="705.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="705.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="705.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="705.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="709.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="720.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="720.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1376" y="720.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1649" y="720.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="735.0" font-size="10" font-weight="400" fill="#1e293b">BloodType</text>
 <text class="m" x="1649" y="735.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -873,17 +1128,29 @@
 <text class="m" x="1649" y="783.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>EmployeeImmunization — Companies — 0 rows, 5 columns</title>
+<title>EmployeeImmunization  ·  Companies modülü
+
+NE      Personelin aşı kaydı.
+NİÇİN   NORMALİZASYON: eskiden Tetanoz, Hepatit, Grip diye ayrı ayrı sütunlardı;
+        her aşı bir satır oldu, yeni aşı eklemek şema değişikliği gerektirmiyor.
+ESKİ    CompanyEmployee_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="781.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 788.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1040" y="801.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeImmunization</text>
 <rect x="1305" y="789.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="799.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="822.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="822.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="822.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="822.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="826.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="837.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1050" y="837.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1050" y="837.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1323" y="837.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="852.0" font-size="10" font-weight="400" fill="#1e293b">ImmunizationType</text>
 <text class="m" x="1323" y="852.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -898,17 +1165,28 @@
 <text class="m" x="1323" y="900.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>EmployeeWorkHistory — Companies — 0 rows, 7 columns</title>
+<title>EmployeeWorkHistory  ·  Companies modülü
+
+NE      Personelin önceki çalışma geçmişi.
+NİÇİN   NORMALİZASYON: eski PreviousIsIskolu1/2/3... tekrarlı sütunlarının yerine
+        geçti.
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 15 sütun (7 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1682" y="781.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 788.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1692" y="801.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeWorkHistory</text>
 <rect x="1957" y="789.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="799.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1691" y="822.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="822.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="822.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="822.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="826.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1691" y="837.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1702" y="837.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1702" y="837.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1975" y="837.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1702" y="852.0" font-size="10" font-weight="400" fill="#1e293b">WorkSector·</text>
 <text class="m" x="1975" y="852.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
@@ -928,13 +1206,21 @@
 <text class="m" x="1975" y="930.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>OfficeExpense — Companies — 0 rows, 5 columns</title>
+<title>OfficeExpense  ·  Companies modülü
+
+NE      Kurumun/ofisin firma operasyonları için yaptığı gider.
+ESKİ    CompanyExpense_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="820.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 827.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1366" y="840.0" font-size="12.5" font-weight="600" fill="#ffffff">OfficeExpense</text>
 <rect x="1631" y="828.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="838.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1365" y="861.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="861.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="861.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="861.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="865.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="876.0" font-size="10" font-weight="400" fill="#1e293b">ExpenseTag</text>
@@ -945,7 +1231,9 @@
 <text class="t" x="1376" y="906.0" font-size="10" font-weight="400" fill="#1e293b">ExpenseDate·</text>
 <text class="m" x="1649" y="906.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <text class="m" x="1365" y="921.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="1376" y="921.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId</text>
+<text class="t" x="1376" y="921.0" font-size="10" font-weight="500" fill="#1e293b"><title>OfficeId
+
+→ Office tablosuna işaret ediyor.</title>OfficeId</text>
 <text class="m" x="1649" y="921.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1357 925.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1357" y1="925.0" x2="1657" y2="925.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -953,13 +1241,23 @@
 <text class="m" x="1649" y="939.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>Person — Companies — 0 rows, 11 columns</title>
+<title>Person  ·  Companies modülü
+
+NE      Firma personeli olmayan gerçek kişi: işveren vekili, ziyaretçi, taşeron
+        çalışanı.
+NİÇİN   T.C. kimlik numarası şifrelidir.
+ESKİ    Person_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 19 sütun (11 çizili, 7 denetim, 1 kapsam)
+BAĞ     3 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="871.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 878.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="62" y="891.0" font-size="12.5" font-weight="600" fill="#ffffff">Person</text>
 <rect x="327" y="879.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="889.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="912.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="912.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="912.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="912.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="916.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="927.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -975,14 +1273,20 @@
 <text class="t" x="72" y="987.0" font-size="10" font-weight="400" fill="#1e293b">MotherName·</text>
 <text class="m" x="345" y="987.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="61" y="1002.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1002.0" font-size="10" font-weight="500" fill="#1e293b">CityId</text>
+<text class="t" x="72" y="1002.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId</text>
 <text class="m" x="345" y="1002.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1006.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1017.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1017.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId</text>
+<text class="t" x="72" y="1017.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId</text>
 <text class="m" x="345" y="1017.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="1032.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="72" y="1032.0" font-size="10" font-weight="500" fill="#1e293b">NeighborhoodId</text>
+<text class="t" x="72" y="1032.0" font-size="10" font-weight="500" fill="#1e293b"><title>NeighborhoodId
+
+→ Neighborhood tablosuna işaret ediyor.</title>NeighborhoodId</text>
 <text class="m" x="345" y="1032.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1036.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="1047.0" font-size="10" font-weight="400" fill="#1e293b">Address·</text>
@@ -995,23 +1299,36 @@
 <text class="m" x="345" y="1080.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>RouteOrigin — Companies — 0 rows, 5 columns</title>
+<title>RouteOrigin  ·  Companies modülü
+
+NE      Ziyaret rotasının başlangıç noktası.
+NİÇİN   Firmalara olan mesafeler buradan ölçülür.
+ESKİ    CompanyOrgin_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 8 sütun (5 çizili, 2 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="919.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 926.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="388" y="939.0" font-size="12.5" font-weight="600" fill="#ffffff">RouteOrigin</text>
 <rect x="653" y="927.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="937.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="387" y="960.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="960.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="960.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="960.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="964.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="975.0" font-size="10" font-weight="400" fill="#1e293b">Tag·</text>
 <text class="m" x="671" y="975.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="387" y="990.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="990.0" font-size="10" font-weight="500" fill="#1e293b">CityId</text>
+<text class="t" x="398" y="990.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId</text>
 <text class="m" x="671" y="990.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="994.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="1005.0" font-size="8.5" fill="#0f766e">▸</text>
-<text class="t" x="398" y="1005.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="t" x="398" y="1005.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId·</text>
 <text class="m" x="671" y="1005.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1020.0" font-size="10" font-weight="400" fill="#1e293b">Address·</text>
 <text class="m" x="671" y="1020.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
@@ -1021,17 +1338,32 @@
 <text class="m" x="671" y="1038.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>RouteOriginDistance — Companies — 0 rows, 4 columns</title>
+<title>RouteOriginDistance  ·  Companies modülü
+
+NE      Başlangıç noktası ile firma arasındaki karayolu mesafesi.
+NİÇİN   Önbellek kaydıdır: harita servisinden bir kez hesaplanır, ziyaret
+        planlanırken tekrar tekrar sorgulanmaz. OriginId polimorfiktir (il ya da
+        ilçe).
+ESKİ    OrginCompanyDistance_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 8 sütun (4 çizili, 2 denetim, 2 kapsam)
+BAĞ     0 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="937.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 944.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1040" y="957.0" font-size="12.5" font-weight="600" fill="#ffffff">RouteOriginDistance</text>
 <rect x="1305" y="945.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="955.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="945.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="955.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="978.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="978.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="978.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="978.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="982.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
-<text class="t" x="1050" y="993.0" font-size="10" font-weight="400" fill="#1e293b">OriginId·</text>
+<text class="m" x="1039" y="993.0" font-size="8.5" fill="#64748b">▹</text>
+<text class="t" x="1050" y="993.0" font-size="10" font-weight="500" fill="#1e293b"><title>OriginId
+
+Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya baktığını city or district belirler,
+bu yüzden diyagramda ok çizilmiyor — tek bir ok yanlış olurdu.</title>OriginId·</text>
 <text class="m" x="1323" y="993.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="1008.0" font-size="10" font-weight="400" fill="#1e293b">CityName·</text>
 <text class="m" x="1323" y="1008.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
@@ -1044,14 +1376,25 @@
 <text class="m" x="1323" y="1041.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="1">
-<title>WorkplaceDepartment — Companies — 30 874 rows, 3 columns</title>
+<title>WorkplaceDepartment  ·  Companies modülü
+
+NE      İşyerinin fiziksel/organizasyonel bölümü ("kaynakhane", "idari bina").
+NİÇİN   Eskiden personelin çalıştığı bölüm serbest metindi; normalize edilip
+        gerçek bir kayda dönüştürüldü. Risk değerlendirmesi ve saha gözlemi buraya
+        bağlanır.
+ESKİ    WorkplaceDepartment_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   30 874 satır · 12 sütun (3 çizili, 7 denetim, 2 kapsam)
+BAĞ     0 ilişki çıkıyor · 4 ilişki geliyor</title>
 <rect x="1682" y="967.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0f766e" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 974.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0f766e"/>
 <text class="t" x="1692" y="987.0" font-size="12.5" font-weight="600" fill="#ffffff">WorkplaceDepartment</text>
 <rect x="1957" y="975.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="985.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1940" y="975.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1947.5" y="985.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1691" y="1008.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="1008.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="1008.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="1008.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1012.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1023.0" font-size="10" font-weight="400" fill="#1e293b">DepartmentName</text>
@@ -1064,17 +1407,30 @@
 <text class="m" x="1975" y="1056.0" font-size="8.8" fill="#64748b" text-anchor="end">30 874 rows</text>
 </g>
 <g opacity="0.45">
-<title>Activity — Plans — 498 rows, 15 columns</title>
+<title>Activity  ·  Plans modülü
+
+NE      Çalışma planına eklenebilecek faaliyet, doküman veya revizyon tanımı
+        (katalog).
+NİÇİN   RelationId polimorfiktir: hangi tabloya baktığı RelatedTable sütunundaki
+        tablo adına göre değişir.
+ESKİ    Activity_T
+KAPSAM  kiracı (TenantId)
+BOYUT   498 satır · 23 sütun (15 çizili, 7 denetim, 1 kapsam)
+BAĞ     3 ilişki çıkıyor · 7 ilişki geliyor</title>
 <rect x="52" y="1317.0" width="302" height="282" rx="7" fill="#ffffff" stroke="#c2410c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 1324.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#c2410c"/>
 <text class="t" x="62" y="1337.0" font-size="12.5" font-weight="600" fill="#ffffff">Activity</text>
 <rect x="327" y="1325.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="1335.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="1358.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="1358.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="1358.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="1358.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1362.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1373.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="72" y="1373.0" font-size="10" font-weight="500" fill="#1e293b">ParentActivityId·</text>
+<text class="t" x="72" y="1373.0" font-size="10" font-weight="500" fill="#1e293b"><title>ParentActivityId
+
+→ Activity tablosuna işaret ediyor.</title>ParentActivityId·</text>
 <text class="m" x="345" y="1373.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1388.0" font-size="10" font-weight="400" fill="#1e293b">ActivityCode·</text>
 <text class="m" x="345" y="1388.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
@@ -1082,7 +1438,9 @@
 <text class="t" x="72" y="1403.0" font-size="10" font-weight="400" fill="#1e293b">ActivityName</text>
 <text class="m" x="345" y="1403.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(256)</text>
 <text class="m" x="61" y="1418.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="72" y="1418.0" font-size="10" font-weight="500" fill="#1e293b">ActivityGroupId·</text>
+<text class="t" x="72" y="1418.0" font-size="10" font-weight="500" fill="#1e293b"><title>ActivityGroupId
+
+→ ActivityGroup tablosuna işaret ediyor.</title>ActivityGroupId·</text>
 <text class="m" x="345" y="1418.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1422.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="1433.0" font-size="10" font-weight="400" fill="#1e293b">ActivityType</text>
@@ -1101,12 +1459,18 @@
 <text class="m" x="345" y="1508.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
 <rect x="53" y="1512.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1523.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="72" y="1523.0" font-size="10" font-weight="500" fill="#1e293b">PeriodId·</text>
+<text class="t" x="72" y="1523.0" font-size="10" font-weight="500" fill="#1e293b"><title>PeriodId
+
+→ Period tablosuna işaret ediyor.</title>PeriodId·</text>
 <text class="m" x="345" y="1523.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1538.0" font-size="10" font-weight="400" fill="#1e293b">RelatedTable·</text>
 <text class="m" x="345" y="1538.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="53" y="1542.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
-<text class="t" x="72" y="1553.0" font-size="10" font-weight="400" fill="#1e293b">RelationId·</text>
+<text class="m" x="61" y="1553.0" font-size="8.5" fill="#64748b">▹</text>
+<text class="t" x="72" y="1553.0" font-size="10" font-weight="500" fill="#1e293b"><title>RelationId
+
+Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya baktığını RelatedTable belirler,
+bu yüzden diyagramda ok çizilmiyor — tek bir ok yanlış olurdu.</title>RelationId·</text>
 <text class="m" x="345" y="1553.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1568.0" font-size="10" font-weight="400" fill="#1e293b">OrderNo·</text>
 <text class="m" x="345" y="1568.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1116,12 +1480,20 @@
 <text class="m" x="345" y="1586.0" font-size="8.8" fill="#64748b" text-anchor="end">498 rows</text>
 </g>
 <g opacity="0.45">
-<title>Certificate — Lookups — 0 rows, 3 columns</title>
+<title>Certificate  ·  Lookups modülü
+
+NE      Sertifika türü referansı ("A Sınıfı İş Güvenliği Uzmanlığı Belgesi").
+ESKİ    CertificateList_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 7 sütun (3 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="378" y="1317.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 1324.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="388" y="1337.0" font-size="12.5" font-weight="600" fill="#ffffff">Certificate</text>
 <text class="m" x="387" y="1358.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="1358.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="1358.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="1358.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1362.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="1373.0" font-size="10" font-weight="400" fill="#1e293b">CertificateName</text>
@@ -1134,12 +1506,21 @@
 <text class="m" x="671" y="1406.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>City — Lookups — 81 rows, 3 columns</title>
+<title>City  ·  Lookups modülü
+
+NE      İl referansı.
+NİÇİN   Host (kiracısız) referans tablosu — tüm kiracılar paylaşır.
+ESKİ    City_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   81 satır · 7 sütun (3 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 8 ilişki geliyor</title>
 <rect x="704" y="1317.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 1324.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="714" y="1337.0" font-size="12.5" font-weight="600" fill="#ffffff">City</text>
 <text class="m" x="713" y="1358.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="1358.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="1358.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="1358.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1362.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="1373.0" font-size="10" font-weight="400" fill="#1e293b">CityName</text>
@@ -1152,17 +1533,27 @@
 <text class="m" x="997" y="1406.0" font-size="8.8" fill="#64748b" text-anchor="end">81 rows</text>
 </g>
 <g opacity="0.45">
-<title>ControlMeasure — Risks — 0 rows, 7 columns</title>
+<title>ControlMeasure  ·  Risks modülü
+
+NE      Belirlenen bir tehlike için alınan/alınacak tek bir önlem.
+ESKİ    RiskAnalizRaporuAlinanOnlem_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 15 sütun (7 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="1317.0" width="302" height="162" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 1324.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="1040" y="1337.0" font-size="12.5" font-weight="600" fill="#ffffff">ControlMeasure</text>
 <rect x="1305" y="1325.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="1335.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="1358.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="1358.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="1358.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="1358.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1362.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="1373.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1373.0" font-size="10" font-weight="500" fill="#1e293b">IdentifiedHazardId</text>
+<text class="t" x="1050" y="1373.0" font-size="10" font-weight="500" fill="#1e293b"><title>IdentifiedHazardId
+
+→ IdentifiedHazard tablosuna işaret ediyor.</title>IdentifiedHazardId</text>
 <text class="m" x="1323" y="1373.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="1388.0" font-size="10" font-weight="400" fill="#1e293b">Measure</text>
 <text class="m" x="1323" y="1388.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
@@ -1170,7 +1561,9 @@
 <text class="t" x="1050" y="1403.0" font-size="10" font-weight="400" fill="#1e293b">DeadlineDate·</text>
 <text class="m" x="1323" y="1403.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <text class="m" x="1039" y="1418.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1418.0" font-size="10" font-weight="500" fill="#1e293b">OwnerCompanyEmployeeId·</text>
+<text class="t" x="1050" y="1418.0" font-size="10" font-weight="500" fill="#1e293b"><title>OwnerCompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>OwnerCompanyEmployeeId·</text>
 <text class="m" x="1323" y="1418.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1422.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1433.0" font-size="10" font-weight="400" fill="#1e293b">IsCompleted</text>
@@ -1183,14 +1576,24 @@
 <text class="m" x="1323" y="1466.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>CorrectiveAction — Risks — 0 rows, 15 columns</title>
+<title>CorrectiveAction  ·  Risks modülü
+
+NE      Düzeltici ve önleyici faaliyet kaydı (DÖF).
+NİÇİN   Eski OperationResult sütunu 0/1/-1 tamsayısıydı; anlamı okunabilir bir
+        enum'a çevrildi.
+ESKİ    DOF_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 24 sütun (15 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1356" y="1317.0" width="302" height="282" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 1324.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="1366" y="1337.0" font-size="12.5" font-weight="600" fill="#ffffff">CorrectiveAction</text>
 <rect x="1631" y="1325.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="1335.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1614" y="1325.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="1335.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1365" y="1358.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="1358.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="1358.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="1358.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1362.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="1373.0" font-size="10" font-weight="400" fill="#1e293b">Finding</text>
@@ -1204,10 +1607,14 @@
 <text class="m" x="1649" y="1418.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
 <rect x="1357" y="1422.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="1433.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1376" y="1433.0" font-size="10" font-weight="500" fill="#1e293b">FindingDocumentId·</text>
+<text class="t" x="1376" y="1433.0" font-size="10" font-weight="500" fill="#1e293b"><title>FindingDocumentId
+
+→ Document tablosuna işaret ediyor.</title>FindingDocumentId·</text>
 <text class="m" x="1649" y="1433.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="1448.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1376" y="1448.0" font-size="10" font-weight="500" fill="#1e293b">ResultDocumentId·</text>
+<text class="t" x="1376" y="1448.0" font-size="10" font-weight="500" fill="#1e293b"><title>ResultDocumentId
+
+→ Document tablosuna işaret ediyor.</title>ResultDocumentId·</text>
 <text class="m" x="1649" y="1448.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1452.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="1463.0" font-size="10" font-weight="400" fill="#1e293b">RiskCategory</text>
@@ -1218,7 +1625,9 @@
 <text class="t" x="1376" y="1493.0" font-size="10" font-weight="400" fill="#1e293b">Owner·</text>
 <text class="m" x="1649" y="1493.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="1365" y="1508.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1376" y="1508.0" font-size="10" font-weight="500" fill="#1e293b">OwnerCompanyEmployeeId·</text>
+<text class="t" x="1376" y="1508.0" font-size="10" font-weight="500" fill="#1e293b"><title>OwnerCompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>OwnerCompanyEmployeeId·</text>
 <text class="m" x="1649" y="1508.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1512.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="1523.0" font-size="10" font-weight="400" fill="#1e293b">FindingDate·</text>
@@ -1229,7 +1638,9 @@
 <text class="t" x="1376" y="1553.0" font-size="10" font-weight="400" fill="#1e293b">ResultDate·</text>
 <text class="m" x="1649" y="1553.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <text class="m" x="1365" y="1568.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1376" y="1568.0" font-size="10" font-weight="500" fill="#1e293b">FieldObservationLineId·</text>
+<text class="t" x="1376" y="1568.0" font-size="10" font-weight="500" fill="#1e293b"><title>FieldObservationLineId
+
+→ FieldObservationLine tablosuna işaret ediyor.</title>FieldObservationLineId·</text>
 <text class="m" x="1649" y="1568.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1357 1572.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1357" y1="1572.0" x2="1657" y2="1572.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -1237,18 +1648,29 @@
 <text class="m" x="1649" y="1586.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>District — Lookups — 1 108 rows, 5 columns</title>
+<title>District  ·  Lookups modülü
+
+NE      İlçe referansı.
+NİÇİN   Host referans tablosu.
+ESKİ    District_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   1 108 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     1 ilişki çıkıyor · 8 ilişki geliyor</title>
 <rect x="1682" y="1317.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 1324.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="1692" y="1337.0" font-size="12.5" font-weight="600" fill="#ffffff">District</text>
 <text class="m" x="1691" y="1358.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="1358.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="1358.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="1358.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1362.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1373.0" font-size="10" font-weight="400" fill="#1e293b">DistrictName</text>
 <text class="m" x="1975" y="1373.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="1691" y="1388.0" font-size="8.5" fill="#0e7490">▸</text>
-<text class="t" x="1702" y="1388.0" font-size="10" font-weight="500" fill="#1e293b">CityId</text>
+<text class="t" x="1702" y="1388.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId</text>
 <text class="m" x="1975" y="1388.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1392.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1403.0" font-size="10" font-weight="400" fill="#1e293b">IlCode·</text>
@@ -1261,18 +1683,32 @@
 <text class="m" x="1975" y="1436.0" font-size="8.8" fill="#64748b" text-anchor="end">1 108 rows</text>
 </g>
 <g opacity="0.45">
-<title>Document — Documents — 5 rows, 13 columns</title>
+<title>Document  ·  Documents modülü
+
+NE      Merkezî belge deposu — sistemdeki HER ikili içeriğin tek kaydı.
+NİÇİN   Eski sistemde belgeler modül modül farklı tablolara dağılmıştı. Tek
+        tabloda toplandı: yetki kontrolü, saklama ve SHA-256 doğrulaması tek
+        yerden yapılır. OwnerRecordId polimorfiktir — sahibi OwnerType'a göre
+        değişir.
+ESKİ    Document_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   5 satır · 22 sütun (13 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 29 ilişki geliyor</title>
 <rect x="378" y="1443.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#475569" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 1450.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#475569"/>
 <text class="t" x="388" y="1463.0" font-size="12.5" font-weight="600" fill="#ffffff">Document</text>
 <rect x="653" y="1451.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="1461.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="636" y="1451.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="643.5" y="1461.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="387" y="1484.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="1484.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="1484.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="1484.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1488.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="1499.0" font-size="8.5" fill="#475569">▸</text>
-<text class="t" x="398" y="1499.0" font-size="10" font-weight="500" fill="#1e293b">DocumentCategoryId·</text>
+<text class="t" x="398" y="1499.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentCategoryId
+
+→ DocumentCategory tablosuna işaret ediyor.</title>DocumentCategoryId·</text>
 <text class="m" x="671" y="1499.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1514.0" font-size="10" font-weight="400" fill="#1e293b">DocumentName</text>
 <text class="m" x="671" y="1514.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(260)</text>
@@ -1297,7 +1733,11 @@
 <text class="t" x="398" y="1634.0" font-size="10" font-weight="400" fill="#1e293b">OwnerType</text>
 <text class="m" x="671" y="1634.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1638.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
-<text class="t" x="398" y="1649.0" font-size="10" font-weight="400" fill="#1e293b">OwnerRecordId·</text>
+<text class="m" x="387" y="1649.0" font-size="8.5" fill="#64748b">▹</text>
+<text class="t" x="398" y="1649.0" font-size="10" font-weight="500" fill="#1e293b"><title>OwnerRecordId
+
+Polimorfik anahtar: sabit bir hedef tablosu yok. Hangi tabloya baktığını OwnerType belirler,
+bu yüzden diyagramda ok çizilmiyor — tek bir ok yanlış olurdu.</title>OwnerRecordId·</text>
 <text class="m" x="671" y="1649.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1664.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="671" y="1664.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -1307,12 +1747,20 @@
 <text class="m" x="671" y="1682.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
 </g>
 <g opacity="0.45">
-<title>Duty — Lookups — 0 rows, 5 columns</title>
+<title>Duty  ·  Lookups modülü
+
+NE      Görev/unvan referansı ("İş Güvenliği Uzmanı", "İşyeri Hekimi").
+ESKİ    Duty_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="704" y="1443.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 1450.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="714" y="1463.0" font-size="12.5" font-weight="600" fill="#ffffff">Duty</text>
 <text class="m" x="713" y="1484.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="1484.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="1484.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="1484.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1488.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="1499.0" font-size="10" font-weight="400" fill="#1e293b">DutyCode</text>
@@ -1330,13 +1778,24 @@
 <text class="m" x="997" y="1562.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>EPrescription — Health — 334 637 rows, 12 columns</title>
+<title>EPrescription  ·  Health modülü
+
+NE      İşyeri hekiminin yazdığı e-reçetenin başlığı (MEDULA kaydı).
+NİÇİN   334.637 reçetenin 321.973'ü (%96) T.C. kimlik numarası üzerinden kendi
+        kiracısındaki personel kaydına bağlanabildi; kalanı eski veride
+        eşleşmiyor.
+ESKİ    EPrescription_T
+KAPSAM  kiracı (TenantId)
+BOYUT   334 637 satır · 20 sütun (12 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="1682" y="1473.0" width="302" height="237" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 1480.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="1692" y="1493.0" font-size="12.5" font-weight="600" fill="#ffffff">EPrescription</text>
 <rect x="1957" y="1481.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="1491.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1691" y="1514.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="1514.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="1514.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="1514.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1518.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1529.0" font-size="10" font-weight="400" fill="#1e293b">EPrescriptionCode·</text>
@@ -1347,7 +1806,9 @@
 <text class="t" x="1702" y="1559.0" font-size="10" font-weight="400" fill="#1e293b">PatientNationalId</text>
 <text class="m" x="1975" y="1559.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
 <text class="m" x="1691" y="1574.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="1702" y="1574.0" font-size="10" font-weight="500" fill="#1e293b">PatientCompanyEmployeeId·</text>
+<text class="t" x="1702" y="1574.0" font-size="10" font-weight="500" fill="#1e293b"><title>PatientCompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>PatientCompanyEmployeeId·</text>
 <text class="m" x="1975" y="1574.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1578.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1589.0" font-size="10" font-weight="400" fill="#1e293b">Description·</text>
@@ -1373,20 +1834,32 @@
 <text class="m" x="1975" y="1697.0" font-size="8.8" fill="#64748b" text-anchor="end">334 637 rows</text>
 </g>
 <g opacity="0.45">
-<title>EmergencyTeamMember — Risks — 0 rows, 5 columns</title>
+<title>EmergencyTeamMember  ·  Risks modülü
+
+NE      Acil durum eylem planında görevlendirilmiş ekip üyesi.
+ESKİ    AcilDurumEylemPlaniPersoneli_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (5 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="1503.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 1510.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="1040" y="1523.0" font-size="12.5" font-weight="600" fill="#ffffff">EmergencyTeamMember</text>
 <rect x="1305" y="1511.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="1521.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="1544.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="1544.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="1544.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="1544.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1548.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="1559.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1559.0" font-size="10" font-weight="500" fill="#1e293b">EmergencyActionPlanId</text>
+<text class="t" x="1050" y="1559.0" font-size="10" font-weight="500" fill="#1e293b"><title>EmergencyActionPlanId
+
+→ EmergencyActionPlan tablosuna işaret ediyor.</title>EmergencyActionPlanId</text>
 <text class="m" x="1323" y="1559.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="1574.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1574.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1050" y="1574.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1323" y="1574.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1578.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1589.0" font-size="10" font-weight="400" fill="#1e293b">StaffRole</text>
@@ -1399,20 +1872,32 @@
 <text class="m" x="1323" y="1622.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>EmployeeExamAnswer — Trainings — 0 rows, 8 columns</title>
+<title>EmployeeExamAnswer  ·  Trainings modülü
+
+NE      Personelin bir sınav sorusuna verdiği cevap.
+ESKİ    EmployeeSoruAnswer_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 11 sütun (8 çizili, 2 denetim, 1 kapsam)
+BAĞ     3 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="1599.0" width="302" height="177" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 1606.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
 <text class="t" x="714" y="1619.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeExamAnswer</text>
 <rect x="979" y="1607.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="1617.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="713" y="1640.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="1640.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="1640.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="1640.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1644.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="1655.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="724" y="1655.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="724" y="1655.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="997" y="1655.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="1670.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="724" y="1670.0" font-size="10" font-weight="500" fill="#1e293b">ExamQuestionId</text>
+<text class="t" x="724" y="1670.0" font-size="10" font-weight="500" fill="#1e293b"><title>ExamQuestionId
+
+→ ExamQuestion tablosuna işaret ediyor.</title>ExamQuestionId</text>
 <text class="m" x="997" y="1670.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1674.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="1685.0" font-size="10" font-weight="400" fill="#1e293b">Answer·</text>
@@ -1421,7 +1906,9 @@
 <text class="m" x="997" y="1700.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
 <rect x="705" y="1704.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="1715.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="724" y="1715.0" font-size="10" font-weight="500" fill="#1e293b">EmployeeTrainingProgressId</text>
+<text class="t" x="724" y="1715.0" font-size="10" font-weight="500" fill="#1e293b"><title>EmployeeTrainingProgressId
+
+→ EmployeeTrainingProgress tablosuna işaret ediyor.</title>EmployeeTrainingProgressId</text>
 <text class="m" x="997" y="1715.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="1730.0" font-size="10" font-weight="400" fill="#1e293b">TestType</text>
 <text class="m" x="997" y="1730.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1434,23 +1921,37 @@
 <text class="m" x="997" y="1763.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>EmployeeTrainingLog — Trainings — 0 rows, 10 columns</title>
+<title>EmployeeTrainingLog  ·  Trainings modülü
+
+NE      Personelin uzaktan eğitim portalındaki her hareketinin iz kaydı.
+NİÇİN   Eski karşılığı 19,8 milyon satırdı ve göç kapsamına ALINMADI: operasyonel
+        iz kaydıdır, yeni sistemde yeniden birikir.
+ESKİ    EmployeeLoglamasi_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 13 sütun (10 çizili, 2 denetim, 1 kapsam)
+BAĞ     4 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="52" y="1623.0" width="302" height="207" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 1630.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
 <text class="t" x="62" y="1643.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeTrainingLog</text>
 <rect x="327" y="1631.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="1641.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="61" y="1664.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="1664.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="1664.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="1664.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1668.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1679.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="1679.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="72" y="1679.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="345" y="1679.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1694.0" font-size="10" font-weight="400" fill="#1e293b">Operation</text>
 <text class="m" x="345" y="1694.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1698.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1709.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="1709.0" font-size="10" font-weight="500" fill="#1e293b">TrainingTopicId·</text>
+<text class="t" x="72" y="1709.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingTopicId
+
+→ TrainingTopic tablosuna işaret ediyor.</title>TrainingTopicId·</text>
 <text class="m" x="345" y="1709.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1724.0" font-size="10" font-weight="400" fill="#1e293b">Page·</text>
 <text class="m" x="345" y="1724.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1461,13 +1962,17 @@
 <text class="m" x="345" y="1754.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1758.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1769.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="1769.0" font-size="10" font-weight="500" fill="#1e293b">ExamId·</text>
+<text class="t" x="72" y="1769.0" font-size="10" font-weight="500" fill="#1e293b"><title>ExamId
+
+→ Exam tablosuna işaret ediyor.</title>ExamId·</text>
 <text class="m" x="345" y="1769.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1784.0" font-size="10" font-weight="400" fill="#1e293b">ExamNote·</text>
 <text class="m" x="345" y="1784.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1788.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1799.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="1799.0" font-size="10" font-weight="500" fill="#1e293b">EmployeeTrainingProgressId·</text>
+<text class="t" x="72" y="1799.0" font-size="10" font-weight="500" fill="#1e293b"><title>EmployeeTrainingProgressId
+
+→ EmployeeTrainingProgress tablosuna işaret ediyor.</title>EmployeeTrainingProgressId·</text>
 <text class="m" x="345" y="1799.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M53 1803.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="53" y1="1803.0" x2="353" y2="1803.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -1475,24 +1980,38 @@
 <text class="m" x="345" y="1817.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>EmployeeTrainingProgress — Trainings — 0 rows, 13 columns</title>
+<title>EmployeeTrainingProgress  ·  Trainings modülü
+
+NE      Personelin bir eğitimdeki uzaktan eğitim ilerlemesi.
+ESKİ    EmployeeTrainingProgressStatus_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 21 sütun (13 çizili, 7 denetim, 1 kapsam)
+BAĞ     5 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="1356" y="1623.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 1630.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
 <text class="t" x="1366" y="1643.0" font-size="12.5" font-weight="600" fill="#ffffff">EmployeeTrainingProgress</text>
 <rect x="1631" y="1631.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="1641.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1365" y="1664.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="1664.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="1664.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="1664.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1668.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="1679.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="1376" y="1679.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="1376" y="1679.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="1649" y="1679.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="1694.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="1376" y="1694.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="t" x="1376" y="1694.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingId
+
+→ Training tablosuna işaret ediyor.</title>TrainingId</text>
 <text class="m" x="1649" y="1694.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1698.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="1709.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="1376" y="1709.0" font-size="10" font-weight="500" fill="#1e293b">TrainingTopicId·</text>
+<text class="t" x="1376" y="1709.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingTopicId
+
+→ TrainingTopic tablosuna işaret ediyor.</title>TrainingTopicId·</text>
 <text class="m" x="1649" y="1709.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="1724.0" font-size="10" font-weight="400" fill="#1e293b">FirstTestCompleted</text>
 <text class="m" x="1649" y="1724.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -1510,11 +2029,15 @@
 <text class="t" x="1376" y="1799.0" font-size="10" font-weight="400" fill="#1e293b">ActivePage</text>
 <text class="m" x="1649" y="1799.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="1814.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="1376" y="1814.0" font-size="10" font-weight="500" fill="#1e293b">TrainingSpecialistUserId·</text>
+<text class="t" x="1376" y="1814.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingSpecialistUserId
+
+→ User tablosuna işaret ediyor.</title>TrainingSpecialistUserId·</text>
 <text class="m" x="1649" y="1814.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1818.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="1829.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="1376" y="1829.0" font-size="10" font-weight="500" fill="#1e293b">TrainingPhysicianUserId·</text>
+<text class="t" x="1376" y="1829.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingPhysicianUserId
+
+→ User tablosuna işaret ediyor.</title>TrainingPhysicianUserId·</text>
 <text class="m" x="1649" y="1829.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="1844.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="1649" y="1844.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
@@ -1524,17 +2047,27 @@
 <text class="m" x="1649" y="1862.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>FieldObservationLine — Risks — 0 rows, 10 columns</title>
+<title>FieldObservationLine  ·  Risks modülü
+
+NE      Saha gözlem raporundaki tek bir uygunsuzluk satırı.
+ESKİ    SahaGozlemRaporuSatirlari_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 18 sütun (10 çizili, 7 denetim, 1 kapsam)
+BAĞ     3 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="1030" y="1659.0" width="302" height="207" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 1666.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="1040" y="1679.0" font-size="12.5" font-weight="600" fill="#ffffff">FieldObservationLine</text>
 <rect x="1305" y="1667.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="1677.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="1700.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="1700.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="1700.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="1700.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1704.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="1715.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1715.0" font-size="10" font-weight="500" fill="#1e293b">FieldObservationReportId</text>
+<text class="t" x="1050" y="1715.0" font-size="10" font-weight="500" fill="#1e293b"><title>FieldObservationReportId
+
+→ FieldObservationReport tablosuna işaret ediyor.</title>FieldObservationReportId</text>
 <text class="m" x="1323" y="1715.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="1730.0" font-size="10" font-weight="400" fill="#1e293b">Date·</text>
 <text class="m" x="1323" y="1730.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
@@ -1550,13 +2083,17 @@
 <text class="m" x="1323" y="1790.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="1031" y="1794.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="1805.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1805.0" font-size="10" font-weight="500" fill="#1e293b">OwnerCompanyEmployeeId·</text>
+<text class="t" x="1050" y="1805.0" font-size="10" font-weight="500" fill="#1e293b"><title>OwnerCompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>OwnerCompanyEmployeeId·</text>
 <text class="m" x="1323" y="1805.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="1820.0" font-size="10" font-weight="400" fill="#1e293b">RiskCategory</text>
 <text class="m" x="1323" y="1820.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1824.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="1835.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="1835.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="1050" y="1835.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="1323" y="1835.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1031 1839.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1031" y1="1839.0" x2="1331" y2="1839.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -1564,18 +2101,28 @@
 <text class="m" x="1323" y="1853.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>FieldObservationReport — Risks — 0 rows, 3 columns</title>
+<title>FieldObservationReport  ·  Risks modülü
+
+NE      Saha gözlem — işyeri denetim turu — raporunun başlığı.
+ESKİ    SahaGozlemRaporu_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 12 sütun (3 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="378" y="1719.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 1726.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="388" y="1739.0" font-size="12.5" font-weight="600" fill="#ffffff">FieldObservationReport</text>
 <rect x="653" y="1727.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="1737.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="636" y="1727.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="643.5" y="1737.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="387" y="1760.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="1760.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="1760.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="1760.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1764.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="1775.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="398" y="1775.0" font-size="10" font-weight="500" fill="#1e293b">DepartmentId·</text>
+<text class="t" x="398" y="1775.0" font-size="10" font-weight="500" fill="#1e293b"><title>DepartmentId
+
+→ WorkplaceDepartment tablosuna işaret ediyor.</title>DepartmentId·</text>
 <text class="m" x="671" y="1775.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1790.0" font-size="10" font-weight="400" fill="#1e293b">Date</text>
 <text class="m" x="671" y="1790.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
@@ -1585,14 +2132,26 @@
 <text class="m" x="671" y="1808.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>IbysQuery — Ibys — 0 rows, 13 columns</title>
+<title>IbysQuery  ·  Ibys modülü
+
+NE      IBYS'ye (İSG Bilgi Yönetim Sistemi) gönderilen bildirim/sorgu kaydı.
+NİÇİN   Eski gönderim durum kodu TAŞINMADI: kodu üreten servis o günden beri
+        değişti ve doğrulanamıyor. Kabul edilmiş gibi göstermektense
+        gönderilmemişten başlamak doğru; orijinal kod ve mesaj metin olarak
+        saklandı.
+ESKİ    IBYSQueryNo_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 22 sütun (13 çizili, 7 denetim, 2 kapsam)
+BAĞ     1 ilişki çıkıyor · 3 ilişki geliyor</title>
 <rect x="1682" y="1734.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 1741.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#1d4ed8"/>
 <text class="t" x="1692" y="1754.0" font-size="12.5" font-weight="600" fill="#ffffff">IbysQuery</text>
 <rect x="1957" y="1742.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="1752.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1940" y="1742.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1947.5" y="1752.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1691" y="1775.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="1775.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="1775.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="1775.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1779.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1790.0" font-size="10" font-weight="400" fill="#1e293b">QueryNo·</text>
@@ -1618,7 +2177,9 @@
 <text class="t" x="1702" y="1910.0" font-size="10" font-weight="400" fill="#1e293b">TimeStamp·</text>
 <text class="m" x="1975" y="1910.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(4000)</text>
 <text class="m" x="1691" y="1925.0" font-size="8.5" fill="#1d4ed8">▸</text>
-<text class="t" x="1702" y="1925.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId·</text>
+<text class="t" x="1702" y="1925.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId·</text>
 <text class="m" x="1975" y="1925.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="1929.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="1940.0" font-size="10" font-weight="400" fill="#1e293b">XmlData·</text>
@@ -1631,18 +2192,29 @@
 <text class="m" x="1975" y="1973.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>Incident — Risks — 0 rows, 13 columns</title>
+<title>Incident  ·  Risks modülü
+
+NE      Olay kaydı: iş kazası, ramak kala veya meslek hastalığı.
+NİÇİN   Olay türü eskiden tamsayıydı, enum'a çevrildi.
+ESKİ    Olay_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 22 sütun (13 çizili, 7 denetim, 2 kapsam)
+BAĞ     2 ilişki çıkıyor · 1 ilişki geliyor</title>
 <rect x="704" y="1800.0" width="302" height="252" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 1807.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="714" y="1820.0" font-size="12.5" font-weight="600" fill="#ffffff">Incident</text>
 <rect x="979" y="1808.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="986.5" y="1818.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="962" y="1808.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="969.5" y="1818.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="713" y="1841.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="1841.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="1841.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="1841.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="1845.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="1856.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="724" y="1856.0" font-size="10" font-weight="500" fill="#1e293b">DepartmentId</text>
+<text class="t" x="724" y="1856.0" font-size="10" font-weight="500" fill="#1e293b"><title>DepartmentId
+
+→ WorkplaceDepartment tablosuna işaret ediyor.</title>DepartmentId</text>
 <text class="m" x="997" y="1856.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="1871.0" font-size="10" font-weight="400" fill="#1e293b">IncidentType</text>
 <text class="m" x="997" y="1871.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1658,7 +2230,9 @@
 <text class="m" x="997" y="1931.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(4000)</text>
 <rect x="705" y="1935.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="1946.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="724" y="1946.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="724" y="1946.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="997" y="1946.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="724" y="1961.0" font-size="10" font-weight="400" fill="#1e293b">UnitSupervisorId·</text>
 <text class="m" x="997" y="1961.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1678,23 +2252,36 @@
 <text class="m" x="997" y="2039.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>IncidentPerson — Risks — 0 rows, 6 columns</title>
+<title>IncidentPerson  ·  Risks modülü
+
+NE      Olaya karışan kişi: etkilenen, tanık veya müdahale eden.
+NİÇİN   Eski OlayKisi_T tablosu tutarsız tanımlanmıştı; kişi rolü enum'a çevrildi.
+ESKİ    OlayKisi_T
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 14 sütun (6 çizili, 7 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="1845.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 1852.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="388" y="1865.0" font-size="12.5" font-weight="600" fill="#ffffff">IncidentPerson</text>
 <rect x="653" y="1853.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="660.5" y="1863.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="387" y="1886.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="1886.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="1886.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="1886.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1890.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="1901.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="398" y="1901.0" font-size="10" font-weight="500" fill="#1e293b">IncidentId</text>
+<text class="t" x="398" y="1901.0" font-size="10" font-weight="500" fill="#1e293b"><title>IncidentId
+
+→ Incident tablosuna işaret ediyor.</title>IncidentId</text>
 <text class="m" x="671" y="1901.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1916.0" font-size="10" font-weight="400" fill="#1e293b">PersonType</text>
 <text class="m" x="671" y="1916.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="1920.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="1931.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="398" y="1931.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId·</text>
+<text class="t" x="398" y="1931.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId·</text>
 <text class="m" x="671" y="1931.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="1946.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
 <text class="m" x="671" y="1946.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
@@ -1707,18 +2294,31 @@
 <text class="m" x="671" y="1979.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>MedicalExaminationForm — Health — 0 rows, 27 columns</title>
+<title>MedicalExaminationForm  ·  Health modülü
+
+NE      Sağlık gözetimi muayene formunun BAŞLIK ve SONUÇ kaydı (EK-2 formu).
+NİÇİN   Eski form tek satırda yüzlerce sütun taşıyordu; altı ayrı satır tablosuna
+        bölündü. Yaklaşık 120 şifreli sütunu vardır, bu yüzden toplu kopyalama ile
+        değil DbContext üzerinden yazılmak zorundadır.
+ESKİ    PeriodicExaminationForm_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   0 satır · 36 sütun (27 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 6 ilişki geliyor</title>
 <rect x="52" y="1854.0" width="302" height="462" rx="7" fill="#ffffff" stroke="#15803d" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 1861.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#15803d"/>
 <text class="t" x="62" y="1874.0" font-size="12.5" font-weight="600" fill="#ffffff">MedicalExaminationForm</text>
 <rect x="327" y="1862.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="1872.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="1862.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="1872.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="1895.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="1895.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="1895.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="1895.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="1899.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1910.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="72" y="1910.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId</text>
+<text class="t" x="72" y="1910.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId</text>
 <text class="m" x="345" y="1910.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1925.0" font-size="10" font-weight="400" fill="#1e293b">ReportType</text>
 <text class="m" x="345" y="1925.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1729,7 +2329,9 @@
 <text class="m" x="345" y="1955.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <rect x="53" y="1959.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="1970.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="72" y="1970.0" font-size="10" font-weight="500" fill="#1e293b">PhysicianUserId·</text>
+<text class="t" x="72" y="1970.0" font-size="10" font-weight="500" fill="#1e293b"><title>PhysicianUserId
+
+→ User tablosuna işaret ediyor.</title>PhysicianUserId·</text>
 <text class="m" x="345" y="1970.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="1985.0" font-size="10" font-weight="400" fill="#1e293b">HeightCm·</text>
 <text class="m" x="345" y="1985.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -1757,13 +2359,17 @@
 <text class="t" x="72" y="2120.0" font-size="10" font-weight="400" fill="#1e293b">Recommendations·</text>
 <text class="m" x="345" y="2120.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(max)</text>
 <text class="m" x="61" y="2135.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="72" y="2135.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="72" y="2135.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="345" y="2135.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="2139.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="2150.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatus</text>
 <text class="m" x="345" y="2150.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="2165.0" font-size="8.5" fill="#15803d">▸</text>
-<text class="t" x="72" y="2165.0" font-size="10" font-weight="500" fill="#1e293b">IbysQueryId·</text>
+<text class="t" x="72" y="2165.0" font-size="10" font-weight="500" fill="#1e293b"><title>IbysQueryId
+
+→ IbysQuery tablosuna işaret ediyor.</title>IbysQueryId·</text>
 <text class="m" x="345" y="2165.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="2169.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="2180.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatusCode·</text>
@@ -1791,18 +2397,29 @@
 <text class="m" x="345" y="2303.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>Neighborhood — Lookups — 29 024 rows, 3 columns</title>
+<title>Neighborhood  ·  Lookups modülü
+
+NE      Mahalle referansı.
+NİÇİN   Host referans tablosu, salt okunur.
+ESKİ    Neighborhood_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   29 024 satır · 3 sütun
+BAĞ     1 ilişki çıkıyor · 3 ilişki geliyor</title>
 <rect x="1030" y="1890.0" width="302" height="102" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 1897.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="1040" y="1910.0" font-size="12.5" font-weight="600" fill="#ffffff">Neighborhood</text>
 <text class="m" x="1039" y="1931.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="1931.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="1931.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="1931.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="1935.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="1946.0" font-size="10" font-weight="400" fill="#1e293b">NeighborhoodName</text>
 <text class="m" x="1323" y="1946.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <text class="m" x="1039" y="1961.0" font-size="8.5" fill="#0e7490">▸</text>
-<text class="t" x="1050" y="1961.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId</text>
+<text class="t" x="1050" y="1961.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId</text>
 <text class="m" x="1323" y="1961.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1031 1965.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1031" y1="1965.0" x2="1331" y2="1965.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -1810,12 +2427,22 @@
 <text class="m" x="1323" y="1979.0" font-size="8.8" fill="#64748b" text-anchor="end">29 024 rows</text>
 </g>
 <g opacity="0.45">
-<title>OccupationCode — Lookups — 0 rows, 4 columns</title>
+<title>OccupationCode  ·  Lookups modülü
+
+NE      NACE meslek/faaliyet kodu referansı.
+NİÇİN   İşyerinin tehlike sınıfı bu kayıttan türetilir — yani yükümlülüklerin
+        sıklığını belirleyen zincirin ilk halkası.
+ESKİ    OccupationCode_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 8 sütun (4 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="1356" y="1899.0" width="302" height="117" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 1906.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="1366" y="1919.0" font-size="12.5" font-weight="600" fill="#ffffff">OccupationCode</text>
 <text class="m" x="1365" y="1940.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="1940.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="1940.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="1940.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="1944.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="1955.0" font-size="10" font-weight="400" fill="#1e293b">NaceCode</text>
@@ -1831,14 +2458,24 @@
 <text class="m" x="1649" y="2003.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>Office — Tenancy — 957 rows, 11 columns</title>
+<title>Office  ·  Tenancy modülü
+
+NE      Kurumun fiziksel ofisi veya şubesi.
+NİÇİN   Kullanıcılar ve iş planları ofis bazında yönetilir; personel maliyeti ve
+        İSG-KATİP dakika kapasitesi de ofise göre hesaplanır.
+ESKİ    Ofisler_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   957 satır · 20 sütun (11 çizili, 7 denetim, 2 kapsam)
+BAĞ     2 ilişki çıkıyor · 10 ilişki geliyor</title>
 <rect x="1682" y="2010.0" width="302" height="222" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 2017.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="1692" y="2030.0" font-size="12.5" font-weight="600" fill="#ffffff">Office</text>
 <rect x="1957" y="2018.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="2028.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1940" y="2018.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1947.5" y="2028.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1691" y="2051.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="2051.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="2051.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="2051.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="2055.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="2066.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -1852,10 +2489,14 @@
 <text class="m" x="1975" y="2111.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="1683" y="2115.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1691" y="2126.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="1702" y="2126.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="t" x="1702" y="2126.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId·</text>
 <text class="m" x="1975" y="2126.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1691" y="2141.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="1702" y="2141.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="t" x="1702" y="2141.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId·</text>
 <text class="m" x="1975" y="2141.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="2145.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="2156.0" font-size="10" font-weight="400" fill="#1e293b">AuthorizedPerson·</text>
@@ -1873,16 +2514,29 @@
 <text class="m" x="1975" y="2219.0" font-size="8.8" fill="#64748b" text-anchor="end">957 rows</text>
 </g>
 <g opacity="0.45">
-<title>OrganizationContract — Tenancy — 0 rows, 26 columns</title>
+<title>OrganizationContract  ·  Tenancy modülü
+
+NE      İmzalanmış abonelik sözleşmesi — aday müşterinin kiracıya dönüştüğü resmî
+        kayıt.
+NİÇİN   Host seviyesinde tutulur: sözleşme kiracıdan önce vardır, dolayısıyla bir
+        kiracıya ait olamaz.
+ESKİ    SozlesmeliFirmalar_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 33 sütun (26 çizili, 7 denetim)
+BAĞ     5 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="378" y="2016.0" width="302" height="447" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M378 2023.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="388" y="2036.0" font-size="12.5" font-weight="600" fill="#ffffff">OrganizationContract</text>
 <text class="m" x="387" y="2057.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="398" y="2057.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="398" y="2057.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="671" y="2057.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="2061.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="2072.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="398" y="2072.0" font-size="10" font-weight="500" fill="#1e293b">OrganizationId</text>
+<text class="t" x="398" y="2072.0" font-size="10" font-weight="500" fill="#1e293b"><title>OrganizationId
+
+→ Organization tablosuna işaret ediyor.</title>OrganizationId</text>
 <text class="m" x="671" y="2072.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="398" y="2087.0" font-size="10" font-weight="400" fill="#1e293b">OrganizationName</text>
 <text class="m" x="671" y="2087.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
@@ -1913,10 +2567,14 @@
 <text class="m" x="671" y="2237.0" font-size="8.8" fill="#94a3b8" text-anchor="end">decimal(18,2)</text>
 <rect x="379" y="2241.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="2252.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="398" y="2252.0" font-size="10" font-weight="500" fill="#1e293b">SubscriptionPlanId·</text>
+<text class="t" x="398" y="2252.0" font-size="10" font-weight="500" fill="#1e293b"><title>SubscriptionPlanId
+
+→ SubscriptionPlan tablosuna işaret ediyor.</title>SubscriptionPlanId·</text>
 <text class="m" x="671" y="2252.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="387" y="2267.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="398" y="2267.0" font-size="10" font-weight="500" fill="#1e293b">OrganizationTypeId·</text>
+<text class="t" x="398" y="2267.0" font-size="10" font-weight="500" fill="#1e293b"><title>OrganizationTypeId
+
+→ OrganizationType tablosuna işaret ediyor.</title>OrganizationTypeId·</text>
 <text class="m" x="671" y="2267.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="2271.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="2282.0" font-size="10" font-weight="400" fill="#1e293b">IsApproved</text>
@@ -1925,10 +2583,14 @@
 <text class="m" x="671" y="2297.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
 <rect x="379" y="2301.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="387" y="2312.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="398" y="2312.0" font-size="10" font-weight="500" fill="#1e293b">SalesRepId·</text>
+<text class="t" x="398" y="2312.0" font-size="10" font-weight="500" fill="#1e293b"><title>SalesRepId
+
+→ SalesRep tablosuna işaret ediyor.</title>SalesRepId·</text>
 <text class="m" x="671" y="2312.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="387" y="2327.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="398" y="2327.0" font-size="10" font-weight="500" fill="#1e293b">ReferenceCompanyId·</text>
+<text class="t" x="398" y="2327.0" font-size="10" font-weight="500" fill="#1e293b"><title>ReferenceCompanyId
+
+→ Company tablosuna işaret ediyor.</title>ReferenceCompanyId·</text>
 <text class="m" x="671" y="2327.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="379" y="2331.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="398" y="2342.0" font-size="10" font-weight="400" fill="#1e293b">AssignmentLogId·</text>
@@ -1954,12 +2616,22 @@
 <text class="m" x="671" y="2450.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>OrganizationType — Tenancy — 4 rows, 5 columns</title>
+<title>OrganizationType  ·  Tenancy modülü
+
+NE      Kurum türü referansı: OSGB, işletme, bakanlık gibi.
+NİÇİN   İzin kataloğunda ZORUNLU KAPIDIR — bir yetkinin kuruma açılabilmesi için
+        önce kurum türüne açılmış olması gerekir.
+ESKİ    KurumTuru_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   4 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 5 ilişki geliyor</title>
 <rect x="1030" y="2016.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 2023.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="1040" y="2036.0" font-size="12.5" font-weight="600" fill="#ffffff">OrganizationType</text>
 <text class="m" x="1039" y="2057.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="2057.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="2057.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="2057.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2061.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="2072.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -1977,12 +2649,20 @@
 <text class="m" x="1323" y="2135.0" font-size="8.8" fill="#64748b" text-anchor="end">4 rows</text>
 </g>
 <g opacity="0.45">
-<title>Period — Lookups — 11 rows, 5 columns</title>
+<title>Period  ·  Lookups modülü
+
+NE      Tekrarlayan iş/muayene periyodu tanımı ("6 ayda bir", "yıllık").
+ESKİ    Period_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   11 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 5 ilişki geliyor</title>
 <rect x="1356" y="2040.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#0e7490" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 2047.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#0e7490"/>
 <text class="t" x="1366" y="2060.0" font-size="12.5" font-weight="600" fill="#ffffff">Period</text>
 <text class="m" x="1365" y="2081.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="2081.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="2081.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="2081.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2085.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="2096.0" font-size="10" font-weight="400" fill="#1e293b">PeriodName</text>
@@ -2000,12 +2680,22 @@
 <text class="m" x="1649" y="2159.0" font-size="8.8" fill="#64748b" text-anchor="end">11 rows</text>
 </g>
 <g opacity="0.45">
-<title>ProspectOrganization — Tenancy — 0 rows, 29 columns</title>
+<title>ProspectOrganization  ·  Tenancy modülü
+
+NE      Aday müşteri — henüz kiracıya dönüşmemiş satış fırsatı.
+NİÇİN   Host seviyesinde bir CRM kaydı. Eski adı CustomerPackage_T idi; isim paket
+        satışını ima ediyordu, oysa kayıt aslında adayın kendisidir.
+ESKİ    CustomerPackage_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   0 satır · 36 sütun (29 çizili, 7 denetim)
+BAĞ     4 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="704" y="2076.0" width="302" height="492" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M704 2083.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="714" y="2096.0" font-size="12.5" font-weight="600" fill="#ffffff">ProspectOrganization</text>
 <text class="m" x="713" y="2117.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="724" y="2117.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="724" y="2117.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="997" y="2117.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="2121.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="2132.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -2036,7 +2726,9 @@
 <text class="t" x="724" y="2282.0" font-size="10" font-weight="400" fill="#1e293b">SpecialistCount·</text>
 <text class="m" x="997" y="2282.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="2297.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="724" y="2297.0" font-size="10" font-weight="500" fill="#1e293b">SubscriptionPlanId·</text>
+<text class="t" x="724" y="2297.0" font-size="10" font-weight="500" fill="#1e293b"><title>SubscriptionPlanId
+
+→ SubscriptionPlan tablosuna işaret ediyor.</title>SubscriptionPlanId·</text>
 <text class="m" x="997" y="2297.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="2301.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="2312.0" font-size="10" font-weight="400" fill="#1e293b">Price·</text>
@@ -2057,14 +2749,20 @@
 <text class="t" x="724" y="2402.0" font-size="10" font-weight="400" fill="#1e293b">RecordDate·</text>
 <text class="m" x="997" y="2402.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
 <text class="m" x="713" y="2417.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="724" y="2417.0" font-size="10" font-weight="500" fill="#1e293b">OrganizationId·</text>
+<text class="t" x="724" y="2417.0" font-size="10" font-weight="500" fill="#1e293b"><title>OrganizationId
+
+→ Organization tablosuna işaret ediyor.</title>OrganizationId·</text>
 <text class="m" x="997" y="2417.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="2421.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="713" y="2432.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="724" y="2432.0" font-size="10" font-weight="500" fill="#1e293b">SalesRepId·</text>
+<text class="t" x="724" y="2432.0" font-size="10" font-weight="500" fill="#1e293b"><title>SalesRepId
+
+→ SalesRep tablosuna işaret ediyor.</title>SalesRepId·</text>
 <text class="m" x="997" y="2432.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="713" y="2447.0" font-size="8.5" fill="#4338ca">▸</text>
-<text class="t" x="724" y="2447.0" font-size="10" font-weight="500" fill="#1e293b">ReferenceCompanyId·</text>
+<text class="t" x="724" y="2447.0" font-size="10" font-weight="500" fill="#1e293b"><title>ReferenceCompanyId
+
+→ Company tablosuna işaret ediyor.</title>ReferenceCompanyId·</text>
 <text class="m" x="997" y="2447.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="705" y="2451.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="724" y="2462.0" font-size="10" font-weight="400" fill="#1e293b">AssignmentLogId·</text>
@@ -2087,23 +2785,37 @@
 <text class="m" x="997" y="2555.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>RiskAssessmentParticipant — Risks — 0 rows, 6 columns</title>
+<title>RiskAssessmentParticipant  ·  Risks modülü
+
+NE      Risk değerlendirme ekibinin bir üyesi.
+NİÇİN   NORMALİZASYON: eskiden başlık tablosunda çalışan temsilcisi, destek
+        personeli gibi ayrı ayrı metin sütunlarıydı.
+ESKİ    RiskAnalizRaporu_T.IsyeriCalisanTemsilcisi
+KAPSAM  kiracı (TenantId)
+BOYUT   0 satır · 9 sütun (6 çizili, 2 denetim, 1 kapsam)
+BAĞ     2 ilişki çıkıyor · 0 ilişki geliyor</title>
 <rect x="1030" y="2172.0" width="302" height="147" rx="7" fill="#ffffff" stroke="#b91c1c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 2179.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#b91c1c"/>
 <text class="t" x="1040" y="2192.0" font-size="12.5" font-weight="600" fill="#ffffff">RiskAssessmentParticipant</text>
 <rect x="1305" y="2180.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="2190.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1039" y="2213.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="2213.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="2213.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="2213.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2217.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="2228.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="2228.0" font-size="10" font-weight="500" fill="#1e293b">RiskAssessmentReportId</text>
+<text class="t" x="1050" y="2228.0" font-size="10" font-weight="500" fill="#1e293b"><title>RiskAssessmentReportId
+
+→ RiskAssessmentReport tablosuna işaret ediyor.</title>RiskAssessmentReportId</text>
 <text class="m" x="1323" y="2228.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="2243.0" font-size="10" font-weight="400" fill="#1e293b">ParticipantType</text>
 <text class="m" x="1323" y="2243.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2247.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="2258.0" font-size="8.5" fill="#b91c1c">▸</text>
-<text class="t" x="1050" y="2258.0" font-size="10" font-weight="500" fill="#1e293b">CompanyEmployeeId·</text>
+<text class="t" x="1050" y="2258.0" font-size="10" font-weight="500" fill="#1e293b"><title>CompanyEmployeeId
+
+→ CompanyEmployee tablosuna işaret ediyor.</title>CompanyEmployeeId·</text>
 <text class="m" x="1323" y="2258.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1050" y="2273.0" font-size="10" font-weight="400" fill="#1e293b">FullName</text>
 <text class="m" x="1323" y="2273.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
@@ -2116,12 +2828,22 @@
 <text class="m" x="1323" y="2306.0" font-size="8.8" fill="#64748b" text-anchor="end">0 rows</text>
 </g>
 <g opacity="0.45">
-<title>SubscriptionPlan — Tenancy — 5 rows, 5 columns</title>
+<title>SubscriptionPlan  ·  Tenancy modülü
+
+NE      Abonelik paketi referansı.
+NİÇİN   Host tablosu — tüm kiracılar aynı paket listesini paylaşır, bu yüzden
+        TenantId taşımaz.
+ESKİ    PaketTuru_T
+KAPSAM  ortak (host) — kiracıdan bağımsız
+BOYUT   5 satır · 9 sütun (5 çizili, 4 denetim)
+BAĞ     0 ilişki çıkıyor · 6 ilişki geliyor</title>
 <rect x="1356" y="2196.0" width="302" height="132" rx="7" fill="#ffffff" stroke="#4338ca" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 2203.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#4338ca"/>
 <text class="t" x="1366" y="2216.0" font-size="12.5" font-weight="600" fill="#ffffff">SubscriptionPlan</text>
 <text class="m" x="1365" y="2237.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="2237.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="2237.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="2237.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2241.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="2252.0" font-size="10" font-weight="400" fill="#1e293b">Code</text>
@@ -2139,13 +2861,22 @@
 <text class="m" x="1649" y="2315.0" font-size="8.8" fill="#64748b" text-anchor="end">5 rows</text>
 </g>
 <g opacity="0.45">
-<title>Training — Trainings — 282 rows, 14 columns</title>
+<title>Training  ·  Trainings modülü
+
+NE      Eğitim tanımı (katalog) — uzaktan eğitim platformunda personele atanan
+        şablon.
+ESKİ    Training_T
+KAPSAM  kiracı (TenantId)
+BOYUT   282 satır · 22 sütun (14 çizili, 7 denetim, 1 kapsam)
+BAĞ     1 ilişki çıkıyor · 6 ilişki geliyor</title>
 <rect x="1682" y="2256.0" width="302" height="267" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1682 2263.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
 <text class="t" x="1692" y="2276.0" font-size="12.5" font-weight="600" fill="#ffffff">Training</text>
 <rect x="1957" y="2264.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1964.5" y="2274.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <text class="m" x="1691" y="2297.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1702" y="2297.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1702" y="2297.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1975" y="2297.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1683" y="2301.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1702" y="2312.0" font-size="10" font-weight="400" fill="#1e293b">TrainingName</text>
@@ -2154,7 +2885,9 @@
 <text class="m" x="1975" y="2327.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
 <rect x="1683" y="2331.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1691" y="2342.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="1702" y="2342.0" font-size="10" font-weight="500" fill="#1e293b">TrainingGroupId·</text>
+<text class="t" x="1702" y="2342.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingGroupId
+
+→ TrainingGroup tablosuna işaret ediyor.</title>TrainingGroupId·</text>
 <text class="m" x="1975" y="2342.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1702" y="2357.0" font-size="10" font-weight="400" fill="#1e293b">TrainingType</text>
 <text class="m" x="1975" y="2357.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -2187,21 +2920,35 @@
 <text class="m" x="1975" y="2510.0" font-size="8.8" fill="#64748b" text-anchor="end">282 rows</text>
 </g>
 <g opacity="0.45">
-<title>TrainingPlanLine — Trainings — 894 571 rows, 29 columns</title>
+<title>TrainingPlanLine  ·  Trainings modülü
+
+NE      Eğitim planının tek bir satırı: belirli bir ayda yapılacak tek bir eğitim.
+NİÇİN   894.571 satır. Göçte 70.774 satırın var olmayan bir plana işaret ettiği
+        görüldü — kaynaktaki bozuk referans bütünlüğü; atlandı ve raporlandı.
+ESKİ    TrainingPlanLines_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   894 571 satır · 38 sütun (29 çizili, 7 denetim, 2 kapsam)
+BAĞ     8 ilişki çıkıyor · 2 ilişki geliyor</title>
 <rect x="52" y="2340.0" width="302" height="492" rx="7" fill="#ffffff" stroke="#a16207" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M52 2347.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#a16207"/>
 <text class="t" x="62" y="2360.0" font-size="12.5" font-weight="600" fill="#ffffff">TrainingPlanLine</text>
 <rect x="327" y="2348.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="334.5" y="2358.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="310" y="2348.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="317.5" y="2358.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="61" y="2381.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="72" y="2381.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="72" y="2381.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="345" y="2381.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="2385.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="2396.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2396.0" font-size="10" font-weight="500" fill="#1e293b">TrainingPlanId</text>
+<text class="t" x="72" y="2396.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingPlanId
+
+→ TrainingPlan tablosuna işaret ediyor.</title>TrainingPlanId</text>
 <text class="m" x="345" y="2396.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="2411.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2411.0" font-size="10" font-weight="500" fill="#1e293b">TrainingId</text>
+<text class="t" x="72" y="2411.0" font-size="10" font-weight="500" fill="#1e293b"><title>TrainingId
+
+→ Training tablosuna işaret ediyor.</title>TrainingId</text>
 <text class="m" x="345" y="2411.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="2415.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="72" y="2426.0" font-size="10" font-weight="400" fill="#1e293b">DurationMinutes</text>
@@ -2230,14 +2977,20 @@
 <text class="m" x="345" y="2561.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
 <rect x="53" y="2565.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="2576.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2576.0" font-size="10" font-weight="500" fill="#1e293b">PreviousLineId·</text>
+<text class="t" x="72" y="2576.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreviousLineId
+
+→ TrainingPlanLine tablosuna işaret ediyor.</title>PreviousLineId·</text>
 <text class="m" x="345" y="2576.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="61" y="2591.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2591.0" font-size="10" font-weight="500" fill="#1e293b">ForApprovalSenderUserId·</text>
+<text class="t" x="72" y="2591.0" font-size="10" font-weight="500" fill="#1e293b"><title>ForApprovalSenderUserId
+
+→ User tablosuna işaret ediyor.</title>ForApprovalSenderUserId·</text>
 <text class="m" x="345" y="2591.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="2595.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="2606.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2606.0" font-size="10" font-weight="500" fill="#1e293b">ApproverUserId·</text>
+<text class="t" x="72" y="2606.0" font-size="10" font-weight="500" fill="#1e293b"><title>ApproverUserId
+
+→ User tablosuna işaret ediyor.</title>ApproverUserId·</text>
 <text class="m" x="345" y="2606.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="2621.0" font-size="10" font-weight="400" fill="#1e293b">ForApprovalSendingDate·</text>
 <text class="m" x="345" y="2621.0" font-size="8.8" fill="#94a3b8" text-anchor="end">datetime2</text>
@@ -2253,7 +3006,9 @@
 <text class="m" x="345" y="2681.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(128)</text>
 <rect x="53" y="2685.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="2696.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2696.0" font-size="10" font-weight="500" fill="#1e293b">InstructorUserId·</text>
+<text class="t" x="72" y="2696.0" font-size="10" font-weight="500" fill="#1e293b"><title>InstructorUserId
+
+→ User tablosuna işaret ediyor.</title>InstructorUserId·</text>
 <text class="m" x="345" y="2696.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="2711.0" font-size="10" font-weight="400" fill="#1e293b">TrainingLocation·</text>
 <text class="m" x="345" y="2711.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -2264,7 +3019,9 @@
 <text class="m" x="345" y="2741.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="53" y="2745.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="61" y="2756.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2756.0" font-size="10" font-weight="500" fill="#1e293b">IbysQueryId·</text>
+<text class="t" x="72" y="2756.0" font-size="10" font-weight="500" fill="#1e293b"><title>IbysQueryId
+
+→ IbysQuery tablosuna işaret ediyor.</title>IbysQueryId·</text>
 <text class="m" x="345" y="2756.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="72" y="2771.0" font-size="10" font-weight="400" fill="#1e293b">IbysStatusCode·</text>
 <text class="m" x="345" y="2771.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(32)</text>
@@ -2272,7 +3029,9 @@
 <text class="t" x="72" y="2786.0" font-size="10" font-weight="400" fill="#1e293b">IbysMessage·</text>
 <text class="m" x="345" y="2786.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
 <text class="m" x="61" y="2801.0" font-size="8.5" fill="#a16207">▸</text>
-<text class="t" x="72" y="2801.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="72" y="2801.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="345" y="2801.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M53 2805.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="53" y1="2805.0" x2="353" y2="2805.0" stroke="#e2e8f0" stroke-width="1"/>
@@ -2280,14 +3039,24 @@
 <text class="m" x="345" y="2819.0" font-size="8.8" fill="#64748b" text-anchor="end">894 571 rows</text>
 </g>
 <g opacity="0.45">
-<title>User — Membership — 3 886 rows, 41 columns</title>
+<title>User  ·  Membership modülü
+
+NE      Sisteme giren kullanıcı: İSG uzmanı, işyeri hekimi, ofis personeli veya
+        firma kullanıcısı.
+NİÇİN   ASP.NET Core Identity tablosu, Ensa alanlarıyla genişletildi. Parola
+        hash'i ve T.C. kimlik numarası gibi alanlar sütun bazında şifrelidir.
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   3 886 satır · 50 sütun (41 çizili, 7 denetim, 2 kapsam)
+BAĞ     4 ilişki çıkıyor · 43 ilişki geliyor</title>
 <rect x="1030" y="2343.0" width="302" height="672" rx="7" fill="#ffffff" stroke="#7c3aed" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1030 2350.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#7c3aed"/>
 <text class="t" x="1040" y="2363.0" font-size="12.5" font-weight="600" fill="#ffffff">User</text>
 <rect x="1305" y="2351.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1312.5" y="2361.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1288" y="2351.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1295.5" y="2361.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1039" y="2384.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1050" y="2384.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1050" y="2384.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="2384.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2388.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="2399.0" font-size="10" font-weight="400" fill="#1e293b">Name</text>
@@ -2301,16 +3070,22 @@
 <text class="m" x="1323" y="2444.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(512)</text>
 <rect x="1031" y="2448.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1039" y="2459.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="2459.0" font-size="10" font-weight="500" fill="#1e293b">CityId·</text>
+<text class="t" x="1050" y="2459.0" font-size="10" font-weight="500" fill="#1e293b"><title>CityId
+
+→ City tablosuna işaret ediyor.</title>CityId·</text>
 <text class="m" x="1323" y="2459.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="2474.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="2474.0" font-size="10" font-weight="500" fill="#1e293b">DistrictId·</text>
+<text class="t" x="1050" y="2474.0" font-size="10" font-weight="500" fill="#1e293b"><title>DistrictId
+
+→ District tablosuna işaret ediyor.</title>DistrictId·</text>
 <text class="m" x="1323" y="2474.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2478.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="2489.0" font-size="10" font-weight="400" fill="#1e293b">Gsm·</text>
 <text class="m" x="1323" y="2489.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(20)</text>
 <text class="m" x="1039" y="2504.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="2504.0" font-size="10" font-weight="500" fill="#1e293b">PhotoDocumentId·</text>
+<text class="t" x="1050" y="2504.0" font-size="10" font-weight="500" fill="#1e293b"><title>PhotoDocumentId
+
+→ Document tablosuna işaret ediyor.</title>PhotoDocumentId·</text>
 <text class="m" x="1323" y="2504.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2508.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="2519.0" font-size="10" font-weight="400" fill="#1e293b">Color·</text>
@@ -2331,7 +3106,9 @@
 <text class="t" x="1050" y="2609.0" font-size="10" font-weight="400" fill="#1e293b">MonthlyWorkDurationMinutes·</text>
 <text class="m" x="1323" y="2609.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1039" y="2624.0" font-size="8.5" fill="#7c3aed">▸</text>
-<text class="t" x="1050" y="2624.0" font-size="10" font-weight="500" fill="#1e293b">OfficeId·</text>
+<text class="t" x="1050" y="2624.0" font-size="10" font-weight="500" fill="#1e293b"><title>OfficeId
+
+→ Office tablosuna işaret ediyor.</title>OfficeId·</text>
 <text class="m" x="1323" y="2624.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1031" y="2628.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1050" y="2639.0" font-size="10" font-weight="400" fill="#1e293b">OfficeAdmin</text>
@@ -2399,25 +3176,44 @@
 <text class="m" x="1323" y="3002.0" font-size="8.8" fill="#64748b" text-anchor="end">3 886 rows</text>
 </g>
 <g opacity="0.45">
-<title>WorkPlanLine — Plans — 1 045 151 rows, 20 columns</title>
+<title>WorkPlanLine  ·  Plans modülü
+
+NE      Çalışma planının tek bir satırı: belirli bir ayda yapılacak tek bir
+        faaliyet.
+NİÇİN   1.045.151 satır. Göçte kritik bir hata yakalandı: Durum = -1 değeri baştan
+        geçersiz sayılıp atılmıştı; oysa eski uygulama satıra bağlı belge
+        silindiğinde bunu yazıyor ve satır 'yapılmadı'ya dönüyor. 159.405 satırın
+        durumu bu yüzden yeniden okundu.
+ESKİ    WorkPlanLines_T
+KAPSAM  kiracı (TenantId) · firma (CompanyId)
+BOYUT   1 045 151 satır · 29 sütun (20 çizili, 7 denetim, 2 kapsam)
+BAĞ     8 ilişki çıkıyor · 4 ilişki geliyor</title>
 <rect x="1356" y="2352.0" width="302" height="357" rx="7" fill="#ffffff" stroke="#c2410c" stroke-width="1.1" filter="url(#drop)"/>
 <path d="M1356 2359.0 a7 7 0 0 1 7 -7 h288 a7 7 0 0 1 7 7 v23 h-302 z" fill="#c2410c"/>
 <text class="t" x="1366" y="2372.0" font-size="12.5" font-weight="600" fill="#ffffff">WorkPlanLine</text>
 <rect x="1631" y="2360.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1638.5" y="2370.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">T</text>
 <rect x="1614" y="2360.0" width="15" height="14" rx="3.5" fill="#ffffff" fill-opacity="0.24"/><text class="m" x="1621.5" y="2370.5" font-size="9.5" font-weight="700" fill="#ffffff" text-anchor="middle">C</text>
 <text class="m" x="1365" y="2393.0" font-size="8.5" fill="#b45309">◆</text>
-<text class="t" x="1376" y="2393.0" font-size="10" font-weight="600" fill="#1e293b">Id</text>
+<text class="t" x="1376" y="2393.0" font-size="10" font-weight="600" fill="#1e293b"><title>Id
+
+Birincil anahtar.</title>Id</text>
 <text class="m" x="1649" y="2393.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2397.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="2408.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2408.0" font-size="10" font-weight="500" fill="#1e293b">WorkPlanId</text>
+<text class="t" x="1376" y="2408.0" font-size="10" font-weight="500" fill="#1e293b"><title>WorkPlanId
+
+→ WorkPlan tablosuna işaret ediyor.</title>WorkPlanId</text>
 <text class="m" x="1649" y="2408.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="2423.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2423.0" font-size="10" font-weight="500" fill="#1e293b">ActivityId</text>
+<text class="t" x="1376" y="2423.0" font-size="10" font-weight="500" fill="#1e293b"><title>ActivityId
+
+→ Activity tablosuna işaret ediyor.</title>ActivityId</text>
 <text class="m" x="1649" y="2423.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2427.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="2438.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2438.0" font-size="10" font-weight="500" fill="#1e293b">PeriodId·</text>
+<text class="t" x="1376" y="2438.0" font-size="10" font-weight="500" fill="#1e293b"><title>PeriodId
+
+→ Period tablosuna işaret ediyor.</title>PeriodId·</text>
 <text class="m" x="1649" y="2438.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="t" x="1376" y="2453.0" font-size="10" font-weight="400" fill="#1e293b">Year</text>
 <text class="m" x="1649" y="2453.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
@@ -2435,7 +3231,9 @@
 <text class="t" x="1376" y="2528.0" font-size="10" font-weight="400" fill="#1e293b">IsActive</text>
 <text class="m" x="1649" y="2528.0" font-size="8.8" fill="#94a3b8" text-anchor="end">bit</text>
 <text class="m" x="1365" y="2543.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2543.0" font-size="10" font-weight="500" fill="#1e293b">PreviousLineId·</text>
+<text class="t" x="1376" y="2543.0" font-size="10" font-weight="500" fill="#1e293b"><title>PreviousLineId
+
+→ WorkPlanLine tablosuna işaret ediyor.</title>PreviousLineId·</text>
 <text class="m" x="1649" y="2543.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2547.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="2558.0" font-size="10" font-weight="400" fill="#1e293b">ApprovalStatus·</text>
@@ -2444,10 +3242,14 @@
 <text class="m" x="1649" y="2573.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(2000)</text>
 <rect x="1357" y="2577.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="2588.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2588.0" font-size="10" font-weight="500" fill="#1e293b">ForApprovalSenderUserId·</text>
+<text class="t" x="1376" y="2588.0" font-size="10" font-weight="500" fill="#1e293b"><title>ForApprovalSenderUserId
+
+→ User tablosuna işaret ediyor.</title>ForApprovalSenderUserId·</text>
 <text class="m" x="1649" y="2588.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <text class="m" x="1365" y="2603.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2603.0" font-size="10" font-weight="500" fill="#1e293b">ApproverUserId·</text>
+<text class="t" x="1376" y="2603.0" font-size="10" font-weight="500" fill="#1e293b"><title>ApproverUserId
+
+→ User tablosuna işaret ediyor.</title>ApproverUserId·</text>
 <text class="m" x="1649" y="2603.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2607.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="t" x="1376" y="2618.0" font-size="10" font-weight="400" fill="#1e293b">ForApprovalSendingDate·</text>
@@ -2458,11 +3260,15 @@
 <text class="t" x="1376" y="2648.0" font-size="10" font-weight="400" fill="#1e293b">InstructorNationalId·</text>
 <text class="m" x="1649" y="2648.0" font-size="8.8" fill="#94a3b8" text-anchor="end">nvarchar(64)</text>
 <text class="m" x="1365" y="2663.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2663.0" font-size="10" font-weight="500" fill="#1e293b">InstructorUserId·</text>
+<text class="t" x="1376" y="2663.0" font-size="10" font-weight="500" fill="#1e293b"><title>InstructorUserId
+
+→ User tablosuna işaret ediyor.</title>InstructorUserId·</text>
 <text class="m" x="1649" y="2663.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <rect x="1357" y="2667.0" width="300" height="15" fill="#f1f5f9" opacity="0.7"/>
 <text class="m" x="1365" y="2678.0" font-size="8.5" fill="#c2410c">▸</text>
-<text class="t" x="1376" y="2678.0" font-size="10" font-weight="500" fill="#1e293b">DocumentId·</text>
+<text class="t" x="1376" y="2678.0" font-size="10" font-weight="500" fill="#1e293b"><title>DocumentId
+
+→ Document tablosuna işaret ediyor.</title>DocumentId·</text>
 <text class="m" x="1649" y="2678.0" font-size="8.8" fill="#94a3b8" text-anchor="end">int</text>
 <path d="M1357 2682.0 h300 v14 a6 6 0 0 1 -6 6 h-288 a6 6 0 0 1 -6 -6 z" fill="#f8fafc"/>
 <line x1="1357" y1="2682.0" x2="1657" y2="2682.0" stroke="#e2e8f0" stroke-width="1"/>

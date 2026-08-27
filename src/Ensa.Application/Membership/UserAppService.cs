@@ -38,6 +38,7 @@ public class UserAppService(
     IRepository<UserProfile> userProfileRepository,
     IRepository<UserEmployment> userEmploymentRepository,
     IReadOnlyRepository<UserType> userTypeRepository,
+    IReadOnlyRepository<UserOffice> userOfficeRepository,
     IReadOnlyRepository<Organization> organizationRepository)
     : EnsaAppService(serviceProvider), IUserAppService
 {
@@ -52,7 +53,7 @@ public class UserAppService(
         var user = await userRepository.FindAsync(id, cancellationToken)
                    ?? throw new EntityNotFoundException(typeof(User), id);
 
-        return ObjectMapper.Map<User, UserDto>(user);
+        return await ToDtoAsync(user, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -74,7 +75,7 @@ public class UserAppService(
 
         return new UserNavigationDto
         {
-            User = ObjectMapper.Map<User, UserDto>(navigation.User),
+            User = await ToDtoAsync(navigation.User, cancellationToken),
             Organization = Lookup(navigation.Organization?.Id, navigation.Organization?.Name),
             Office = Lookup(navigation.Office?.Id, navigation.Office?.Name),
             Offices = [.. navigation.Offices.Select(o => new LookupDto
@@ -235,7 +236,7 @@ public class UserAppService(
 
         Logger.LogInformation("User created: {UserId} - {UserName}", user.Id, user.UserName);
 
-        return ObjectMapper.Map<User, UserDto>(user);
+        return await ToDtoAsync(user, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -267,6 +268,7 @@ public class UserAppService(
 
         ObjectMapper.Map(input, user);
 
+        profile.CompanyId = input.CompanyId;
         profile.Name = input.Name;
         profile.LastName = input.LastName;
         profile.Address = input.Address;
@@ -309,7 +311,7 @@ public class UserAppService(
 
         Logger.LogInformation("User updated: {UserId}", id);
 
-        return ObjectMapper.Map<User, UserDto>(user);
+        return await ToDtoAsync(user, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -327,9 +329,21 @@ public class UserAppService(
                 .WithData("UserName", user.UserName);
         }
 
-        // User implements ISoftDelete, so the DbContext turns this physical delete into a
-        // logical one; the row stays available for the audit trail.
-        EnsureIdentitySucceeded(await userManager.DeleteAsync(user));
+        // Deleting the account row would orphan every CreatorId, LastModifierId and UserId that
+        // points at it -- 453 columns across the schema, none of them declared as foreign keys.
+        // So the deletion is recorded where deletions live now: on the profile. The account stays,
+        // and with it the audit trail; the profile being deleted is what makes the user unusable,
+        // because that is what authorization reads.
+        var profile = await userProfileRepository.FindAsync(p => p.UserId == id, cancellationToken);
+
+        if (profile is not null)
+        {
+            profile.IsDeleted = true;
+            profile.IsActive = false;
+            await userProfileRepository.UpdateAsync(profile, autoSave: true, cancellationToken);
+        }
+
+        EnsureIdentitySucceeded(await userManager.UpdateSecurityStampAsync(user));
 
         Logger.LogInformation("User deleted: {UserId}", id);
     }
@@ -492,6 +506,50 @@ public class UserAppService(
     /// no id to point them at.
     /// </para>
     /// </summary>
+    /// <summary>
+    /// Fills the half of the DTO that is not on the account.
+    /// <para>
+    /// The mapper can only see <see cref="User"/>, and the person moved out of it. Rather than
+    /// leave every caller to remember that, the composition happens here — and a user with no
+    /// profile yields a DTO with empty fields rather than an exception, because a screen showing
+    /// a broken record should say so rather than fall over.
+    /// </para>
+    /// </summary>
+    private async Task<UserDto> ToDtoAsync(User user, CancellationToken cancellationToken)
+    {
+        var dto = ObjectMapper.Map<User, UserDto>(user);
+
+        var (profile, employment, office) = await userRepository.GetPersonAsync(user.Id, cancellationToken);
+
+        dto.Name = profile?.Name ?? string.Empty;
+        dto.LastName = profile?.LastName ?? string.Empty;
+        dto.Address = profile?.Address;
+        dto.CityId = profile?.CityId;
+        dto.DistrictId = profile?.DistrictId;
+        dto.PhotoDocumentId = profile?.PhotoDocumentId;
+        dto.Color = profile?.Color;
+        dto.CompanyId = profile?.CompanyId;
+        dto.IsActive = profile?.IsActive ?? false;
+        dto.MustChangePassword = profile?.MustChangePassword ?? false;
+        dto.ContractApproved = profile?.ContractApproved ?? false;
+
+        dto.HireDate = employment?.HireDate;
+        dto.TerminationDate = employment?.TerminationDate;
+        dto.GrossSalary = employment?.GrossSalary;
+        dto.PartTime = employment?.PartTime ?? false;
+
+        dto.OfficeId = office?.OfficeId;
+        dto.MonthlyWorkDurationMinutes = office?.MonthlyWorkDurationMinutes;
+
+        if (employment?.UserTypeId is int typeId)
+        {
+            dto.StaffRole = (await userTypeRepository.FindAsync(t => t.Id == typeId, cancellationToken))
+                ?.StaffRole ?? StaffRole.Unspecified;
+        }
+
+        return dto;
+    }
+
     private async Task CreatePersonAsync(
         User user,
         CreateUserDto input,
@@ -501,6 +559,11 @@ public class UserAppService(
         {
             UserId = user.Id,
             TenantId = user.TenantId,
+
+            // The client workplace a customer user belongs to. It is the key the company scope
+            // filter reads, and that filter fails closed -- a customer whose company is missing
+            // sees nothing at all, which is a confusing way for a new account to arrive.
+            CompanyId = input.CompanyId,
             Name = input.Name,
             LastName = input.LastName,
             NationalId = input.NationalId,

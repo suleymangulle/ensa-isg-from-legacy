@@ -56,8 +56,7 @@ public class MembershipAutoMapperProfile : Profile
             // Maintained by RoleManager.
             .ForMember(d => d.NormalizedName, o => o.Ignore())
             .ForMember(d => d.ConcurrencyStamp, o => o.Ignore())
-            // Seeded flag: a role can never become (or stop being) a system role over HTTP.
-            .ForMember(d => d.IsStatic, o => o.Ignore());
+;
 
         CreateMap<CreateRoleDto, Role>().IncludeBase<RoleInputDto, Role>();
 
@@ -78,14 +77,13 @@ public class MembershipAutoMapperProfile : Profile
         => map
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.TenantId, o => o.Ignore())
-            // Audit trail - written by the DbContext interceptor.
-            .ForMember(d => d.CreationTime, o => o.Ignore())
-            .ForMember(d => d.CreatorId, o => o.Ignore())
-            .ForMember(d => d.LastModificationTime, o => o.Ignore())
-            .ForMember(d => d.LastModifierId, o => o.Ignore())
-            .ForMember(d => d.IsDeleted, o => o.Ignore())
-            .ForMember(d => d.DeletionTime, o => o.Ignore())
-            .ForMember(d => d.DeleterId, o => o.Ignore())
+
+
+
+
+
+
+
             // Identity infrastructure - maintained by UserManager only.
             .ForMember(d => d.NormalizedUserName, o => o.Ignore())
             .ForMember(d => d.NormalizedEmail, o => o.Ignore())

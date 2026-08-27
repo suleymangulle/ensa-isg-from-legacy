@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ensa.Domain.Membership;
@@ -15,14 +15,6 @@ namespace Ensa.Domain.Membership;
 /// </summary>
 public class Role : IdentityRole<int>, IEntity<int>, IMultiTenant
 {
-    public string? Description { get; set; }
-
-    /// <summary>A system-defined role that cannot be deleted or renamed.</summary>
-    public bool IsStatic { get; set; }
-
-    /// <summary>The default role assigned automatically to newly created users.</summary>
-    public bool IsDefault { get; set; }
-
     /// <summary><c>null</c> = host role (available to every tenant).</summary>
     public int? TenantId { get; set; }
 

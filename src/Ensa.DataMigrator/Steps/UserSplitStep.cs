@@ -70,141 +70,21 @@ public sealed class UserSplitStep : IMigrationStep
         var notes = new List<string>();
         var written = 0;
 
-        written += await Run(context, "UserProfile", ProfileSql, notes, cancellationToken);
-        written += await Run(context, "UserEmployment", EmploymentSql, notes, cancellationToken);
-        written += await Run(context, "UserMedulaCredential", MedulaSql, notes, cancellationToken);
-        written += await Run(context, "PhoneNumber", PhoneSql, notes, cancellationToken);
-
-        written += await RolesAsync(context, notes, cancellationToken);
+        // The copies that used to run here -- profile, employment, MEDULA, phone, roles, default
+        // office, recovered types -- were one-time bridges out of the User table. Those columns
+        // are gone, so the bridges cannot run and are not needed: TenancyStep writes the account
+        // and the rows describing the person together now. What remains reads the legacy source.
         written += await StaffTypesAsync(context, notes, cancellationToken);
         written += await OfficesAsync(context, notes, cancellationToken);
         written += await BaselinesAsync(context, notes, cancellationToken);
-        written += await DefaultOfficesAsync(context, notes, cancellationToken);
-        written += await MissingStaffTypesAsync(context, notes, cancellationToken);
+        written += await CompanyScopeAsync(context, notes, cancellationToken);
+        written += await RoleProfilesAsync(context, notes, cancellationToken);
 
         return new StepResult(written, written, 0, string.Join("; ", notes));
     }
 
     // ------------------------------------------------------------------ copies out of User
 
-    /// <summary>
-    /// The person. <c>NationalId</c> moves as stored ciphertext — same converter, same key, so the
-    /// value is identical without ever being decrypted.
-    /// </summary>
-    private const string ProfileSql =
-        """
-        INSERT INTO ensa.UserProfile
-            (UserId, TenantId, Name, LastName, NationalId, Address, CityId, DistrictId,
-             PhotoDocumentId, Color, IsActive, MustChangePassword, ContractApproved,
-             CreationTime, CreatorId, IsDeleted)
-        SELECT u.Id, u.TenantId, u.Name, u.LastName, u.NationalId, u.Address, u.CityId, u.DistrictId,
-               u.PhotoDocumentId, u.Color, u.IsActive, u.MustChangePassword, u.ContractApproved,
-               SYSDATETIME(), u.CreatorId, u.IsDeleted
-        FROM ensa.[User] AS u
-        WHERE NOT EXISTS (SELECT 1 FROM ensa.UserProfile AS p WHERE p.UserId = u.Id);
-        """;
-
-    /// <summary>The contract. <c>UserTypeId</c> is filled separately, from the legacy staff type.</summary>
-    private const string EmploymentSql =
-        """
-        INSERT INTO ensa.UserEmployment
-            (UserId, TenantId, HireDate, TerminationDate, GrossSalary, PartTime,
-             CreationTime, CreatorId, IsDeleted)
-        SELECT u.Id, u.TenantId, u.HireDate, u.TerminationDate, u.GrossSalary, u.PartTime,
-               SYSDATETIME(), u.CreatorId, u.IsDeleted
-        FROM ensa.[User] AS u
-        WHERE NOT EXISTS (SELECT 1 FROM ensa.UserEmployment AS e WHERE e.UserId = u.Id);
-        """;
-
-    /// <summary>
-    /// Another system's credentials, and only for the users that have any: 297 of 3,886 carry a
-    /// MEDULA login, and giving the other 3,589 an empty row would be storing nothing, 3,589 times.
-    /// </summary>
-    private const string MedulaSql =
-        """
-        INSERT INTO ensa.UserMedulaCredential
-            (UserId, TenantId, MedulaUserName, MedulaPassword, BranchCode,
-             CreationTime, CreatorId, IsDeleted)
-        SELECT u.Id, u.TenantId, u.MedulaUserName, u.MedulaPassword, u.BranchCode,
-               SYSDATETIME(), u.CreatorId, u.IsDeleted
-        FROM ensa.[User] AS u
-        WHERE (u.MedulaUserName IS NOT NULL OR u.MedulaPassword IS NOT NULL OR u.BranchCode IS NOT NULL)
-          AND NOT EXISTS (SELECT 1 FROM ensa.UserMedulaCredential AS m WHERE m.UserId = u.Id);
-        """;
-
-    /// <summary>
-    /// <c>Gsm</c> and Identity's own <c>PhoneNumber</c> were two columns holding the same fact.
-    /// The framework's one wins; the other is folded into it where it is empty, so nothing is lost.
-    /// </summary>
-    private const string PhoneSql =
-        """
-        UPDATE ensa.[User]
-        SET PhoneNumber = Gsm
-        WHERE Gsm IS NOT NULL AND LEN(Gsm) > 0
-          AND (PhoneNumber IS NULL OR LEN(PhoneNumber) = 0);
-        """;
-
-    /// <summary>
-    /// Turns the three administrator booleans into the role assignments they already behave like.
-    /// <para>
-    /// <b>Why roles and not another column.</b> The token already converts these flags into role
-    /// claims — the comment on that code says it exists "so that TenantResolutionMiddleware and the
-    /// policies all look at one source: the role claim". They are roles in everything but storage.
-    /// Identity owns roles; putting them on a profile table instead would duplicate what
-    /// <c>UserRole</c> is for, which the identity contract forbids.
-    /// </para>
-    /// <para>
-    /// <b>Why these three and not the legacy permission flags.</b> The contract also says not to
-    /// turn every legacy authorization flag into a role. These are not permissions: they appear
-    /// nowhere in <c>Yetki_T</c> and the four gates never consult them. What they are is the answer
-    /// to "what is this person", which is what a role is.
-    /// </para>
-    /// <para>
-    /// The roles already exist and are host level: SystemAdministrator, OrganizationAdministrator,
-    /// OfficeAdministrator. Behaviour does not change — the same users end up with the same claims,
-    /// they just come from the table Identity keeps them in.
-    /// </para>
-    /// </summary>
-    private static async Task<int> RolesAsync(
-        MigrationContext context,
-        List<string> notes,
-        CancellationToken cancellationToken)
-    {
-        (string Column, string Role)[] flags =
-        [
-            ("SystemAdministrator", "SystemAdministrator"),
-            ("OrganizationAdmin", "OrganizationAdministrator"),
-            ("OfficeAdmin", "OfficeAdministrator"),
-        ];
-
-        var written = 0;
-        await using var connection = await context.OpenModernAsync(cancellationToken);
-
-        foreach (var (column, role) in flags)
-        {
-            await using var command = new SqlCommand(
-                $"""
-                 INSERT INTO ensa.UserRole (UserId, RoleId)
-                 SELECT u.Id, r.Id
-                 FROM ensa.[User] AS u
-                 CROSS JOIN (SELECT TOP 1 Id FROM ensa.Role WHERE Name = @role AND TenantId IS NULL) AS r
-                 WHERE u.[{column}] = 1
-                   AND NOT EXISTS (
-                       SELECT 1 FROM ensa.UserRole AS existing
-                       WHERE existing.UserId = u.Id AND existing.RoleId = r.Id);
-                 """, connection) { CommandTimeout = 600 };
-
-            command.Parameters.AddWithValue("@role", role);
-
-            var count = await command.ExecuteNonQueryAsync(cancellationToken);
-            written += count;
-
-            context.Logger.LogInformation("    role {Role}: {Count} assignment(s)", role, count);
-        }
-
-        notes.Add($"roles: {written} assignments");
-        return written;
-    }
 
     // ------------------------------------------------------------------ from the legacy source
 
@@ -458,16 +338,14 @@ public sealed class UserSplitStep : IMigrationStep
     }
 
     /// <summary>
-    /// The office each user was assigned to on their own row, which is <b>not</b> the same data as
-    /// <c>KullaniciOfis_T</c>.
+    /// The company a customer user belongs to, moved off the account.
     /// <para>
-    /// This was found by the column classification refusing to bless <c>OfficeId</c>: 3,558 users
-    /// carry one and only 1,651 of them had a matching assignment, because the legacy system kept a
-    /// per-user default office beside the many-to-many table. Dropping the column without this
-    /// would have quietly lost the office of 1,907 people.
+    /// It is the key the company scope filter reads, and the filter fails closed — a user whose
+    /// company cannot be resolved sees nothing rather than everything. So this has to be right
+    /// before the column comes off, not after.
     /// </para>
     /// </summary>
-    private static async Task<int> DefaultOfficesAsync(
+    private static async Task<int> CompanyScopeAsync(
         MigrationContext context,
         List<string> notes,
         CancellationToken cancellationToken)
@@ -476,33 +354,26 @@ public sealed class UserSplitStep : IMigrationStep
 
         await using var command = new SqlCommand(
             """
-            INSERT INTO ensa.UserOffice (UserId, OfficeId, MonthlyWorkDurationMinutes, TenantId, CreationTime, CreatorId)
-            SELECT u.Id, u.OfficeId, ISNULL(u.MonthlyWorkDurationMinutes, 0), u.TenantId, SYSDATETIME(), u.CreatorId
-            FROM ensa.[User] AS u
-            WHERE u.OfficeId IS NOT NULL
-              AND EXISTS (SELECT 1 FROM ensa.Office AS o WHERE o.Id = u.OfficeId)
-              AND NOT EXISTS (
-                  SELECT 1 FROM ensa.UserOffice AS existing
-                  WHERE existing.UserId = u.Id AND existing.OfficeId = u.OfficeId);
+            UPDATE p
+            SET CompanyId = u.CompanyId
+            FROM ensa.UserProfile AS p
+            JOIN ensa.[User] AS u ON u.Id = p.UserId
+            WHERE u.CompanyId IS NOT NULL AND p.CompanyId IS NULL;
             """, connection) { CommandTimeout = 1800 };
 
         var written = await command.ExecuteNonQueryAsync(cancellationToken);
 
-        context.Logger.LogInformation("    default offices: {Written} assignment(s)", written);
-        notes.Add($"default offices: {written}");
+        context.Logger.LogInformation("    company scope: {Written} user(s)", written);
+        notes.Add($"company scope: {written}");
 
         return written;
     }
 
     /// <summary>
-    /// The 36 users whose type link stayed empty because their legacy <c>PersonelTuru</c> was
-    /// missing or unrecognised, while their <c>StaffRole</c> was set some other way.
-    /// <para>
-    /// The type table carries the same enum, so the link can be recovered from it. Not a guess:
-    /// zero users have a type that <i>disagrees</i> with their staff role — these simply have none.
-    /// </para>
+    /// A role's description and its two behaviour flags. Identity's role table carries a name and
+    /// a concurrency stamp; everything else is ours and belongs in our own table.
     /// </summary>
-    private static async Task<int> MissingStaffTypesAsync(
+    private static async Task<int> RoleProfilesAsync(
         MigrationContext context,
         List<string> notes,
         CancellationToken cancellationToken)
@@ -511,44 +382,21 @@ public sealed class UserSplitStep : IMigrationStep
 
         await using var command = new SqlCommand(
             """
-            UPDATE e
-            SET UserTypeId = t.Id
-            FROM ensa.UserEmployment AS e
-            JOIN ensa.[User] AS u ON u.Id = e.UserId
-            CROSS APPLY (
-                SELECT TOP 1 Id FROM ensa.UserType
-                WHERE StaffRole = u.StaffRole AND IsActive = 1
-                ORDER BY SortOrder
-            ) AS t
-            WHERE e.UserTypeId IS NULL AND u.StaffRole <> 0;
-            """, connection) { CommandTimeout = 1800 };
+            INSERT INTO ensa.RoleProfile (RoleId, Description, IsStatic, IsDefault, CreationTime)
+            SELECT r.Id, r.Description, r.IsStatic, r.IsDefault, SYSDATETIME()
+            FROM ensa.Role AS r
+            WHERE NOT EXISTS (SELECT 1 FROM ensa.RoleProfile AS p WHERE p.RoleId = r.Id);
+            """, connection) { CommandTimeout = 600 };
 
         var written = await command.ExecuteNonQueryAsync(cancellationToken);
 
-        context.Logger.LogInformation("    recovered user types: {Written}", written);
-        notes.Add($"recovered types: {written}");
+        context.Logger.LogInformation("    role profiles: {Written}", written);
+        notes.Add($"role profiles: {written}");
 
         return written;
     }
 
     // ------------------------------------------------------------------ plumbing
-
-    private static async Task<int> Run(
-        MigrationContext context,
-        string label,
-        string sql,
-        List<string> notes,
-        CancellationToken cancellationToken)
-    {
-        await using var connection = await context.OpenModernAsync(cancellationToken);
-        await using var command = new SqlCommand(sql, connection) { CommandTimeout = 1800 };
-
-        var written = await command.ExecuteNonQueryAsync(cancellationToken);
-        context.Logger.LogInformation("    {Label}: {Written} row(s)", label, written);
-        notes.Add($"{label}: {written}");
-
-        return written;
-    }
 
     private static async Task<int> ApplyPairsAsync(
         MigrationContext context,

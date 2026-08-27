@@ -1,4 +1,4 @@
-using Ensa.Domain.Membership;
+﻿using Ensa.Domain.Membership;
 using Ensa.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,9 +18,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
-        builder.Property(x => x.Description)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Description);
-
         builder.HasIndex(x => x.TenantId);
 
         IdentityIndexHelper.RemoveIndexOn(builder, nameof(Role.NormalizedName));

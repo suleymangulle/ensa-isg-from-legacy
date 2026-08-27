@@ -1,4 +1,4 @@
-namespace Ensa.Domain.Membership;
+﻿namespace Ensa.Domain.Membership;
 
 /// <summary>
 /// The five things authorization needs to know about a user, in one answer.
@@ -30,12 +30,18 @@ namespace Ensa.Domain.Membership;
 /// <c>null</c> means the user has no type, and only unrestricted permissions apply.
 /// </param>
 /// <param name="TenantId">The tenant the user belongs to; <c>null</c> for a host user.</param>
+/// <param name="CompanyId">
+/// The client workplace a customer user belongs to; <c>null</c> for provider staff. It is the key
+/// the company scope filter reads, and that filter fails closed, so an answer of <c>null</c> means
+/// "sees provider-level data" rather than "sees everything".
+/// </param>
 public readonly record struct UserAuthorizationFacts(
     bool IsActive,
     bool IsDeleted,
     bool IsSystemAdministrator,
     int? UserTypeId,
-    int? TenantId)
+    int? TenantId,
+    int? CompanyId)
 {
     /// <summary>Whether the account is usable at all — the first gate, before any permission.</summary>
     public bool CanAct => IsActive && !IsDeleted;

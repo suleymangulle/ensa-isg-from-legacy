@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 
 namespace Ensa.Domain.Membership;
 
@@ -20,10 +20,22 @@ namespace Ensa.Domain.Membership;
 /// One row per user. <c>UserId</c> is unique, so this is a 1-1 extension rather than a history.
 /// </para>
 /// </summary>
-public class UserProfile : FullAuditedTenantEntity
+public class UserProfile : FullAuditedTenantEntity, ICompanyScoped
 {
     /// <summary>The account this profile belongs to. FK — no navigation property.</summary>
     public int UserId { get; set; }
+
+    /// <summary>
+    /// The client company this user belongs to, when they are a customer rather than staff.
+    /// FK — no navigation property.
+    /// <para>
+    /// It is the key the company scope filter reads. It sits here rather than on the account
+    /// because the Identity user carries nothing of ours but <c>TenantId</c>; who somebody works
+    /// for is a fact about the person, not about their credential.
+    /// </para>
+    /// (Legacy: <c>Kullanici_T.FirmaId</c>)
+    /// </summary>
+    public int? CompanyId { get; set; }
 
     /// <summary>(Legacy: <c>Kullanici_T.Adi</c>)</summary>
     public string Name { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Membership;
@@ -28,7 +28,8 @@ public class RoleAppService(
     IServiceProvider serviceProvider,
     IRepository<Role> roleRepository,
     RoleManager<Role> roleManager,
-    UserManager<User> userManager)
+    UserManager<User> userManager,
+    IRepository<RoleProfile> roleProfileRepository)
     : EnsaAppService(serviceProvider), IRoleAppService
 {
     /// <summary>Maximum number of records returned by the drop-down endpoint.</summary>
@@ -61,7 +62,7 @@ public class RoleAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.Role.Default);
 
-        var predicate = BuildFilter(input);
+        var predicate = await BuildFilterAsync(input, cancellationToken);
         var sorting = NormalizeSorting(input.Sorting, "Name ASC");
 
         var total = await roleRepository.GetCountAsync(predicate, cancellationToken);
@@ -143,7 +144,9 @@ public class RoleAppService(
         // A static role is referenced by name from seed data, authorization policies and the
         // permission catalogue, so renaming it would silently break those references.
         // Its description and default flag remain editable.
-        if (renamed && role.IsStatic)
+        var profile = await roleProfileRepository.FindAsync(p => p.RoleId == id, cancellationToken);
+
+        if (renamed && (profile?.IsStatic ?? false))
         {
             throw new BusinessException(
                     "System roles cannot be renamed.",
@@ -170,7 +173,9 @@ public class RoleAppService(
 
         var role = await FindTrackedRoleAsync(id);
 
-        if (role.IsStatic)
+        var profile = await roleProfileRepository.FindAsync(p => p.RoleId == id, cancellationToken);
+
+        if (profile?.IsStatic ?? false)
         {
             throw new BusinessException(
                     "System roles cannot be deleted.",
@@ -204,17 +209,39 @@ public class RoleAppService(
             [.. result.Errors.Select(e => new ValidationError(nameof(CreateRoleDto.Name), e.Description))]);
     }
 
-    private static Expression<Func<Role, bool>> BuildFilter(GetRoleListInput input)
+    /// <summary>
+    /// The name is Identity's; the description and the two flags are ours and live in
+    /// <see cref="RoleProfile"/>. The filter therefore takes the ids the profile side matched and
+    /// narrows the roles to those, rather than pretending one predicate can see both tables.
+    /// </summary>
+    private async Task<Expression<Func<Role, bool>>> BuildFilterAsync(
+        GetRoleListInput input,
+        CancellationToken cancellationToken)
     {
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
         var isStatic = input.IsStatic;
         var isDefault = input.IsDefault;
 
-        return r =>
-            (search == null
-             || (r.Name != null && r.Name.Contains(search))
-             || (r.Description != null && r.Description.Contains(search)))
-            && (isStatic == null || r.IsStatic == isStatic)
-            && (isDefault == null || r.IsDefault == isDefault);
+        if (search is null && isStatic is null && isDefault is null)
+        {
+            return _ => true;
+        }
+
+        var profiles = await roleProfileRepository.GetListAsync(
+            p => (isStatic == null || p.IsStatic == isStatic)
+                 && (isDefault == null || p.IsDefault == isDefault)
+                 && (search == null || (p.Description != null && p.Description.Contains(search))),
+            cancellationToken);
+
+        var matchedByProfile = profiles.Select(p => p.RoleId).ToList();
+
+        // A search matches either side: a role whose name contains the text, or one whose
+        // description does. A flag filter only ever matches through the profile.
+        if (search is not null && isStatic is null && isDefault is null)
+        {
+            return r => (r.Name != null && r.Name.Contains(search)) || matchedByProfile.Contains(r.Id);
+        }
+
+        return r => matchedByProfile.Contains(r.Id);
     }
 }

@@ -82,6 +82,10 @@ try
         new ReportStep(),
         new LookupExtrasStep(),
         new CommercialStep(),
+        new LogStep
+        {
+            IncludeApplicationLog = args.Contains("--include-legacy-log", StringComparer.OrdinalIgnoreCase),
+        },
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),

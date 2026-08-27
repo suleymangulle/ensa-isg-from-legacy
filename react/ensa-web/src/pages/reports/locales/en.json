@@ -31,7 +31,8 @@
       "11": "Equipment periodic inspection",
       "12": "Uninspected equipment",
       "13": "Non-conformities",
-      "14": "Incidents"
+      "14": "Incidents",
+      "15": "Visit dates"
     }
   },
   "reports": {

@@ -86,6 +86,7 @@ try
         {
             IncludeApplicationLog = args.Contains("--include-legacy-log", StringComparer.OrdinalIgnoreCase),
         },
+        new RiskDetailStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),

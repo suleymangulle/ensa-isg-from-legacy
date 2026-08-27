@@ -36,6 +36,21 @@ The prose lives in `tools/gen-diagram/table_notes_tr.py`, one entry per table. T
 refuses to run if a table has no note, so the two cannot drift apart. Legacy table names are not
 kept there: they are read from each entity's own XML documentation at generation time.
 
+### Two mechanisms, one text
+
+Each note is written into a `<title>` **and** picked up by a small script embedded in the SVG.
+Where the script runs -- a browser opening the file, which is how these are actually read -- it
+lifts every `<title>` out of the document and draws a styled panel instead: no one-second delay,
+no timeout, monospaced so the labels stay in a column, sized to its own text and flipped away
+from the edges of the canvas. Where the script does not run -- GitHub strips `<script>` from
+SVG, an `<img>` embed never executes it, a screen reader ignores it -- the `<title>` tags it
+would have removed are still there, doing what they always did.
+
+Performance was never the constraint, and it is worth writing down so nobody wonders: on the
+188-table diagram a hover costs **0.06 ms** while moving within one box and **0.28 ms** when
+switching boxes, against a 16.7 ms frame. Portability was the constraint, and keeping both
+mechanisms answers it.
+
 ## How to read a table box
 
 ```

@@ -13,8 +13,13 @@ Diyagramdaki yazılar İngilizce, çünkü onlar gerçek tablo ve sütun adları
 **Açıklamalar Türkçe ve fareyle üzerine gelince çıkıyor.** Yalnızca `ensa-database.svg`
 üzerinde **687 ipucu** var; 18 dosyanın tamamında **2252**.
 
-Bunun için dosyayı bir tarayıcıda açın (çift tıklamak yeter). Resim görüntüleyicide açarsanız
-ipuçları çalışmaz.
+Dosyayı bir tarayıcıda açın (çift tıklamak yeter). Orada koyu renkli, anında çıkan, hizalanmış
+bir panel görürsünüz — beklemeden gelir, kaybolmaz ve okunacak kadar geniştir.
+
+Tarayıcı dışında (GitHub'da, bir sayfaya `<img>` ile gömüldüğünde, ekran okuyucuda) panel
+çalışmaz; orada devreye tarayıcının kendi basit ipucu girer. İki mekanizma da dosyanın içinde
+duruyor: açıklama metni her iki durumda da aynı, yalnızca sunumu değişiyor. Resim
+görüntüleyicide ise hiçbiri çalışmaz.
 
 Bir tablonun üzerine geldiğinizde şunu görürsünüz:
 

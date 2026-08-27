@@ -1111,4 +1111,132 @@ Birincil anahtar.</title>Id</text>
 <text class="m" x="1323" y="1673.0" font-size="8.8" fill="#64748b" text-anchor="end">3 886 rows</text>
 </g>
 </g>
+<script><![CDATA[
+
+(function () {
+  var svg = document.documentElement;
+  var notes = new Map();
+
+  // Take every <title> out of the document and remember it. Two reasons: the native tooltip
+  // would otherwise fire alongside this one, and a <title> that stays put costs a second of
+  // waiting before it appears. The tags are still in the file, so a viewer that never runs
+  // this script -- GitHub strips <script> from SVG, and an <img> embed never executes it --
+  // keeps the plain tooltip it always had.
+  svg.querySelectorAll('title').forEach(function (node) {
+    if (node.parentNode === svg) { return; }   // the document title
+    notes.set(node.parentNode, node.textContent);
+    node.parentNode.removeChild(node);
+  });
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var PAD = 12, LINE = 16, SIZE = 12;
+
+  var popup = document.createElementNS(NS, 'g');
+  popup.setAttribute('pointer-events', 'none');
+  popup.setAttribute('visibility', 'hidden');
+
+  var frame = document.createElementNS(NS, 'rect');
+  frame.setAttribute('rx', '8');
+  frame.setAttribute('fill', '#0f172a');
+  frame.setAttribute('stroke', '#334155');
+  frame.setAttribute('filter', 'url(#drop)');
+
+  var text = document.createElementNS(NS, 'text');
+  text.setAttribute('font-family', 'Consolas,Menlo,DejaVu Sans Mono,monospace');
+  text.setAttribute('font-size', String(SIZE));
+  text.setAttribute('fill', '#e2e8f0');
+  // The report aligns its labels with runs of spaces, and SVG collapses those by default.
+  // xml:space is the SVG 1.1 spelling and Chrome no longer honours it for this; white-space
+  // is the one that works. Both are set so either engine keeps the alignment.
+  text.setAttribute('xml:space', 'preserve');
+  text.style.whiteSpace = 'pre';
+
+  popup.appendChild(frame);
+  popup.appendChild(text);
+  svg.appendChild(popup);
+
+  var current = null;
+
+  function render(note) {
+    while (text.firstChild) { text.removeChild(text.firstChild); }
+
+    note.split('\n').forEach(function (line, index) {
+      var span = document.createElementNS(NS, 'tspan');
+      span.setAttribute('x', String(PAD));
+      span.setAttribute('dy', index === 0 ? String(PAD + SIZE) : String(LINE));
+      // The first line is the table name; the rest is the report.
+      if (index === 0) {
+        span.setAttribute('fill', '#ffffff');
+        span.setAttribute('font-weight', '700');
+      } else if (/^[A-ZĞÜŞİÖÇ]{2,7}\s/.test(line)) {
+        span.setAttribute('fill', '#e2e8f0');
+      } else {
+        span.setAttribute('fill', '#cbd5e1');
+      }
+      span.textContent = line.length ? line : ' ';
+      text.appendChild(span);
+    });
+
+    // Measured, not guessed: the box is sized to the text that is actually in it.
+    var box = text.getBBox();
+    frame.setAttribute('width', String(box.width + PAD * 2));
+    frame.setAttribute('height', String(box.height + PAD * 2));
+    return { w: box.width + PAD * 2, h: box.height + PAD * 2 };
+  }
+
+  function place(event, size) {
+    var point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    var local = point.matrixTransform(svg.getScreenCTM().inverse());
+
+    var limit = svg.viewBox.baseVal;
+    var x = local.x + 18;
+    var y = local.y + 18;
+
+    if (x + size.w > limit.width - 8) { x = local.x - size.w - 18; }
+    if (y + size.h > limit.height - 8) { y = local.y - size.h - 18; }
+    if (x < 8) { x = 8; }
+    if (y < 8) { y = 8; }
+
+    popup.setAttribute('transform', 'translate(' + x + ',' + y + ')');
+  }
+
+  function noteFor(node) {
+    while (node && node !== svg) {
+      if (notes.has(node)) { return node; }
+      node = node.parentNode;
+    }
+    return null;
+  }
+
+  svg.addEventListener('mousemove', function (event) {
+    var owner = noteFor(event.target);
+
+    if (!owner) {
+      if (current) { popup.setAttribute('visibility', 'hidden'); current = null; }
+      return;
+    }
+
+    var size;
+    if (owner !== current) {
+      current = owner;
+      size = render(notes.get(owner));
+      popup.setAttribute('visibility', 'visible');
+    } else {
+      size = {
+        w: parseFloat(frame.getAttribute('width')),
+        h: parseFloat(frame.getAttribute('height'))
+      };
+    }
+    place(event, size);
+  });
+
+  svg.addEventListener('mouseleave', function () {
+    popup.setAttribute('visibility', 'hidden');
+    current = null;
+  });
+}());
+
+]]></script>
 </svg>

@@ -171,6 +171,7 @@ export enum ActivityReportLineType {
   UnexaminedEquipments = 12,
   NonConformities = 13,
   Incidents = 14,
+  VisitDate = 15,
 }
 
 /** Baseline (snapshot) report type. (Legacy: BazalFirmaTablosu.Tur string) */

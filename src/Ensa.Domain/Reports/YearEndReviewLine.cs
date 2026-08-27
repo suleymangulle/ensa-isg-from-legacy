@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 
 namespace Ensa.Domain.Reports;
 
@@ -23,6 +23,23 @@ public class YearEndReviewLine : FullAuditedTenantEntity, IActivatable
 
     /// <summary>(Legacy: <c>Tarih</c> string → <c>DateTime?</c>)</summary>
     public DateTime? Date { get; set; }
+
+    /// <summary>
+    /// What the legacy row actually says about when the work happened, kept verbatim.
+    /// <para>
+    /// (Legacy: <c>YSDRSatirlari_T.Tarih</c>.) That column is typed as a date and is not one. Of
+    /// the 6,557 rows that have anything in it, most hold a period rather than a day
+    /// ("01.01.2025 - 31.12.2025"), some hold a year, some hold a rule ("Her yeni ise giriste"),
+    /// and some hold the HTML of a pasted table cell. <see cref="Date"/> is filled only when the
+    /// text is a single unambiguous date; this keeps the rest, because "throughout 2025" is the
+    /// answer the report is making and discarding it would leave the row blank.
+    /// </para>
+    /// <para>
+    /// Stored as written, entities included: sanitising here would silently alter a record, and
+    /// escaping belongs where it is rendered.
+    /// </para>
+    /// </summary>
+    public string? DateText { get; set; }
 
     public string? Work { get; set; }
 

@@ -1,4 +1,4 @@
-namespace Ensa.Domain.Shared.Enums;
+﻿namespace Ensa.Domain.Shared.Enums;
 
 // ------------------------------------------------------------------
 // Finance
@@ -196,7 +196,13 @@ public enum ActivityReportLineType
     EquipmentPeriodicInspection = 11,
     UnexaminedEquipments = 12,
     NonConformities = 13,
-    Incidents = 14
+    Incidents = 14,
+
+    /// <summary>
+    /// The dates of the visits the period covers. (Legacy: <c>FaaliyetRaporSatir_T.SatirTuru</c>
+    /// "ZiyaretTarih", 1,042 rows.) Distinct from <see cref="VisitCount"/>, which counts them.
+    /// </summary>
+    VisitDate = 15
 }
 
 /// <summary>Baseline (snapshot) report type. (Legacy: BazalFirmaTablosu.Tur string)</summary>

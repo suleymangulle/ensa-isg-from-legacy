@@ -1,4 +1,4 @@
-using Ensa.Domain.Finance;
+﻿using Ensa.Domain.Finance;
 using Ensa.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -35,10 +35,14 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
 
         // ---------------- Indexes ----------------
 
-        // Invoice numbers are unique within a tenant; deleted rows are out of scope.
-        builder.HasIndex(x => new { x.TenantId, x.InvoiceNo })
-               .IsUnique()
-               .HasFilter("[IsDeleted] = 0");
+        // Invoice number lookup within a tenant. NOT unique, and that is a finding rather than an
+        // omission: the migrated data has 4,375 invoices with no number at all, and 3,816 more
+        // that repeat within their organization - one organization writes the literal text
+        // "EARSIV" on 1,689 invoices to 190 different companies. Only 16 of the repeats share a
+        // company, a date and a total, so these are different invoices that happen to carry the
+        // same text, not duplicates. A unique index here would have forced the migration to
+        // fabricate fiscal document numbers or to discard eight thousand invoices.
+        builder.HasIndex(x => new { x.TenantId, x.InvoiceNo });
 
         // Account statement / periodic invoice lists.
         builder.HasIndex(x => new { x.TenantId, x.CompanyId, x.InvoiceDate });

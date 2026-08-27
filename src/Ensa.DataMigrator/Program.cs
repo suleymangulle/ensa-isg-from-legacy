@@ -347,6 +347,7 @@ static async Task<int> ProbeLoginAsync(string legacyConnectionString, string mod
         using var form = new FormUrlEncodedContent(new Dictionary<string, string>
         {
             ["grant_type"] = "password",
+            ["client_id"] = "ensa-spa",
             ["username"] = userName,
             ["password"] = password,
             ["scope"] = "openid profile email roles offline_access ensa",

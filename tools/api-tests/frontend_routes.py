@@ -25,7 +25,7 @@ def call(path, token=None, form=None):
 
 
 _, body = call("/connect/token", form={
-    "grant_type": "password", "username": "admin", "password": "Ensa!2026",
+    "grant_type": "password", "client_id": "ensa-spa", "username": "admin", "password": "Ensa!2026",
     "scope": "openid profile email roles offline_access ensa"})
 token = json.loads(body)["access_token"]
 

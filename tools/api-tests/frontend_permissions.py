@@ -54,7 +54,7 @@ def call(path, token=None, form=None):
 
 def main():
     code, body = call("/connect/token", form={
-        "grant_type": "password", "username": ADMIN_USER,
+        "grant_type": "password", "client_id": "ensa-spa", "username": ADMIN_USER,
         "password": ADMIN_PASSWORD, "scope": SCOPE})
     if code != 200:
         print("Token alinamadi: HTTP %s" % code)

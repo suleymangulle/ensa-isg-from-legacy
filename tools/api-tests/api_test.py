@@ -54,7 +54,7 @@ sonuclar = []
 
 print("=== KIMLIK ===")
 kod, tok = istek("/connect/token", "POST", form={
-    "grant_type": "password", "username": "admin",
+    "grant_type": "password", "client_id": "ensa-spa", "username": "admin",
     "password": "Ensa!2026", "scope": "openid profile email roles offline_access ensa",
 })
 sonuclar.append(kontrol("password grant", kod == 200 and "access_token" in tok, f"HTTP {kod}"))
@@ -68,7 +68,7 @@ kod, ui = istek("/connect/userinfo", token=token)
 sonuclar.append(kontrol("userinfo", kod == 200 and ui.get("sub") == "1", f"HTTP {kod}"))
 
 kod, yeni = istek("/connect/token", "POST", form={
-    "grant_type": "refresh_token", "refresh_token": refresh,
+    "grant_type": "refresh_token", "client_id": "ensa-spa", "refresh_token": refresh,
 })
 sonuclar.append(kontrol("refresh_token grant", kod == 200 and "access_token" in yeni, f"HTTP {kod}"))
 

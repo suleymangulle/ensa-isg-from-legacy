@@ -43,7 +43,7 @@ def istek(yol, token=None, form=None):
 
 
 kod, govde = istek("/connect/token", form={
-    "grant_type": "password", "username": "admin",
+    "grant_type": "password", "client_id": "ensa-spa", "username": "admin",
     "password": "Ensa!2026",
     "scope": "openid profile email roles offline_access ensa",
 })

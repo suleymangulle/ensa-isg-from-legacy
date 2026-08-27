@@ -1,4 +1,4 @@
-using Ensa.DbMigrator.Seeding;
+﻿using Ensa.DbMigrator.Seeding;
 using Ensa.Domain.Membership;
 using Ensa.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
@@ -98,8 +98,20 @@ try
         .AddRoles<Role>()
         .AddEntityFrameworkStores<EnsaDbContext>();
 
+    // OpenIddict's core services, so the seeder can register the first-party client and the API
+    // scope through the managers rather than writing to the tables by hand. Only AddCore: this
+    // tool issues no tokens and validates none, so the server and validation halves would be
+    // dead weight.
+    builder.Services
+        .AddOpenIddict()
+        .AddCore(options => options
+            .UseEntityFrameworkCore()
+            .UseDbContext<EnsaDbContext>()
+            .ReplaceDefaultEntities<int>());
+
     builder.Services.AddScoped<IDataSeeder, ReferenceSeeder>();
     builder.Services.AddScoped<IDataSeeder, DistrictSeeder>();
+    builder.Services.AddScoped<IDataSeeder, OpenIddictSeeder>();
     builder.Services.AddScoped<IDataSeeder, AuthorizationSeeder>();
     builder.Services.AddScoped<IDataSeeder, MenuSeeder>();
     builder.Services.AddScoped<IDataSeeder, MembershipSeeder>();
@@ -143,6 +155,26 @@ try
     {
         logger.LogInformation("Seeding: {Seeder}", seeder.Name);
         await seeder.SeedAsync();
+    }
+
+    // ---- 3) Optional maintenance ----
+    // OpenIddict accumulates a row per token and per authorization, and they stay after they
+    // expire: the framework's own PruneAsync is what clears them, so this uses that rather than
+    // deleting from the tables by hand. Behind a flag because it removes data - an expired token
+    // is harmless, and a run that quietly deletes rows is not what a migrator should do.
+    if (args.Contains("--prune-openiddict", StringComparer.OrdinalIgnoreCase))
+    {
+        var threshold = DateTimeOffset.UtcNow - TimeSpan.FromMinutes(1);
+
+        var tokens = await sp.GetRequiredService<OpenIddict.Abstractions.IOpenIddictTokenManager>()
+            .PruneAsync(threshold);
+        var authorizations = await sp
+            .GetRequiredService<OpenIddict.Abstractions.IOpenIddictAuthorizationManager>()
+            .PruneAsync(threshold);
+
+        logger.LogInformation(
+            "OpenIddict pruned: {Tokens} token(s), {Authorizations} authorization(s).",
+            tokens, authorizations);
     }
 
     logger.LogInformation("Done. {Count} seeder(s) executed.", seeders.Count);

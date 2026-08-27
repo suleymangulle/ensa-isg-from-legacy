@@ -99,6 +99,49 @@ public class UserRepository(
     /// All child collections are filled with a constant number of queries; no separate query is opened
     /// per collection element (no N+1).
     /// </remarks>
+    /// <inheritdoc />
+    public async Task<Dictionary<int, UserDisplay>> GetDisplaysAsync(
+        IEnumerable<int> userIds,
+        CancellationToken ct = default)
+    {
+        var ids = userIds.Distinct().ToList();
+
+        if (ids.Count == 0)
+        {
+            return [];
+        }
+
+        // Left join, and the tenant filter left alone: a screen asks for the people who appear on
+        // the record in front of it, and those are already the people it is allowed to see.
+        var rows = await (
+            from user in Context.Set<User>().AsNoTracking()
+            where ids.Contains(user.Id)
+            join profileRow in Context.Set<UserProfile>().AsNoTracking()
+                on user.Id equals profileRow.UserId into profiles
+            from profile in profiles.DefaultIfEmpty()
+            select new
+            {
+                user.Id,
+                user.UserName,
+                Name = profile != null ? profile.Name : null,
+                LastName = profile != null ? profile.LastName : null,
+                IsActive = profile != null && profile.IsActive,
+            }).ToListAsync(ct);
+
+        return rows.ToDictionary(
+            row => row.Id,
+            row =>
+            {
+                var fullName = $"{row.Name} {row.LastName}".Trim();
+
+                return new UserDisplay(
+                    row.Id,
+                    string.IsNullOrWhiteSpace(fullName) ? row.UserName ?? string.Empty : fullName,
+                    row.UserName,
+                    row.IsActive);
+            });
+    }
+
     public async Task<UserNavigation?> GetWithNavigationAsync(int id, CancellationToken ct = default)
     {
         var user = await GetReadOnlyQueryable().FirstOrDefaultAsync(k => k.Id == id, ct);

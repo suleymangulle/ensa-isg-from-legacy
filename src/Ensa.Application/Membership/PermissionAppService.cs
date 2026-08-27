@@ -1,10 +1,11 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Membership;
 using Ensa.Application.Contracts.Membership.Dtos;
 using Ensa.Application.Contracts.Membership.Dtos.Navigations;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Membership;
+using Ensa.Domain.Shared;
 using Ensa.Domain.Repositories;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -122,6 +123,8 @@ public class PermissionAppService(
         // Authoritative answer - computed by the domain service, never here.
         var effective = await permissionManager.GetEffectivePermissionsAsync(userId, cancellationToken);
 
+        var facts = await userRepository.GetAuthorizationFactsAsync(userId, cancellationToken);
+
         var granted = await permissionRepository.GetUserPermissionPermissionIdsAsync(userId, cancellationToken);
         var denied = await permissionRepository.GetUserRedPermissionIdsAsync(userId, cancellationToken);
 
@@ -131,7 +134,9 @@ public class PermissionAppService(
             EffectivePermissions = ObjectMapper.Map<List<Permission>, List<PermissionDto>>(effective),
             GrantedPermissionIds = granted,
             DeniedPermissionIds = denied,
-            SystemAdministrator = user.SystemAdministrator
+            // A role assignment now, so this comes from the same facts authorization reads
+            // rather than a column that used to sit beside the account.
+            SystemAdministrator = facts?.IsSystemAdministrator ?? false
         };
     }
 

@@ -1,4 +1,4 @@
-using Ensa.Domain.Health;
+﻿using Ensa.Domain.Health;
 using Ensa.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -23,8 +23,11 @@ public class MedicationDoseUnitConfiguration : IEntityTypeConfiguration<Medicati
                .IsRequired()
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
 
+        // NOT unique. The legacy list holds two overlapping ministry code sets under one type
+        // name: codes 1 to 5 appear twice, once as "MCG/KG/DAK, GRAM, MIKROGRAM..." and once as
+        // "Adet, Mililitre, Miligram...". Prescriptions reference rows from both sets by row id,
+        // so neither can be dropped, and the code was never the key here.
         builder.HasIndex(x => x.Code)
-               .IsUnique()
                .HasFilter("[Code] IS NOT NULL");
     }
 }

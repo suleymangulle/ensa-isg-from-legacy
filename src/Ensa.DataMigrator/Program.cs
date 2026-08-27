@@ -80,6 +80,7 @@ try
         new IbysStep(),
         new TrainingExamStep(),
         new ReportStep(),
+        new LookupExtrasStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),

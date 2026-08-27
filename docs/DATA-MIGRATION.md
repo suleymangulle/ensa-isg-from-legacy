@@ -68,6 +68,7 @@ that cries wolf is a check nobody reads.
 | `health` | `SKRS_Ilac_T`, `SKRS_ICD10_T`, `ERecete_T` + lines | `Medication`, `Icd10`, `EPrescription` + lines | **done, verified** |
 | `reencrypt` | — | every encrypted column | **repair, see below** |
 | `passwords` | `Kullanici_T.Sifre` | `User.PasswordHash` | **done, verified** |
+| `user-split` | `User` columns, `KullaniciOfis_T`, `BazalKullanici_T` | `UserProfile`, `UserEmployment`, `UserMedulaCredential`, `UserOffice`, `StaffCostBaseline` | **done, verified** |
 
 ### `locations` — what actually happened
 
@@ -407,6 +408,35 @@ passwords   read 3874   written 3874   in 02:10
 
 The step is idempotent by inspection: a user who already has a hash is skipped, so a second run
 writes nothing — verified, 0 written and 3,874 skipped in under a second.
+
+### `user-split` — taking the person out of the account
+
+`User` had grown to 49 columns: fifteen belonging to `IdentityUser` and thirty-four belonging to
+Ensa — an address, a salary, a photograph, another system's password. The identity contract allows
+exactly one application-specific property on the Identity user, `TenantId`, so the rest moves.
+
+```
+user-split   read 13,816   written 13,816   in 00:03
+  UserProfile 3,901; UserEmployment 3,901; UserMedulaCredential 301
+  user types 3,705 assigned, unmatched NCE x1
+  offices 1,949 of 1,949; cost baselines 59 of 59
+```
+
+| Finding | Decision |
+|---|---|
+| **Two destination tables existed and were empty.** `UserOffice` and `StaffCostBaseline` were created with the schema and never filled, while the legacy source held 1,949 and 59 rows. The earlier migration flattened a single `OfficeId` onto the user instead — which cannot express a specialist who works in two offices, and the legacy data says many of them do. | Both filled from the legacy tables, in full. |
+| Encrypted columns on both sides | Copied as **stored ciphertext**. Same deterministic converter, same key, so the value is identical — and no plaintext is produced, held or logged anywhere in the step. Verified: 0 differences on `NationalId` and `MedulaPassword`. |
+| 3,706 legacy rows carried a `PersonelTuru` and nothing joined a user to a type | `UserEmployment.UserTypeId` now does. 3,705 assigned; the one `NCE` has no counterpart and is reported rather than guessed at. `StaffRole` on the user was the same fact stored a second way. |
+| `Kullanici_T.BrutMaas` is a `float` | Money is `decimal`. A float is the wrong type for money and rounds in ways nobody can predict. |
+| MEDULA credentials on 297 users | Their own table, and only for the users that have one — 301 rows rather than 3,901, because giving the rest an empty row is storing nothing 3,600 times. |
+| `User.Gsm` is empty and `PhoneNumber` holds 2,439 numbers | The merge had already happened. `Gsm` is **not** classified as dead: it is still referenced by `AccountAppService` and `UserAppService`, and a column is not unused merely because it is null. |
+
+Nothing was dropped. The old columns stay until the counts are verified and the application has
+moved over; a step that both moves and deletes leaves nothing to go back to.
+
+Verified by comparing source and destination directly: 0 rows differ on `Name`, `NationalId`,
+`MedulaPassword` or `GrossSalary`, and no user is missing a profile. Idempotent — the second run
+wrote 0.
 
 ## Scope
 

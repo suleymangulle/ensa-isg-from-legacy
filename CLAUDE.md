@@ -61,6 +61,7 @@ python tools/api-tests/frontend_permissions.py # SPA permission constants match 
 python tools/api-tests/frontend_menu.py       # seeded menu and SPA navigation still agree
 python tools/api-tests/dev_stack.py           # SPA -> Vite proxy -> API, end to end
 python tools/i18n-check/check_locales.py      # no missing or unpaired translation key
+python tools/repo-check/check_no_secrets.py   # no credential in any tracked file
 python tools/gen-enums/gen_enums.py           # regenerate the SPA enums from the backend
 python tools/gen-enums/gen_permissions.py     # regenerate the SPA permission constants
 python tools/gen-diagram/gen_schema_diagram.py # redraw diagrams/ from the live schema

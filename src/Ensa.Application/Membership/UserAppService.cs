@@ -140,24 +140,37 @@ public class UserAppService(
 
         var search = string.IsNullOrWhiteSpace(filter) ? null : filter.Trim();
 
-        var records = await userRepository.GetPagedListAsync(
+        // The names and the active flag live on the profile now, so the search runs there and
+        // brings the account along rather than the other way round.
+        var profiles = await userProfileRepository.GetPagedListAsync(
             skipCount: 0,
             maxResultCount: LookupMaxRecord,
             sorting: "Name ASC",
-            predicate: u => u.IsActive
+            predicate: p => p.IsActive
                             && (search == null
-                                || u.Name.Contains(search)
-                                || u.LastName.Contains(search)
-                                || (u.UserName != null && u.UserName.Contains(search))),
+                                || p.Name.Contains(search)
+                                || p.LastName.Contains(search)),
             cancellationToken);
 
-        var result = records
-            .Select(u => new LookupDto
+        var userIds = profiles.Select(p => p.UserId).ToList();
+
+        var accounts = await userRepository.GetListAsync(
+            u => userIds.Contains(u.Id), cancellationToken);
+
+        var result = profiles
+            .Select(profile =>
             {
-                Id = u.Id,
-                DisplayName = u.GetDisplayName(),
-                Code = u.UserName,
-                IsActive = u.IsActive
+                var account = accounts.Find(u => u.Id == profile.UserId);
+
+                return new LookupDto
+                {
+                    Id = profile.UserId,
+                    DisplayName = account is null
+                        ? $"{profile.Name} {profile.LastName}".Trim()
+                        : account.GetDisplayName(profile),
+                    Code = account?.UserName,
+                    IsActive = profile.IsActive
+                };
             })
             .ToList();
 

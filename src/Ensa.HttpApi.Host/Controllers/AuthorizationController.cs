@@ -36,10 +36,26 @@ public sealed class AuthorizationController(
     UserManager<User> userManager,
     SignInManager<User> signInManager,
     IPermissionResolver permissionResolver,
+    IUserRepository userRepository,
     IDataFilter dataFilter,
     ICurrentTenant currentTenant,
     ILogger<AuthorizationController> logger) : ControllerBase
 {
+    /// <summary>
+    /// Whether this account may be issued a token.
+    /// <para>
+    /// The answer moved off the user row: an account being usable is recorded in
+    /// <c>UserProfile</c>, and a user with no profile at all is treated as unusable rather than
+    /// waved through — a half-created account should not be able to sign in.
+    /// </para>
+    /// </summary>
+    private async Task<bool> CanSignInAsync(User user)
+    {
+        var facts = await userRepository.GetAuthorizationFactsAsync(user.Id);
+
+        return facts is { } who && who.CanSignIn();
+    }
+
     /// <summary>
     /// Resolves the user with the tenant filter temporarily switched off.
     /// <para>
@@ -140,8 +156,9 @@ public sealed class AuthorizationController(
             return InvalidCredentials();
         }
 
-        // No token is issued to a passive or deleted user.
-        if (!user.CanSignIn())
+        // No token is issued to a passive or deleted user. Whether an account may be used lives
+        // in UserProfile now, so the repository is asked rather than the row.
+        if (!await CanSignInAsync(user))
         {
             logger.LogWarning("A passive or deleted user attempted to sign in. UserId={UserId}", user.Id);
             return AuthError(
@@ -221,7 +238,7 @@ public sealed class AuthorizationController(
         }
 
         // The account may have been deactivated since the token was issued.
-        if (!user.CanSignIn())
+        if (!await CanSignInAsync(user))
         {
             logger.LogWarning("A passive user attempted to renew a token. UserId={UserId}", user.Id);
             return AuthError(
@@ -316,7 +333,7 @@ public sealed class AuthorizationController(
         }
 
         var user = await UserSolveAsync(() => userManager.FindByIdAsync(subject));
-        if (user is null || !user.CanSignIn())
+        if (user is null || !await CanSignInAsync(user))
         {
             return AuthError(
                 OpenIddictConstants.Errors.InvalidToken,
@@ -404,17 +421,11 @@ public sealed class AuthorizationController(
 
         // Roles (multiple). The legacy bool flags are turned into role claims too, so that
         // TenantResolutionMiddleware and the policies all look at one source: the role claim.
+        // Straight from Identity. The three administrator booleans that used to be folded in
+        // here are role assignments now, so UserRole already carries them and adding them again
+        // would mean two sources for one answer -- which is what this comment used to explain
+        // away.
         var roles = new HashSet<string>(await userManager.GetRolesAsync(user), StringComparer.OrdinalIgnoreCase);
-
-        if (user.IsHostAdmin())
-        {
-            roles.Add(EnsaRoles.SystemAdministrator);
-        }
-
-        if (user.OrganizationAdmin)
-        {
-            roles.Add(EnsaRoles.OrganizationAdministrator);
-        }
 
         foreach (var role in roles)
         {

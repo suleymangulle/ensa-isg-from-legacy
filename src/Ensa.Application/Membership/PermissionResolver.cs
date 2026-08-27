@@ -1,5 +1,6 @@
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Membership;
+using Ensa.Domain.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 
@@ -39,8 +40,9 @@ public sealed class PermissionResolver(
         ArgumentNullException.ThrowIfNull(user);
         cancellationToken.ThrowIfCancellationRequested();
 
-        // 1) System administrator: every permission.
-        if (user.IsHostAdmin())
+        // 1) System administrator: every permission. Asked of Identity's role table, because
+        // that is where being an administrator is recorded now.
+        if (await userManager.IsInRoleAsync(user, EnsaRoleNames.SystemAdministrator))
         {
             return [.. EnsaPermissions.GetAll()];
         }

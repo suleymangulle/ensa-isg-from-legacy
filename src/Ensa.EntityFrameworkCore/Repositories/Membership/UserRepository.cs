@@ -44,9 +44,18 @@ public class UserRepository(
         int userId,
         CancellationToken ct = default)
     {
-        // The soft-delete filter is disabled deliberately: a deleted user must produce facts that
-        // say "deleted", not nothing at all, so the caller can tell the two apart.
+        // Both filters are disabled deliberately, and for different reasons.
+        //
+        // Soft delete: a deleted user must produce facts that SAY deleted, not no facts at all,
+        // so the caller can tell "gone" from "never existed".
+        //
+        // Tenancy: this is the question asked while somebody is signing in, before their tenant
+        // is known -- so the ambient tenant is still the host, and a tenant's UserProfile row
+        // would be filtered away. The user would then read as inactive and be refused a token,
+        // which is exactly how this broke the first time. The lookup is by explicit user id, so
+        // the filter protects nothing here.
         using (_dataFilter.Disable<ISoftDelete>())
+        using (_dataFilter.Disable<IMultiTenant>())
         {
             var facts = await (
                 from user in Context.Set<User>().AsNoTracking()

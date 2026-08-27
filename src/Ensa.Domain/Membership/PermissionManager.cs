@@ -1,4 +1,4 @@
-using Ensa.Domain.Repositories;
+﻿using Ensa.Domain.Repositories;
 using Ensa.Domain.Services;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Tenancy;
@@ -79,16 +79,25 @@ public class PermissionManager : DomainService, IPermissionManager
 
     public async Task<List<Permission>> GetEffectivePermissionsAsync(int userId, CancellationToken ct = default)
     {
-        var user = await _userRepository.FindAsync(userId, ct);
-        if (user is null || !user.IsActive || user.IsDeleted)
+        // One query for the account, the person, the contract and the role assignments. These
+        // used to be columns on User; they now live in the tables that own them, and asking each
+        // of those separately would be several chances to ask the wrong one.
+        var facts = await _userRepository.GetAuthorizationFactsAsync(userId, ct);
+        if (facts is not { } who || !who.CanAct)
         {
             return [];
         }
 
         // 1) System administrator: every permission, no gate checks.
-        if (user.SystemAdministrator)
+        if (who.IsSystemAdministrator)
         {
             return await _permissionRepository.GetListAsync(cancellationToken: ct);
+        }
+
+        var user = await _userRepository.FindAsync(userId, ct);
+        if (user is null)
+        {
+            return [];
         }
 
         var candidateIds = await CalculateCandidatePermissionIdsAsync(user, ct);
@@ -100,7 +109,10 @@ public class PermissionManager : DomainService, IPermissionManager
         var permissions = await _permissionRepository.GetByIdsAsync(candidateIds, ct);
 
         // 6) User type restriction — the restriction map is fetched in one query (no N+1).
-        var userRoleId = await FindUserRoleIdAsync(user.StaffRole, ct);
+        // The type comes from the employment link now. It used to be derived by taking the user's
+        // StaffRole enum and searching UserType for a row carrying the same enum: the same fact in
+        // two places, free to disagree.
+        var userRoleId = who.UserTypeId;
         if (userRoleId is null)
         {
             // With an undefined user type only unrestricted ("everyone") permissions apply.

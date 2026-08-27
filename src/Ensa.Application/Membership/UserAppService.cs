@@ -1,4 +1,4 @@
-using Ensa.Domain.Repositories;
+﻿using Ensa.Domain.Repositories;
 using Ensa.Domain.Tenancy;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -34,6 +34,8 @@ public class UserAppService(
     IUserRepository userRepository,
     IPermissionManager permissionManager,
     UserManager<User> userManager,
+    IRepository<UserProfile> userProfileRepository,
+    IRepository<UserEmployment> userEmploymentRepository,
     IReadOnlyRepository<Organization> organizationRepository)
     : EnsaAppService(serviceProvider), IUserAppService
 {
@@ -201,6 +203,8 @@ public class UserAppService(
         {
             EnsureIdentitySucceeded(await userManager.AddToRolesAsync(user, NormalizeRoles(input.Roles)));
         }
+
+        await CreatePersonAsync(user, input, cancellationToken);
 
         Logger.LogInformation("User created: {UserId} - {UserName}", user.Id, user.UserName);
 
@@ -409,6 +413,54 @@ public class UserAppService(
     /// Turns a failed <see cref="IdentityResult"/> into a field-level validation exception so
     /// the client can highlight the offending input instead of showing a generic message.
     /// </summary>
+    /// <summary>
+    /// Gives a new account the person and the contract that go with it.
+    /// <para>
+    /// <b>Why this is not optional.</b> Authorization reads whether a user is active from
+    /// <see cref="UserProfile"/>, and a user with no profile row is treated as inactive — correctly,
+    /// because a half-created account should not be able to act. So an account created without one
+    /// can sign in and then find it may do nothing at all, which is a confusing way to fail.
+    /// </para>
+    /// <para>
+    /// Both rows are written after Identity has accepted the account, because until then there is
+    /// no id to point them at.
+    /// </para>
+    /// </summary>
+    private async Task CreatePersonAsync(
+        User user,
+        CreateUserDto input,
+        CancellationToken cancellationToken)
+    {
+        await userProfileRepository.InsertAsync(new UserProfile
+        {
+            UserId = user.Id,
+            TenantId = user.TenantId,
+            Name = input.Name,
+            LastName = input.LastName,
+            NationalId = input.NationalId,
+            Address = input.Address,
+            CityId = input.CityId,
+            DistrictId = input.DistrictId,
+            Color = input.Color,
+            PhotoDocumentId = input.PhotoDocumentId,
+            IsActive = input.IsActive,
+
+            // A new account is given a password by whoever created it, so the first thing its
+            // owner should do is replace it with one only they know.
+            MustChangePassword = true,
+        }, autoSave: true, cancellationToken);
+
+        await userEmploymentRepository.InsertAsync(new UserEmployment
+        {
+            UserId = user.Id,
+            TenantId = user.TenantId,
+            HireDate = input.HireDate,
+            TerminationDate = input.TerminationDate,
+            GrossSalary = input.GrossSalary,
+            PartTime = input.PartTime,
+        }, autoSave: true, cancellationToken);
+    }
+
     private static void EnsureIdentitySucceeded(IdentityResult result)
     {
         if (result.Succeeded)

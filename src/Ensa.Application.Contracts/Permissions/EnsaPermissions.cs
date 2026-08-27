@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Ensa.Application.Contracts.Permissions;
 
@@ -408,10 +408,10 @@ public static class EnsaClaimTypes
 public static class EnsaRoles
 {
     /// <summary>Host administrator. Holds every permission and may switch tenants.</summary>
-    public const string SystemAdministrator = "SystemAdministrator";
+    public const string SystemAdministrator = Ensa.Domain.Shared.EnsaRoleNames.SystemAdministrator;
 
     /// <summary>Organization (tenant) administrator.</summary>
-    public const string OrganizationAdministrator = "OrganizationAdministrator";
+    public const string OrganizationAdministrator = Ensa.Domain.Shared.EnsaRoleNames.OrganizationAdministrator;
 }
 
 /// <summary>OpenIddict scope names.</summary>

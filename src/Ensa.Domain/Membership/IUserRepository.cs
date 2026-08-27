@@ -1,4 +1,4 @@
-using Ensa.Domain.Membership.Navigations;
+﻿using Ensa.Domain.Membership.Navigations;
 using Ensa.Domain.Repositories;
 
 namespace Ensa.Domain.Membership;
@@ -14,6 +14,12 @@ public interface IUserRepository : IRepository<User>
     /// passed through the organization type and subscription plan gates and with explicit deny
     /// rows removed. See <see cref="IPermissionManager"/> for the calculation rule.
     /// </summary>
+    /// <summary>
+    /// The facts authorization needs, gathered in one query across the account, the profile, the
+    /// employment and the role assignments. Returns <c>null</c> when there is no such user.
+    /// </summary>
+    Task<UserAuthorizationFacts?> GetAuthorizationFactsAsync(int userId, CancellationToken ct = default);
+
     Task<List<Permission>> GetPermissionsAsync(int userId, CancellationToken ct = default);
 
     /// <summary>Loads the user together with organization, office, role and permission data in a single call.</summary>

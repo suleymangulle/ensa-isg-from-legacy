@@ -50,6 +50,7 @@ dotnet test                                   # unit tests
 python tools/api-tests/api_test.py            # Company module end to end (API must be running)
 python tools/api-tests/api_coverage.py        # every GET: anonymous 401, authenticated no 5xx
 python tools/api-tests/api_authorization.py   # a permission-less user gets 403, not 200
+python tools/api-tests/api_privilege_escalation.py # a user cannot grant themselves permissions
 python tools/api-tests/api_company_scope.py   # a customer sees their own workplace and no other
 python tools/api-tests/api_customer_portal.py # every legacy customer-portal page has a counterpart
 python tools/api-tests/api_documents.py       # document upload/download and its security claims

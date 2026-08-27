@@ -98,9 +98,10 @@ public class UserAppService(
             })],
             Permissions = ObjectMapper.Map<List<Permission>, List<PermissionDto>>(permissions),
             UserType = Lookup(navigation.UserType?.Id, navigation.UserType?.Name),
-            StaffRole = navigation.User.StaffRole,
-            City = Lookup(navigation.User.CityId, navigation.CityName),
-            District = Lookup(navigation.User.DistrictId, navigation.DistrictName),
+            // Through the type the employment points at; the user row no longer carries a copy.
+            StaffRole = navigation.UserType?.StaffRole ?? StaffRole.Unspecified,
+            City = Lookup(navigation.Profile?.CityId, navigation.CityName),
+            District = Lookup(navigation.Profile?.DistrictId, navigation.DistrictName),
             OrganizationIds = [.. navigation.OrganizationIds],
             PhotoSizeBytes = navigation.PhotoDocumentBoyutu
         };
@@ -114,19 +115,30 @@ public class UserAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.User.Default);
 
-        var predicate = BuildFilter(input);
-        var sorting = NormalizeSorting(input.Sorting, "Name ASC");
-
-        var total = await userRepository.GetCountAsync(predicate, cancellationToken);
-
-        var records = await userRepository.GetPagedListAsync(
-            input.SkipCount,
-            input.MaxResultCount,
-            sorting,
-            predicate,
+        var (rows, total) = await userRepository.GetListAsync(
+            new UserListQuery(
+                string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim(),
+                input.StaffRole,
+                input.OfficeId,
+                input.CompanyId,
+                input.IsActive,
+                input.SkipCount,
+                input.MaxResultCount),
             cancellationToken);
 
-        var items = ObjectMapper.Map<List<User>, List<UserListDto>>(records);
+        // The mapper carries the account; the person is filled from the rows the query joined on.
+        var items = rows
+            .Select(row =>
+            {
+                var dto = ObjectMapper.Map<User, UserListDto>(row.Account);
+
+                dto.Name = row.Profile?.Name ?? string.Empty;
+                dto.LastName = row.Profile?.LastName ?? string.Empty;
+                dto.IsActive = row.Profile?.IsActive ?? false;
+
+                return dto;
+            })
+            .ToList();
 
         return new PagedResultDto<UserListDto>(total, items);
     }
@@ -569,29 +581,4 @@ public class UserAppService(
     private static LookupDto? Lookup(int? id, string? name)
         => id is null ? null : new LookupDto { Id = id.Value, DisplayName = name ?? string.Empty };
 
-    /// <summary>
-    /// Builds the list predicate. Every clause is guarded by a captured local, which the
-    /// query provider folds away when the corresponding filter was not supplied - so a single
-    /// expression covers all filter combinations without an expression-tree rewriter.
-    /// </summary>
-    private static Expression<Func<User, bool>> BuildFilter(GetUserListInput input)
-    {
-        var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
-        var staffRole = input.StaffRole;
-        var officeId = input.OfficeId;
-        var companyId = input.CompanyId;
-        var isActive = input.IsActive;
-
-        return u =>
-            (search == null
-             || u.Name.Contains(search)
-             || u.LastName.Contains(search)
-             || (u.UserName != null && u.UserName.Contains(search))
-             || (u.Email != null && u.Email.Contains(search))
-             || (u.Gsm != null && u.Gsm.Contains(search)))
-            && (staffRole == null || u.StaffRole == staffRole)
-            && (officeId == null || u.OfficeId == officeId)
-            && (companyId == null || u.CompanyId == companyId)
-            && (isActive == null || u.IsActive == isActive);
-    }
 }

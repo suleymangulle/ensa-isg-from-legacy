@@ -174,10 +174,14 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
     /// </summary>
     private async Task<UserContext?> GetUserContextAsync(int userId, CancellationToken ct)
     {
-        var user = await Context.Set<User>()
-            .AsNoTracking()
-            .Where(k => k.Id == userId && k.IsActive)
-            .Select(k => new { k.Id, k.StaffRole, k.TenantId, k.CompanyId })
+        // Active lives on the profile now; the staff role was selected here and never used,
+        // because the type code below is what the menu actually keys off.
+        var user = await (
+            from account in Context.Set<User>().AsNoTracking()
+            join profile in Context.Set<UserProfile>().AsNoTracking()
+                on account.Id equals profile.UserId
+            where account.Id == userId && profile.IsActive
+            select new { account.Id, account.TenantId, account.CompanyId })
             .FirstOrDefaultAsync(ct);
 
         if (user is null)

@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
@@ -6,6 +6,9 @@ using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Communication;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
+using Ensa.Domain.Membership;
+using Ensa.Domain.Repositories;
+
 
 namespace Ensa.Application.Communication;
 
@@ -15,7 +18,9 @@ namespace Ensa.Application.Communication;
 /// </summary>
 public class VisitAppService(
     IServiceProvider serviceProvider,
-    IVisitRepository visitRepository)
+    IVisitRepository visitRepository,
+    IUserRepository userRepository,
+    IReadOnlyRepository<UserProfile> userProfileRepository)
     : EnsaAppService(serviceProvider), IVisitAppService
 {
     /// <summary>
@@ -152,6 +157,16 @@ public class VisitAppService(
 
         var records = await visitRepository.GetCalendarAsync(userId, from, to, cancellationToken);
 
+        // The colour and the name a calendar entry falls back to are on the profile, so they are
+        // fetched once for everyone on the calendar rather than per entry.
+        var visitUserIds = records.Select(n => n.Visit.UserId).Distinct().ToList();
+
+        var names = await userRepository.GetDisplaysAsync(visitUserIds, cancellationToken);
+
+        var colours = (await userProfileRepository.GetListAsync(
+                p => visitUserIds.Contains(p.UserId), cancellationToken))
+            .ToDictionary(p => p.UserId, p => p.Color);
+
         var items = records
             .Select(n =>
             {
@@ -169,11 +184,15 @@ public class VisitAppService(
                     End = end,
                     // Falling back to the user's own colour keeps one person's entries visually
                     // grouped even when individual visits were saved without a colour.
-                    Color = string.IsNullOrWhiteSpace(visit.Color) ? n.User?.Color : visit.Color,
+                    Color = string.IsNullOrWhiteSpace(visit.Color)
+                        ? colours.GetValueOrDefault(visit.UserId)
+                        : visit.Color,
                     CompanyId = visit.CompanyId,
                     CompanyName = n.Company?.CompanyName,
                     UserId = visit.UserId,
-                    UserFullName = n.User?.FullName,
+                    UserFullName = names.TryGetValue(visit.UserId, out var who)
+                        ? who.DisplayName
+                        : null,
                     OperationType = visit.OperationType,
                     Completed = visit.Completed
                 };

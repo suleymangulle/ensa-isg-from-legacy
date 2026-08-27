@@ -1,4 +1,4 @@
-using Ensa.Domain.Membership;
+﻿using Ensa.Domain.Membership;
 using Ensa.Domain.Shared;
 using Ensa.EntityFrameworkCore.ValueConverters;
 using Microsoft.EntityFrameworkCore;
@@ -26,61 +26,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         // The table name and schema are set by EnsaDbContext.ConfigureIdentityTables.
 
-        // Computed property — no column must be generated.
-        builder.Ignore(x => x.FullName);
-
         // ---- Identity / personal details ----
-
-        builder.Property(x => x.Name)
-               .IsRequired()
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
-
-        builder.Property(x => x.LastName)
-               .IsRequired()
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
-
-        // The encrypter is deterministic, which is what makes WHERE and UNIQUE work on NationalId.
-        builder.Property(x => x.NationalId!)
-               .IsEncrypted(EnsaDomainSharedConsts.MaxLengths.NationalId);
-
-        builder.Property(x => x.Address)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Address);
-
-        builder.Property(x => x.Gsm)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Phone);
-
-        builder.Property(x => x.Color)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Color);
 
         // ---- Duty / employment ----
 
-        builder.Property(x => x.GrossSalary).HasPrecision(18, 2);
-
         // ---- Medula (SGK) credentials — encrypted columns ----
-
-        builder.Property(x => x.BranchCode)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
-
-        builder.Property(x => x.MedulaUserName!)
-               .IsEncrypted(EnsaDomainSharedConsts.MaxLengths.Name);
-
-        builder.Property(x => x.MedulaPassword!)
-               .IsEncrypted(EnsaDomainSharedConsts.MaxLengths.Name);
 
         // ---- Foreign key indexes ----
 
-        builder.HasIndex(x => x.CityId);
-        builder.HasIndex(x => x.DistrictId);
-        builder.HasIndex(x => x.PhotoDocumentId);
-        builder.HasIndex(x => x.OfficeId);
         builder.HasIndex(x => x.CompanyId);
         builder.HasIndex(x => x.PermissionGroupId);
         builder.HasIndex(x => new { x.TenantId, x.IsDeleted });
-
-        // Two active users cannot share a national id within the same organization.
-        builder.HasIndex(x => new { x.TenantId, x.NationalId })
-               .IsUnique()
-               .HasFilter("[IsDeleted] = 0 AND [NationalId] IS NOT NULL");
 
         // ---- Identity index correction ----
 

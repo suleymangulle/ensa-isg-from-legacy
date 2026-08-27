@@ -1,4 +1,4 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Health;
 using Ensa.Application.Contracts.Health.Dtos;
@@ -46,7 +46,7 @@ public class MedicalExaminationFormAppService(
     IRepository<MedicalExamImmunization> immunizationRepository,
     IReadOnlyRepository<CompanyEmployee> employeeRepository,
     IReadOnlyRepository<Company> companyRepository,
-    IReadOnlyRepository<User> userRepository)
+    IUserRepository userRepository)
     : EnsaAppService(serviceProvider), IMedicalExaminationFormAppService
 {
     /// <summary>Upper bound for the periodic follow-up warning list.</summary>
@@ -512,7 +512,10 @@ public class MedicalExaminationFormAppService(
 
         var employeeNames = employees.ToDictionary(e => e.Id, e => $"{e.Name} {e.LastName}".Trim());
         var companyNames = companies.ToDictionary(c => c.Id, c => c.CompanyName);
-        var physicianNames = physicians.ToDictionary(u => u.Id, u => $"{u.Name} {u.LastName}".Trim());
+        // The name is on the profile now, so one query answers it for every physician on the
+        // page rather than a lookup each.
+        var physicianNames = (await userRepository.GetDisplaysAsync(physicianIds, cancellationToken))
+            .ToDictionary(pair => pair.Key, pair => pair.Value.DisplayName);
 
         foreach (var item in items)
         {

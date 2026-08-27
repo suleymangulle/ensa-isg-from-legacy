@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Companies;
 using Ensa.Domain.Ibys;
 using Ensa.Domain.Membership;
@@ -51,9 +51,9 @@ public class MedicalExaminationFormRepository(EnsaDbContext context, IDataFilter
         if (form.PhysicianUserId is { } physicianId)
         {
             // Only the first and last name are needed; the whole User row is not loaded into memory.
-            navigation.PhysicianFullName = await Context.Set<User>()
+            navigation.PhysicianFullName = await Context.Set<UserProfile>()
                 .AsNoTracking()
-                .Where(k => k.Id == physicianId)
+                .Where(k => k.UserId == physicianId)
                 .Select(k => k.Name + " " + k.LastName)
                 .FirstOrDefaultAsync(cancellationToken);
         }

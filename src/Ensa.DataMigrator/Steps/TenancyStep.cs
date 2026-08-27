@@ -1,4 +1,4 @@
-using Ensa.DataMigrator.Infrastructure;
+﻿using Ensa.DataMigrator.Infrastructure;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Tenancy;
@@ -407,15 +407,19 @@ public sealed class TenancyStep : IMigrationStep
         var invented = 0;
         var duplicateNationalIds = 0;
         var unreadable = 0;
-        var batch = new List<(int LegacyId, User Entity)>();
+        // The account, and the three rows that describe the person it belongs to. They are
+        // built together and written together, because a user without a profile cannot act:
+        // authorization reads whether an account is usable from there.
+        var batch = new List<(int LegacyId, User Entity, UserProfile Profile,
+            UserEmployment Employment, UserMedulaCredential? Medula)>();
 
         // (organization, national id) is unique in the rebuilt schema. Whoever comes first keeps
         // the number; a later account with the same one is written without it.
         var nationalIdsTaken = new HashSet<(int TenantId, string NationalId)>();
 
-        foreach (var existing in await db.Set<User>()
-                     .Where(u => u.NationalId != null && u.TenantId != null)
-                     .Select(u => new { u.TenantId, u.NationalId })
+        foreach (var existing in await db.Set<UserProfile>()
+                     .Where(p => p.NationalId != null && p.TenantId != null)
+                     .Select(p => new { p.TenantId, p.NationalId })
                      .ToListAsync(cancellationToken))
         {
             nationalIdsTaken.Add((existing.TenantId!.Value, existing.NationalId!));
@@ -480,50 +484,71 @@ public sealed class TenancyStep : IMigrationStep
                     NormalizedUserName = userName.ToUpperInvariant(),
                     Email = email,
                     NormalizedEmail = email?.ToUpperInvariant(),
-                    Name = Fit(context, "User", "Name", Text(reader, 1)) ?? string.Empty,
-                    LastName = Fit(context, "User", "LastName", Text(reader, 2)) ?? string.Empty,
-                    NationalId = nationalId,
-                    PhoneNumber = Fit(context, "User", "PhoneNumber", Text(reader, 5)),
-                    Gsm = Fit(context, "User", "Gsm", Text(reader, 6)),
-                    Address = Fit(context, "User", "Address", Text(reader, 7)),
-                    CityId = MapId(cityMap, Int(reader, 8)),
-                    DistrictId = MapId(districtMap, Int(reader, 9)),
-                    IsActive = !reader.IsDBNull(10) && reader.GetBoolean(10),
-                    OrganizationAdmin = !reader.IsDBNull(11) && reader.GetBoolean(11),
-                    SystemAdministrator = !reader.IsDBNull(12) && reader.GetBoolean(12),
-                    OfficeAdmin = !reader.IsDBNull(13) && reader.GetBoolean(13),
-                    StaffRole = staffRole,
-                    HireDate = Date(reader, 15),
-                    TerminationDate = Date(reader, 16),
-                    GrossSalary = reader.IsDBNull(17) ? null : (decimal)reader.GetDouble(17),
-                    PartTime = Int(reader, 18) is > 0,
-                    MonthlyWorkDurationMinutes = Int(reader, 19),
-                    OfficeId = MapId(officeMap, Int(reader, 20)),
+                    PhoneNumber = Fit(context, "User", "PhoneNumber", Text(reader, 5))
+                                  ?? Fit(context, "User", "PhoneNumber", Text(reader, 6)),
+
                     // FirmaId points at a client company, which the companies step has not created
                     // yet. It is resolved there rather than left pointing at nothing.
                     CompanyId = null,
-                    Color = Fit(context, "User", "Color", Text(reader, 23)),
-                    BranchCode = Fit(context, "User", "BranchCode", Text(reader, 24)),
-                    MedulaUserName = Fit(context, "User", "MedulaUserName", LegacyCrypt.TryDecrypt(Text(reader, 25))),
-                    MedulaPassword = Fit(context, "User", "MedulaPassword", LegacyCrypt.TryDecrypt(Text(reader, 26))),
-                    ContractApproved = Int(reader, 27) is > 0,
                     TenantId = tenantId,
                     IsDeleted = !reader.IsDBNull(29) && reader.GetBoolean(29),
 
-                    // No password is carried over. See the class summary: the legacy column holds
-                    // reversibly encrypted text, not a hash, so there is nothing to convert and
-                    // nothing that should be converted. The account is reachable only through a
-                    // reset, which is what MustChangePassword announces.
+                    // No password is carried over here. The legacy column holds reversibly
+                    // encrypted text rather than a hash, so PasswordStep decrypts and re-protects
+                    // it in its own pass; until then the account is reachable only through a reset.
                     PasswordHash = null,
-                    MustChangePassword = true,
                     SecurityStamp = Guid.NewGuid().ToString("N"),
                     ConcurrencyStamp = Guid.NewGuid().ToString("N"),
                     LockoutEnabled = true,
                     EmailConfirmed = false,
                 };
 
+                var profile = new UserProfile
+                {
+                    TenantId = tenantId,
+                    Name = Fit(context, "UserProfile", "Name", Text(reader, 1)) ?? string.Empty,
+                    LastName = Fit(context, "UserProfile", "LastName", Text(reader, 2)) ?? string.Empty,
+                    NationalId = nationalId,
+                    Address = Fit(context, "UserProfile", "Address", Text(reader, 7)),
+                    CityId = MapId(cityMap, Int(reader, 8)),
+                    DistrictId = MapId(districtMap, Int(reader, 9)),
+                    Color = Fit(context, "UserProfile", "Color", Text(reader, 23)),
+                    IsActive = !reader.IsDBNull(10) && reader.GetBoolean(10),
+                    ContractApproved = Int(reader, 27) is > 0,
+                    MustChangePassword = true,
+                    IsDeleted = !reader.IsDBNull(29) && reader.GetBoolean(29),
+                };
+
+                var employment = new UserEmployment
+                {
+                    TenantId = tenantId,
+                    HireDate = Date(reader, 15),
+                    TerminationDate = Date(reader, 16),
+                    GrossSalary = reader.IsDBNull(17) ? null : (decimal)reader.GetDouble(17),
+                    PartTime = Int(reader, 18) is > 0,
+                    IsDeleted = !reader.IsDBNull(29) && reader.GetBoolean(29),
+                };
+
+                // Only for the users that have one. An empty row per user would be storing
+                // nothing, several thousand times.
+                var medulaUserName = Fit(context, "UserMedulaCredential", "MedulaUserName",
+                    LegacyCrypt.TryDecrypt(Text(reader, 25)));
+                var medulaPassword = Fit(context, "UserMedulaCredential", "MedulaPassword",
+                    LegacyCrypt.TryDecrypt(Text(reader, 26)));
+                var branchCode = Fit(context, "UserMedulaCredential", "BranchCode", Text(reader, 24));
+
+                var medula = medulaUserName is null && medulaPassword is null && branchCode is null
+                    ? null
+                    : new UserMedulaCredential
+                    {
+                        TenantId = tenantId,
+                        MedulaUserName = medulaUserName,
+                        MedulaPassword = medulaPassword,
+                        BranchCode = branchCode,
+                    };
+
                 taken.Add(CollationFold(user.NormalizedUserName));
-                batch.Add((legacyId, user));
+                batch.Add((legacyId, user, profile, employment, medula));
             }
         }
 
@@ -534,6 +559,24 @@ public sealed class TenancyStep : IMigrationStep
             foreach (var chunk in batch.Chunk(200))
             {
                 db.Set<User>().AddRange(chunk.Select(item => item.Entity));
+                await db.SaveChangesAsync(cancellationToken);
+
+                // Now the accounts have ids, so the rows that point at them can be written.
+                foreach (var item in chunk)
+                {
+                    item.Profile.UserId = item.Entity.Id;
+                    item.Employment.UserId = item.Entity.Id;
+
+                    db.Set<UserProfile>().Add(item.Profile);
+                    db.Set<UserEmployment>().Add(item.Employment);
+
+                    if (item.Medula is { } credential)
+                    {
+                        credential.UserId = item.Entity.Id;
+                        db.Set<UserMedulaCredential>().Add(credential);
+                    }
+                }
+
                 await db.SaveChangesAsync(cancellationToken);
 
                 // Written here, with the chunk that produced it, rather than once at the end. A run

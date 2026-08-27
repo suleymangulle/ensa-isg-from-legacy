@@ -1,4 +1,4 @@
-using Ensa.DataMigrator.Infrastructure;
+﻿using Ensa.DataMigrator.Infrastructure;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -164,9 +164,9 @@ public sealed class VerifyStep : IMigrationStep
         // Read through the model so the converter runs. Both tables are covered because both hold
         // identity numbers, and the employee table holds a hundred times more of them.
         var values = entity == "User"
-            ? await db.Set<Ensa.Domain.Membership.User>()
-                .Where(u => u.NationalId != null)
-                .Select(u => u.NationalId!)
+            ? await db.Set<Ensa.Domain.Membership.UserProfile>()
+                .Where(p => p.NationalId != null)
+                .Select(p => p.NationalId!)
                 .ToListAsync(cancellationToken)
             : await db.Set<Ensa.Domain.Companies.CompanyEmployee>()
                 .Where(e => e.NationalId != null)

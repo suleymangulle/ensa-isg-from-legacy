@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Companies;
 using Ensa.Domain.Ibys;
 using Ensa.Domain.Ibys.Navigations;
@@ -59,9 +59,9 @@ public class IbysQueryRepository(EnsaDbContext context, IDataFilter? dataFilter 
         // the notification with an e-signature is represented by the CreatorId audit field.
         if (query.CreatorId is { } approverId)
         {
-            navigation.ApproverFullName = await Context.Set<User>()
+            navigation.ApproverFullName = await Context.Set<UserProfile>()
                 .AsNoTracking()
-                .Where(k => k.Id == approverId)
+                .Where(k => k.UserId == approverId)
                 .Select(k => k.Name + " " + k.LastName)
                 .FirstOrDefaultAsync(cancellationToken);
         }

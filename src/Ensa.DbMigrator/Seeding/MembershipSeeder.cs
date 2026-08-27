@@ -1,4 +1,4 @@
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Tenancy;
@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Ensa.Domain.Shared;
+
 
 namespace Ensa.DbMigrator.Seeding;
 
@@ -34,7 +36,7 @@ public sealed class MembershipSeeder(
     {
         await SeedRolesAsync();
         var organizationId = await SeedDemoOrganizationAsync(cancellationToken);
-        await SeedAdminAsync(organizationId);
+        await SeedAdminAsync(organizationId, cancellationToken);
     }
 
     // --------------------------------------------------------------
@@ -144,7 +146,7 @@ public sealed class MembershipSeeder(
     // Host administrator
     // --------------------------------------------------------------
 
-    private async Task SeedAdminAsync(int demoOrganizationId)
+    private async Task SeedAdminAsync(int demoOrganizationId, CancellationToken cancellationToken)
     {
         const string userName = "admin";
 
@@ -161,15 +163,8 @@ public sealed class MembershipSeeder(
             UserName = userName,
             Email = "admin@ensa.local",
             EmailConfirmed = true,
-            Name = "System",
-            LastName = "Administrator",
-            StaffRole = StaffRole.SystemAdministrator,
-            SystemAdministrator = true,
-            OrganizationAdmin = true,
-            IsActive = true,
             // The host administrator belongs to no tenant; it manages every organization.
-            TenantId = null,
-            MustChangePassword = string.IsNullOrWhiteSpace(configuredPassword)
+            TenantId = null
         };
 
         var result = await userManager.CreateAsync(admin, password);
@@ -177,6 +172,43 @@ public sealed class MembershipSeeder(
         {
             throw new InvalidOperationException(
                 $"Could not create the administrator user: {ErrorsCombine(result)}");
+        }
+
+        // The person and the contract. Authorization reads whether an account is usable from the
+        // profile, so an administrator created without one could sign in and then do nothing --
+        // which, for the account that has to fix everything else, would be a bad first impression.
+        context.Add(new UserProfile
+        {
+            UserId = admin.Id,
+            Name = "System",
+            LastName = "Administrator",
+            IsActive = true,
+            MustChangePassword = string.IsNullOrWhiteSpace(configuredPassword)
+        });
+
+        var administratorType = await context.Set<UserType>()
+            .FirstOrDefaultAsync(t => t.StaffRole == StaffRole.SystemAdministrator, cancellationToken);
+
+        context.Add(new UserEmployment
+        {
+            UserId = admin.Id,
+            UserTypeId = administratorType?.Id
+        });
+
+        await context.SaveChangesAsync(cancellationToken);
+
+        // System administrator and organization administrator are role assignments now, not
+        // booleans on the account.
+        foreach (var roleName in new[]
+                 {
+                     EnsaRoleNames.SystemAdministrator,
+                     EnsaRoleNames.OrganizationAdministrator,
+                 })
+        {
+            if (!await userManager.IsInRoleAsync(admin, roleName))
+            {
+                await userManager.AddToRoleAsync(admin, roleName);
+            }
         }
 
         var roleResult = await userManager.AddToRoleAsync(admin, "SystemAdministrator");
@@ -193,7 +225,7 @@ public sealed class MembershipSeeder(
             demoOrganizationId,
             EnsaPermissions.GetAll().Count());
 
-        if (admin.MustChangePassword)
+        if (string.IsNullOrWhiteSpace(configuredPassword))
         {
             logger.LogWarning(
                 "The administrator password is the built-in default and must be changed on first sign-in. " +

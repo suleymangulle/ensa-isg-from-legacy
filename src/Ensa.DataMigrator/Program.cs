@@ -77,6 +77,7 @@ try
         new OperationsExtraStep(),
         new FinanceStep(),
         new HealthFormStep(),
+        new IbysStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),

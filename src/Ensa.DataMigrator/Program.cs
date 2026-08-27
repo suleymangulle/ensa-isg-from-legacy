@@ -75,6 +75,7 @@ try
         new DocumentStep(),
         new DocumentLinkStep(),
         new OperationsExtraStep(),
+        new FinanceStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),

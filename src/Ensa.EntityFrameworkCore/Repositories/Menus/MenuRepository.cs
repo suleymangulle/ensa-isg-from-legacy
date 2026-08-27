@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Menus;
 using Ensa.Domain.Menus.Navigations;
@@ -185,16 +185,16 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
             return null;
         }
 
-        string? userRoleCode = null;
-        if (user.StaffRole != StaffRole.Unspecified)
-        {
-            userRoleCode = await Context.Set<UserType>()
-                .AsNoTracking()
-                .Where(kt => kt.StaffRole == user.StaffRole && kt.IsActive)
-                .OrderBy(kt => kt.SortOrder)
-                .Select(kt => kt.Code)
-                .FirstOrDefaultAsync(ct);
-        }
+        // Through the employment link, rather than by searching UserType for a row whose
+        // StaffRole happens to match the user's. The user carried a copy of the type's own enum;
+        // two copies of one fact, and the menu is the screen where a disagreement shows.
+        var userRoleCode = await (
+            from employment in Context.Set<UserEmployment>().AsNoTracking()
+            join userType in Context.Set<UserType>().AsNoTracking()
+                on employment.UserTypeId equals userType.Id
+            where employment.UserId == user.Id && userType.IsActive
+            orderby userType.SortOrder
+            select userType.Code).FirstOrDefaultAsync(ct);
 
         int? organizationTypeId = null;
         int? subscriptionPlanId = null;

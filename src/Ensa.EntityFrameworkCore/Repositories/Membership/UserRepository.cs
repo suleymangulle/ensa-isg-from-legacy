@@ -85,172 +85,6 @@ public class UserRepository(
         }
     }
 
-    /// <summary>
-    /// Computes the user's EFFECTIVE permissions (see <see cref="IPermissionManager"/> for the rule order).
-    /// <para>
-    /// <b>Use of IDataFilter — why it is needed:</b> this method is called mostly during <b>token/claim
-    /// generation</b>, at which point <c>ICurrentTenant</c> has not been established yet (the tenant is
-    /// about to be read from this very user record). With the tenant global filter on, the user record
-    /// cannot be found and everybody looks unauthorised. The filter is therefore disabled ONLY while the
-    /// user record is read.
-    /// </para>
-    /// <para>
-    /// <b>Leak prevention:</b> right after the user is found, <see cref="ICurrentTenant.Change"/> switches
-    /// to the user's own tenant, so that the tenant-owned child tables (<see cref="UserPermission"/>,
-    /// <see cref="PermissionRestriction"/>) are read under the global filter again and with the CORRECT
-    /// tenant. The filter is never left disabled.
-    /// </para>
-    /// </summary>
-    public async Task<List<Permission>> GetPermissionsAsync(int userId, CancellationToken ct = default)
-    {
-        User? user;
-        using (_dataFilter.Disable<IMultiTenant>())
-        {
-            user = await GetReadOnlyQueryable()
-                .FirstOrDefaultAsync(k => k.Id == userId, ct);
-        }
-
-        if (user is null || !user.IsActive)
-        {
-            return [];
-        }
-
-        using (_currentTenant.Change(user.TenantId))
-        {
-            // 1) System administrator: all permissions, no gate checks.
-            if (user.SystemAdministrator)
-            {
-                return await AllPermissionsAsync(ct);
-            }
-
-            if (user.TenantId is not int organizationId)
-            {
-                // A host user without the system administrator role has no permissions.
-                return [];
-            }
-
-            // Organization is a host table; no tenant filter is applied.
-            var organization = await Context.Set<Organization>()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(k => k.Id == organizationId, ct);
-
-            if (organization is null || !organization.IsActive)
-            {
-                return [];
-            }
-
-            // 2) Subscription plan gate
-            var packageIds = await Context.Set<SubscriptionPlanPermission>()
-                .AsNoTracking()
-                .Where(x => x.SubscriptionPlanId == organization.SubscriptionPlanId)
-                .Select(x => x.PermissionId)
-                .ToListAsync(ct);
-
-            if (packageIds.Count == 0)
-            {
-                return [];
-            }
-
-            // 3) Organization type gate
-            var organizationTypeIds = await Context.Set<OrganizationTypePermission>()
-                .AsNoTracking()
-                .Where(x => x.OrganizationTypeId == organization.OrganizationTypeId)
-                .Select(x => x.PermissionId)
-                .ToListAsync(ct);
-
-            if (organizationTypeIds.Count == 0)
-            {
-                return [];
-            }
-
-            var userRoleId = await FindUserRoleIdAsync(user.StaffRole, ct);
-
-            // 4) Source union: user type defaults + permissions granted to the user
-            var sourceIds = new HashSet<int>();
-
-            if (userRoleId is int typeId)
-            {
-                var typePermissions = await Context.Set<UserTypePermission>()
-                    .AsNoTracking()
-                    .Where(x => x.UserTypeId == typeId && x.IsActive)
-                    .Select(x => x.PermissionId)
-                    .ToListAsync(ct);
-
-                sourceIds.UnionWith(typePermissions);
-            }
-
-            // The user's grant/deny rows are read in a SINGLE query (instead of two round trips).
-            var userLines = await Context.Set<UserPermission>()
-                .AsNoTracking()
-                .Where(x => x.UserId == userId && x.IsActive)
-                .Select(x => new { x.PermissionId, x.Authorized })
-                .ToListAsync(ct);
-
-            sourceIds.UnionWith(userLines.Where(x => x.Authorized).Select(x => x.PermissionId));
-
-            if (sourceIds.Count == 0)
-            {
-                return [];
-            }
-
-            // 5) An explicit denial overrides everything.
-            sourceIds.ExceptWith(userLines.Where(x => !x.Authorized).Select(x => x.PermissionId));
-
-            // Rows that made it through the gates
-            sourceIds.IntersectWith(packageIds);
-            sourceIds.IntersectWith(organizationTypeIds);
-
-            if (sourceIds.Count == 0)
-            {
-                return [];
-            }
-
-            var candidateIds = sourceIds.ToList();
-
-            var permissions = await Context.Set<Permission>()
-                .AsNoTracking()
-                .Where(y => candidateIds.Contains(y.Id))
-                .OrderBy(y => y.SortOrder)
-                .ThenBy(y => y.Id)
-                .ToListAsync(ct);
-
-            // 6) User type restriction
-            if (userRoleId is not int activeTypeId)
-            {
-                // When the user type is undefined, only unrestricted (Everyone) permissions apply.
-                return permissions.Where(y => y.PermissionRestrictionMode == PermissionRestrictionMode.Everyone).ToList();
-            }
-
-            var restrictedIds = permissions
-                .Where(y => y.PermissionRestrictionMode != PermissionRestrictionMode.Everyone)
-                .Select(y => y.Id)
-                .ToList();
-
-            if (restrictedIds.Count == 0)
-            {
-                return permissions;
-            }
-
-            // Restriction rows are read in a SINGLE query — no per-permission query (N+1).
-            var restrictionLines = await Context.Set<PermissionRestriction>()
-                .AsNoTracking()
-                .Where(x => restrictedIds.Contains(x.PermissionId) && x.UserTypeId == activeTypeId)
-                .Select(x => x.PermissionId)
-                .ToListAsync(ct);
-
-            var listedIds = restrictionLines.ToHashSet();
-
-            return permissions
-                .Where(y => y.PermissionRestrictionMode switch
-                {
-                    PermissionRestrictionMode.OnlySelected => listedIds.Contains(y.Id),
-                    PermissionRestrictionMode.SelectedExcept => !listedIds.Contains(y.Id),
-                    _ => true
-                })
-                .ToList();
-        }
-    }
-
     /// <inheritdoc />
     /// <remarks>
     /// All child collections are filled with a constant number of queries; no separate query is opened
@@ -266,6 +100,13 @@ public class UserRepository(
 
         var navigation = new UserNavigation { User = user };
 
+        // The person and the contract, which used to be columns on the row above.
+        var profile = await Context.Set<UserProfile>().AsNoTracking()
+            .FirstOrDefaultAsync(p => p.UserId == id, ct);
+
+        var employment = await Context.Set<UserEmployment>().AsNoTracking()
+            .FirstOrDefaultAsync(e => e.UserId == id, ct);
+
         if (user.TenantId is int organizationId)
         {
             navigation.Organization = await Context.Set<Organization>()
@@ -280,10 +121,13 @@ public class UserRepository(
             .ToListAsync(ct);
 
         var officeIds = navigation.OfficeAssignments.Select(ko => ko.OfficeId).ToList();
-        if (user.OfficeId is int defaultOfficeId && !officeIds.Contains(defaultOfficeId))
-        {
-            officeIds.Add(defaultOfficeId);
-        }
+        // The assignments are the whole answer now. User.OfficeId used to name one "default"
+        // office alongside them, which cannot express a specialist who works in two -- and the
+        // legacy data says many do, which is why KullaniciOfis_T holds 1,949 rows.
+        var defaultOfficeId = navigation.OfficeAssignments
+            .OrderByDescending(ko => ko.MonthlyWorkDurationMinutes)
+            .Select(ko => (int?)ko.OfficeId)
+            .FirstOrDefault();
 
         if (officeIds.Count > 0)
         {
@@ -294,7 +138,7 @@ public class UserRepository(
                 .ToListAsync(ct);
 
             navigation.Offices = offices;
-            navigation.Office = offices.Find(o => o.Id == user.OfficeId);
+            navigation.Office = offices.Find(o => o.Id == defaultOfficeId);
         }
 
         // Roles: a single join query.
@@ -305,15 +149,22 @@ public class UserRepository(
                                    select role)
                                   .ToListAsync(ct);
 
-        navigation.Permissions = await GetPermissionsAsync(id, ct);
+        // Permissions are deliberately NOT filled here. IPermissionManager is the single
+        // implementation of the legacy four-gate rules, and this repository used to carry a
+        // second copy of them -- two answers to "what may this user do", free to disagree,
+        // and it was the copy feeding the screen that shows an administrator what someone
+        // can do. The application service asks the manager.
 
-        navigation.UserType = await Context.Set<UserType>()
-            .AsNoTracking()
-            .Where(kt => kt.StaffRole == user.StaffRole && kt.IsActive)
-            .OrderBy(kt => kt.SortOrder)
-            .FirstOrDefaultAsync(ct);
+        // Read through the link rather than by searching UserType for a row whose StaffRole
+        // matches the user's: the same fact was stored in both places and free to disagree.
+        if (employment?.UserTypeId is int userTypeId)
+        {
+            navigation.UserType = await Context.Set<UserType>()
+                .AsNoTracking()
+                .FirstOrDefaultAsync(kt => kt.Id == userTypeId, ct);
+        }
 
-        if (user.CityId is int cityId)
+        if (profile?.CityId is int cityId)
         {
             navigation.CityName = await Context.Set<City>()
                 .AsNoTracking()
@@ -322,7 +173,7 @@ public class UserRepository(
                 .FirstOrDefaultAsync(ct);
         }
 
-        if (user.DistrictId is int districtId)
+        if (profile?.DistrictId is int districtId)
         {
             navigation.DistrictName = await Context.Set<District>()
                 .AsNoTracking()
@@ -331,7 +182,7 @@ public class UserRepository(
                 .FirstOrDefaultAsync(ct);
         }
 
-        if (user.PhotoDocumentId is int photoDocumentId)
+        if (profile?.PhotoDocumentId is int photoDocumentId)
         {
             navigation.PhotoDocumentBoyutu = await Context.Set<Document>()
                 .AsNoTracking()
@@ -342,7 +193,15 @@ public class UserRepository(
 
         // ASSUMPTION: there is no separate mapping table for multi-organization access.
         // A system administrator reaches every active organization, other accounts only their own.
-        if (user.SystemAdministrator)
+        // Identity owns roles, so this asks the role assignment rather than a boolean the user
+        // row used to carry beside it.
+        var isSystemAdministrator = await (
+            from assignment in Context.Set<IdentityUserRole<int>>().AsNoTracking()
+            join role in Context.Set<Role>().AsNoTracking() on assignment.RoleId equals role.Id
+            where assignment.UserId == id && role.Name == EnsaRoleNames.SystemAdministrator
+            select role.Id).AnyAsync(ct);
+
+        if (isSystemAdministrator)
         {
             navigation.OrganizationIds = await Context.Set<Organization>()
                 .AsNoTracking()
@@ -459,31 +318,4 @@ public class UserRepository(
     // ------------------------------------------------------------------
     // Helpers
     // ------------------------------------------------------------------
-
-    /// <summary>Returns the whole permission catalogue (system administrator shortcut).</summary>
-    private Task<List<Permission>> AllPermissionsAsync(CancellationToken ct)
-        => Context.Set<Permission>()
-                  .AsNoTracking()
-                  .OrderBy(y => y.SortOrder)
-                  .ThenBy(y => y.Id)
-                  .ToListAsync(ct);
-
-    /// <summary>
-    /// Resolves the id of the <see cref="UserType"/> record for a <see cref="StaffRole"/> enum value.
-    /// (In the legacy system this match was done with string comparison.)
-    /// </summary>
-    private async Task<int?> FindUserRoleIdAsync(StaffRole staffRole, CancellationToken ct)
-    {
-        if (staffRole == StaffRole.Unspecified)
-        {
-            return null;
-        }
-
-        return await Context.Set<UserType>()
-            .AsNoTracking()
-            .Where(kt => kt.StaffRole == staffRole && kt.IsActive)
-            .OrderBy(kt => kt.SortOrder)
-            .Select(kt => (int?)kt.Id)
-            .FirstOrDefaultAsync(ct);
-    }
 }

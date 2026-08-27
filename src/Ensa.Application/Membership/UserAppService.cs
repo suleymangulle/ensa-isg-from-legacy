@@ -8,6 +8,7 @@ using Ensa.Application.Contracts.Membership.Dtos;
 using Ensa.Application.Contracts.Membership.Dtos.Navigations;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Membership;
+using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -36,6 +37,7 @@ public class UserAppService(
     UserManager<User> userManager,
     IRepository<UserProfile> userProfileRepository,
     IRepository<UserEmployment> userEmploymentRepository,
+    IReadOnlyRepository<UserType> userTypeRepository,
     IReadOnlyRepository<Organization> organizationRepository)
     : EnsaAppService(serviceProvider), IUserAppService
 {
@@ -450,10 +452,20 @@ public class UserAppService(
             MustChangePassword = true,
         }, autoSave: true, cancellationToken);
 
+        // The request still names a staff role, so the type is resolved from it here. The link is
+        // what everything reads now -- authorization, the menu and the navigation view all ask
+        // UserEmployment.UserTypeId -- so leaving it null would create an account that can sign in
+        // and then do nothing, which is how the first version of this failed.
+        var userTypeId = input.StaffRole == StaffRole.Unspecified
+            ? null
+            : (await userTypeRepository.FindAsync(
+                t => t.StaffRole == input.StaffRole && t.IsActive, cancellationToken))?.Id;
+
         await userEmploymentRepository.InsertAsync(new UserEmployment
         {
             UserId = user.Id,
             TenantId = user.TenantId,
+            UserTypeId = userTypeId,
             HireDate = input.HireDate,
             TerminationDate = input.TerminationDate,
             GrossSalary = input.GrossSalary,

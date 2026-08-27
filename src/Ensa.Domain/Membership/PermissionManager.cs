@@ -100,7 +100,7 @@ public class PermissionManager : DomainService, IPermissionManager
             return [];
         }
 
-        var candidateIds = await CalculateCandidatePermissionIdsAsync(user, ct);
+        var candidateIds = await CalculateCandidatePermissionIdsAsync(user, who.UserTypeId, ct);
         if (candidateIds.Count == 0)
         {
             return [];
@@ -205,7 +205,10 @@ public class PermissionManager : DomainService, IPermissionManager
     /// type) and the source union applied and explicit denials removed. The restriction check is
     /// NOT performed at this stage.
     /// </summary>
-    private async Task<List<int>> CalculateCandidatePermissionIdsAsync(User user, CancellationToken ct)
+    private async Task<List<int>> CalculateCandidatePermissionIdsAsync(
+        User user,
+        int? userTypeId,
+        CancellationToken ct)
     {
         if (user.TenantId is not int organizationId)
         {
@@ -237,7 +240,10 @@ public class PermissionManager : DomainService, IPermissionManager
         // 4) Source union: user type defaults ∪ permissions granted explicitly to the user
         var sourceIds = new HashSet<int>();
 
-        var userRoleId = await FindUserRoleIdAsync(user.StaffRole, ct);
+        // The type comes from the employment link, passed in by the caller that already read
+        // it. Deriving it from the user's StaffRole enum meant the same fact lived in two
+        // places and could disagree with itself.
+        var userRoleId = userTypeId;
         if (userRoleId is int typeId)
         {
             sourceIds.UnionWith(await _permissionRepository.GetUserRolePermissionIdsAsync(typeId, ct));

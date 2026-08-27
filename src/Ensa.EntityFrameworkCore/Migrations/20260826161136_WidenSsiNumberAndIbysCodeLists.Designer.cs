@@ -4,6 +4,7 @@ using Ensa.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ensa.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(EnsaDbContext))]
-    partial class EnsaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260826161136_WidenSsiNumberAndIbysCodeLists")]
+    partial class WidenSsiNumberAndIbysCodeLists
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -8839,7 +8842,8 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasColumnType("decimal(9,2)");
 
                     b.Property<string>("Measure")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("RiskTag")
                         .HasMaxLength(2000)
@@ -8974,7 +8978,8 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasColumnType("decimal(9,2)");
 
                     b.Property<string>("Measure")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("OwnerPerson")
                         .HasMaxLength(128)
@@ -9547,8 +9552,8 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.Property<string>("WorkplaceTelefonu")
                         .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("WorkplaceTitle")
                         .IsRequired()

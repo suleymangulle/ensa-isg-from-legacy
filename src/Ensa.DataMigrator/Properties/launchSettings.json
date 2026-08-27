@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "Ensa.DataMigrator (dry run)": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "//": "Dry run is the default profile on purpose: pressing F5 on a data migration should read and report, never write.",
+      "commandLineArgs": "--confirm EnsaDbDEv --dry-run",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+    "Ensa.DataMigrator (development database)": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "commandLineArgs": "--confirm EnsaDbDEv",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    },
+    "Ensa.DataMigrator (list steps)": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "commandLineArgs": "--list",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

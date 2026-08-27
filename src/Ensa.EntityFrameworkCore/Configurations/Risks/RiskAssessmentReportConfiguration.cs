@@ -31,7 +31,7 @@ public class RiskAssessmentReportConfiguration : IEntityTypeConfiguration<RiskAs
 
         builder.Property(x => x.WorkplaceTelefonu)
                .IsRequired()
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Phone);
+               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
 
         builder.Property(x => x.WorkplaceDepartments)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Note);

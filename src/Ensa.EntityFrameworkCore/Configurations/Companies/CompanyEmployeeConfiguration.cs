@@ -81,13 +81,13 @@ public class CompanyEmployeeConfiguration : IEntityTypeConfiguration<CompanyEmpl
         // ---------------- IBYS ----------------
 
         builder.Property(x => x.WorkMethodCode)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
+               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.CodeList);
 
         builder.Property(x => x.WorkEnvironmentCode)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
+               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.CodeList);
 
         builder.Property(x => x.WorkEquipmentCode)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
+               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.CodeList);
 
         // ---------------- System ----------------
 

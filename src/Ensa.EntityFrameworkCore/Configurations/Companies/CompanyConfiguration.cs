@@ -31,7 +31,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Guid);
 
         builder.Property(x => x.SsiNumber)
-               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
+               .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.SsiNumber);
 
         builder.Property(x => x.TaxTaxOffice)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);

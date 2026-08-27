@@ -81,6 +81,7 @@ try
         new TrainingExamStep(),
         new ReportStep(),
         new LookupExtrasStep(),
+        new CommercialStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),
@@ -453,6 +454,10 @@ static async Task<int> ExportDocumentsAsync(
             "SahaGozlemRaporuSatirlari_T", "SahaGozlemSatiriId", "Dosya"),
         (OperationsExtraStep.EvacuationPlanBlobs,
             "AcilDurumEylemPlani_T", "AcilDurumEylemPlaniId", "TahliyePlani"),
+        (CommercialStep.ModuleArchiveBlobs,
+            "ModulArsivDetay_T", "ModulArsivDetayId", "Dosya"),
+        (CommercialStep.PenaltySurveyLogoBlobs,
+            "CezaAnketi_T", "CezaAnketId", "Logo"),
     ];
 
     var root = Path.GetFullPath(destination);

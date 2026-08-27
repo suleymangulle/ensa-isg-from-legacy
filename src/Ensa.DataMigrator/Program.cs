@@ -76,6 +76,7 @@ try
         new DocumentLinkStep(),
         new OperationsExtraStep(),
         new FinanceStep(),
+        new HealthFormStep(),
         new EmployeeDocumentStep(),
         new ReencryptStep(),
         new UserIdentityVerifyStep(),
@@ -131,6 +132,17 @@ try
             target.LegacyConnectionString,
             target.ModernConnectionString,
             Values(args, "--api").FirstOrDefault() ?? "https://localhost:7001");
+    }
+
+    // Which coded answers a legacy encrypted column actually holds. Mapping "Evet"/"Hayir" onto an
+    // enum cannot be done by reading the schema - the values are ciphertext - and guessing them is
+    // how a migration quietly inverts a medical answer.
+    if (args.Contains("--probe-codes", StringComparer.OrdinalIgnoreCase))
+    {
+        return await ProbeCodesAsync(
+            target.LegacyConnectionString,
+            Values(args, "--table").FirstOrDefault(),
+            Values(args, "--column").ToArray());
     }
 
     // The 132 GB of file payloads the document step deliberately leaves behind. Separate because
@@ -569,6 +581,117 @@ static async Task<int> ExportDocumentsAsync(
         "Document payloads: {Written} placed ({Gigabytes:F1} GB), {Already} already present, "
         + "{Empty} empty, {Missing} legacy row(s) gone",
         totalWritten, totalBytes / 1073741824d, totalAlready, totalEmpty, totalMissing);
+
+    return 0;
+}
+
+
+/// <summary>
+/// Prints the coded answers a legacy encrypted column holds, with their frequencies.
+/// <para>
+/// The medical examination form keeps 122 of its 135 columns as ciphertext, and most of them are
+/// closed-ended: an answer picked from a list, stored encrypted like everything else. Mapping
+/// those onto the destination's enums needs to know what the list was, and nothing in the schema
+/// says - <c>BalgamliOksuruk</c> is <c>nvarchar(320)</c> whether it holds "Evet" or an essay.
+/// </para>
+/// <para>
+/// <b>Only repeated values are printed.</b> A value that appears at least
+/// <see cref="MinimumOccurrences"/> times across the table is a code, not somebody's medical
+/// history: a name, an address or a diagnosis does not repeat twenty times. Anything rarer is
+/// counted and not shown. Nothing is written to disk.
+/// </para>
+/// </summary>
+static async Task<int> ProbeCodesAsync(string legacyConnectionString, string? table, string[] columns)
+{
+    const int MinimumOccurrences = 20;
+    const int MaximumLength = 60;
+
+    if (string.IsNullOrWhiteSpace(table) || columns.Length == 0)
+    {
+        Log.Error("--probe-codes needs --table <name> and one or more --column <name>.");
+        return 1;
+    }
+
+    // The table and column names go straight into the text of the query, so they are checked
+    // rather than trusted: this is a developer tool, but a developer tool that concatenates SQL
+    // is still a developer tool that concatenates SQL.
+    static bool IsIdentifier(string name)
+        => name.Length is > 0 and <= 128 && name.All(c => char.IsLetterOrDigit(c) || c == '_');
+
+    if (!IsIdentifier(table) || !columns.All(IsIdentifier))
+    {
+        Log.Error("Table and column names must be plain identifiers.");
+        return 1;
+    }
+
+    await using var connection = new Microsoft.Data.SqlClient.SqlConnection(legacyConnectionString);
+    await connection.OpenAsync();
+
+    foreach (var column in columns)
+    {
+        await using var command = new Microsoft.Data.SqlClient.SqlCommand(
+            $"SELECT [{column}] FROM [{table}] WHERE [{column}] IS NOT NULL", connection)
+        {
+            CommandTimeout = 1800,
+        };
+
+        var counts = new Dictionary<string, int>(StringComparer.Ordinal);
+        var unreadable = 0;
+        var total = 0;
+
+        await using (var reader = await command.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync())
+            {
+                total++;
+
+                var raw = reader.GetValue(0)?.ToString();
+                if (string.IsNullOrWhiteSpace(raw))
+                {
+                    continue;
+                }
+
+                var value = LegacyCrypt.LooksEncrypted(raw) ? LegacyCrypt.TryDecrypt(raw) : raw;
+
+                if (value is null)
+                {
+                    unreadable++;
+                    continue;
+                }
+
+                value = value.Trim();
+                if (value.Length == 0)
+                {
+                    continue;
+                }
+
+                counts[value] = counts.GetValueOrDefault(value) + 1;
+            }
+        }
+
+        var codes = counts
+            .Where(pair => pair.Value >= MinimumOccurrences && pair.Key.Length <= MaximumLength)
+            .OrderByDescending(pair => pair.Value)
+            .Take(25)
+            .ToList();
+
+        var withheld = counts.Count - codes.Count;
+
+        Log.Information(
+            "{Table}.{Column}: {Total} row(s), {Distinct} distinct, {Unreadable} would not decrypt",
+            table, column, total, counts.Count, unreadable);
+
+        foreach (var (value, count) in codes)
+        {
+            Log.Information("    {Count,7} x {Value}", count, value);
+        }
+
+        if (withheld > 0)
+        {
+            Log.Information(
+                "    ({Withheld} value(s) too rare or too long to be a code, not shown)", withheld);
+        }
+    }
 
     return 0;
 }

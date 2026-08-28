@@ -1,9 +1,10 @@
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Menus;
 using Ensa.Application.Contracts.Menus.Dtos;
 using Ensa.Application.Contracts.Menus.Dtos.Navigations;
 using Ensa.Application.Contracts.Permissions;
+using Ensa.Domain.Membership;
 using Ensa.Domain.Menus;
 using Ensa.Domain.Menus.Navigations;
 using Ensa.Domain.Shared.Exceptions;
@@ -19,7 +20,8 @@ namespace Ensa.Application.Menus;
 /// </summary>
 public class MenuAppService(
     IServiceProvider serviceProvider,
-    IMenuRepository menuRepository)
+    IMenuRepository menuRepository,
+    IPermissionManager permissionManager)
     : EnsaAppService(serviceProvider), IMenuAppService
 {
     /// <inheritdoc />
@@ -70,10 +72,17 @@ public class MenuAppService(
     /// <para>
     /// Confidentiality does not depend on the permission check here. The repository builds the
     /// tree <i>for this user id</i>: it matches the menu against the staff role, organization
-    /// type and subscription plan, drops items whose module is not enabled for the company, and
-    /// applies the personal <c>UserMenuOverride</c> rows. A caller therefore cannot see an entry
-    /// it is not entitled to, and the user id comes from the validated token rather than from
-    /// the request, so one user cannot ask for the menu of another.
+    /// type and subscription plan, drops items whose module is not enabled for the company, drops
+    /// items whose permission the user does not hold, and applies the personal
+    /// <c>UserMenuOverride</c> rows. A caller therefore cannot see an entry it is not entitled to,
+    /// and the user id comes from the validated token rather than from the request, so one user
+    /// cannot ask for the menu of another.
+    /// </para>
+    /// <para>
+    /// The effective permission set is resolved here rather than in the repository so that the
+    /// legacy four-gate algorithm has exactly one implementation, in <c>IPermissionManager</c>.
+    /// It governs what the navigation SHOWS; what a request may DO is decided independently by
+    /// the endpoint gate. See ADR-040.
     /// </para>
     /// </summary>
     public async Task<MenuNavigationDto> GetUserMenuAsync(
@@ -87,7 +96,11 @@ public class MenuAppService(
 
         var code = menuTypeCode.Trim();
 
-        var navigation = await menuRepository.GetUserMenuOverrideAsync(userId, code, cancellationToken)
+        var effectivePermissionIds =
+            await permissionManager.GetEffectivePermissionIdsAsync(userId, cancellationToken);
+
+        var navigation = await menuRepository
+                             .GetUserMenuOverrideAsync(userId, code, effectivePermissionIds, cancellationToken)
                          ?? throw new BusinessException(
                                  "No menu is defined for this layout type.",
                                  "Ensa:Menu:NotFoundForUser")

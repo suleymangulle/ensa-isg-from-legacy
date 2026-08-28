@@ -899,3 +899,66 @@ legacy system had none to be faithful to. The same turns out to be true of the m
 configuration was authored but nothing consumed it either. What it does record is the customer's
 own decision about which user type, organization type and plan may reach which screen, which is
 exactly the question a menu answers. ADR-040 puts it to that use.
+
+## ADR-040 — The migrated permissions decide what the menu shows
+
+**Context.** ADR-039 established that the legacy permission tables — 419 permissions and 9,640
+grants across user type, organization type and subscription plan — were authored through an
+administration screen and then consumed by nothing. They are the only surviving record of the
+customer's own decision about which kind of user may reach which screen, and that is precisely
+the question a navigation menu answers.
+
+The modern menu already reproduced the legacy menu's real filter: `Menu` carries `UserTypeCode`,
+`OrganizationTypeId` and `SubscriptionPlanId`, `MenuItem.ModuleId` is checked against the
+company's licensed modules, and `UserMenuOverride` applies the per-user additions and removals.
+What it had no notion of was a permission.
+
+**Decision.** `MenuItem` gains a nullable `PermissionId`. `GET api/menu/my-menu` renders an entry
+only when the caller's effective permissions contain it; an entry that names no permission is not
+governed and is always rendered. `tools/gen-enums/gen_menu.py` carries the binding into
+`MenuSeedData`, taking the legacy page permission where the screen replaced a legacy one — 34 of
+the 40 entries — and the permission the SPA declares for the five that had no legacy counterpart
+(Mail, Message, Organisations, Parameters, Reference data). The dashboard is governed by nothing,
+because every user needs a landing page.
+
+The effective set is resolved in `MenuAppService` through `IPermissionManager` and passed into
+the repository rather than looked up there, so the one implementation of the legacy four-gate
+algorithm stays in the domain service and a repository does not depend on it.
+
+The result is a menu that differs by user type for the first time, from the customer's own
+configuration rather than from ours:
+
+| User type | Entries rendered |
+|---|---|
+| Organization administrator | 28 |
+| Safety specialist | 22 |
+| Customer | 16 |
+
+**This is visibility, not access.** The endpoint gate (ADR-033) decides what a request may do and
+decides it independently: it reads `PermissionEndpoint`, not this column. The two can therefore
+disagree, and one case is worth naming — a customer holds the seeded `Ensa.Invoice` permission
+and so may call `GET api/invoice`, while the menu entry is bound to the legacy
+`SatisFaturalariController` permission they do not hold, and stays hidden. Hiding an entry the
+user could reach is a cosmetic defect; showing one they cannot use is a cosmetic defect too.
+Neither is a way in, which is why an unmapped menu entry stays visible while an unmapped endpoint
+is refused. `tools/api-tests/api_menu_permissions.py` asserts the independence rather than
+papering over it.
+
+**Two places where legacy recorded nothing, and what was done instead.**
+
+*The customer user type has no grants at all.* `KullaniciTypeYetki_T` holds rows for six user
+types and none for `Müşteri` — 286 users — because legacy decided customer access with a
+hand-written `PersonelTuru == "Müşteri"` branch. Migrating faithfully carries over nothing, and a
+customer would have signed in to a navigation bar holding the dashboard and four screens that are
+not theirs. `AuthorizationSeeder` grants that user type exactly the six customer-portal screens of
+ADR-037 and nothing else. It is configuration, it is written out one line at a time, and it says
+so.
+
+*Two of those six screens are explicitly forbidden to them.* `FirmaListController` and
+`EgitimKatilimSertifikasiController` carry `PermissionRestrictionMode.OnlySelected` with the
+customer absent from the list — the sixth gate drops the grant. Taken literally that removes a
+customer's own workplace and their missing trainings, two screens the legacy product served every
+day through the branch above. The restriction was authored in the same screen that governed
+nothing, so the seeder adds the customer to those two allow lists and leaves the rule intact for
+every other user type. A `SelectedExcept` exclusion is reported instead of edited: a deny list
+naming the customer is a deliberate act, not an unfinished one.

@@ -487,6 +487,53 @@ Verified by comparing source and destination directly: 0 rows differ on `Name`, 
 `MedulaPassword` or `GrossSalary`, and no user is missing a profile. Idempotent — the second run
 wrote 0.
 
+### `permissions` — the catalogue that was never migrated
+
+The permission rules were ported faithfully into `PermissionManager`. **The data they operate on
+was not.** The catalogue was hand-written and seeded — 171 rows against the legacy 419 — and the
+grants that decide who actually holds what came across incomplete or not at all.
+
+```
+permissions   read 9,319   written 9,319   in 02:25
+  419 permissions inserted, 327 parent links
+  5,061 scopes · 362 restrictions
+  1,106 organization-type grants · 1,104 plan grants · 940 user-type grants
+```
+
+| | Legacy | Before | After |
+|---|---|---|---|
+| `Yetki_T` → `Permission` | 419 | 171 seeded | 419 carried |
+| `YetkiBaglanti_T` → `PermissionScope` | 5,069 | **0** | 5,061 |
+| `YetkiKisit_T` → `PermissionRestriction` | 395 | **0** | 362 |
+| `KurumTuruYetki_T` → `OrganizationTypePermission` | 1,406 | 684 | +1,106 |
+| `PaketTuruYetki_T` → `SubscriptionPlanPermission` | 1,410 | 855 | +1,104 |
+| `KullaniciTypeYetki_T` → `UserTypePermission` | 1,360 | 540 | +940 |
+
+The shape needed no inventing. `Permission` was designed against `Yetki_T` — parent, type, target,
+name, description, red message, restriction mode — and `PermissionScope` already said in its own
+documentation that its link type matches the legacy enum one to one. Three counts came back
+identical to the source and are the proof it landed intact: **92** page permissions, **327** with a
+parent, **107** restricted to selected user types.
+
+**Every legacy row is accounted for**, which is the part worth writing down:
+
+| Why a row did not land | Count |
+|---|---|
+| Names a `YetkiId` that `Yetki_T` itself does not have | 297 + 297 + 384 |
+| Duplicate of a link already carried | 8 + 4 + 2 |
+| Inactive in the source (`Aktif = 0`) | 34 |
+| Points at the `ensa` organization type or plan — the vendor's own, with no counterpart | 3 + 5 |
+
+The first row is broken referential integrity in the legacy database, not a migration failure: a
+grant naming a permission that no longer exists cannot be carried anywhere. It is counted and
+reported rather than dropped quietly, because a grant nobody can trace is a grant nobody can audit.
+
+**What this does not do.** It does not rebind the API's endpoints. `PermissionEndpoint` still
+points at the seeded catalogue, so the running application behaves exactly as before — verified.
+Pointing it at these rows instead means matching 92 legacy page names and 327 legacy method
+signatures (`System.String GetAcilDurumEylemPlaniList()`) onto the rebuilt application: a
+judgement per row, not a rule, and therefore reported rather than guessed at.
+
 ## Scope
 
 ### Carried across

@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button, Card, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { useLookup } from '@/api/endpoints'
@@ -79,9 +80,7 @@ export default function DepartmentListPage() {
       width: '140px',
       render: (row) => (
         <div className="d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => {
               setEditingId(row.id)
               setForm({ companyId: row.companyId, departmentName: row.departmentName })
@@ -89,10 +88,8 @@ export default function DepartmentListPage() {
             aria-label={t('common.edit')}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          </Button>
+          <Button variant="light" size="sm"
             style={{ color: 'var(--kt-danger)' }}
             disabled={!row.deletable}
             // A department already referenced by an employee or a hazard cannot be removed;
@@ -102,7 +99,7 @@ export default function DepartmentListPage() {
             aria-label={t('common.delete')}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -114,21 +111,20 @@ export default function DepartmentListPage() {
         title={t('department.title')}
         description={t('department.description')}
         action={
-          <button
-            type="button"
-            className="btn btn-primary"
+          <Button variant="primary"
             onClick={() => {
               setEditingId(null)
               setForm({ ...emptyForm, companyId: companyId === '' ? 0 : companyId })
             }}
           >
             {t('department.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card border-0 shadow-sm">
-        <div className="card-body">
+      <Card
+        className="border-0 shadow-sm"
+      >
           <SearchBar
             value={search}
             onChange={(next) => {
@@ -138,25 +134,19 @@ export default function DepartmentListPage() {
             placeholder={t('department.searchPlaceholder')}
           >
             <div style={{ minWidth: 220 }}>
-              <label htmlFor="companyFilter" className="visually-hidden">
-                {t('department.fields.companyName')}
-              </label>
-              <select
+              <Select<number>
                 id="companyFilter"
-                className="form-select"
-                value={companyId}
-                onChange={(event) => {
-                  setCompanyId(event.target.value === '' ? '' : Number(event.target.value))
+                placeholder={t('common.all')}
+                options={(companies.data?.items ?? []).map((item) => ({
+                  value: item.id,
+                  label: item.displayName,
+                }))}
+                value={companyId === '' ? null : companyId}
+                onChange={(value) => {
+                  setCompanyId(value ?? '')
                   setPage(1)
                 }}
-              >
-                <option value="">{t('common.all')}</option>
-                {companies.data?.items.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.displayName}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
           </SearchBar>
 
@@ -175,8 +165,8 @@ export default function DepartmentListPage() {
             pageSize={PAGE_SIZE}
             onPageChange={setPage}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       <Modal
         title={editingId === null ? t('department.create') : t('department.edit')}
@@ -188,43 +178,27 @@ export default function DepartmentListPage() {
       >
         {form && (
           <div className="row g-3">
-            <Field
+            <Select<number>
+              id="departmentCompanyId"
               label={t('department.fields.companyName')}
-              htmlFor="departmentCompanyId"
               required
-            >
-              <select
-                id="departmentCompanyId"
-                className="form-select"
-                value={form.companyId || ''}
-                onChange={(event) =>
-                  setForm({ ...form, companyId: Number(event.target.value) || 0 })
-                }
-                required
-              >
-                <option value="">{t('common.none')}</option>
-                {companies.data?.items.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.displayName}
-                  </option>
-                ))}
-              </select>
-            </Field>
+              placeholder={t('common.none')}
+              options={(companies.data?.items ?? []).map((item) => ({
+                value: item.id,
+                label: item.displayName,
+              }))}
+              value={form.companyId || null}
+              onChange={(value) => setForm({ ...form, companyId: value ?? 0 })}
+            />
 
-            <Field
+            <Input
+              id="departmentName"
               label={t('department.fields.departmentName')}
-              htmlFor="departmentName"
               required
-            >
-              <input
-                id="departmentName"
-                className="form-control"
-                value={form.departmentName}
-                onChange={(event) => setForm({ ...form, departmentName: event.target.value })}
-                maxLength={200}
-                required
-              />
-            </Field>
+              value={form.departmentName}
+              onChange={(value) => setForm({ ...form, departmentName: value })}
+              maxLength={200}
+            />
           </div>
         )}
       </Modal>

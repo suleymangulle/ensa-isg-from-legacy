@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button, Select, type BadgeVariant } from 'rich-react-component'
 import type { LookupDto } from '@/api/endpoints'
 import { CorrectiveActionStatus, IncidentType, RiskCategory } from '@/api/enums'
-import { Field, controlClass } from '@/components/Form'
 
 /**
  * Presentation helpers shared by the three screens of this module.
@@ -11,25 +11,25 @@ import { Field, controlClass } from '@/components/Form'
  * bundle by its numeric enum value, as `MODULES.md` rule 2 requires.
  */
 
-export const INCIDENT_TYPE_BADGE: Record<IncidentType, string> = {
-  [IncidentType.WorkAccident]: 'badge-light-danger',
-  [IncidentType.NearMiss]: 'badge-light-warning',
-  [IncidentType.OccupationalDisease]: 'badge-light-info',
-  [IncidentType.NoInjuryIncident]: 'badge-light-primary',
+export const INCIDENT_TYPE_BADGE: Record<IncidentType, BadgeVariant> = {
+  [IncidentType.WorkAccident]: 'danger',
+  [IncidentType.NearMiss]: 'warning',
+  [IncidentType.OccupationalDisease]: 'info',
+  [IncidentType.NoInjuryIncident]: 'primary',
 }
 
-export const RISK_CATEGORY_BADGE: Record<RiskCategory, string> = {
-  [RiskCategory.Unspecified]: 'badge-light-primary',
-  [RiskCategory.WorkAccidentRisk]: 'badge-light-danger',
-  [RiskCategory.OccupationalDiseaseRisk]: 'badge-light-warning',
-  [RiskCategory.EnvironmentalRisk]: 'badge-light-success',
-  [RiskCategory.FireRisk]: 'badge-light-info',
+export const RISK_CATEGORY_BADGE: Record<RiskCategory, BadgeVariant> = {
+  [RiskCategory.Unspecified]: 'primary',
+  [RiskCategory.WorkAccidentRisk]: 'danger',
+  [RiskCategory.OccupationalDiseaseRisk]: 'warning',
+  [RiskCategory.EnvironmentalRisk]: 'success',
+  [RiskCategory.FireRisk]: 'info',
 }
 
-export const CORRECTIVE_ACTION_STATUS_BADGE: Record<CorrectiveActionStatus, string> = {
-  [CorrectiveActionStatus.InProgress]: 'badge-light-warning',
-  [CorrectiveActionStatus.Closed]: 'badge-light-success',
-  [CorrectiveActionStatus.Cancelled]: 'badge-light-primary',
+export const CORRECTIVE_ACTION_STATUS_BADGE: Record<CorrectiveActionStatus, BadgeVariant> = {
+  [CorrectiveActionStatus.InProgress]: 'warning',
+  [CorrectiveActionStatus.Closed]: 'success',
+  [CorrectiveActionStatus.Cancelled]: 'primary',
 }
 
 /** Numeric values of an enum object, ready to feed a `<select>`. */
@@ -119,24 +119,20 @@ export function RowActions({
 }) {
   return (
     <div className="d-flex justify-content-end gap-1">
-      <button
-        type="button"
-        className="btn btn-sm btn-light-primary"
+      <Button variant="light" size="sm" 
         aria-label={editLabel}
         title={editLabel}
         onClick={onEdit}
       >
         <span aria-hidden="true">✎</span>
-      </button>
-      <button
-        type="button"
-        className="btn btn-sm btn-light-danger"
+      </Button>
+      <Button variant="light" size="sm" 
         aria-label={deleteLabel}
         title={deleteLabel}
         onClick={onDelete}
       >
         <span aria-hidden="true">🗑</span>
-      </button>
+      </Button>
     </div>
   )
 }
@@ -172,23 +168,19 @@ export function LookupField({
   const { t } = useTranslation()
 
   return (
-    <Field label={label} htmlFor={id} required={required} error={error} hint={hint} className={className}>
-      <select
-        id={id}
-        className={controlClass('form-select', error)}
-        value={value ?? ''}
-        disabled={disabled || isLoading}
-        aria-invalid={error ? true : undefined}
-        onChange={(event) => onChange(event.target.value ? Number(event.target.value) : undefined)}
-      >
-        <option value="">{isLoading ? t('common.loading') : placeholder}</option>
-        {items?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.displayName}
-          </option>
-        ))}
-      </select>
-    </Field>
+    <Select<number>
+      id={id}
+      label={label}
+      required={required}
+      error={error}
+      helpText={hint}
+      className={className}
+      disabled={disabled || isLoading}
+      placeholder={isLoading ? t('common.loading') : placeholder}
+      options={items?.map((item) => ({ value: item.id, label: item.displayName })) ?? []}
+      value={value ?? null}
+      onChange={(next) => onChange(next ?? undefined)}
+    />
   )
 }
 
@@ -222,23 +214,18 @@ export function EnumField({
   const { t } = useTranslation()
 
   return (
-    <Field label={label} htmlFor={id} required={required} error={error} className={className}>
-      <select
-        id={id}
-        className={controlClass('form-select', error)}
-        value={value ?? ''}
-        disabled={disabled}
-        aria-invalid={error ? true : undefined}
-        onChange={(event) => onChange(event.target.value === '' ? undefined : Number(event.target.value))}
-      >
-        {placeholder !== undefined && <option value="">{placeholder}</option>}
-        {values.map((item) => (
-          <option key={item} value={item}>
-            {t(`${translationPrefix}.${item}`)}
-          </option>
-        ))}
-      </select>
-    </Field>
+    <Select<number>
+      id={id}
+      label={label}
+      required={required}
+      error={error}
+      className={className}
+      disabled={disabled}
+      placeholder={placeholder}
+      options={values.map((item) => ({ value: item, label: t(`${translationPrefix}.${item}`) }))}
+      value={value ?? null}
+      onChange={(next) => onChange(next ?? undefined)}
+    />
   )
 }
 

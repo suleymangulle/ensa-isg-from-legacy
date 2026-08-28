@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -91,7 +92,7 @@ export default function ActivityListPage() {
             {names.get(activity.parentActivityId) ?? t('activity.unnamedParent')}
           </Link>
         ) : (
-          <span className="badge-light-primary">{t('activity.root')}</span>
+          <Badge variant="primary">{t('activity.root')}</Badge>
         ),
     },
     {
@@ -105,7 +106,7 @@ export default function ActivityListPage() {
       align: 'center',
       render: (activity) =>
         activity.defaultActivity ? (
-          <span className="badge-light-info">{t('common.yes')}</span>
+          <Badge variant="info">{t('common.yes')}</Badge>
         ) : (
           t('common.no')
         ),
@@ -121,9 +122,9 @@ export default function ActivityListPage() {
       header: t('activity.fields.status'),
       align: 'center',
       render: (activity) => (
-        <span className={activity.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={activity.isActive ? 'success' : 'danger'}>
           {activity.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -133,30 +134,24 @@ export default function ActivityListPage() {
       width: '180px',
       render: (activity) => (
         <div className="d-flex justify-content-end flex-wrap gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => resetToFirstPage(setParentFilter)(activity.id)}
             aria-label={t('activity.list.childrenAria', { name: activity.activityName })}
           >
             {t('activity.list.children')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          </Button>
+          <Button variant="light" size="sm"
             onClick={() => setEditingId(activity.id)}
             aria-label={t('activity.list.editAria', { name: activity.activityName })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(activity)}
             aria-label={t('activity.list.deleteAria', { name: activity.activityName })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -168,14 +163,15 @@ export default function ActivityListPage() {
         title={t('activity.list.title')}
         description={t('activity.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('activity.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetToFirstPage(setSearch)}
@@ -185,59 +181,49 @@ export default function ActivityListPage() {
               <label htmlFor="activity-type-filter" className="visually-hidden">
                 {t('activity.fields.activityType')}
               </label>
-              <select
+              <Select
                 id="activity-type-filter"
-                className="form-select"
-                value={activityType ?? ''}
-                onChange={(event) =>
-                  resetToFirstPage(setActivityType)(
-                    event.target.value === '' ? null : (Number(event.target.value) as ActivityType),
-                  )
-                }
-              >
-                <option value="">{t('activity.list.allTypes')}</option>
-                {ACTIVITY_TYPES.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.activityType.${value}`)}
-                  </option>
-                ))}
-              </select>
+                placeholder={t('activity.list.allTypes')}
+                options={ACTIVITY_TYPES.map((value) => ({
+                  value,
+                  label: t(`enums.activityType.${value}`),
+                }))}
+                value={activityType}
+                onChange={resetToFirstPage(setActivityType)}
+              />
             </div>
             {parentFilter !== null && (
-              <button
-                type="button"
-                className="btn btn-light"
+              <Button variant="light"
                 onClick={() => resetToFirstPage(setParentFilter)(null)}
               >
                 {t('activity.list.clearParent', {
                   name: names.get(parentFilter) ?? t('activity.unnamedParent'),
                 })}
-              </button>
+              </Button>
             )}
           </SearchBar>
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('activity.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(activity) => activity.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('activity.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('activity.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(activity) => activity.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('activity.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && (
         <ActivityFormModal parentActivityId={parentFilter} onClose={() => setCreateOpen(false)} />

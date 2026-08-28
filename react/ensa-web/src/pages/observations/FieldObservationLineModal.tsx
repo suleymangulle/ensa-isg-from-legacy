@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, TextArea } from 'rich-react-component'
 import { RiskCategory } from '@/api/enums'
 import { errorMessage } from '@/api/http'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   useAddObservationLine,
   useEmployeeLookup,
@@ -94,36 +95,25 @@ export default function FieldObservationLineModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <TextArea
+          id="line-non-conformity"
           label={t('fieldObservation.lines.nonConformity')}
-          htmlFor="line-non-conformity"
           required
           error={errors.nonConformity}
           className="col-12"
-        >
-          <textarea
-            id="line-non-conformity"
-            className={controlClass('form-control', errors.nonConformity)}
-            rows={3}
-            value={form.nonConformity}
-            aria-invalid={errors.nonConformity ? true : undefined}
-            onChange={(event) => patch({ nonConformity: event.target.value })}
-          />
-        </Field>
+          rows={3}
+          value={form.nonConformity}
+          onChange={(value) => patch({ nonConformity: value })}
+        />
 
-        <Field
+        <TextArea
+          id="line-measures"
           label={t('fieldObservation.lines.measures')}
-          htmlFor="line-measures"
           className="col-12"
-        >
-          <textarea
-            id="line-measures"
-            className="form-control"
-            rows={3}
-            value={form.measures}
-            onChange={(event) => patch({ measures: event.target.value })}
-          />
-        </Field>
+          rows={3}
+          value={form.measures}
+          onChange={(value) => patch({ measures: value })}
+        />
 
         <LookupField
           id="line-owner-employee"
@@ -136,20 +126,14 @@ export default function FieldObservationLineModal({
           onChange={(next) => patch({ ownerCompanyEmployeeId: next })}
         />
 
-        <Field
+        <Input
+          id="line-owner"
           label={t('fieldObservation.lines.owner')}
-          htmlFor="line-owner"
-          hint={t('fieldObservation.lines.ownerHint')}
+          helpText={t('fieldObservation.lines.ownerHint')}
           className="col-md-6"
-        >
-          <input
-            id="line-owner"
-            type="text"
-            className="form-control"
-            value={form.owner}
-            onChange={(event) => patch({ owner: event.target.value })}
-          />
-        </Field>
+          value={form.owner}
+          onChange={(value) => patch({ owner: value })}
+        />
 
         <EnumField
           id="line-risk-category"
@@ -163,29 +147,23 @@ export default function FieldObservationLineModal({
           }
         />
 
-        <Field label={t('fieldObservation.lines.date')} htmlFor="line-date" className="col-md-4">
-          <input
-            id="line-date"
-            type="date"
-            className="form-control"
-            value={form.date}
-            onChange={(event) => patch({ date: event.target.value })}
-          />
-        </Field>
-
-        <Field
-          label={t('fieldObservation.lines.deadlineDate')}
-          htmlFor="line-deadline"
+        <Input
+          id="line-date"
+          label={t('fieldObservation.lines.date')}
           className="col-md-4"
-        >
-          <input
-            id="line-deadline"
-            type="date"
-            className="form-control"
-            value={form.deadlineDate}
-            onChange={(event) => patch({ deadlineDate: event.target.value })}
-          />
-        </Field>
+          value={form.date}
+          onChange={(value) => patch({ date: value })}
+          inputProps={{ type: 'date' }}
+        />
+
+        <Input
+          id="line-deadline"
+          label={t('fieldObservation.lines.deadlineDate')}
+          className="col-md-4"
+          value={form.deadlineDate}
+          onChange={(value) => patch({ deadlineDate: value })}
+          inputProps={{ type: 'date' }}
+        />
       </div>
     </Modal>
   )

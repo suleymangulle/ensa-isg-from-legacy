@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { useActivityDetail, type ActivityNavigationDto } from './api'
@@ -56,16 +57,14 @@ export default function ActivityDetailPage() {
         }
         action={
           <div className="d-flex gap-2">
-            <button className="btn btn-light" type="button" onClick={() => setChildOpen(true)}>
+            <Button variant="light" onClick={() => setChildOpen(true)}>
               {t('activity.detail.addChild')}
-            </button>
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            </Button>
+            <Button variant="light" 
               onClick={() => setEditOpen(true)}
             >
               {t('common.edit')}
-            </button>
+            </Button>
           </div>
         }
       />
@@ -76,13 +75,15 @@ export default function ActivityDetailPage() {
         </div>
 
         <div className="col-lg-5">
-          <div className="card h-100">
-            <div className="card-header">
+          <Card
+            className="h-100"
+            header={
               <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('activity.detail.hierarchy')}
               </h2>
-            </div>
-            <div className="card-body">
+            
+            }
+          >
               <h3
                 className="text-uppercase fw-semibold mb-2"
                 style={{ color: 'var(--kt-gray-500)', fontSize: '0.6875rem', letterSpacing: '0.08em' }}
@@ -98,7 +99,7 @@ export default function ActivityDetailPage() {
                 </Link>
               ) : (
                 <p className="mb-4">
-                  <span className="badge-light-primary">{t('activity.root')}</span>
+                  <Badge variant="primary">{t('activity.root')}</Badge>
                 </p>
               )}
 
@@ -123,8 +124,8 @@ export default function ActivityDetailPage() {
                   {t('activity.detail.noChildren')}
                 </p>
               )}
-            </div>
-          </div>
+            
+          </Card>
         </div>
       </div>
 
@@ -146,13 +147,15 @@ function GeneralCard({ detail }: { detail: ActivityNavigationDto }) {
   const none = t('common.none')
 
   return (
-    <div className="card h-100">
-      <div className="card-header">
+    <Card
+      className="h-100"
+      header={
         <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
           {t('activity.detail.general')}
         </h2>
-      </div>
-      <div className="card-body">
+      
+      }
+    >
         <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
           <Term label={t('activity.fields.activityType')}>
             {t(`enums.activityType.${activity.activityType}`)}
@@ -173,18 +176,18 @@ function GeneralCard({ detail }: { detail: ActivityNavigationDto }) {
           </Term>
           <Term label={t('activity.fields.orderNo')}>{activity.orderNo ?? none}</Term>
           <Term label={t('activity.fields.scope')}>
-            <span className={activity.tenantId == null ? 'badge-light-info' : 'badge-light-primary'}>
+            <Badge variant={activity.tenantId == null ? 'info' : 'primary'}>
               {activity.tenantId == null ? t('activity.scope.shared') : t('activity.scope.private')}
-            </span>
+            </Badge>
           </Term>
           <Term label={t('activity.fields.status')}>
-            <span className={activity.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+            <Badge variant={activity.isActive ? 'success' : 'danger'}>
               {activity.isActive ? t('common.active') : t('common.passive')}
-            </span>
+            </Badge>
           </Term>
         </dl>
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 

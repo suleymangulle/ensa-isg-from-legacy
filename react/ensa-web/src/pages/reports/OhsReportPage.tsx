@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { AssignmentType, HazardClass, StaffRole } from '@/api/enums'
 import { errorMessage } from '@/api/http'
@@ -39,6 +40,15 @@ const HAZARD_CLASSES: HazardClass[] = [
   HazardClass.VeryHazardous,
   HazardClass.Unspecified,
 ]
+
+/** One row of the hazard-class breakdown table, including the synthetic trailing total row. */
+interface BreakdownRow {
+  key: string
+  label: string
+  count: number
+  sharePercent: number
+  isTotal?: boolean
+}
 
 /**
  * OHS control report — `/reports/ohs`.
@@ -92,14 +102,12 @@ export default function OhsReportPage() {
       key: 'employeeName',
       header: t('reports.ohs.fields.employeeName'),
       render: (row) => (
-        <button
-          type="button"
-          className="btn btn-link p-0 fw-semibold text-decoration-none text-start"
+        <Button variant="link" className="p-0 fw-semibold text-decoration-none text-start"
           aria-pressed={selectedId === row.id}
           onClick={() => setSelectedId(row.id)}
         >
           {row.employeeName}
-        </button>
+        </Button>
       ),
     },
     {
@@ -111,18 +119,18 @@ export default function OhsReportPage() {
       key: 'staffRole',
       header: t('reports.ohs.fields.staffRole'),
       render: (row) => (
-        <span className={STAFF_ROLE_BADGE[row.staffRole]}>
+        <Badge variant={STAFF_ROLE_BADGE[row.staffRole]}>
           {t(`enums.staffRole.${row.staffRole}`)}
-        </span>
+        </Badge>
       ),
     },
     {
       key: 'dutyType',
       header: t('reports.ohs.fields.dutyType'),
       render: (row) => (
-        <span className={ASSIGNMENT_TYPE_BADGE[row.dutyType]}>
+        <Badge variant={ASSIGNMENT_TYPE_BADGE[row.dutyType]}>
           {t(`enums.assignmentType.${row.dutyType}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -156,15 +164,13 @@ export default function OhsReportPage() {
       header: t('common.actions'),
       align: 'end',
       render: (row) => (
-        <button
-          type="button"
-          className="btn btn-sm btn-light-primary d-print-none"
+        <Button variant="light" size="sm" className="d-print-none"
           aria-label={t('reports.ohs.breakdown.open', { name: row.employeeName })}
           title={t('reports.ohs.breakdown.title')}
           onClick={() => setSelectedId(row.id)}
         >
           <span aria-hidden="true">▤</span>
-        </button>
+        </Button>
       ),
     },
   ]
@@ -179,20 +185,20 @@ export default function OhsReportPage() {
         action={<PrintButton />}
       />
 
-      <div className="card mb-4 d-print-none">
-        <div className="card-body">
+      <Card
+        className="mb-4 d-print-none"
+      >
           <div className="d-flex flex-wrap align-items-center gap-3">
             <div className="flex-grow-1" style={{ maxWidth: 280 }}>
               <label htmlFor="ohs-search" className="visually-hidden">
                 {t('reports.ohs.searchLabel')}
               </label>
-              <input
+              <Input
                 id="ohs-search"
                 type="search"
-                className="form-control"
                 value={search}
                 placeholder={t('reports.ohs.searchPlaceholder')}
-                onChange={(event) => resetToFirstPage(setSearch)(event.target.value)}
+                onChange={(next) => resetToFirstPage(setSearch)(next)}
               />
             </div>
 
@@ -201,51 +207,47 @@ export default function OhsReportPage() {
               label={t('reports.ohs.fields.office')}
               value={officeId === undefined ? '' : String(officeId)}
               width={220}
+              placeholder={t('reports.ohs.filters.allOffices')}
+              options={
+                offices.data?.items.map((office) => ({
+                  value: String(office.id),
+                  label: office.displayName,
+                })) ?? []
+              }
               onChange={(next) =>
                 resetToFirstPage(setOfficeId)(next === '' ? undefined : Number(next))
               }
-            >
-              <option value="">{t('reports.ohs.filters.allOffices')}</option>
-              {offices.data?.items.map((office) => (
-                <option key={office.id} value={office.id}>
-                  {office.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterSelect
               id="ohs-staff-role"
               label={t('reports.ohs.fields.staffRole')}
               value={staffRole === undefined ? '' : String(staffRole)}
+              placeholder={t('reports.ohs.filters.allStaffRoles')}
+              options={enumValues(StaffRole).map((value) => ({
+                value: String(value),
+                label: t(`enums.staffRole.${value}`),
+              }))}
               onChange={(next) =>
                 resetToFirstPage(setStaffRole)(next === '' ? undefined : (Number(next) as StaffRole))
               }
-            >
-              <option value="">{t('reports.ohs.filters.allStaffRoles')}</option>
-              {enumValues(StaffRole).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.staffRole.${value}`)}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterSelect
               id="ohs-duty-type"
               label={t('reports.ohs.fields.dutyType')}
               value={dutyType === undefined ? '' : String(dutyType)}
+              placeholder={t('reports.ohs.filters.allDutyTypes')}
+              options={enumValues(AssignmentType).map((value) => ({
+                value: String(value),
+                label: t(`enums.assignmentType.${value}`),
+              }))}
               onChange={(next) =>
                 resetToFirstPage(setDutyType)(
                   next === '' ? undefined : (Number(next) as AssignmentType),
                 )
               }
-            >
-              <option value="">{t('reports.ohs.filters.allDutyTypes')}</option>
-              {enumValues(AssignmentType).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.assignmentType.${value}`)}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterDate
               id="ohs-start-date"
@@ -260,9 +262,7 @@ export default function OhsReportPage() {
               onChange={resetToFirstPage(setEndDate)}
             />
 
-            <button
-              type="button"
-              className="btn btn-light"
+            <Button variant="light"
               onClick={() => {
                 setOfficeId(undefined)
                 setStaffRole(undefined)
@@ -274,10 +274,10 @@ export default function OhsReportPage() {
               }}
             >
               {t('common.clear')}
-            </button>
+            </Button>
           </div>
-        </div>
-      </div>
+        
+      </Card>
 
       <OfficePeriodSummary
         officeId={officeId}
@@ -289,32 +289,32 @@ export default function OhsReportPage() {
         error={officeReports.error ? errorMessage(officeReports.error) : null}
       />
 
-      <div className="card mb-4">
-        <div className="card-header">
-          <h2 className="card-title h6 mb-0 report-print-heading">{t('reports.ohs.list.title')}</h2>
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('reports.ohs.list.title')}
-            columns={columns}
-            rows={list.data?.items}
-            rowKey={(row) => row.id}
-            isLoading={list.isLoading}
-            error={list.error ? errorMessage(list.error) : null}
-            emptyMessage={t('reports.ohs.list.empty')}
-          />
-        </div>
-        {list.data && list.data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0 d-print-none">
-            <Pagination
-              total={list.data.totalCount}
-              page={page}
-              pageSize={PAGE_SIZE}
-              onPageChange={setPage}
-            />
-          </div>
-        )}
-      </div>
+      <Card
+        className="mb-4"
+        header={<h2 className="card-title h6 mb-0 report-print-heading">{t('reports.ohs.list.title')}</h2>}
+        footer={
+          list.data && list.data.totalCount > 0 ? (
+            <div className="d-print-none">
+              <Pagination
+                total={list.data.totalCount}
+                page={page}
+                pageSize={PAGE_SIZE}
+                onPageChange={setPage}
+              />
+            </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('reports.ohs.list.title')}
+          columns={columns}
+          rows={list.data?.items}
+          rowKey={(row) => row.id}
+          isLoading={list.isLoading}
+          error={list.error ? errorMessage(list.error) : null}
+          emptyMessage={t('reports.ohs.list.empty')}
+        />
+      </Card>
 
       <HazardClassBreakdown reportId={selectedId} onClear={() => setSelectedId(undefined)} />
     </div>
@@ -365,16 +365,18 @@ function OfficePeriodSummary({
 
   if (!officeId) {
     return (
-      <div className="card mb-4">
-        <div className="card-header">
+      <Card
+        className="mb-4"
+        header={
           <h2 className="card-title h6 mb-0 report-print-heading">
             {t('reports.ohs.summary.title')}
           </h2>
-        </div>
-        <div className="card-body">
+        
+        }
+      >
           <GateHint message={t('reports.ohs.summary.selectOffice')} />
-        </div>
-      </div>
+        
+      </Card>
     )
   }
 
@@ -387,25 +389,25 @@ function OfficePeriodSummary({
       : t('reports.common.wholePeriod')
 
   return (
-    <div className="card mb-4">
-      <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <Card
+      className="mb-4"
+      header={
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
         <h2 className="card-title h6 mb-0 report-print-heading">
           {t('reports.ohs.summary.title')}
         </h2>
         <span style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>
           {officeName ?? t('common.none')} · {periodLabel}
         </span>
+      
       </div>
-      <div className="card-body">
+      }
+    >
         {isLoading && <Spinner />}
         {!isLoading && error && (
-          <div
-            className="alert border-0 mb-0"
-            style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-            role="alert"
-          >
+          <Alert variant="danger" className="mb-0">
             {error}
-          </div>
+          </Alert>
         )}
         {!isLoading && !error && totals.count === 0 && (
           <EmptyHint message={t('reports.ohs.summary.empty')} />
@@ -459,7 +461,7 @@ function OfficePeriodSummary({
                 label={t(`enums.staffRole.${role}`)}
                 value={bucket.used}
                 total={totals.assigned}
-                colour="var(--kt-primary)"
+                variant="primary"
                 shareLabel={t('reports.ohs.summary.ofAssigned', {
                   assigned: formatNumber(bucket.assigned),
                 })}
@@ -467,8 +469,8 @@ function OfficePeriodSummary({
             ))}
           </>
         )}
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 
@@ -492,16 +494,17 @@ function HazardClassBreakdown({
 
   if (!reportId) {
     return (
-      <div className="card">
-        <div className="card-header">
+      <Card
+        header={
           <h2 className="card-title h6 mb-0 report-print-heading">
             {t('reports.ohs.breakdown.title')}
           </h2>
-        </div>
-        <div className="card-body">
+        
+        }
+      >
           <GateHint message={t('reports.ohs.breakdown.selectRow')} />
-        </div>
-      </div>
+        
+      </Card>
     )
   }
 
@@ -510,27 +513,68 @@ function HazardClassBreakdown({
   const total = buckets.reduce((sum, bucket) => sum + bucket.companyCount, 0)
   const failure = report.error ?? breakdown.error
 
+  const breakdownRows: BreakdownRow[] = [
+    ...HAZARD_CLASSES.map((hazardClass) => ({
+      key: String(hazardClass),
+      label: t(`enums.hazardClass.${hazardClass}`),
+      count: byClass.get(hazardClass) ?? 0,
+      sharePercent: percentOf(byClass.get(hazardClass) ?? 0, total),
+    })),
+    {
+      key: 'total',
+      label: t('reports.common.total'),
+      count: total,
+      sharePercent: 100,
+      isTotal: true,
+    },
+  ]
+
+  const breakdownColumns: Column<BreakdownRow>[] = [
+    {
+      key: 'label',
+      header: t('reports.ohs.fields.hazardClass'),
+      render: (row) => <span className={row.isTotal ? 'fw-semibold' : undefined}>{row.label}</span>,
+    },
+    {
+      key: 'count',
+      header: t('reports.ohs.fields.companyCount'),
+      align: 'end',
+      render: (row) => (
+        <span className={row.isTotal ? 'fw-semibold' : undefined}>{formatNumber(row.count)}</span>
+      ),
+    },
+    {
+      key: 'share',
+      header: t('reports.ohs.fields.share'),
+      align: 'end',
+      render: (row) => (
+        <span className={row.isTotal ? 'fw-semibold' : undefined}>
+          {t('reports.common.percent', { value: row.sharePercent })}
+        </span>
+      ),
+    },
+  ]
+
   return (
-    <div className="card">
-      <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <Card
+      header={
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
         <h2 className="card-title h6 mb-0 report-print-heading">
           {t('reports.ohs.breakdown.title')}
         </h2>
-        <button type="button" className="btn btn-sm btn-light d-print-none" onClick={onClear}>
+        <Button variant="light" size="sm" className="d-print-none" onClick={onClear}>
           {t('common.clear')}
-        </button>
+        </Button>
+      
       </div>
-      <div className="card-body">
+      }
+    >
         {(report.isLoading || breakdown.isLoading) && <Spinner />}
 
         {!report.isLoading && !breakdown.isLoading && failure && (
-          <div
-            className="alert border-0 mb-0"
-            style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-            role="alert"
-          >
+          <Alert variant="danger" className="mb-0">
             {errorMessage(failure)}
-          </div>
+          </Alert>
         )}
 
         {!report.isLoading && !breakdown.isLoading && !failure && (
@@ -582,57 +626,25 @@ function HazardClassBreakdown({
                   label={t(`enums.hazardClass.${hazardClass}`)}
                   value={byClass.get(hazardClass) ?? 0}
                   total={total}
-                  colour={HAZARD_CLASS_BAR[hazardClass]}
+                  variant={HAZARD_CLASS_BAR[hazardClass]}
                   shareLabel={t('reports.common.percent', {
                     value: percentOf(byClass.get(hazardClass) ?? 0, total),
                   })}
                 />
               ))}
 
-              <div className="table-responsive mt-3">
-                <table
-                  className="table table-sm align-middle mb-0"
-                  aria-label={t('reports.ohs.breakdown.tableLabel')}
-                >
-                  <thead>
-                    <tr>
-                      <th scope="col">{t('reports.ohs.fields.hazardClass')}</th>
-                      <th scope="col" className="text-end">
-                        {t('reports.ohs.fields.companyCount')}
-                      </th>
-                      <th scope="col" className="text-end">
-                        {t('reports.ohs.fields.share')}
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {HAZARD_CLASSES.map((hazardClass) => (
-                      <tr key={hazardClass}>
-                        <th scope="row" className="fw-normal">
-                          {t(`enums.hazardClass.${hazardClass}`)}
-                        </th>
-                        <td className="text-end">{formatNumber(byClass.get(hazardClass) ?? 0)}</td>
-                        <td className="text-end">
-                          {t('reports.common.percent', {
-                            value: percentOf(byClass.get(hazardClass) ?? 0, total),
-                          })}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot>
-                    <tr className="fw-semibold">
-                      <th scope="row">{t('reports.common.total')}</th>
-                      <td className="text-end">{formatNumber(total)}</td>
-                      <td className="text-end">{t('reports.common.percent', { value: 100 })}</td>
-                    </tr>
-                  </tfoot>
-                </table>
+              <div className="mt-3">
+                <DataTable
+                  label={t('reports.ohs.breakdown.tableLabel')}
+                  columns={breakdownColumns}
+                  rows={breakdownRows}
+                  rowKey={(row) => row.key}
+                />
               </div>
             </div>
           </div>
         )}
-      </div>
-    </div>
+      
+    </Card>
   )
 }

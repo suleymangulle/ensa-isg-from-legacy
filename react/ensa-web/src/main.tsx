@@ -2,10 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ToastProvider } from 'rich-react-component'
 // Must be imported before any component so translations are ready on first render.
 import './i18n'
 import App from './App'
 import { AuthProvider } from './auth/AuthContext'
+import ToastRegion from './components/ToastRegion'
 import './styles/metronic.scss'
 
 const queryClient = new QueryClient({
@@ -19,7 +21,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AuthProvider>
-          <App />
+          <ToastProvider>
+            <ToastRegion />
+            <App />
+          </ToastProvider>
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>

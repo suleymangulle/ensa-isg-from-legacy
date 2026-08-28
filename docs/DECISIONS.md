@@ -838,3 +838,43 @@ so a row owned by an organization is invisible to them — a host delete answers
 correct and deliberate: the operator of the platform does not casually read a customer's data,
 and `ICurrentTenant.Change(id)` is there for the cases that genuinely need it. It is written down
 here because two test scripts assumed the opposite and silently left their records behind.
+
+## ADR-038 — The SPA's interface comes from one component library
+
+**Context.** The SPA's user interface was Bootstrap markup written by hand, screen by screen. A
+card was a `div.card` wrapping a `div.card-header` and a `div.card-body`; a status pill was a
+`span` carrying a `badge-light-success` class; a table was a `table.table-hover` with its own
+loading, empty and error branches. None of that is wrong in a single screen. Across 118 of them
+it is 118 chances to get the contrast, the heading level or the `aria-selected` wrong, and no
+compiler or test can see the difference between the copy that is right and the copy that drifted.
+
+**Decision.** Every piece of interface comes from `rich-react-component` — the Base layer's
+`Card`, `Button`, `Badge`, `Tabs`, `Input`, `Select`, `TextArea`, `CheckBox`, `Alert`, `Spinner`,
+`Skeleton`, `Statistic`, `Modal`, `Toast` and the rest. A screen composes those; it does not
+rebuild them. `tools/repo-check/check_ui_library.py` fails the build when a page hand-rolls a
+card, a button, a badge, a spinner or a tab strip again.
+
+**Three components are reached through a wrapper, not imported.** `DataGrid` renders the words
+"Loading…" and "No data", `Pagination` renders "Previous" and "Next", `Modal` labels its close
+button "Close" — all English literals, none of them a prop. This product ships Turkish and
+English, so those three are imported only by `src/components/DataTable.tsx` and
+`src/components/Form.tsx`, which supply the translated text and re-export the props the screens
+already use. The same check fails a page that imports them straight from the package: an English
+word on a Turkish page is invisible to `check_locales.py`, because the string was never in our
+bundle to be missing from it.
+
+**Why a narrow wrapper and not a facade over the whole library.** Wrapping every component would
+put a second, private API in front of a library we own, and every screen would then be written
+against the copy rather than the thing. The boundary is drawn at exactly one property: a
+component is wrapped if it renders words, or if the app must supply an accessibility attribute
+the library does not. Everything else — `Card`, `Badge`, `Button`, `Tabs`, `Statistic` — is
+imported directly by the screen that uses it. That keeps the wrapper at two files, and the day
+the library accepts label props, those two files shrink instead of thirty screens changing.
+
+**What the library still owes us**, recorded so it is not rediscovered: label props for the
+strings above; `tabIndex` and `aria-sort` on `DataGrid`'s sortable headers, which today are
+mouse-only; an accessible name on `Modal`; an `aria-live` region around the toast stack; and a
+way to unpad a `Card` body, which the SPA currently does with the `.ensa-card-flush` rule in
+`src/styles/metronic.scss`. The package also declares `react ^18` as a peer while the SPA is on
+React 19, which is why `react/ensa-web/.npmrc` sets `legacy-peer-deps=true`; that line is dated
+and comes out the moment the peer range widens.

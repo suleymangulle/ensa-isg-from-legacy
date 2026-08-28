@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input } from 'rich-react-component'
 import type { IncidentPersonRole } from '@/api/enums'
 import { errorMessage } from '@/api/http'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import { useAddIncidentPerson, useEmployeeLookup, type CreateIncidentPersonDto } from './api'
 import { LookupField } from './components'
 
@@ -84,39 +85,25 @@ export default function IncidentPersonModal({
           }}
         />
 
-        <Field
+        <Input
+          id="incident-person-name"
           label={t('incident.persons.name')}
-          htmlFor="incident-person-name"
           required
           error={errors.name}
           className="col-md-6"
-        >
-          <input
-            id="incident-person-name"
-            type="text"
-            className={controlClass('form-control', errors.name)}
-            value={name}
-            aria-invalid={errors.name ? true : undefined}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </Field>
+          value={name}
+          onChange={setName}
+        />
 
-        <Field
+        <Input
+          id="incident-person-last-name"
           label={t('incident.persons.lastName')}
-          htmlFor="incident-person-last-name"
           required
           error={errors.lastName}
           className="col-md-6"
-        >
-          <input
-            id="incident-person-last-name"
-            type="text"
-            className={controlClass('form-control', errors.lastName)}
-            value={lastName}
-            aria-invalid={errors.lastName ? true : undefined}
-            onChange={(event) => setLastName(event.target.value)}
-          />
-        </Field>
+          value={lastName}
+          onChange={setLastName}
+        />
       </div>
     </Modal>
   )

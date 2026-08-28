@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import DataTable, { PageTitle, Pagination, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -77,11 +78,11 @@ export default function CashRegisterListPage() {
       header: t('finance.cashRegister.fields.headquarter'),
       align: 'center',
       render: (row) => (
-        <span className={row.headquarterCashRegister ? 'badge-light-primary' : 'badge-light-info'}>
+        <Badge variant={row.headquarterCashRegister ? 'primary' : 'info'}>
           {row.headquarterCashRegister
             ? t('finance.cashRegister.headquarter.yes')
             : t('finance.cashRegister.headquarter.no')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -89,9 +90,9 @@ export default function CashRegisterListPage() {
       header: t('finance.cashRegister.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -116,79 +117,81 @@ export default function CashRegisterListPage() {
         title={t('finance.cashRegister.list.title')}
         description={t('finance.cashRegister.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreating(true)}>
+          <Button variant="primary" onClick={() => setCreating(true)}>
             {t('finance.cashRegister.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0">
-          <SearchBar
-            value={search}
-            onChange={(next) => {
-              setSearch(next)
-              setPage(1)
-            }}
-            placeholder={t('finance.cashRegister.list.searchPlaceholder')}
-          >
-            <FilterSelect
-              id="register-filter-office"
-              label={t('finance.cashRegister.fields.office')}
-              value={officeId}
+      <Card
+        
+        header={
+          <div className="border-0 pt-4 pb-0">
+            <SearchBar
+              value={search}
               onChange={(next) => {
-                setOfficeId(next)
+                setSearch(next)
                 setPage(1)
               }}
-              width={220}
+              placeholder={t('finance.cashRegister.list.searchPlaceholder')}
             >
-              <option value="">{t('finance.cashRegister.filters.allOffices')}</option>
-              {offices.data?.items.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+              <FilterSelect
+                id="register-filter-office"
+                label={t('finance.cashRegister.fields.office')}
+                value={officeId}
+                onChange={(next) => {
+                  setOfficeId(next)
+                  setPage(1)
+                }}
+                width={220}
+              >
+                <option value="">{t('finance.cashRegister.filters.allOffices')}</option>
+                {offices.data?.items.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.displayName}
+                  </option>
+                ))}
+              </FilterSelect>
 
-            <FilterSelect
-              id="register-filter-status"
-              label={t('finance.cashRegister.fields.status')}
-              value={activeFilter}
-              onChange={(next) => {
-                setActiveFilter(next)
-                setPage(1)
-              }}
-            >
-              <option value="">{t('common.all')}</option>
-              <option value="true">{t('common.active')}</option>
-              <option value="false">{t('common.passive')}</option>
-            </FilterSelect>
-          </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('finance.cashRegister.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('finance.cashRegister.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
-            <Pagination
-              total={data.totalCount}
-              page={page}
-              pageSize={PAGE_SIZE}
-              onPageChange={setPage}
-            />
+              <FilterSelect
+                id="register-filter-status"
+                label={t('finance.cashRegister.fields.status')}
+                value={activeFilter}
+                onChange={(next) => {
+                  setActiveFilter(next)
+                  setPage(1)
+                }}
+              >
+                <option value="">{t('common.all')}</option>
+                <option value="true">{t('common.active')}</option>
+                <option value="false">{t('common.passive')}</option>
+              </FilterSelect>
+            </SearchBar>
           </div>
-        )}
-      </div>
+        }
+        footer={
+          data && data.totalCount > 0 ? (
+            <div className="bg-transparent border-0 pt-0">
+              <Pagination
+                total={data.totalCount}
+                page={page}
+                pageSize={PAGE_SIZE}
+                onPageChange={setPage}
+              />
+            </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('finance.cashRegister.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('finance.cashRegister.list.empty')}
+        />
+      </Card>
 
       {isCreating && (
         <CashRegisterForm

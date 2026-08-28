@@ -1,40 +1,51 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Container, Divider, Flex, Text } from 'rich-react-component'
 import Sidebar from './Sidebar'
 import Header from './Header'
 
+/**
+ * The application shell: navigation beside the screen, the top bar above it.
+ *
+ * Built from the library's layout primitives — `Flex` for the two columns and the vertical stack,
+ * `Container` for the screen's own width, `Divider` and `Text` for the footer. The toggle simply
+ * mounts or unmounts the sidebar: the library's `Sidebar` has no collapsed rail of its own, and a
+ * hidden-but-present menu is worse than one that is not there.
+ */
 export default function MainLayout() {
   const { t } = useTranslation()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+    <Flex align="stretch" gap={0} className="min-vh-100">
+      {isSidebarOpen && (
+        <nav
+          aria-label={t('nav.sidebar')}
+          className="flex-shrink-0 border-end"
+          style={{ width: 'var(--kt-sidebar-width)' }}
+        >
+          <Sidebar />
+        </nav>
+      )}
 
-      <div
-        className="flex-grow-1 d-flex flex-column"
-        style={{
-          marginInlineStart: isSidebarOpen
-            ? 'var(--kt-sidebar-width)'
-            : 'var(--kt-sidebar-width-collapsed)',
-          transition: 'margin 0.25s ease',
-          minWidth: 0,
-        }}
-      >
+      <Flex direction="column" grow className="min-w-0">
         <Header onMenuToggle={() => setIsSidebarOpen((open) => !open)} />
 
-        <main className="flex-grow-1 p-4 p-lg-5">
-          <Outlet />
+        <main className="flex-grow-1">
+          <Container fluid className="py-4">
+            <Outlet />
+          </Container>
         </main>
 
-        <footer
-          className="px-4 px-lg-5 py-3 text-center text-md-start"
-          style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}
-        >
-          {t('app.footer', { year: new Date().getFullYear() })}
-        </footer>
-      </div>
-    </div>
+        <Divider />
+
+        <Container fluid className="pb-3">
+          <Text size="sm" tone="muted">
+            {t('app.footer', { year: new Date().getFullYear() })}
+          </Text>
+        </Container>
+      </Flex>
+    </Flex>
   )
 }

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { type BadgeVariant } from 'rich-react-component'
 import { http, type ListResult, type PagedResult } from '@/api/http'
 import type { LookupDto } from '@/api/endpoints'
 import {
@@ -83,11 +84,11 @@ export const PLAN_LINE_STATUSES: PlanLineStatus[] = [
 ]
 
 /** Badge classes for the approval workflow; the state has to read at a glance. */
-export const APPROVAL_STATUS_BADGE: Record<ApprovalStatus, string> = {
-  [ApprovalStatus.Draft]: 'badge-light-primary',
-  [ApprovalStatus.SubmittedForApproval]: 'badge-light-warning',
-  [ApprovalStatus.Approved]: 'badge-light-success',
-  [ApprovalStatus.Rejected]: 'badge-light-danger',
+export const APPROVAL_STATUS_BADGE: Record<ApprovalStatus, BadgeVariant> = {
+  [ApprovalStatus.Draft]: 'primary',
+  [ApprovalStatus.SubmittedForApproval]: 'warning',
+  [ApprovalStatus.Approved]: 'success',
+  [ApprovalStatus.Rejected]: 'danger',
 }
 
 /** A line that has been approved is frozen: it can neither be edited nor removed. */

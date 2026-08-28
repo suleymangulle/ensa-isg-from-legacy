@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { FITNESS_OPINION_BADGE, useLookup } from '@/api/endpoints'
@@ -121,9 +122,9 @@ export default function MedicalExaminationListPage() {
       header: t('medicalExamination.fields.opinion'),
       align: 'center',
       render: (form) => (
-        <span className={FITNESS_OPINION_BADGE[form.opinion]}>
+        <Badge variant={FITNESS_OPINION_BADGE[form.opinion]}>
           {t(`enums.fitnessForWorkOpinion.${form.opinion}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -131,9 +132,9 @@ export default function MedicalExaminationListPage() {
       header: t('medicalExamination.fields.ibysStatus'),
       align: 'center',
       render: (form) => (
-        <span className={IBYS_STATUS_BADGE[form.ibysStatus]}>
+        <Badge variant={IBYS_STATUS_BADGE[form.ibysStatus]}>
           {t(`enums.ibysSubmissionStatus.${form.ibysStatus}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -145,23 +146,21 @@ export default function MedicalExaminationListPage() {
         <div className="d-flex justify-content-end gap-1">
           <Link
             to={`/medical-examinations/${form.id}`}
-            className="btn btn-sm btn-icon btn-light"
+            className="btn btn-sm btn-light"
             aria-label={t('medicalExamination.list.openDetail', {
               name: form.employeeFullName ?? '',
             })}
           >
             <span aria-hidden="true">→</span>
           </Link>
-          <button
-            type="button"
-            className="btn btn-sm btn-icon btn-light-danger"
+          <Button variant="light" size="sm" 
             aria-label={t('medicalExamination.list.deleteAction', {
               name: form.employeeFullName ?? '',
             })}
             onClick={() => setPendingDelete(form)}
           >
             <span aria-hidden="true">✕</span>
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -173,20 +172,19 @@ export default function MedicalExaminationListPage() {
         title={t('medicalExamination.list.title')}
         description={t('medicalExamination.list.description')}
         action={
-          <button
-            className="btn btn-primary"
-            type="button"
+          <Button variant="primary"
             onClick={() => setIsCreateOpen(true)}
           >
             {t('medicalExamination.list.create')}
-          </button>
+          </Button>
         }
       />
 
       <ExpiringPanel companyId={companyId === '' ? undefined : companyId} />
 
-      <div className="card">
-        <div className="card-header d-block py-4">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetPaging(setSearch)}
@@ -247,31 +245,28 @@ export default function MedicalExaminationListPage() {
               />
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('medicalExamination.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(form) => form.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('medicalExamination.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('medicalExamination.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(form) => form.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('medicalExamination.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && (
         <MedicalExaminationFormModal
@@ -308,69 +303,49 @@ function ExpiringPanel({ companyId }: { companyId: number | undefined }) {
   const { data, isLoading, error } = useExpiringExaminations(companyId, today())
 
   if (!companyId) {
-    return (
-      <div
-        className="alert border-0 mb-4"
-        style={{ backgroundColor: 'var(--kt-light)', color: 'var(--kt-gray-600)' }}
-        role="status"
-      >
-        {t('medicalExamination.expiring.selectCompany')}
-      </div>
-    )
+    return <Alert variant="light" className="mb-4">{t('medicalExamination.expiring.selectCompany')}</Alert>
   }
 
   if (isLoading || error) {
     return (
-      <div
-        className="alert border-0 mb-4"
-        style={
-          error
-            ? { backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }
-            : { backgroundColor: 'var(--kt-light)', color: 'var(--kt-gray-600)' }
-        }
-        role={error ? 'alert' : 'status'}
-      >
+      <Alert variant={error ? 'danger' : 'light'} className="mb-4">
         {error ? errorMessage(error) : t('common.loading')}
-      </div>
+      </Alert>
     )
   }
 
   if (!data?.items.length) {
-    return (
-      <div
-        className="alert border-0 mb-4"
-        style={{ backgroundColor: 'var(--kt-success-light)', color: 'var(--kt-success)' }}
-        role="status"
-      >
-        {t('medicalExamination.expiring.none')}
-      </div>
-    )
+    return <Alert variant="success" className="mb-4">{t('medicalExamination.expiring.none')}</Alert>
   }
 
   return (
-    <div className="card mb-4">
-      <div className="card-header">
+    <Card
+      className="mb-4"
+      header={
         <h2 className="h6 fw-bold mb-0" style={{ color: 'var(--kt-danger)' }}>
           {t('medicalExamination.expiring.title', { count: data.items.length })}
         </h2>
-      </div>
-      <div className="card-body">
+      
+      }
+    >
         <ul className="list-unstyled mb-0 d-flex flex-wrap gap-2">
           {data.items.map((form) => (
             <li key={form.id}>
               <Link
                 to={`/medical-examinations/${form.id}`}
-                className="badge-light-danger text-decoration-none"
+                className="text-decoration-none"
               >
-                {form.employeeFullName ?? t('common.none')}
-                {' · '}
-                {formatDate(form.validityDate) ?? t('common.none')}
+                <Badge variant="danger">
+                  {form.employeeFullName ?? t('common.none')}
+                  {' · '}
+                  {formatDate(form.validityDate) ?? t('common.none')}
+                </Badge>
               </Link>
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 
@@ -391,24 +366,17 @@ function FilterSelect({
   const { t } = useTranslation()
 
   return (
-    <div>
+    <div style={{ minWidth: 170 }}>
       <label htmlFor={id} className="visually-hidden">
         {label}
       </label>
-      <select
+      <Select<number>
         id={id}
-        className="form-select form-select-sm"
-        style={{ minWidth: 170 }}
-        value={value}
-        onChange={(event) => onChange(event.target.value === '' ? '' : Number(event.target.value))}
-      >
-        <option value="">{t('common.all')} — {label}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        placeholder={`${t('common.all')} — ${label}`}
+        options={options}
+        value={value === '' ? null : value}
+        onChange={(next) => onChange(next ?? '')}
+      />
     </div>
   )
 }
@@ -426,18 +394,15 @@ function FilterDate({
   onChange: (next: string) => void
 }) {
   return (
-    <div>
+    <div style={{ minWidth: 150 }}>
       <label htmlFor={id} className="visually-hidden">
         {label}
       </label>
-      <input
+      <Input
         id={id}
-        type="date"
-        className="form-control form-control-sm"
-        style={{ minWidth: 150 }}
-        title={label}
+        inputProps={{ type: 'date', title: label }}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={onChange}
       />
     </div>
   )

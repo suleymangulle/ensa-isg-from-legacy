@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Switch } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   REPORT_ENDPOINTS,
   useCompanyLookup,
@@ -277,24 +278,18 @@ export default function YearEndReviewFormModal({
         />
 
         {report && (
-          <Field
-            label={t('reports.yearEnd.fields.status')}
-            htmlFor="year-end-active"
-            className="col-md-4"
-          >
-            <div className="form-check form-switch mt-2">
-              <input
-                id="year-end-active"
-                className="form-check-input"
-                type="checkbox"
-                checked={form.isActive}
-                onChange={(event) => patch({ isActive: event.target.checked })}
-              />
-              <label className="form-check-label ms-2" htmlFor="year-end-active">
-                {form.isActive ? t('common.active') : t('common.passive')}
-              </label>
-            </div>
-          </Field>
+          <div className="col-md-4 mb-3">
+            <label htmlFor="year-end-active" className="form-label">
+              {t('reports.yearEnd.fields.status')}
+            </label>
+            <Switch
+              id="year-end-active"
+              className="mt-2"
+              checked={form.isActive}
+              onChange={(checked) => patch({ isActive: checked })}
+              label={form.isActive ? t('common.active') : t('common.passive')}
+            />
+          </div>
         )}
       </div>
     </Modal>

@@ -1,11 +1,22 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import {
+  Badge,
+  Button,
+  Card,
+  CheckBox,
+  Input,
+  NumberInput,
+  Select,
+  TextArea,
+  Tooltip,
+} from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { PLAN_LINE_STATUS_BADGE, useLookup } from '@/api/endpoints'
-import { ApprovalStatus, PlanLineStatus, TrainingLocation, TrainingType } from '@/api/enums'
+import { ApprovalStatus, PlanLineStatus } from '@/api/enums'
 import { formatDate } from '@/utils/format'
 import {
   APPROVAL_STATUS_BADGE,
@@ -118,9 +129,9 @@ export default function TrainingPlanDetailPage() {
       header: t('trainingPlans.line.fields.status'),
       align: 'center',
       render: (entry) => (
-        <span className={PLAN_LINE_STATUS_BADGE[entry.line.status]}>
+        <Badge variant={PLAN_LINE_STATUS_BADGE[entry.line.status]}>
           {t(`enums.planLineStatus.${entry.line.status}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -130,7 +141,7 @@ export default function TrainingPlanDetailPage() {
       render: (entry) => {
         const status = entry.line.approvalStatus ?? ApprovalStatus.Draft
         return (
-          <span className={APPROVAL_STATUS_BADGE[status]}>{t(`enums.approvalStatus.${status}`)}</span>
+          <Badge variant={APPROVAL_STATUS_BADGE[status]}>{t(`enums.approvalStatus.${status}`)}</Badge>
         )
       },
     },
@@ -174,9 +185,9 @@ export default function TrainingPlanDetailPage() {
           year: new Date(data.trainingPlan.startDate).getFullYear(),
         })}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setLineCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setLineCreateOpen(true)}>
             {t('trainingPlans.line.create')}
-          </button>
+          </Button>
         }
       />
 
@@ -186,32 +197,30 @@ export default function TrainingPlanDetailPage() {
         </div>
 
         <div className="col-12">
-          <div className="card">
-            <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <Card
+            
+            header={
+            <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
               <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('trainingPlans.detail.lines')}
               </h2>
               <div className="d-flex align-items-center gap-3">
-                <span className="badge-light-warning">
+                <Badge variant="warning">
                   {t('trainingPlans.detail.incompleteCount', {
                     count: incomplete.data?.items.length ?? 0,
                   })}
-                </span>
-                <div className="form-check mb-0">
-                  <input
-                    id="only-incomplete"
-                    type="checkbox"
-                    className="form-check-input"
-                    checked={onlyIncomplete}
-                    onChange={(event) => setOnlyIncomplete(event.target.checked)}
-                  />
-                  <label className="form-check-label" htmlFor="only-incomplete">
-                    {t('trainingPlans.detail.onlyIncomplete')}
-                  </label>
-                </div>
+                </Badge>
+                <CheckBox
+                  id="only-incomplete"
+                  checked={onlyIncomplete}
+                  onChange={setOnlyIncomplete}
+                  label={t('trainingPlans.detail.onlyIncomplete')}
+                />
               </div>
+            
             </div>
-            <div className="card-body p-0">
+            }
+          >
               {workflow.error && (
                 <div className="p-4 pb-0">
                   <ErrorPanel message={errorMessage(workflow.error)} />
@@ -229,8 +238,8 @@ export default function TrainingPlanDetailPage() {
                     : t('trainingPlans.detail.emptyLines')
                 }
               />
-            </div>
-          </div>
+            
+          </Card>
         </div>
       </div>
 
@@ -284,8 +293,7 @@ function HeaderCard({ detail }: { detail: TrainingPlanNavigationDto }) {
   const none = t('common.none')
 
   return (
-    <div className="card">
-      <div className="card-body">
+    <Card>
         <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
           <Term label={t('trainingPlans.fields.documentNo')}>{plan.documentNo ?? none}</Term>
           <Term label={t('trainingPlans.fields.revisionNo')}>{plan.revisionNo ?? none}</Term>
@@ -303,13 +311,13 @@ function HeaderCard({ detail }: { detail: TrainingPlanNavigationDto }) {
           </Term>
           <Term label={t('trainingPlans.fields.approver')}>{detail.approverFullName ?? none}</Term>
           <Term label={t('trainingPlans.fields.status')}>
-            <span className={plan.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+            <Badge variant={plan.isActive ? 'success' : 'danger'}>
               {plan.isActive ? t('common.active') : t('common.passive')}
-            </span>
+            </Badge>
           </Term>
         </dl>
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 
@@ -336,63 +344,55 @@ function LineActions({
 
   if (isApproved(status)) {
     return (
-      <span className="badge-light-success" title={t('trainingPlans.line.lockedHint')}>
-        {t('trainingPlans.line.locked')}
-      </span>
+      <Tooltip content={t('trainingPlans.line.lockedHint')}>
+        <Badge variant="success">
+          {t('trainingPlans.line.locked')}
+        </Badge>
+      </Tooltip>
     )
   }
 
   return (
     <div className="d-flex justify-content-end flex-wrap gap-1">
       {canSubmit(status) && (
-        <button
-          type="button"
-          className="btn btn-sm btn-light-primary"
+        <Button variant="light" size="sm" 
           disabled={isBusy}
           onClick={onSubmit}
           aria-label={t('trainingPlans.line.submitAria', { name: entry.trainingName })}
         >
           {t('trainingPlans.line.submit')}
-        </button>
+        </Button>
       )}
       {isAwaitingDecision(status) && (
         <>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-success"
+          <Button variant="light" size="sm" 
             disabled={isBusy}
             onClick={onApprove}
             aria-label={t('trainingPlans.line.approveAria', { name: entry.trainingName })}
           >
             {t('trainingPlans.line.approve')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             disabled={isBusy}
             onClick={onReject}
             aria-label={t('trainingPlans.line.rejectAria', { name: entry.trainingName })}
           >
             {t('trainingPlans.line.reject')}
-          </button>
+          </Button>
         </>
       )}
-      <button
-        type="button"
-        className="btn btn-sm btn-light"
+      <Button variant="light" size="sm"
         onClick={onEdit}
         aria-label={t('trainingPlans.line.editAria', { name: entry.trainingName })}
       >
         {t('common.edit')}
-      </button>
-      <button
-        type="button"
-        className="btn btn-sm btn-light-danger"
+      </Button>
+      <Button variant="light" size="sm" 
         onClick={onDelete}
         aria-label={t('trainingPlans.line.deleteAria', { name: entry.trainingName })}
       >
         {t('common.delete')}
-      </button>
+      </Button>
     </div>
   )
 }
@@ -432,20 +432,15 @@ function RejectModal({
       confirmLabel={t('trainingPlans.line.reject')}
       error={error}
     >
-      <Field
+      <TextArea
+        id="reject-reason"
         label={t('trainingPlans.line.reasonLabel')}
-        htmlFor="reject-reason"
         required
         error={reasonError}
-      >
-        <textarea
-          id="reject-reason"
-          rows={3}
-          className={controlClass('form-control', reasonError)}
-          value={reason}
-          onChange={(event) => setReason(event.target.value)}
-        />
-      </Field>
+        rows={3}
+        value={reason}
+        onChange={setReason}
+      />
     </Modal>
   )
 }
@@ -517,239 +512,143 @@ function LineFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="line-training"
           label={t('trainingPlans.line.fields.training')}
-          htmlFor="line-training"
           required
           error={trainingError}
           className="col-md-6"
-        >
-          <select
-            id="line-training"
-            className={controlClass('form-select', trainingError)}
-            value={model.trainingId || ''}
-            onChange={(event) => setModel({ ...model, trainingId: Number(event.target.value) || 0 })}
-          >
-            <option value="">{t('trainingPlans.line.selectTraining')}</option>
-            {trainings.data?.items.map((training) => (
-              <option key={training.id} value={training.id}>
-                {training.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('trainingPlans.line.selectTraining')}
+          options={
+            trainings.data?.items.map((training) => ({
+              value: training.id,
+              label: training.displayName,
+            })) ?? []
+          }
+          value={model.trainingId || null}
+          onChange={(value) => setModel({ ...model, trainingId: value ?? 0 })}
+        />
 
-        <Field
+        <NumberInput
+          id="line-duration"
           label={t('trainingPlans.line.fields.duration')}
-          htmlFor="line-duration"
           className="col-md-2"
-        >
-          <input
-            id="line-duration"
-            type="number"
-            min={0}
-            className="form-control"
-            value={model.durationMinutes}
-            onChange={(event) =>
-              setModel({ ...model, durationMinutes: Number(event.target.value) || 0 })
-            }
-          />
-        </Field>
+          min={0}
+          value={model.durationMinutes}
+          onChange={(value) => setModel({ ...model, durationMinutes: value ?? 0 })}
+        />
 
-        <Field label={t('trainingPlans.line.fields.year')} htmlFor="line-year" className="col-md-2">
-          <input
-            id="line-year"
-            type="number"
-            min={2000}
-            max={2200}
-            className="form-control"
-            value={model.year ?? ''}
-            onChange={(event) =>
-              setModel({ ...model, year: event.target.value === '' ? null : Number(event.target.value) })
-            }
-          />
-        </Field>
+        <NumberInput
+          id="line-year"
+          label={t('trainingPlans.line.fields.year')}
+          className="col-md-2"
+          min={2000}
+          max={2200}
+          value={model.year ?? null}
+          onChange={(value) => setModel({ ...model, year: value })}
+        />
 
-        <Field
+        <Select
+          id="line-month"
           label={t('trainingPlans.line.fields.month')}
-          htmlFor="line-month"
           className="col-md-2"
-        >
-          <select
-            id="line-month"
-            className="form-select"
-            value={model.month ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                month: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {Array.from({ length: 12 }, (_, index) => index + 1).map((month) => (
-              <option key={month} value={month}>
-                {t(`enums.month.${month}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={Array.from({ length: 12 }, (_, index) => index + 1).map((month) => ({
+            value: month,
+            label: t(`enums.month.${month}`),
+          }))}
+          value={model.month ?? null}
+          onChange={(value) => setModel({ ...model, month: value })}
+        />
 
-        <Field
+        <Select
+          id="line-status"
           label={t('trainingPlans.line.fields.status')}
-          htmlFor="line-status"
           className="col-md-4"
-        >
-          <select
-            id="line-status"
-            className="form-select"
-            value={model.status}
-            onChange={(event) =>
-              setModel({ ...model, status: Number(event.target.value) as PlanLineStatus })
-            }
-          >
-            {PLAN_LINE_STATUSES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.planLineStatus.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={PLAN_LINE_STATUSES.map((value) => ({
+            value,
+            label: t(`enums.planLineStatus.${value}`),
+          }))}
+          value={model.status}
+          onChange={(value) => value !== null && setModel({ ...model, status: value })}
+        />
 
-        <Field
+        <Input
+          id="line-performed"
           label={t('trainingPlans.line.fields.performedDate')}
-          htmlFor="line-performed"
           className="col-md-4"
-        >
-          <input
-            id="line-performed"
-            type="date"
-            className="form-control"
-            value={model.performedDate ?? ''}
-            onChange={(event) => setModel({ ...model, performedDate: event.target.value })}
-          />
-        </Field>
+          value={model.performedDate ?? ''}
+          onChange={(value) => setModel({ ...model, performedDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Select
+          id="line-location"
           label={t('trainingPlans.line.fields.trainingLocation')}
-          htmlFor="line-location"
           className="col-md-4"
-        >
-          <select
-            id="line-location"
-            className="form-select"
-            value={model.trainingLocation ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                trainingLocation:
-                  event.target.value === ''
-                    ? null
-                    : (Number(event.target.value) as TrainingLocation),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {TRAINING_LOCATIONS.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.trainingLocation.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={TRAINING_LOCATIONS.map((value) => ({
+            value,
+            label: t(`enums.trainingLocation.${value}`),
+          }))}
+          value={model.trainingLocation ?? null}
+          onChange={(value) => setModel({ ...model, trainingLocation: value })}
+        />
 
-        <Field
+        <Select
+          id="line-type"
           label={t('trainingPlans.line.fields.trainingType')}
-          htmlFor="line-type"
           className="col-md-4"
-        >
-          <select
-            id="line-type"
-            className="form-select"
-            value={model.trainingType ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                trainingType:
-                  event.target.value === '' ? null : (Number(event.target.value) as TrainingType),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {TRAINING_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.trainingType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={TRAINING_TYPES.map((value) => ({
+            value,
+            label: t(`enums.trainingType.${value}`),
+          }))}
+          value={model.trainingType ?? null}
+          onChange={(value) => setModel({ ...model, trainingType: value })}
+        />
 
-        <Field
+        <Input
+          id="line-instructor"
           label={t('trainingPlans.line.fields.instructorFullName')}
-          htmlFor="line-instructor"
-          hint={t('trainingPlans.line.instructorHint')}
+          helpText={t('trainingPlans.line.instructorHint')}
           className="col-md-4"
-        >
-          <input
-            id="line-instructor"
-            className="form-control"
-            value={model.instructorFullName ?? ''}
-            onChange={(event) => setModel({ ...model, instructorFullName: event.target.value })}
-          />
-        </Field>
+          value={model.instructorFullName ?? ''}
+          onChange={(value) => setModel({ ...model, instructorFullName: value })}
+        />
 
-        <Field
+        <Input
+          id="line-instructor-title"
           label={t('trainingPlans.line.fields.instructorTitle')}
-          htmlFor="line-instructor-title"
           className="col-md-4"
-        >
-          <input
-            id="line-instructor-title"
-            className="form-control"
-            value={model.instructorTitle ?? ''}
-            onChange={(event) => setModel({ ...model, instructorTitle: event.target.value })}
-          />
-        </Field>
+          value={model.instructorTitle ?? ''}
+          onChange={(value) => setModel({ ...model, instructorTitle: value })}
+        />
 
-        <Field
+        <Input
+          id="line-instructor-id"
           label={t('trainingPlans.line.fields.instructorNationalId')}
-          htmlFor="line-instructor-id"
           className="col-md-4"
-        >
-          <input
-            id="line-instructor-id"
-            className="form-control"
-            value={model.instructorNationalId ?? ''}
-            onChange={(event) => setModel({ ...model, instructorNationalId: event.target.value })}
-          />
-        </Field>
+          value={model.instructorNationalId ?? ''}
+          onChange={(value) => setModel({ ...model, instructorNationalId: value })}
+        />
 
-        <Field
+        <Input
+          id="line-source"
           label={t('trainingPlans.line.fields.source')}
-          htmlFor="line-source"
           className="col-md-4"
-        >
-          <input
-            id="line-source"
-            className="form-control"
-            value={model.source ?? ''}
-            onChange={(event) => setModel({ ...model, source: event.target.value })}
-          />
-        </Field>
+          value={model.source ?? ''}
+          onChange={(value) => setModel({ ...model, source: value })}
+        />
 
-        <Field
+        <TextArea
+          id="line-description"
           label={t('trainingPlans.line.fields.description')}
-          htmlFor="line-description"
           className="col-12"
-        >
-          <textarea
-            id="line-description"
-            rows={2}
-            className="form-control"
-            value={model.description ?? ''}
-            onChange={(event) => setModel({ ...model, description: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={model.description ?? ''}
+          onChange={(value) => setModel({ ...model, description: value })}
+        />
       </div>
     </Modal>
   )

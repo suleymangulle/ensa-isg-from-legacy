@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column, ErrorPanel } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { useDelete } from '@/api/mutations'
@@ -23,8 +24,8 @@ export default function DocumentListPage() {
 
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [ownerType, setOwnerType] = useState('')
-  const [companyId, setCompanyId] = useState('')
+  const [ownerType, setOwnerType] = useState<DocumentOwnerType | null>(null)
+  const [companyId, setCompanyId] = useState<number | null>(null)
   const [editingId, setEditingId] = useState<number | undefined>()
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [deleting, setDeleting] = useState<DocumentListDto | null>(null)
@@ -35,8 +36,8 @@ export default function DocumentListPage() {
     skipCount: (page - 1) * PAGE_SIZE,
     maxResultCount: PAGE_SIZE,
     filter: search || undefined,
-    ownerType: ownerType === '' ? undefined : (Number(ownerType) as DocumentOwnerType),
-    companyId: companyId === '' ? undefined : Number(companyId),
+    ownerType: ownerType ?? undefined,
+    companyId: companyId ?? undefined,
   })
 
   // The edit dialog needs the full record: the list row carries neither the digest nor the
@@ -82,7 +83,7 @@ export default function DocumentListPage() {
       header: t('document.fields.extension'),
       render: (row) =>
         row.extension ? (
-          <span className="badge-light-primary text-uppercase">{row.extension}</span>
+          <Badge variant="primary" className="text-uppercase">{row.extension}</Badge>
         ) : (
           t('common.none')
         ),
@@ -114,9 +115,9 @@ export default function DocumentListPage() {
       header: t('document.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -130,19 +131,15 @@ export default function DocumentListPage() {
             The bearer token cannot travel on a plain anchor, so the file is fetched through the
             shared axios instance and handed to the browser; see `@/api/download`.
           */}
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             title={t('document.list.download')}
             aria-label={t('document.list.download')}
             disabled={downloadingId === row.id}
             onClick={() => download(row.id, row.documentName)}
           >
             {downloadingId === row.id ? '…' : '⭳'}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => {
               setEditingId(row.id)
               setIsFormOpen(true)
@@ -150,15 +147,13 @@ export default function DocumentListPage() {
             aria-label={t('document.list.editAria', { name: row.documentName })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(row)}
             aria-label={t('document.list.deleteAria', { name: row.documentName })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -172,16 +167,14 @@ export default function DocumentListPage() {
         title={t('document.list.title')}
         description={t('document.list.description')}
         action={
-          <button
-            className="btn btn-primary"
-            type="button"
+          <Button variant="primary"
             onClick={() => {
               setEditingId(undefined)
               setIsFormOpen(true)
             }}
           >
             {t('document.list.create')}
-          </button>
+          </Button>
         }
       />
 
@@ -193,77 +186,67 @@ export default function DocumentListPage() {
         <span>{t('document.list.metadataOnlyNotice')}</span>
       </div>
 
-      <div className="card">
-        <div className="card-header pt-4 pb-0 border-0">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetPage(setSearch)}
             placeholder={t('document.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ minWidth: 200 }}>
               <label htmlFor="document-owner-filter" className="visually-hidden">
                 {t('document.filters.ownerType')}
               </label>
-              <select
+              <Select
                 id="document-owner-filter"
-                className="form-select"
-                style={{ minWidth: 200 }}
+                placeholder={t('document.filters.allOwnerTypes')}
+                options={OWNER_TYPES.map((value) => ({
+                  value,
+                  label: t(`enums.documentOwnerType.${value}`),
+                }))}
                 value={ownerType}
-                onChange={(event) => resetPage(setOwnerType)(event.target.value)}
-              >
-                <option value="">{t('document.filters.allOwnerTypes')}</option>
-                {OWNER_TYPES.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.documentOwnerType.${value}`)}
-                  </option>
-                ))}
-              </select>
+                onChange={resetPage(setOwnerType)}
+              />
             </div>
-            <div>
+            <div style={{ minWidth: 200 }}>
               <label htmlFor="document-company-filter" className="visually-hidden">
                 {t('document.filters.company')}
               </label>
-              <select
+              <Select
                 id="document-company-filter"
-                className="form-select"
-                style={{ minWidth: 200 }}
+                placeholder={t('document.filters.allCompanies')}
+                options={(companies.data?.items ?? []).map((company) => ({
+                  value: company.id,
+                  label: company.displayName,
+                }))}
                 value={companyId}
-                onChange={(event) => resetPage(setCompanyId)(event.target.value)}
-              >
-                <option value="">{t('document.filters.allCompanies')}</option>
-                {companies.data?.items.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.displayName}
-                  </option>
-                ))}
-              </select>
+                onChange={resetPage(setCompanyId)}
+              />
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('document.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('document.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('document.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('document.list.empty')}
+        />
+      </Card>
 
       {isFormOpen && (!editingId || editing.data) && (
         <DocumentFormModal

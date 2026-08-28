@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Tabs } from 'rich-react-component'
 import DataTable, { PageTitle, Pagination, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -55,32 +56,19 @@ export default function PenaltiesPage() {
         description={t('finance.penalty.list.description')}
       />
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setSearchParams(tab === 'catalogue' ? {} : { tab })}
-                >
-                  {t(`finance.penalty.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
+      <Card
+        
+        header={
+          <Tabs
+            items={TABS.map((tab) => ({ key: tab, label: t(`finance.penalty.tabs.${tab}`) }))}
+            activeKey={activeTab}
+            onChange={(key) => setSearchParams(key === 'catalogue' ? {} : { tab: key })}
+            variant="underline"
+          />
+        }
+      >
         {activeTab === 'catalogue' ? <CatalogueTab /> : <SurveyTab />}
-      </div>
+      </Card>
     </>
   )
 }
@@ -139,9 +127,9 @@ function CatalogueTab() {
       header: t('finance.penalty.fields.multiplierCalculate'),
       align: 'center',
       render: (row) => (
-        <span className={row.multiplierCalculate ? 'badge-light-warning' : 'badge-light-primary'}>
+        <Badge variant={row.multiplierCalculate ? 'warning' : 'primary'}>
           {row.multiplierCalculate ? t('common.yes') : t('common.no')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -149,9 +137,9 @@ function CatalogueTab() {
       header: t('finance.penalty.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -210,9 +198,9 @@ function CatalogueTab() {
             <option value="false">{t('finance.penalty.filters.flat')}</option>
           </FilterSelect>
 
-          <button className="btn btn-primary ms-auto" type="button" onClick={() => setCreating(true)}>
+          <Button variant="primary" className="ms-auto" onClick={() => setCreating(true)}>
             {t('finance.penalty.list.create')}
-          </button>
+          </Button>
         </SearchBar>
       </div>
 
@@ -369,9 +357,9 @@ function SurveyTab() {
             ))}
           </FilterSelect>
 
-          <button className="btn btn-primary ms-auto" type="button" onClick={() => setCreating(true)}>
+          <Button variant="primary" className="ms-auto" onClick={() => setCreating(true)}>
             {t('finance.penaltySurvey.list.create')}
-          </button>
+          </Button>
         </SearchBar>
       </div>
 

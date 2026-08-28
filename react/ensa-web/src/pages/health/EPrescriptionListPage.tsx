@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -100,9 +101,9 @@ export default function EPrescriptionListPage() {
       header: t('ePrescription.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.cancelled ? 'badge-light-danger' : 'badge-light-success'}>
+        <Badge variant={row.cancelled ? 'danger' : 'success'}>
           {row.cancelled ? t('ePrescription.status.cancelled') : t('ePrescription.status.active')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -114,23 +115,21 @@ export default function EPrescriptionListPage() {
         <div className="d-flex justify-content-end gap-1">
           <Link
             to={`/eprescriptions/${row.id}`}
-            className="btn btn-sm btn-icon btn-light"
+            className="btn btn-sm btn-light"
             aria-label={t('ePrescription.list.openDetail', {
               code: row.ePrescriptionCode ?? String(row.id),
             })}
           >
             <span aria-hidden="true">→</span>
           </Link>
-          <button
-            type="button"
-            className="btn btn-sm btn-icon btn-light-danger"
+          <Button variant="light" size="sm" 
             aria-label={t('ePrescription.list.deleteAction', {
               code: row.ePrescriptionCode ?? String(row.id),
             })}
             onClick={() => setPendingDelete(row)}
           >
             <span aria-hidden="true">✕</span>
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -142,130 +141,119 @@ export default function EPrescriptionListPage() {
         title={t('ePrescription.list.title')}
         description={t('ePrescription.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setIsCreateOpen(true)}>
             {t('ePrescription.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header d-block py-4">
-          <SearchBar
-            value={search}
-            onChange={(next) => {
-              setSearch(next)
-              setPage(1)
-            }}
-            placeholder={t('ePrescription.list.searchPlaceholder')}
-          >
-            <div className="d-flex flex-wrap gap-2">
-              <div>
-                <label htmlFor="prescription-filter-national-id" className="visually-hidden">
-                  {t('ePrescription.filters.nationalId')}
-                </label>
-                <input
-                  id="prescription-filter-national-id"
-                  className="form-control form-control-sm"
-                  style={{ minWidth: 180 }}
-                  inputMode="numeric"
-                  maxLength={NATIONAL_ID_LENGTH}
-                  placeholder={t('ePrescription.filters.nationalId')}
-                  value={nationalId}
-                  onChange={(event) => {
-                    setNationalId(
-                      event.target.value.replace(/\D/g, '').slice(0, NATIONAL_ID_LENGTH),
-                    )
-                    setPage(1)
-                  }}
-                />
+      <Card
+        
+        header={
+          <>
+            <SearchBar
+              value={search}
+              onChange={(next) => {
+                setSearch(next)
+                setPage(1)
+              }}
+              placeholder={t('ePrescription.list.searchPlaceholder')}
+            >
+              <div className="d-flex flex-wrap gap-2">
+                <div style={{ minWidth: 180 }}>
+                  <label htmlFor="prescription-filter-national-id" className="visually-hidden">
+                    {t('ePrescription.filters.nationalId')}
+                  </label>
+                  <Input
+                    id="prescription-filter-national-id"
+                    inputProps={{ inputMode: 'numeric' }}
+                    maxLength={NATIONAL_ID_LENGTH}
+                    placeholder={t('ePrescription.filters.nationalId')}
+                    value={nationalId}
+                    onChange={(value) => {
+                      setNationalId(value.replace(/\D/g, '').slice(0, NATIONAL_ID_LENGTH))
+                      setPage(1)
+                    }}
+                  />
+                </div>
+
+                <div style={{ minWidth: 160 }}>
+                  <label htmlFor="prescription-filter-cancelled" className="visually-hidden">
+                    {t('ePrescription.filters.status')}
+                  </label>
+                  <Select<CancelledFilter>
+                    id="prescription-filter-cancelled"
+                    placeholder={t('ePrescription.filters.allStatuses')}
+                    options={[
+                      { value: 'false', label: t('ePrescription.status.active') },
+                      { value: 'true', label: t('ePrescription.status.cancelled') },
+                    ]}
+                    value={cancelled === '' ? null : cancelled}
+                    onChange={(value) => {
+                      setCancelled((value ?? '') as CancelledFilter)
+                      setPage(1)
+                    }}
+                  />
+                </div>
+
+                <div style={{ minWidth: 150 }}>
+                  <label htmlFor="prescription-filter-from" className="visually-hidden">
+                    {t('ePrescription.filters.dateFrom')}
+                  </label>
+                  <Input
+                    id="prescription-filter-from"
+                    inputProps={{ type: 'date', title: t('ePrescription.filters.dateFrom') }}
+                    value={dateFrom}
+                    onChange={(value) => {
+                      setDateFrom(value)
+                      setPage(1)
+                    }}
+                  />
+                </div>
+
+                <div style={{ minWidth: 150 }}>
+                  <label htmlFor="prescription-filter-to" className="visually-hidden">
+                    {t('ePrescription.filters.dateTo')}
+                  </label>
+                  <Input
+                    id="prescription-filter-to"
+                    inputProps={{ type: 'date', title: t('ePrescription.filters.dateTo') }}
+                    value={dateTo}
+                    onChange={(value) => {
+                      setDateTo(value)
+                      setPage(1)
+                    }}
+                  />
+                </div>
               </div>
+            </SearchBar>
 
-              <div>
-                <label htmlFor="prescription-filter-cancelled" className="visually-hidden">
-                  {t('ePrescription.filters.status')}
-                </label>
-                <select
-                  id="prescription-filter-cancelled"
-                  className="form-select form-select-sm"
-                  style={{ minWidth: 160 }}
-                  value={cancelled}
-                  onChange={(event) => {
-                    setCancelled(event.target.value as CancelledFilter)
-                    setPage(1)
-                  }}
-                >
-                  <option value="">{t('ePrescription.filters.allStatuses')}</option>
-                  <option value="false">{t('ePrescription.status.active')}</option>
-                  <option value="true">{t('ePrescription.status.cancelled')}</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="prescription-filter-from" className="visually-hidden">
-                  {t('ePrescription.filters.dateFrom')}
-                </label>
-                <input
-                  id="prescription-filter-from"
-                  type="date"
-                  className="form-control form-control-sm"
-                  style={{ minWidth: 150 }}
-                  title={t('ePrescription.filters.dateFrom')}
-                  value={dateFrom}
-                  onChange={(event) => {
-                    setDateFrom(event.target.value)
-                    setPage(1)
-                  }}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="prescription-filter-to" className="visually-hidden">
-                  {t('ePrescription.filters.dateTo')}
-                </label>
-                <input
-                  id="prescription-filter-to"
-                  type="date"
-                  className="form-control form-control-sm"
-                  style={{ minWidth: 150 }}
-                  title={t('ePrescription.filters.dateTo')}
-                  value={dateTo}
-                  onChange={(event) => {
-                    setDateTo(event.target.value)
-                    setPage(1)
-                  }}
-                />
-              </div>
-            </div>
-          </SearchBar>
-
-          <p className="mb-0 mt-2" style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
-            {t('ePrescription.filters.nationalIdHint', { length: NATIONAL_ID_LENGTH })}
-          </p>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('ePrescription.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('ePrescription.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+            <p className="mb-0 mt-2" style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
+              {t('ePrescription.filters.nationalIdHint', { length: NATIONAL_ID_LENGTH })}
+            </p>
+          </>
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('ePrescription.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('ePrescription.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && (
         <EPrescriptionFormModal isOpen={isCreateOpen} onClose={() => setIsCreateOpen(false)} />

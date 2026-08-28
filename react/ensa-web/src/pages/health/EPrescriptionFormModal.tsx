@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Button, Input, NumberInput, Select, Tag } from 'rich-react-component'
 import { useLookup } from '@/api/endpoints'
 import { PrescriptionNoteType } from '@/api/enums'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   HEALTH_ENDPOINTS,
   PRESCRIPTION_NOTE_TYPES,
@@ -153,25 +154,20 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
       size="xl"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="prescription-national-id"
           className="col-md-4"
           label={t('ePrescription.fields.patientNationalId')}
-          htmlFor="prescription-national-id"
           required
           error={validation.nationalId}
-          hint={t('ePrescription.form.nationalIdHint')}
-        >
-          <input
-            id="prescription-national-id"
-            className={validation.nationalId ? 'form-control is-invalid' : 'form-control'}
-            inputMode="numeric"
-            maxLength={NATIONAL_ID_LENGTH}
-            value={patientNationalId}
-            onChange={(event) =>
-              setPatientNationalId(event.target.value.replace(/\D/g, '').slice(0, NATIONAL_ID_LENGTH))
-            }
-          />
-        </Field>
+          helpText={t('ePrescription.form.nationalIdHint')}
+          inputProps={{ inputMode: 'numeric' }}
+          maxLength={NATIONAL_ID_LENGTH}
+          value={patientNationalId}
+          onChange={(value) =>
+            setPatientNationalId(value.replace(/\D/g, '').slice(0, NATIONAL_ID_LENGTH))
+          }
+        />
 
         <LookupPicker
           id="prescription-company"
@@ -207,50 +203,33 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
           }}
         />
 
-        <Field
+        <Input
+          id="prescription-protocol"
           className="col-md-4"
           label={t('ePrescription.fields.protocolNo')}
-          htmlFor="prescription-protocol"
-        >
-          <input
-            id="prescription-protocol"
-            className="form-control"
-            value={protocolNo}
-            onChange={(event) => setProtocolNo(event.target.value)}
-          />
-        </Field>
+          value={protocolNo}
+          onChange={setProtocolNo}
+        />
 
-        <Field
+        <Select<PrescriptionNoteType>
+          id="prescription-description-type"
           className="col-md-4"
           label={t('ePrescription.fields.descriptionType')}
-          htmlFor="prescription-description-type"
-        >
-          <select
-            id="prescription-description-type"
-            className="form-select"
-            value={descriptionType}
-            onChange={(event) => setDescriptionType(Number(event.target.value))}
-          >
-            {PRESCRIPTION_NOTE_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {t(`enums.prescriptionNoteType.${type}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={PRESCRIPTION_NOTE_TYPES.map((type) => ({
+            value: type,
+            label: t(`enums.prescriptionNoteType.${type}`),
+          }))}
+          value={descriptionType}
+          onChange={(value) => setDescriptionType(value ?? PrescriptionNoteType.Unspecified)}
+        />
 
-        <Field
+        <Input
+          id="prescription-description"
           className="col-md-4"
           label={t('ePrescription.fields.description')}
-          htmlFor="prescription-description"
-        >
-          <input
-            id="prescription-description"
-            className="form-control"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </Field>
+          value={description}
+          onChange={setDescription}
+        />
 
         {/* ---------------- Diagnoses ---------------- */}
         <div className="col-12">
@@ -268,25 +247,19 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
           />
 
           {diagnoses.length > 0 && (
-            <ul className="list-unstyled d-flex flex-wrap gap-2 mt-3 mb-0">
+            <div className="d-flex flex-wrap gap-2 mt-3">
               {diagnoses.map((line, index) => (
-                <li key={line.icd10Code} className="d-flex align-items-center gap-1">
-                  <span className="badge-light-info">
-                    {line.icd10Code} · {line.icd10Name}
-                  </span>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-icon btn-light-danger"
-                    aria-label={t('ePrescription.form.removeDiagnosis', { code: line.icd10Code })}
-                    onClick={() =>
-                      setDiagnoses((lines) => lines.filter((_, position) => position !== index))
-                    }
-                  >
-                    <span aria-hidden="true">✕</span>
-                  </button>
-                </li>
+                <Tag
+                  key={line.icd10Code}
+                  variant="info"
+                  onRemove={() =>
+                    setDiagnoses((lines) => lines.filter((_, position) => position !== index))
+                  }
+                >
+                  {line.icd10Code} · {line.icd10Name}
+                </Tag>
               ))}
-            </ul>
+            </div>
           )}
         </div>
 
@@ -321,11 +294,7 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
             }
           />
 
-          {validation.medications && (
-            <div className="invalid-feedback d-block" role="alert">
-              {validation.medications}
-            </div>
-          )}
+          {validation.medications && <Alert variant="danger">{validation.medications}</Alert>}
 
           {medications.map((line, index) => (
             <div
@@ -342,9 +311,7 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
                     </small>
                   )}
                 </span>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-icon btn-light-danger"
+                <Button variant="light" size="sm" 
                   aria-label={t('ePrescription.form.removeMedication', {
                     name: line.medicationName,
                   })}
@@ -353,7 +320,7 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
                   }
                 >
                   <span aria-hidden="true">✕</span>
-                </button>
+                </Button>
               </div>
 
               <div className="row g-2">
@@ -385,68 +352,37 @@ export default function EPrescriptionFormModal({ isOpen, onClose, detail }: Prop
                   onChange={(next) => patchMedication(index, { usagePeriodUnitId: next })}
                 />
 
-                <Field
+                <NumberInput
+                  id={`medication-box-${line.medicationId}`}
                   className="col-4 col-md-2"
                   label={t('ePrescription.fields.box')}
-                  htmlFor={`medication-box-${line.medicationId}`}
-                >
-                  <input
-                    id={`medication-box-${line.medicationId}`}
-                    type="number"
-                    min={1}
-                    className="form-control"
-                    value={line.box}
-                    onChange={(event) =>
-                      patchMedication(index, { box: Number(event.target.value) || 1 })
-                    }
-                  />
-                </Field>
-                <Field
+                  min={1}
+                  value={line.box}
+                  onChange={(value) => patchMedication(index, { box: value ?? 1 })}
+                />
+                <NumberInput
+                  id={`medication-dose-${line.medicationId}`}
                   className="col-4 col-md-2"
                   label={t('ePrescription.fields.dose')}
-                  htmlFor={`medication-dose-${line.medicationId}`}
-                >
-                  <input
-                    id={`medication-dose-${line.medicationId}`}
-                    type="number"
-                    min={0}
-                    className="form-control"
-                    value={line.dose}
-                    onChange={(event) =>
-                      patchMedication(index, { dose: Number(event.target.value) || 0 })
-                    }
-                  />
-                </Field>
-                <Field
+                  min={0}
+                  value={line.dose}
+                  onChange={(value) => patchMedication(index, { dose: value ?? 0 })}
+                />
+                <NumberInput
+                  id={`medication-period-${line.medicationId}`}
                   className="col-4 col-md-2"
                   label={t('ePrescription.fields.period')}
-                  htmlFor={`medication-period-${line.medicationId}`}
-                >
-                  <input
-                    id={`medication-period-${line.medicationId}`}
-                    type="number"
-                    min={0}
-                    className="form-control"
-                    value={line.period}
-                    onChange={(event) =>
-                      patchMedication(index, { period: Number(event.target.value) || 0 })
-                    }
-                  />
-                </Field>
-                <Field
+                  min={0}
+                  value={line.period}
+                  onChange={(value) => patchMedication(index, { period: value ?? 0 })}
+                />
+                <Input
+                  id={`medication-note-${line.medicationId}`}
                   className="col-md-6"
                   label={t('ePrescription.fields.medicationDescription')}
-                  htmlFor={`medication-note-${line.medicationId}`}
-                >
-                  <input
-                    id={`medication-note-${line.medicationId}`}
-                    className="form-control"
-                    value={line.medicationDescription ?? ''}
-                    onChange={(event) =>
-                      patchMedication(index, { medicationDescription: event.target.value || null })
-                    }
-                  />
-                </Field>
+                  value={line.medicationDescription ?? ''}
+                  onChange={(value) => patchMedication(index, { medicationDescription: value || null })}
+                />
               </div>
             </div>
           ))}

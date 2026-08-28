@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Card, Input, Tabs } from 'rich-react-component'
 import DataTable, { PageTitle, type Column } from '@/components/DataTable'
 import { HAZARD_CLASS_BADGE, type LookupDto } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
@@ -33,45 +34,33 @@ export default function LookupListPage() {
     <>
       <PageTitle title={t('lookup.page.title')} description={t('lookup.page.description')} />
 
-      <div
-        className="alert border-0"
-        style={{ backgroundColor: 'var(--kt-info-light)', color: 'var(--kt-info)' }}
-      >
+      <Alert variant="info" className="border-0">
         {t('lookup.page.readOnlyNote')}
-      </div>
+      </Alert>
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`lookup.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-body">
-          {activeTab === 'locations' && <LocationsTab />}
-          {activeTab === 'occupationCodes' && <OccupationCodesTab />}
-          {activeTab === 'duties' && <SimpleLookupTab kind="duties" />}
-          {activeTab === 'certificates' && <SimpleLookupTab kind="certificates" />}
-          {activeTab === 'periods' && <PeriodsTab />}
-        </div>
-      </div>
+      <Card>
+        <Tabs
+          items={TABS.map((tab) => ({
+            key: tab,
+            label: t(`lookup.tabs.${tab}`),
+            content:
+              tab === 'locations' ? (
+                <LocationsTab />
+              ) : tab === 'occupationCodes' ? (
+                <OccupationCodesTab />
+              ) : tab === 'duties' ? (
+                <SimpleLookupTab kind="duties" />
+              ) : tab === 'certificates' ? (
+                <SimpleLookupTab kind="certificates" />
+              ) : (
+                <PeriodsTab />
+              ),
+          }))}
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as TabKey)}
+          variant="underline"
+        />
+      </Card>
     </>
   )
 }
@@ -188,26 +177,23 @@ function OccupationCodesTab() {
       key: 'hazardClass',
       header: t('lookup.fields.hazardClass'),
       render: (row) => (
-        <span className={HAZARD_CLASS_BADGE[row.hazardClass]}>
+        <Badge variant={HAZARD_CLASS_BADGE[row.hazardClass]}>
           {t(`enums.hazardClass.${row.hazardClass}`)}
-        </span>
+        </Badge>
       ),
     },
   ]
 
   return (
     <>
-      <div className="mb-3" style={{ maxWidth: 360 }}>
-        <label htmlFor="lookup-occupation-filter" className="form-label fw-semibold">
-          {t('lookup.occupationCodes.search')}
-        </label>
-        <input
+      <div style={{ maxWidth: 360 }}>
+        <Input
           id="lookup-occupation-filter"
           type="search"
-          className="form-control"
-          value={filter}
+          label={t('lookup.occupationCodes.search')}
           placeholder={t('lookup.occupationCodes.searchPlaceholder')}
-          onChange={(event) => setFilter(event.target.value)}
+          value={filter}
+          onChange={setFilter}
         />
       </div>
 
@@ -238,9 +224,9 @@ function SimpleLookupTab({ kind }: { kind: 'duties' | 'certificates' }) {
       header: t('lookup.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
   ]
@@ -278,9 +264,9 @@ function PeriodsTab() {
       header: t('lookup.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
   ]

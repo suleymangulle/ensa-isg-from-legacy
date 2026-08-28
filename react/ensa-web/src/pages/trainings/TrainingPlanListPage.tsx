@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { useEntity, useLookup } from '@/api/endpoints'
@@ -102,9 +103,9 @@ export default function TrainingPlanListPage() {
       header: t('trainingPlans.fields.transferred'),
       align: 'center',
       render: (plan) => (
-        <span className={plan.transferred ? 'badge-light-success' : 'badge-light-primary'}>
+        <Badge variant={plan.transferred ? 'success' : 'primary'}>
           {plan.transferred ? t('trainingPlans.transferred.yes') : t('trainingPlans.transferred.no')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -112,9 +113,9 @@ export default function TrainingPlanListPage() {
       header: t('trainingPlans.fields.status'),
       align: 'center',
       render: (plan) => (
-        <span className={plan.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={plan.isActive ? 'success' : 'danger'}>
           {plan.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -124,22 +125,18 @@ export default function TrainingPlanListPage() {
       width: '120px',
       render: (plan) => (
         <div className="d-flex justify-content-end gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => setEditingId(plan.id)}
             aria-label={t('trainingPlans.list.editAria', { name: plan.companyName ?? '' })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(plan)}
             aria-label={t('trainingPlans.list.deleteAria', { name: plan.companyName ?? '' })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -155,15 +152,16 @@ export default function TrainingPlanListPage() {
             <Link to="/training-plans" className="btn btn-light">
               {t('trainingPlans.list.allLines')}
             </Link>
-            <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+            <Button variant="primary" onClick={() => setCreateOpen(true)}>
               {t('trainingPlans.list.create')}
-            </button>
+            </Button>
           </div>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(next) => {
@@ -176,47 +174,46 @@ export default function TrainingPlanListPage() {
               <label htmlFor="plan-company-filter" className="visually-hidden">
                 {t('trainingPlans.fields.companyName')}
               </label>
-              <select
+              <Select
                 id="plan-company-filter"
-                className="form-select"
-                value={companyId ?? ''}
-                onChange={(event) => {
-                  setCompanyId(event.target.value === '' ? null : Number(event.target.value))
+                options={
+                  companies.data?.items.map((company) => ({
+                    value: company.id,
+                    label: company.displayName,
+                  })) ?? []
+                }
+                value={companyId}
+                onChange={(value) => {
+                  setCompanyId(value)
                   setPage(1)
                 }}
-              >
-                <option value="">{t('trainingPlans.list.allCompanies')}</option>
-                {companies.data?.items.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.displayName}
-                  </option>
-                ))}
-              </select>
+                placeholder={t('trainingPlans.list.allCompanies')}
+              />
             </div>
           </SearchBar>
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('trainingPlans.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(plan) => plan.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('trainingPlans.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('trainingPlans.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(plan) => plan.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('trainingPlans.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <PlanFormModal onClose={() => setCreateOpen(false)} />}
       {editingId !== null && editing && (
@@ -293,197 +290,125 @@ export function PlanFormModal({ plan, onClose }: { plan?: TrainingPlanDto; onClo
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="plan-company"
           label={t('trainingPlans.fields.companyName')}
-          htmlFor="plan-company"
           required
           error={companyError}
           className="col-md-6"
-        >
-          <select
-            id="plan-company"
-            className={controlClass('form-select', companyError)}
-            value={model.companyId || ''}
-            onChange={(event) => setModel({ ...model, companyId: Number(event.target.value) || 0 })}
-          >
-            <option value="">{t('trainingPlans.form.selectCompany')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('trainingPlans.form.selectCompany')}
+          options={
+            companies.data?.items.map((company) => ({
+              value: company.id,
+              label: company.displayName,
+            })) ?? []
+          }
+          value={model.companyId || null}
+          onChange={(value) => setModel({ ...model, companyId: value ?? 0 })}
+        />
 
-        <Field
+        <Input
+          id="plan-start"
           label={t('trainingPlans.fields.startDate')}
-          htmlFor="plan-start"
           required
           className="col-md-6"
-        >
-          <input
-            id="plan-start"
-            type="date"
-            className="form-control"
-            value={toDateInput(model.startDate)}
-            onChange={(event) => setModel({ ...model, startDate: event.target.value })}
-          />
-        </Field>
+          value={toDateInput(model.startDate)}
+          onChange={(value) => setModel({ ...model, startDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Input
+          id="plan-document"
           label={t('trainingPlans.fields.documentNo')}
-          htmlFor="plan-document"
           className="col-md-3"
-        >
-          <input
-            id="plan-document"
-            className="form-control"
-            value={model.documentNo ?? ''}
-            onChange={(event) => setModel({ ...model, documentNo: event.target.value })}
-          />
-        </Field>
+          value={model.documentNo ?? ''}
+          onChange={(value) => setModel({ ...model, documentNo: value })}
+        />
 
-        <Field
+        <Input
+          id="plan-revision"
           label={t('trainingPlans.fields.revisionNo')}
-          htmlFor="plan-revision"
           className="col-md-3"
-        >
-          <input
-            id="plan-revision"
-            className="form-control"
-            value={model.revisionNo ?? ''}
-            onChange={(event) => setModel({ ...model, revisionNo: event.target.value })}
-          />
-        </Field>
+          value={model.revisionNo ?? ''}
+          onChange={(value) => setModel({ ...model, revisionNo: value })}
+        />
 
-        <Field
+        <Input
+          id="plan-revision-date"
           label={t('trainingPlans.fields.revisionDate')}
-          htmlFor="plan-revision-date"
           className="col-md-3"
-        >
-          <input
-            id="plan-revision-date"
-            type="date"
-            className="form-control"
-            value={toDateInput(model.revisionDate)}
-            onChange={(event) => setModel({ ...model, revisionDate: event.target.value })}
-          />
-        </Field>
+          value={toDateInput(model.revisionDate)}
+          onChange={(value) => setModel({ ...model, revisionDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Input
+          id="plan-publication"
           label={t('trainingPlans.fields.publicationDate')}
-          htmlFor="plan-publication"
           className="col-md-3"
-        >
-          <input
-            id="plan-publication"
-            type="date"
-            className="form-control"
-            value={toDateInput(model.publicationDate)}
-            onChange={(event) => setModel({ ...model, publicationDate: event.target.value })}
-          />
-        </Field>
+          value={toDateInput(model.publicationDate)}
+          onChange={(value) => setModel({ ...model, publicationDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Select
+          id="plan-specialist"
           label={t('trainingPlans.fields.specialist')}
-          htmlFor="plan-specialist"
           className="col-md-4"
-        >
-          <select
-            id="plan-specialist"
-            className="form-select"
-            value={model.specialistUserId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                specialistUserId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            users.data?.items.map((user) => ({
+              value: user.id,
+              label: user.displayName,
+            })) ?? []
+          }
+          value={model.specialistUserId ?? null}
+          onChange={(value) => setModel({ ...model, specialistUserId: value })}
+        />
 
-        <Field
+        <Select
+          id="plan-physician"
           label={t('trainingPlans.fields.physician')}
-          htmlFor="plan-physician"
           className="col-md-4"
-        >
-          <select
-            id="plan-physician"
-            className="form-select"
-            value={model.physicianUserId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                physicianUserId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            users.data?.items.map((user) => ({
+              value: user.id,
+              label: user.displayName,
+            })) ?? []
+          }
+          value={model.physicianUserId ?? null}
+          onChange={(value) => setModel({ ...model, physicianUserId: value })}
+        />
 
-        <Field
+        <Select
+          id="plan-approver"
           label={t('trainingPlans.fields.approver')}
-          htmlFor="plan-approver"
           className="col-md-4"
-        >
-          <select
-            id="plan-approver"
-            className="form-select"
-            value={model.approverUserId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                approverUserId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            users.data?.items.map((user) => ({
+              value: user.id,
+              label: user.displayName,
+            })) ?? []
+          }
+          value={model.approverUserId ?? null}
+          onChange={(value) => setModel({ ...model, approverUserId: value })}
+        />
 
         <div className="col-12 d-flex flex-wrap gap-4">
-          <div className="form-check">
-            <input
-              id="plan-active"
-              type="checkbox"
-              className="form-check-input"
-              checked={model.isActive ?? true}
-              onChange={(event) => setModel({ ...model, isActive: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="plan-active">
-              {t('common.active')}
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              id="plan-transferred"
-              type="checkbox"
-              className="form-check-input"
-              checked={model.transferred ?? false}
-              onChange={(event) => setModel({ ...model, transferred: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="plan-transferred">
-              {t('trainingPlans.fields.transferred')}
-            </label>
-          </div>
+          <CheckBox
+            id="plan-active"
+            checked={model.isActive ?? true}
+            onChange={(value) => setModel({ ...model, isActive: value })}
+            label={t('common.active')}
+          />
+          <CheckBox
+            id="plan-transferred"
+            checked={model.transferred ?? false}
+            onChange={(value) => setModel({ ...model, transferred: value })}
+            label={t('trainingPlans.fields.transferred')}
+          />
         </div>
       </div>
     </Modal>

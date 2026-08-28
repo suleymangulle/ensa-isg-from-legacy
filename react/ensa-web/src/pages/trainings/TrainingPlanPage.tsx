@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import {
   ENDPOINTS,
@@ -72,9 +73,9 @@ export default function TrainingPlanPage() {
       header: t('trainingPlan.fields.status'),
       align: 'center',
       render: (line) => (
-        <span className={PLAN_LINE_STATUS_BADGE[line.status]}>
+        <Badge variant={PLAN_LINE_STATUS_BADGE[line.status]}>
           {t(`enums.planLineStatus.${line.status}`)}
-        </span>
+        </Badge>
       ),
     },
   ]
@@ -91,42 +92,43 @@ export default function TrainingPlanPage() {
         }
       />
 
-      <div className="card">
-        <div className="card-header">
-          <input
-            className="form-control"
-            style={{ maxWidth: 320 }}
-            placeholder={t('trainingPlan.list.searchPlaceholder')}
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value)
-              setPage(1)
-            }}
-            aria-label={t('trainingPlan.list.searchLabel')}
-          />
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('trainingPlan.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(line) => line.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('trainingPlan.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+      <Card
+        
+        header={
+          <div style={{ maxWidth: 320 }}>
+            <Input
+              placeholder={t('trainingPlan.list.searchPlaceholder')}
+              value={search}
+              onChange={(value) => {
+                setSearch(value)
+                setPage(1)
+              }}
+              inputProps={{ 'aria-label': t('trainingPlan.list.searchLabel') }}
+            />
+          </div>
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('trainingPlan.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(line) => line.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('trainingPlan.list.empty')}
+        />
+      </Card>
     </>
   )
 }

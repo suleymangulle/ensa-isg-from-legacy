@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Input, NumberInput, Select, TextArea } from 'rich-react-component'
 import DataTable, { type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal } from '@/components/Form'
 import { HazardSourceType, type RiskAssessmentMethod } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
 import { formatDate } from '@/utils/format'
@@ -100,9 +101,9 @@ export default function RiskHazardSection({ reportId, companyId, method, hazards
           <span className="fw-bold" style={{ color: 'var(--kt-gray-900)' }}>
             {row.identifiedHazard.riskScore}
           </span>
-          <span className={RISK_LEVEL_BADGE[row.identifiedHazard.riskLevel]}>
+          <Badge variant={RISK_LEVEL_BADGE[row.identifiedHazard.riskLevel]}>
             {t(`enums.riskLevel.${row.identifiedHazard.riskLevel}`)}
-          </span>
+          </Badge>
         </div>
       ),
     },
@@ -118,9 +119,9 @@ export default function RiskHazardSection({ reportId, companyId, method, hazards
             <span className="fw-bold" style={{ color: 'var(--kt-gray-900)' }}>
               {row.identifiedHazard.residualRiskScore}
             </span>
-            <span className={RISK_LEVEL_BADGE[row.identifiedHazard.residualRiskLevel]}>
+            <Badge variant={RISK_LEVEL_BADGE[row.identifiedHazard.residualRiskLevel]}>
               {t(`enums.riskLevel.${row.identifiedHazard.residualRiskLevel}`)}
-            </span>
+            </Badge>
           </div>
         ),
     },
@@ -141,9 +142,7 @@ export default function RiskHazardSection({ reportId, companyId, method, hazards
       render: (row) => {
         const open = row.controlMeasures.filter((measure) => !measure.isCompleted).length
         return (
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setMeasuresOf(row)}
             aria-label={t('riskAssessment.measure.manageFor', {
               name: row.identifiedHazard.hazardTag,
@@ -153,7 +152,7 @@ export default function RiskHazardSection({ reportId, companyId, method, hazards
               total: row.controlMeasures.length,
               open,
             })}
-          </button>
+          </Button>
         )
       },
     },
@@ -164,26 +163,22 @@ export default function RiskHazardSection({ reportId, companyId, method, hazards
       width: '150px',
       render: (row) => (
         <div className="d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setEditing(row)}
             aria-label={t('riskAssessment.hazard.editFor', {
               name: row.identifiedHazard.hazardTag,
             })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setPendingDelete(row)}
             aria-label={t('riskAssessment.hazard.deleteFor', {
               name: row.identifiedHazard.hazardTag,
             })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -200,9 +195,9 @@ export default function RiskHazardSection({ reportId, companyId, method, hazards
             {t('riskAssessment.hazard.description', { count: rows.length })}
           </p>
         </div>
-        <button type="button" className="btn btn-primary" onClick={() => setCreateOpen(true)}>
+        <Button variant="primary" onClick={() => setCreateOpen(true)}>
           {t('riskAssessment.hazard.add')}
-        </button>
+        </Button>
       </div>
 
       <DataTable
@@ -381,62 +376,42 @@ function HazardModal({
       size="xl"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="hazardTag"
           label={t('riskAssessment.hazard.fields.hazardTag')}
-          htmlFor="hazardTag"
           required
           error={validation.hazardTag}
           className="col-md-6"
-        >
-          <input
-            id="hazardTag"
-            className={controlClass('form-control', validation.hazardTag)}
-            value={form.hazardTag}
-            onChange={(event) => patch({ hazardTag: event.target.value })}
-          />
-        </Field>
+          value={form.hazardTag}
+          onChange={(value) => patch({ hazardTag: value })}
+        />
 
-        <Field
+        <Input
+          id="riskTag"
           label={t('riskAssessment.hazard.fields.riskTag')}
-          htmlFor="riskTag"
           className="col-md-6"
-        >
-          <input
-            id="riskTag"
-            className="form-control"
-            value={form.riskTag ?? ''}
-            onChange={(event) => patch({ riskTag: event.target.value })}
-          />
-        </Field>
+          value={form.riskTag ?? ''}
+          onChange={(value) => patch({ riskTag: value })}
+        />
 
-        <Field
+        <TextArea
+          id="activityDescription"
           label={t('riskAssessment.hazard.fields.activityDescription')}
-          htmlFor="activityDescription"
           className="col-12"
-        >
-          <textarea
-            id="activityDescription"
-            className="form-control"
-            rows={2}
-            value={form.activityDescription ?? ''}
-            onChange={(event) => patch({ activityDescription: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={form.activityDescription ?? ''}
+          onChange={(value) => patch({ activityDescription: value })}
+        />
 
-        <Field
+        <TextArea
+          id="measure"
           label={t('riskAssessment.hazard.fields.measure')}
-          htmlFor="measure"
-          hint={t('riskAssessment.hazard.measureHint')}
+          helpText={t('riskAssessment.hazard.measureHint')}
           className="col-12"
-        >
-          <textarea
-            id="measure"
-            className="form-control"
-            rows={2}
-            value={form.measure ?? ''}
-            onChange={(event) => patch({ measure: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={form.measure ?? ''}
+          onChange={(value) => patch({ measure: value })}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-semibold mb-0 mt-2" style={{ color: 'var(--kt-gray-900)' }}>
@@ -524,45 +499,30 @@ function HazardModal({
           </p>
         </div>
 
-        <Field
+        <Input
+          id="ownerPerson"
           label={t('riskAssessment.hazard.fields.ownerPerson')}
-          htmlFor="ownerPerson"
           className="col-md-4"
-        >
-          <input
-            id="ownerPerson"
-            className="form-control"
-            value={form.ownerPerson ?? ''}
-            onChange={(event) => patch({ ownerPerson: event.target.value })}
-          />
-        </Field>
+          value={form.ownerPerson ?? ''}
+          onChange={(value) => patch({ ownerPerson: value })}
+        />
 
-        <Field
+        <Input
+          id="deadlineDate"
           label={t('riskAssessment.hazard.fields.deadlineDate')}
-          htmlFor="deadlineDate"
           className="col-md-4"
-        >
-          <input
-            id="deadlineDate"
-            type="date"
-            className="form-control"
-            value={form.deadlineDate ?? ''}
-            onChange={(event) => patch({ deadlineDate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={form.deadlineDate ?? ''}
+          onChange={(value) => patch({ deadlineDate: value })}
+        />
 
-        <Field
+        <Input
+          id="comment"
           label={t('riskAssessment.hazard.fields.comment')}
-          htmlFor="comment"
           className="col-md-4"
-        >
-          <input
-            id="comment"
-            className="form-control"
-            value={form.comment ?? ''}
-            onChange={(event) => patch({ comment: event.target.value })}
-          />
-        </Field>
+          value={form.comment ?? ''}
+          onChange={(value) => patch({ comment: value })}
+        />
       </div>
     </Modal>
   )
@@ -591,34 +551,27 @@ function RatingInput({
 }) {
   const { t } = useTranslation()
 
-  return (
-    <Field label={label} htmlFor={id} error={error} className="col-md-3">
-      {values?.length ? (
-        <select
-          id={id}
-          className={controlClass('form-select', error)}
-          value={value || ''}
-          onChange={(event) => onChange(Number(event.target.value))}
-        >
-          <option value="">{t('riskAssessment.hazard.selectValue')}</option>
-          {values.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <input
-          id={id}
-          type="number"
-          min={0}
-          step="any"
-          className={controlClass('form-control', error)}
-          value={value || ''}
-          onChange={(event) => onChange(Number(event.target.value))}
-        />
-      )}
-    </Field>
+  return values?.length ? (
+    <Select
+      id={id}
+      label={label}
+      error={error}
+      className="col-md-3"
+      placeholder={t('riskAssessment.hazard.selectValue')}
+      options={values.map((option) => ({ value: option, label: String(option) }))}
+      value={value || null}
+      onChange={(next) => onChange(next ?? 0)}
+    />
+  ) : (
+    <NumberInput
+      id={id}
+      label={label}
+      error={error}
+      className="col-md-3"
+      min={0}
+      value={value || null}
+      onChange={(next) => onChange(next ?? 0)}
+    />
   )
 }
 
@@ -702,15 +655,13 @@ function ControlMeasureModal({
                 </div>
               </div>
               {measure.isCompleted ? (
-                <span className="badge-light-success">
+                <Badge variant="success">
                   {t('riskAssessment.measure.completedOn', {
                     date: formatDate(measure.completionDate) ?? '',
                   })}
-                </span>
+                </Badge>
               ) : (
-                <button
-                  type="button"
-                  className="btn btn-sm btn-light-success"
+                <Button variant="light" size="sm" 
                   disabled={complete.isPending}
                   onClick={() =>
                     complete.mutate({
@@ -720,7 +671,7 @@ function ControlMeasureModal({
                   }
                 >
                   {t('riskAssessment.measure.complete')}
-                </button>
+                </Button>
               )}
             </li>
           ))}
@@ -732,62 +683,42 @@ function ControlMeasureModal({
       )}
 
       <div className="row g-3">
-        <Field
+        <TextArea
+          id="newMeasure"
           label={t('riskAssessment.measure.fields.measure')}
-          htmlFor="newMeasure"
           required
           error={validation}
           className="col-12"
-        >
-          <textarea
-            id="newMeasure"
-            className={controlClass('form-control', validation)}
-            rows={2}
-            value={form.measure}
-            onChange={(event) => setForm((current) => ({ ...current, measure: event.target.value }))}
-          />
-        </Field>
+          rows={2}
+          value={form.measure}
+          onChange={(value) => setForm((current) => ({ ...current, measure: value }))}
+        />
 
-        <Field
+        <Input
+          id="measureDeadline"
           label={t('riskAssessment.measure.fields.deadlineDate')}
-          htmlFor="measureDeadline"
           className="col-md-6"
-        >
-          <input
-            id="measureDeadline"
-            type="date"
-            className="form-control"
-            value={form.deadlineDate ?? ''}
-            onChange={(event) =>
-              setForm((current) => ({ ...current, deadlineDate: event.target.value }))
-            }
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={form.deadlineDate ?? ''}
+          onChange={(value) => setForm((current) => ({ ...current, deadlineDate: value }))}
+        />
 
-        <Field
+        <Select
+          id="measureOwner"
           label={t('riskAssessment.measure.fields.owner')}
-          htmlFor="measureOwner"
           className="col-md-6"
-        >
-          <select
-            id="measureOwner"
-            className="form-select"
-            value={form.ownerCompanyEmployeeId ?? ''}
-            onChange={(event) =>
-              setForm((current) => ({
-                ...current,
-                ownerCompanyEmployeeId: event.target.value ? Number(event.target.value) : null,
-              }))
-            }
-          >
-            <option value="">{t('riskAssessment.measure.noOwner')}</option>
-            {employees.data?.items.map((employee) => (
-              <option key={employee.id} value={employee.id}>
-                {employee.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('riskAssessment.measure.noOwner')}
+          options={
+            employees.data?.items.map((employee) => ({
+              value: employee.id,
+              label: employee.displayName,
+            })) ?? []
+          }
+          value={form.ownerCompanyEmployeeId ?? null}
+          onChange={(value) =>
+            setForm((current) => ({ ...current, ownerCompanyEmployeeId: value ?? null }))
+          }
+        />
       </div>
     </Modal>
   )

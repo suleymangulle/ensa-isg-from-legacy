@@ -1,15 +1,21 @@
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Avatar, Button, Flex, Menu, Navbar, Text } from 'rich-react-component'
 import { useAuth } from '@/auth/AuthContext'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
-import { initials } from '@/utils/format'
 
+/**
+ * Top bar, drawn by the library's `Navbar`.
+ *
+ * The user menu is the library's `Menu` rather than Bootstrap's `data-bs-toggle="dropdown"`: this
+ * application loads Bootstrap's stylesheet and none of its JavaScript, so that attribute never had
+ * anything listening to it — the menu could not open at all. `Menu` brings its own open state and
+ * keyboard handling, and takes the sign-out action as a plain callback.
+ */
 export default function Header({ onMenuToggle }: { onMenuToggle: () => void }) {
   const { t } = useTranslation()
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
-
-  const avatarInitials = initials(user?.fullName ?? '?')
 
   function handleSignOut() {
     signOut()
@@ -17,81 +23,36 @@ export default function Header({ onMenuToggle }: { onMenuToggle: () => void }) {
   }
 
   return (
-    <header
-      className="d-flex align-items-center gap-3 px-4 px-lg-5 bg-white sticky-top"
-      style={{
-        height: 'var(--kt-header-height)',
-        borderBottom: '1px solid var(--kt-border-color)',
-        zIndex: 1020,
-      }}
-    >
-      <button
-        type="button"
-        className="btn btn-sm btn-light-primary"
-        onClick={onMenuToggle}
-        aria-label={t('nav.toggleMenu')}
-      >
-        ☰
-      </button>
+    <Navbar
+      className="sticky-top border-bottom"
+      brand={
+        <Button variant="light" size="sm" onClick={onMenuToggle} aria-label={t('nav.toggleMenu')}>
+          ☰
+        </Button>
+      }
+      end={
+        <Flex gap={3} align="center">
+          <LanguageSwitcher />
 
-      <div className="ms-auto d-flex align-items-center gap-3">
-        <LanguageSwitcher />
-
-        <div className="dropdown">
-          <button
-            className="btn d-flex align-items-center gap-2 border-0"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            aria-label={t('nav.userMenu')}
-            type="button"
+          <Menu
+            placement="end"
+            items={[
+              { key: 'profile', label: t('common.profile'), onSelect: () => navigate('/') },
+              { key: 'signOut', label: t('common.signOut'), danger: true, onSelect: handleSignOut },
+            ]}
           >
-            <span
-              className="d-inline-flex align-items-center justify-content-center fw-semibold"
-              style={{
-                width: 38,
-                height: 38,
-                borderRadius: 9,
-                backgroundColor: 'var(--kt-primary-light)',
-                color: 'var(--kt-primary)',
-                fontSize: '0.875rem',
-              }}
-              aria-hidden="true"
-            >
-              {avatarInitials}
-            </span>
-            <span className="d-none d-sm-flex flex-column align-items-start lh-sm">
-              <span
-                className="fw-semibold"
-                style={{ color: 'var(--kt-gray-800)', fontSize: '0.9375rem' }}
-              >
-                {user?.fullName}
-              </span>
-              <span style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
-                {user?.email ?? user?.userName}
-              </span>
-            </span>
-          </button>
-
-          <ul
-            className="dropdown-menu dropdown-menu-end shadow border-0 mt-2"
-            style={{ minWidth: 200 }}
-          >
-            <li>
-              <button className="dropdown-item" type="button" onClick={() => navigate('/')}>
-                {t('common.profile')}
-              </button>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-            <li>
-              <button className="dropdown-item text-danger" type="button" onClick={handleSignOut}>
-                {t('common.signOut')}
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
+            <Flex gap={2} align="center" aria-label={t('nav.userMenu')}>
+              <Avatar name={user?.fullName ?? '?'} />
+              <Flex direction="column" align="start" className="d-none d-sm-flex lh-sm">
+                <Text weight="semibold">{user?.fullName}</Text>
+                <Text size="sm" tone="muted">
+                  {user?.email ?? user?.userName}
+                </Text>
+              </Flex>
+            </Flex>
+          </Menu>
+        </Flex>
+      }
+    />
   )
 }

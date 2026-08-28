@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, NumberInput, Select, Input } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { HAZARD_CLASS_BADGE, useLookup } from '@/api/endpoints'
 import { HazardClass } from '@/api/enums'
@@ -66,9 +67,9 @@ export default function TrainingDetailPage() {
             : undefined
         }
         action={
-          <button className="btn btn-light-primary" type="button" onClick={() => setEditOpen(true)}>
+          <Button variant="light"  onClick={() => setEditOpen(true)}>
             {t('common.edit')}
-          </button>
+          </Button>
         }
       />
 
@@ -81,47 +82,50 @@ export default function TrainingDetailPage() {
         </div>
 
         <div className="col-12">
-          <div className="card">
-            <div className="card-header d-flex align-items-center justify-content-between">
+          <Card
+            
+            header={
+            <div className="d-flex align-items-center justify-content-between">
               <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('training.detail.topics')}
               </h2>
-              <button
-                type="button"
-                className="btn btn-sm btn-primary"
+              <Button variant="primary" size="sm"
                 onClick={() => setTopicCreateOpen(true)}
               >
                 {t('training.topic.create')}
-              </button>
+              </Button>
+            
             </div>
-            <div className="card-body p-0">
+            }
+          >
               <TopicTable
                 topics={data.topics}
                 onEdit={setEditingTopic}
                 onDelete={setDeletingTopic}
               />
-            </div>
-          </div>
+            
+          </Card>
         </div>
 
         {data.exams.length > 0 && (
           <div className="col-12">
-            <div className="card">
-              <div className="card-header">
+            <Card
+              header={
                 <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
                   {t('training.detail.exams')}
                 </h2>
-              </div>
-              <div className="card-body">
+              
+              }
+            >
                 <ul className="list-unstyled mb-0 d-flex flex-wrap gap-2">
                   {data.exams.map((exam) => (
                     <li key={exam.id}>
-                      <span className="badge-light-primary">{exam.displayName}</span>
+                      <Badge variant="primary">{exam.displayName}</Badge>
                     </li>
                   ))}
                 </ul>
-              </div>
-            </div>
+              
+            </Card>
           </div>
         )}
       </div>
@@ -164,13 +168,15 @@ function GeneralCard({ training, groupName }: { training: TrainingDto; groupName
   const none = t('common.none')
 
   return (
-    <div className="card h-100">
-      <div className="card-header">
+    <Card
+      className="h-100"
+      header={
         <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
           {t('training.detail.general')}
         </h2>
-      </div>
-      <div className="card-body">
+      
+      }
+    >
         <dl className="row mb-4" style={{ fontSize: '0.9375rem' }}>
           <Term label={t('training.fields.trainingType')}>
             {t(`enums.trainingType.${training.trainingType}`)}
@@ -199,9 +205,9 @@ function GeneralCard({ training, groupName }: { training: TrainingDto; groupName
             {training.defaultElementCondition}
           </Term>
           <Term label={t('training.fields.status')}>
-            <span className={training.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+            <Badge variant={training.isActive ? 'success' : 'danger'}>
               {training.isActive ? t('common.active') : t('common.passive')}
-            </span>
+            </Badge>
           </Term>
         </dl>
 
@@ -209,8 +215,8 @@ function GeneralCard({ training, groupName }: { training: TrainingDto; groupName
           {t('training.detail.durations')}
         </h3>
         <DurationList durations={training.durations} />
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 
@@ -229,9 +235,9 @@ function DurationList({
           durations.find((item) => item.hazardClass === hazardClass)?.durationMinutes ?? 0
         return (
           <li key={hazardClass}>
-            <span className={HAZARD_CLASS_BADGE[hazardClass]}>
+            <Badge variant={HAZARD_CLASS_BADGE[hazardClass]}>
               {t(`enums.hazardClass.${hazardClass}`)}: {t('training.minutes', { count: minutes })}
-            </span>
+            </Badge>
           </li>
         )
       })}
@@ -257,82 +263,65 @@ function ValidityCard({ training }: { training: TrainingDto }) {
   const validity = useTrainingValidity(training.id, employeeId ?? undefined, hazardClass)
 
   return (
-    <div className="card h-100">
-      <div className="card-header">
+    <Card
+      className="h-100"
+      header={
         <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
           {t('training.validity.title')}
         </h2>
-      </div>
-      <div className="card-body">
+      
+      }
+    >
         <p style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>
           {t('training.validity.description')}
         </p>
 
         <div className="row g-3">
-          <Field
+          <Select
+            id="validity-company"
             label={t('training.validity.company')}
-            htmlFor="validity-company"
             className="col-12"
-          >
-            <select
-              id="validity-company"
-              className="form-select"
-              value={companyId ?? ''}
-              onChange={(event) => {
-                setCompanyId(event.target.value === '' ? null : Number(event.target.value))
-                setEmployeeId(null)
-              }}
-            >
-              <option value="">{t('training.validity.selectCompany')}</option>
-              {companies.data?.items.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.displayName}
-                </option>
-              ))}
-            </select>
-          </Field>
+            placeholder={t('training.validity.selectCompany')}
+            options={
+              companies.data?.items.map((company) => ({
+                value: company.id,
+                label: company.displayName,
+              })) ?? []
+            }
+            value={companyId}
+            onChange={(value) => {
+              setCompanyId(value)
+              setEmployeeId(null)
+            }}
+          />
 
-          <Field
+          <Select
+            id="validity-employee"
             label={t('training.validity.employee')}
-            htmlFor="validity-employee"
             className="col-12"
-          >
-            <select
-              id="validity-employee"
-              className="form-select"
-              value={employeeId ?? ''}
-              disabled={!companyId}
-              onChange={(event) =>
-                setEmployeeId(event.target.value === '' ? null : Number(event.target.value))
-              }
-            >
-              <option value="">{t('training.validity.selectEmployee')}</option>
-              {employees.data?.items.map((employee) => (
-                <option key={employee.id} value={employee.id}>
-                  {employee.displayName}
-                </option>
-              ))}
-            </select>
-          </Field>
+            placeholder={t('training.validity.selectEmployee')}
+            disabled={!companyId}
+            options={
+              employees.data?.items.map((employee) => ({
+                value: employee.id,
+                label: employee.displayName,
+              })) ?? []
+            }
+            value={employeeId}
+            onChange={(value) => setEmployeeId(value)}
+          />
 
-          <Field
+          <Select
+            id="validity-hazard"
             label={t('training.validity.hazardClass')}
-            htmlFor="validity-hazard"
             className="col-12"
-          >
-            <select
-              id="validity-hazard"
-              className="form-select"
-              value={hazardClass}
-              onChange={(event) => setHazardClass(Number(event.target.value) as HazardClass)}
-            >
-              {HAZARD_CLASSES.map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.hazardClass.${value}`)}
-                </option>
-              ))}
-            </select>
-          </Field>
+            options={HAZARD_CLASSES.map((value) => ({
+              value,
+              label: t(`enums.hazardClass.${value}`),
+            }))}
+            value={hazardClass}
+            onChange={(value) => value !== null && setHazardClass(value)}
+          />
         </div>
 
         <div className="mt-4 pt-3" style={{ borderTop: '1px solid var(--kt-border-color)' }}>
@@ -346,15 +335,12 @@ function ValidityCard({ training }: { training: TrainingDto }) {
           {employeeId && validity.data && (
             <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
               <Term label={t('training.validity.state')}>
-                <span
-                  className={
-                    validity.data.isValid ? 'badge-light-success' : 'badge-light-danger'
-                  }
+                <Badge variant={validity.data.isValid ? 'success' : 'danger'}
                 >
                   {validity.data.isValid
                     ? t('training.validity.valid')
                     : t('training.validity.expired')}
-                </span>
+                </Badge>
               </Term>
               <Term label={t('training.validity.mandatoryDuration')}>
                 {t('training.minutes', { count: validity.data.mandatoryDurationMinutes })}
@@ -362,8 +348,8 @@ function ValidityCard({ training }: { training: TrainingDto }) {
             </dl>
           )}
         </div>
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 
@@ -410,22 +396,18 @@ function TopicTable({
       width: '120px',
       render: (topic) => (
         <div className="d-flex justify-content-end gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => onEdit(topic)}
             aria-label={t('training.topic.editAria', { name: topic.topicTitle })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => onDelete(topic)}
             aria-label={t('training.topic.deleteAria', { name: topic.topicTitle })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -497,65 +479,41 @@ function TopicFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="topic-title"
           label={t('training.topic.fields.title')}
-          htmlFor="topic-title"
           required
           error={titleError}
           className="col-md-8"
-        >
-          <input
-            id="topic-title"
-            className={controlClass('form-control', titleError)}
-            value={model.topicTitle}
-            onChange={(event) => setModel({ ...model, topicTitle: event.target.value })}
-          />
-        </Field>
+          value={model.topicTitle}
+          onChange={(value) => setModel({ ...model, topicTitle: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="topic-order"
           label={t('training.topic.fields.order')}
-          htmlFor="topic-order"
           className="col-md-4"
-        >
-          <input
-            id="topic-order"
-            type="number"
-            min={0}
-            className="form-control"
-            value={model.topicOrder}
-            onChange={(event) => setModel({ ...model, topicOrder: Number(event.target.value) || 0 })}
-          />
-        </Field>
+          min={0}
+          value={model.topicOrder}
+          onChange={(value) => setModel({ ...model, topicOrder: value ?? 0 })}
+        />
 
-        <Field
+        <Input
+          id="topic-address"
           label={t('training.topic.fields.presentationAddress')}
-          htmlFor="topic-address"
           className="col-md-8"
-        >
-          <input
-            id="topic-address"
-            className="form-control"
-            value={model.presentationAddress ?? ''}
-            onChange={(event) => setModel({ ...model, presentationAddress: event.target.value })}
-          />
-        </Field>
+          value={model.presentationAddress ?? ''}
+          onChange={(value) => setModel({ ...model, presentationAddress: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="topic-pages"
           label={t('training.topic.fields.pageCount')}
-          htmlFor="topic-pages"
           className="col-md-4"
-        >
-          <input
-            id="topic-pages"
-            type="number"
-            min={0}
-            className="form-control"
-            value={model.presentationPageCount}
-            onChange={(event) =>
-              setModel({ ...model, presentationPageCount: Number(event.target.value) || 0 })
-            }
-          />
-        </Field>
+          min={0}
+          value={model.presentationPageCount}
+          onChange={(value) => setModel({ ...model, presentationPageCount: value ?? 0 })}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-semibold mb-2" style={{ color: 'var(--kt-gray-900)' }}>
@@ -563,30 +521,24 @@ function TopicFormModal({
           </h3>
           <div className="row g-3">
             {model.durations.map((duration) => (
-              <Field
+              <NumberInput
                 key={duration.hazardClass}
+                id={`topic-duration-${duration.hazardClass}`}
                 label={t(`enums.hazardClass.${duration.hazardClass}`)}
-                htmlFor={`topic-duration-${duration.hazardClass}`}
                 className="col-md-4"
-              >
-                <input
-                  id={`topic-duration-${duration.hazardClass}`}
-                  type="number"
-                  min={0}
-                  className="form-control"
-                  value={duration.durationMinutes}
-                  onChange={(event) =>
-                    setModel({
-                      ...model,
-                      durations: model.durations.map((item) =>
-                        item.hazardClass === duration.hazardClass
-                          ? { ...item, durationMinutes: Number(event.target.value) || 0 }
-                          : item,
-                      ),
-                    })
-                  }
-                />
-              </Field>
+                min={0}
+                value={duration.durationMinutes}
+                onChange={(value) =>
+                  setModel({
+                    ...model,
+                    durations: model.durations.map((item) =>
+                      item.hazardClass === duration.hazardClass
+                        ? { ...item, durationMinutes: value ?? 0 }
+                        : item,
+                    ),
+                  })
+                }
+              />
             ))}
           </div>
         </div>

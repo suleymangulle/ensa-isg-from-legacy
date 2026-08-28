@@ -1,13 +1,24 @@
-import { useEffect, useRef, type ReactNode } from 'react'
+import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  Alert,
+  Button,
+  FormField,
+  Input,
+  Modal as RichModal,
+} from 'rich-react-component'
 
 /**
- * Form and dialog primitives shared by every module.
+ * Form and dialog primitives shared by every module, built on `rich-react-component`.
  *
- * They exist so that a required field, a validation message and a save dialog look and behave
- * identically across the application, and so that the accessibility work — labels bound to
- * inputs, `aria-invalid`, focus handling, Escape to close — is done once rather than
- * approximated in thirty screens.
+ * The library owns the field chrome (`FormField`: label, required marker, validation message,
+ * help text) and the dialog shell (`Modal`: backdrop, Escape to close, header and footer slots).
+ * What stays here is the part the library has no opinion about: the Turkish and English copy, and
+ * the submit-on-Enter wiring — the confirm button lives in the library's footer slot and is bound
+ * to the body's `<form>` through the HTML `form` attribute, so a dialog still submits from the
+ * keyboard without the form having to wrap the footer.
+ *
+ * The exported names and their props are unchanged, so every module page keeps working.
  */
 
 interface FieldProps {
@@ -35,27 +46,16 @@ export function Field({
   className,
 }: FieldProps) {
   return (
-    <div className={className ?? 'col-12'}>
-      <label htmlFor={htmlFor} className="form-label fw-semibold">
-        {label}
-        {required && (
-          <span style={{ color: 'var(--kt-danger)' }} aria-hidden="true">
-            {' *'}
-          </span>
-        )}
-      </label>
+    <FormField
+      id={htmlFor}
+      label={label}
+      required={required}
+      error={error}
+      helpText={hint}
+      className={className ?? 'col-12'}
+    >
       {children}
-      {hint && !error && (
-        <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-          {hint}
-        </div>
-      )}
-      {error && (
-        <div className="invalid-feedback d-block" role="alert">
-          {error}
-        </div>
-      )}
-    </div>
+    </FormField>
   )
 }
 
@@ -80,10 +80,6 @@ interface ModalProps {
   children: ReactNode
 }
 
-/**
- * Bootstrap dialog without the Bootstrap JavaScript bundle: the markup is rendered directly so
- * React owns the open state, which keeps it in step with form state and route changes.
- */
 export function Modal({
   title,
   isOpen,
@@ -96,89 +92,58 @@ export function Modal({
   children,
 }: ModalProps) {
   const { t } = useTranslation()
-  const dialogRef = useRef<HTMLDivElement>(null)
+  const formId = useId()
+  const titleId = useId()
+  const hostRef = useRef<HTMLDivElement>(null)
 
-  // Escape closes the dialog, and focus moves into it when it opens.
+  // The library's Modal marks its dialog `role="dialog" aria-modal="true"` but never ties the
+  // heading it renders to it, so a screen reader announces "dialog" and nothing else — on every
+  // create, edit and delete dialog in the application. Binding the two here is a stopgap until
+  // the library accepts a `titleId`; it reaches into the rendered dialog rather than guessing at
+  // a global selector, so a confirmation opened on top of a form still names itself correctly.
   useEffect(() => {
     if (!isOpen) return
 
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') onClose()
-    }
+    const dialog = hostRef.current?.querySelector('.modal[role="dialog"]')
+    const heading = dialog?.querySelector('.modal-title')
+    if (!dialog || !heading) return
 
-    document.addEventListener('keydown', onKeyDown)
-    dialogRef.current?.focus()
-    return () => document.removeEventListener('keydown', onKeyDown)
-  }, [isOpen, onClose])
-
-  if (!isOpen) return null
+    heading.id = titleId
+    dialog.setAttribute('aria-labelledby', titleId)
+  }, [isOpen, titleId, title])
 
   return (
-    <>
-      <div className="modal-backdrop fade show" onClick={onClose} />
-      <div
-        className="modal fade show d-block"
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-        tabIndex={-1}
-        ref={dialogRef}
+    <div ref={hostRef}>
+      <RichModal
+        open={isOpen}
+        onClose={onClose}
+        title={title}
+        className={size ? `modal-${size} modal-dialog-centered` : 'modal-dialog-centered'}
+        footer={
+          <>
+            <Button variant="light" onClick={onClose}>
+              {t('common.cancel')}
+            </Button>
+            {onSubmit && (
+              <Button variant="primary" type="submit" form={formId} loading={isBusy}>
+                {confirmLabel ?? t('common.save')}
+              </Button>
+            )}
+          </>
+        }
       >
-        <div className={`modal-dialog modal-dialog-centered ${size ? `modal-${size}` : ''}`}>
-          <div className="modal-content border-0 shadow">
-            <div className="modal-header">
-              <h2 className="modal-title h5 mb-0">{title}</h2>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={onClose}
-                aria-label={t('common.close')}
-              />
-            </div>
-
-            <form
-              onSubmit={(event) => {
-                event.preventDefault()
-                onSubmit?.()
-              }}
-            >
-              <div className="modal-body">
-                {error && (
-                  <div
-                    className="alert border-0"
-                    style={{
-                      backgroundColor: 'var(--kt-danger-light)',
-                      color: 'var(--kt-danger)',
-                    }}
-                    role="alert"
-                  >
-                    {error}
-                  </div>
-                )}
-                {children}
-              </div>
-
-              <div className="modal-footer">
-                <button type="button" className="btn btn-light" onClick={onClose}>
-                  {t('common.cancel')}
-                </button>
-                {onSubmit && (
-                  <button type="submit" className="btn btn-primary" disabled={isBusy}>
-                    {isBusy && (
-                      <span
-                        className="spinner-border spinner-border-sm me-2"
-                        aria-hidden="true"
-                      />
-                    )}
-                    {confirmLabel ?? t('common.save')}
-                  </button>
-                )}
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </>
+        <form
+          id={formId}
+          onSubmit={(event) => {
+            event.preventDefault()
+            onSubmit?.()
+          }}
+        >
+          {error && <Alert variant="danger">{error}</Alert>}
+          {children}
+        </form>
+      </RichModal>
+    </div>
   )
 }
 
@@ -233,20 +198,19 @@ export function SearchBar({
   children?: ReactNode
 }) {
   const { t } = useTranslation()
+  // Two search bars on one screen — a list and a picker inside its dialog — must not share an id.
+  const inputId = useId()
 
   return (
     <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
       <div className="flex-grow-1" style={{ maxWidth: 320 }}>
-        <label htmlFor="search" className="visually-hidden">
-          {t('common.search')}
-        </label>
-        <input
-          id="search"
+        <Input
+          id={inputId}
           type="search"
-          className="form-control"
           value={value}
           placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={onChange}
+          inputProps={{ 'aria-label': t('common.search') }}
         />
       </div>
       {children}

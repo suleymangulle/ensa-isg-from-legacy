@@ -1,26 +1,26 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Input, NumberInput } from 'rich-react-component'
+import { Modal } from '@/components/Form'
 import type { InvoiceLineDto, SaveInvoiceLineDto } from './api'
-import { parseDecimal } from './components'
 
 interface LineFormState {
   lineDescription: string
-  count: string
+  count: number | null
   unit: string
-  unitPrice: string
-  vatRate: string
-  orderNo: string
+  unitPrice: number | null
+  vatRate: number | null
+  orderNo: number | null
 }
 
 function initialState(line?: InvoiceLineDto): LineFormState {
   return {
     lineDescription: line?.lineDescription ?? '',
-    count: line ? String(line.count) : '1',
+    count: line ? line.count : 1,
     unit: line?.unit ?? '',
-    unitPrice: line ? String(line.unitPrice) : '',
-    vatRate: line ? String(line.vatRate) : '20',
-    orderNo: line ? String(line.orderNo) : '0',
+    unitPrice: line ? line.unitPrice : null,
+    vatRate: line ? line.vatRate : 20,
+    orderNo: line ? line.orderNo : 0,
   }
 }
 
@@ -61,9 +61,9 @@ export default function InvoiceLineForm({
 
   function handleSubmit() {
     const errors: Record<string, string> = {}
-    const count = parseDecimal(form.count)
-    const unitPrice = parseDecimal(form.unitPrice)
-    const vatRate = parseDecimal(form.vatRate)
+    const count = form.count ?? 0
+    const unitPrice = form.unitPrice ?? 0
+    const vatRate = form.vatRate ?? 0
 
     if (!form.lineDescription.trim()) errors.lineDescription = t('validation.required')
     if (count <= 0) errors.count = t('finance.invoice.line.countPositive')
@@ -79,7 +79,7 @@ export default function InvoiceLineForm({
       unit: form.unit.trim(),
       unitPrice,
       vatRate: Math.round(vatRate),
-      orderNo: Math.round(parseDecimal(form.orderNo)),
+      orderNo: Math.round(form.orderNo ?? 0),
       serviceItemId: line?.serviceItemId ?? null,
       companyId: line?.companyId ?? null,
     })
@@ -96,111 +96,72 @@ export default function InvoiceLineForm({
       size="lg"
     >
       <div className="row g-4">
-        <Field
+        <Input
+          id="line-description"
           label={t('finance.invoice.line.fields.description')}
-          htmlFor="line-description"
           required
           error={validation.lineDescription}
-        >
-          <input
-            id="line-description"
-            type="text"
-            className={controlClass('form-control', validation.lineDescription)}
-            value={form.lineDescription}
-            aria-invalid={validation.lineDescription ? true : undefined}
-            onChange={(event) => patch({ lineDescription: event.target.value })}
-          />
-        </Field>
+          className="col-12"
+          value={form.lineDescription}
+          onChange={(value) => patch({ lineDescription: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="line-count"
           label={t('finance.invoice.line.fields.count')}
-          htmlFor="line-count"
           required
           error={validation.count}
           className="col-md-3"
-        >
-          <input
-            id="line-count"
-            type="number"
-            step="0.0001"
-            min="0"
-            className={controlClass('form-control text-end', validation.count)}
-            value={form.count}
-            aria-invalid={validation.count ? true : undefined}
-            onChange={(event) => patch({ count: event.target.value })}
-          />
-        </Field>
+          step={0.0001}
+          min={0}
+          value={form.count}
+          onChange={(value) => patch({ count: value })}
+        />
 
-        <Field
+        <Input
+          id="line-unit"
           label={t('finance.invoice.line.fields.unit')}
-          htmlFor="line-unit"
           className="col-md-3"
-        >
-          <input
-            id="line-unit"
-            type="text"
-            className="form-control"
-            value={form.unit}
-            placeholder={t('finance.invoice.line.unitPlaceholder')}
-            onChange={(event) => patch({ unit: event.target.value })}
-          />
-        </Field>
+          value={form.unit}
+          placeholder={t('finance.invoice.line.unitPlaceholder')}
+          onChange={(value) => patch({ unit: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="line-unit-price"
           label={t('finance.invoice.line.fields.unitPrice')}
-          htmlFor="line-unit-price"
           required
           error={validation.unitPrice}
           className="col-md-3"
-        >
-          <input
-            id="line-unit-price"
-            type="number"
-            step="0.01"
-            min="0"
-            className={controlClass('form-control text-end', validation.unitPrice)}
-            value={form.unitPrice}
-            aria-invalid={validation.unitPrice ? true : undefined}
-            onChange={(event) => patch({ unitPrice: event.target.value })}
-          />
-        </Field>
+          step={0.01}
+          min={0}
+          value={form.unitPrice}
+          onChange={(value) => patch({ unitPrice: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="line-vat-rate"
           label={t('finance.invoice.line.fields.vatRate')}
-          htmlFor="line-vat-rate"
           required
           error={validation.vatRate}
           className="col-md-3"
-        >
-          <input
-            id="line-vat-rate"
-            type="number"
-            step="1"
-            min="0"
-            max="100"
-            className={controlClass('form-control text-end', validation.vatRate)}
-            value={form.vatRate}
-            aria-invalid={validation.vatRate ? true : undefined}
-            onChange={(event) => patch({ vatRate: event.target.value })}
-          />
-        </Field>
+          step={1}
+          min={0}
+          max={100}
+          value={form.vatRate}
+          onChange={(value) => patch({ vatRate: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="line-order-no"
           label={t('finance.invoice.line.fields.orderNo')}
-          htmlFor="line-order-no"
-          hint={t('finance.invoice.line.orderHint')}
+          helpText={t('finance.invoice.line.orderHint')}
           className="col-md-3"
-        >
-          <input
-            id="line-order-no"
-            type="number"
-            step="1"
-            min="0"
-            className="form-control text-end"
-            value={form.orderNo}
-            onChange={(event) => patch({ orderNo: event.target.value })}
-          />
-        </Field>
+          step={1}
+          min={0}
+          value={form.orderNo}
+          onChange={(value) => patch({ orderNo: value })}
+        />
       </div>
 
       <p className="mt-4 mb-0" style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>

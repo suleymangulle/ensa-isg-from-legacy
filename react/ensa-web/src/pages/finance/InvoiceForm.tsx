@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button, Input, TextArea } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
 import { InvoiceType, SourceModule } from '@/api/enums'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   useCompanyLookup,
   useGenerateInvoiceNumber,
@@ -131,55 +132,42 @@ export default function InvoiceForm({
       size="lg"
     >
       <div className="row g-4">
-        <Field
-          label={t('finance.invoice.fields.invoiceNo')}
-          htmlFor="invoice-no"
-          hint={t('finance.invoice.form.numberHint')}
-          className="col-md-6"
-        >
-          <div className="input-group">
-            <input
-              id="invoice-no"
-              type="text"
-              className="form-control"
-              value={form.invoiceNo}
-              readOnly
-              placeholder={t('finance.invoice.form.numberPlaceholder')}
-            />
-            <button
-              type="button"
-              className="btn btn-light-primary"
-              onClick={handleGenerateNumber}
-              disabled={generateNumber.isPending}
-            >
-              {generateNumber.isPending
-                ? t('common.loading')
-                : t('finance.invoice.form.generateNumber')}
-            </button>
-          </div>
+        <div className="col-md-6">
+          <Input
+            id="invoice-no"
+            label={t('finance.invoice.fields.invoiceNo')}
+            helpText={t('finance.invoice.form.numberHint')}
+            value={form.invoiceNo}
+            readOnly
+            placeholder={t('finance.invoice.form.numberPlaceholder')}
+            endAdornment={
+              <Button variant="light" 
+                onClick={handleGenerateNumber}
+                disabled={generateNumber.isPending}
+              >
+                {generateNumber.isPending
+                  ? t('common.loading')
+                  : t('finance.invoice.form.generateNumber')}
+              </Button>
+            }
+          />
           {generateNumber.isError && (
             <div className="form-text" role="alert" style={{ color: 'var(--kt-danger)' }}>
               {errorMessage(generateNumber.error)}
             </div>
           )}
-        </Field>
+        </div>
 
-        <Field
+        <Input
+          id="invoice-date"
           label={t('finance.invoice.fields.invoiceDate')}
-          htmlFor="invoice-date"
           required
           error={validation.invoiceDate}
           className="col-md-6"
-        >
-          <input
-            id="invoice-date"
-            type="date"
-            className={controlClass('form-control', validation.invoiceDate)}
-            value={form.invoiceDate}
-            aria-invalid={validation.invoiceDate ? true : undefined}
-            onChange={(event) => patch({ invoiceDate: event.target.value })}
-          />
-        </Field>
+          value={form.invoiceDate}
+          inputProps={{ type: 'date' }}
+          onChange={(value) => patch({ invoiceDate: value })}
+        />
 
         <LookupField
           id="invoice-company"
@@ -194,22 +182,15 @@ export default function InvoiceForm({
           className="col-md-6"
         />
 
-        <Field
+        <Input
+          id="invoice-account"
           label={t('finance.invoice.fields.accountCurrentName')}
-          htmlFor="invoice-account"
           required
           error={validation.accountCurrentName}
           className="col-md-6"
-        >
-          <input
-            id="invoice-account"
-            type="text"
-            className={controlClass('form-control', validation.accountCurrentName)}
-            value={form.accountCurrentName}
-            aria-invalid={validation.accountCurrentName ? true : undefined}
-            onChange={(event) => patch({ accountCurrentName: event.target.value })}
-          />
-        </Field>
+          value={form.accountCurrentName}
+          onChange={(value) => patch({ accountCurrentName: value })}
+        />
 
         <EnumField
           id="invoice-type"
@@ -245,18 +226,14 @@ export default function InvoiceForm({
           className="col-md-4"
         />
 
-        <Field
+        <TextArea
+          id="invoice-description"
           label={t('finance.invoice.fields.invoiceDescription')}
-          htmlFor="invoice-description"
-        >
-          <textarea
-            id="invoice-description"
-            className="form-control"
-            rows={3}
-            value={form.invoiceDescription}
-            onChange={(event) => patch({ invoiceDescription: event.target.value })}
-          />
-        </Field>
+          className="col-12"
+          rows={3}
+          value={form.invoiceDescription}
+          onChange={(value) => patch({ invoiceDescription: value })}
+        />
       </div>
     </Modal>
   )

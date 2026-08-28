@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Tabs } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -53,16 +54,14 @@ export default function OrganizationDetailPage() {
         description={t('organization.detail.subtitle', { code: organization.code })}
         action={
           <div className="d-flex flex-wrap gap-2">
-            <button type="button" className="btn btn-primary" onClick={() => setEditOpen(true)}>
+            <Button variant="primary" onClick={() => setEditOpen(true)}>
               {t('common.edit')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-light-danger"
+            </Button>
+            <Button variant="light" 
               onClick={() => setDeleteOpen(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
@@ -81,36 +80,25 @@ export default function OrganizationDetailPage() {
         <QuotaCard label={t('organization.detail.officeCount')} value={data.officeCount} />
       </div>
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`organization.detail.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-body">
-          {activeTab === 'general' && <GeneralTab detail={data} />}
-          {activeTab === 'offices' && <OfficesTab detail={data} />}
-          {activeTab === 'subscription' && <SubscriptionTab detail={data} />}
-        </div>
-      </div>
+      <Card>
+        <Tabs
+          items={TABS.map((tab) => ({
+            key: tab,
+            label: t(`organization.detail.tabs.${tab}`),
+            content:
+              tab === 'general' ? (
+                <GeneralTab detail={data} />
+              ) : tab === 'offices' ? (
+                <OfficesTab detail={data} />
+              ) : (
+                <SubscriptionTab detail={data} />
+              ),
+          }))}
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as TabKey)}
+          variant="underline"
+        />
+      </Card>
 
       {isEditOpen && (
         <OrganizationFormModal organization={organization} onClose={() => setEditOpen(false)} />
@@ -142,8 +130,9 @@ function QuotaCard({
 
   return (
     <div className="col-sm-6 col-lg-4">
-      <div className="card h-100">
-        <div className="card-body">
+      <Card
+        className="h-100"
+      >
           <div
             className="text-uppercase fw-semibold mb-2"
             style={{ color: 'var(--kt-gray-500)', fontSize: '0.6875rem', letterSpacing: '0.06em' }}
@@ -164,8 +153,8 @@ function QuotaCard({
               {t('organization.detail.unlimited')}
             </div>
           )}
-        </div>
-      </div>
+        
+      </Card>
     </div>
   )
 }
@@ -218,9 +207,9 @@ function GeneralTab({ detail }: { detail: OrganizationNavigationDto }) {
         {organization.authorizedEmail ?? none}
       </Detail>
       <Detail label={t('organization.fields.status')}>
-        <span className={organization.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={organization.isActive ? 'success' : 'danger'}>
           {organization.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       </Detail>
     </div>
   )
@@ -253,7 +242,7 @@ function OfficesTab({ detail }: { detail: OrganizationNavigationDto }) {
               {office.displayName}
             </Link>
             {!office.isActive && (
-              <span className="badge-light-danger ms-2">{t('common.passive')}</span>
+              <Badge variant="danger" className="ms-2">{t('common.passive')}</Badge>
             )}
           </li>
         ))}

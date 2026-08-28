@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckBox, Input, Select, TextArea } from 'rich-react-component'
 import { useLookup } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   TENANCY_RESOURCES,
   optionalNumber,
@@ -130,163 +131,130 @@ export default function OfficeFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="office-name"
           label={t('office.fields.name')}
-          htmlFor="office-name"
           required
           error={nameError}
           className="col-md-6"
-        >
-          <input
-            id="office-name"
-            className={controlClass('form-control', nameError)}
-            value={state.name}
-            onChange={(event) => set('name', event.target.value)}
-          />
-        </Field>
+          value={state.name}
+          onChange={(value) => set('name', value)}
+        />
 
-        <Field
+        <Select
+          id="office-companyId"
           label={t('office.fields.company')}
-          htmlFor="office-companyId"
-          hint={t('office.form.companyHint')}
+          helpText={t('office.form.companyHint')}
           className="col-md-6"
-        >
-          <select
-            id="office-companyId"
-            className="form-select"
-            value={state.companyId}
-            onChange={(event) => set('companyId', event.target.value)}
-          >
-            <option value="">{t('office.form.attachedToOrganization')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('office.form.attachedToOrganization')}
+          options={
+            companies.data?.items.map((company) => ({
+              value: String(company.id),
+              label: company.displayName,
+            })) ?? []
+          }
+          value={state.companyId === '' ? null : state.companyId}
+          onChange={(value) => set('companyId', value ?? '')}
+        />
 
-        <Field label={t('office.fields.phone')} htmlFor="office-phone" className="col-md-6">
-          <input
-            id="office-phone"
-            className="form-control"
-            value={state.phone}
-            onChange={(event) => set('phone', event.target.value)}
-          />
-        </Field>
+        <Input
+          id="office-phone"
+          label={t('office.fields.phone')}
+          className="col-md-6"
+          value={state.phone}
+          onChange={(value) => set('phone', value)}
+        />
 
-        <Field label={t('office.fields.fax')} htmlFor="office-fax" className="col-md-6">
-          <input
-            id="office-fax"
-            className="form-control"
-            value={state.fax}
-            onChange={(event) => set('fax', event.target.value)}
-          />
-        </Field>
+        <Input
+          id="office-fax"
+          label={t('office.fields.fax')}
+          className="col-md-6"
+          value={state.fax}
+          onChange={(value) => set('fax', value)}
+        />
 
-        <Field label={t('office.fields.city')} htmlFor="office-cityId" className="col-md-6">
-          <select
-            id="office-cityId"
-            className="form-select"
-            value={state.cityId}
-            onChange={(event) => {
-              set('cityId', event.target.value)
-              set('districtId', '')
-            }}
-          >
-            <option value="">{t('common.none')}</option>
-            {cities.data?.items.map((city) => (
-              <option key={city.id} value={city.id}>
-                {city.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="office-cityId"
+          label={t('office.fields.city')}
+          className="col-md-6"
+          placeholder={t('common.none')}
+          options={
+            cities.data?.items.map((city) => ({
+              value: String(city.id),
+              label: city.displayName,
+            })) ?? []
+          }
+          value={state.cityId === '' ? null : state.cityId}
+          onChange={(value) => {
+            set('cityId', value ?? '')
+            set('districtId', '')
+          }}
+        />
 
-        <Field label={t('office.fields.district')} htmlFor="office-districtId" className="col-md-6">
-          <select
-            id="office-districtId"
-            className="form-select"
-            value={state.districtId}
-            disabled={!state.cityId}
-            onChange={(event) => set('districtId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {districts.data?.items.map((district) => (
-              <option key={district.id} value={district.id}>
-                {district.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="office-districtId"
+          label={t('office.fields.district')}
+          className="col-md-6"
+          placeholder={t('common.none')}
+          disabled={!state.cityId}
+          options={
+            districts.data?.items.map((district) => ({
+              value: String(district.id),
+              label: district.displayName,
+            })) ?? []
+          }
+          value={state.districtId === '' ? null : state.districtId}
+          onChange={(value) => set('districtId', value ?? '')}
+        />
 
-        <Field label={t('office.fields.address')} htmlFor="office-address" className="col-12">
-          <textarea
-            id="office-address"
-            className="form-control"
-            rows={2}
-            value={state.address}
-            onChange={(event) => set('address', event.target.value)}
-          />
-        </Field>
+        <TextArea
+          id="office-address"
+          label={t('office.fields.address')}
+          className="col-12"
+          rows={2}
+          value={state.address}
+          onChange={(value) => set('address', value)}
+        />
 
-        <Field
+        <Input
+          id="office-authorizedPerson"
           label={t('office.fields.authorizedPerson')}
-          htmlFor="office-authorizedPerson"
           className="col-md-6"
-        >
-          <input
-            id="office-authorizedPerson"
-            className="form-control"
-            value={state.authorizedPerson}
-            onChange={(event) => set('authorizedPerson', event.target.value)}
-          />
-        </Field>
+          value={state.authorizedPerson}
+          onChange={(value) => set('authorizedPerson', value)}
+        />
 
-        <Field
+        <Input
+          id="office-authorizedEmail"
+          type="email"
           label={t('office.fields.authorizedEmail')}
-          htmlFor="office-authorizedEmail"
           className="col-md-6"
-        >
-          <input
-            id="office-authorizedEmail"
-            type="email"
-            className="form-control"
-            value={state.authorizedEmail}
-            onChange={(event) => set('authorizedEmail', event.target.value)}
-          />
-        </Field>
+          value={state.authorizedEmail}
+          onChange={(value) => set('authorizedEmail', value)}
+        />
 
         <div className="col-md-6">
-          <div className="form-check">
-            <input
-              id="office-headquarterOffice"
-              type="checkbox"
-              className="form-check-input"
-              checked={state.headquarterOffice}
-              onChange={(event) => set('headquarterOffice', event.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="office-headquarterOffice">
-              {t('office.fields.headquarterOffice')}
-            </label>
-          </div>
-          <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-            {t('office.form.headquarterHint')}
-          </div>
+          <CheckBox
+            id="office-headquarterOffice"
+            checked={state.headquarterOffice}
+            onChange={(checked) => set('headquarterOffice', checked)}
+            label={t('office.fields.headquarterOffice')}
+            helpText={t('office.form.headquarterHint')}
+          />
         </div>
 
         {isEdit && (
-          <Field label={t('office.fields.status')} htmlFor="office-isActive" className="col-md-6">
-            <select
-              id="office-isActive"
-              className="form-select"
-              value={state.isActive ? 'true' : 'false'}
-              onChange={(event) => set('isActive', event.target.value === 'true')}
-            >
-              <option value="true">{t('common.active')}</option>
-              <option value="false">{t('common.passive')}</option>
-            </select>
-          </Field>
+          <Select
+            id="office-isActive"
+            label={t('office.fields.status')}
+            className="col-md-6"
+            options={[
+              { value: 'true', label: t('common.active') },
+              { value: 'false', label: t('common.passive') },
+            ]}
+            value={state.isActive ? 'true' : 'false'}
+            onChange={(value) => set('isActive', value === 'true')}
+          />
         )}
       </div>
     </Modal>

@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, NumberInput, Select, TextArea } from 'rich-react-component'
 import { useReferenceData } from '@/api/endpoints'
 import { CashTransactionType, SourceModule } from '@/api/enums'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import type { CreateCashTransactionDto } from './api'
 import { EnumField, enumValues, parseDecimal, todayInput } from './components'
 
@@ -35,7 +36,7 @@ export default function CashTransactionForm({
   const [operationType, setOperationType] = useState<CashTransactionType>(
     CashTransactionType.Inflow,
   )
-  const [amount, setAmount] = useState('')
+  const [amount, setAmount] = useState<number | null>(null)
   const [paymentMethodId, setPaymentMethodId] = useState('')
   const [exitItemId, setExitItemId] = useState('')
   const [operationDate, setOperationDate] = useState(todayInput())
@@ -49,7 +50,7 @@ export default function CashTransactionForm({
 
   function handleSubmit() {
     const errors: Record<string, string> = {}
-    const parsedAmount = parseDecimal(amount)
+    const parsedAmount = amount ?? 0
     const parsedMethod = Math.round(parseDecimal(paymentMethodId))
 
     if (parsedAmount <= 0) errors.amount = t('finance.cashRegister.transaction.amountPositive')
@@ -94,96 +95,69 @@ export default function CashTransactionForm({
           className="col-md-4"
         />
 
-        <Field
+        <NumberInput
+          id="transaction-amount"
           label={t('finance.cashRegister.transaction.fields.amountWithCurrency')}
-          htmlFor="transaction-amount"
           required
           error={validation.amount}
           className="col-md-4"
-        >
-          <input
-            id="transaction-amount"
-            type="number"
-            step="0.01"
-            min="0"
-            className={controlClass('form-control text-end', validation.amount)}
-            value={amount}
-            aria-invalid={validation.amount ? true : undefined}
-            onChange={(event) => setAmount(event.target.value)}
-          />
-        </Field>
+          min={0}
+          step={0.01}
+          value={amount}
+          onChange={setAmount}
+        />
 
-        <Field
+        <Input
+          id="transaction-date"
           label={t('finance.cashRegister.transaction.fields.operationDate')}
-          htmlFor="transaction-date"
           className="col-md-4"
-        >
-          <input
-            id="transaction-date"
-            type="date"
-            className="form-control"
-            value={operationDate}
-            onChange={(event) => setOperationDate(event.target.value)}
-          />
-        </Field>
+          value={operationDate}
+          inputProps={{ type: 'date' }}
+          onChange={setOperationDate}
+        />
 
-        <Field
+        <Select<string>
+          id="transaction-payment-method"
           label={t('finance.cashRegister.transaction.fields.paymentMethodId')}
-          htmlFor="transaction-payment-method"
           required
           error={validation.paymentMethodId}
           className="col-md-6"
-        >
-          <select
-            id="transaction-payment-method"
-            className={controlClass('form-select', validation.paymentMethodId)}
-            value={paymentMethodId}
-            aria-invalid={validation.paymentMethodId ? true : undefined}
-            onChange={(event) => setPaymentMethodId(event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {paymentMethods.data?.items.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          value={paymentMethodId || null}
+          options={
+            paymentMethods.data?.items.map((item) => ({
+              value: String(item.id),
+              label: item.displayName,
+            })) ?? []
+          }
+          onChange={(next) => setPaymentMethodId(next ?? '')}
+        />
 
         {isOutflow && (
-          <Field
+          <Select<string>
+            id="transaction-exit-item"
             label={t('finance.cashRegister.transaction.fields.exitItemId')}
-            htmlFor="transaction-exit-item"
             className="col-md-6"
-          >
-            <select
-              id="transaction-exit-item"
-              className="form-select"
-              value={exitItemId}
-              onChange={(event) => setExitItemId(event.target.value)}
-            >
-              <option value="">{t('common.none')}</option>
-              {serviceItems.data?.items.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.displayName}
-                </option>
-              ))}
-            </select>
-          </Field>
+            placeholder={t('common.none')}
+            value={exitItemId || null}
+            options={
+              serviceItems.data?.items.map((item) => ({
+                value: String(item.id),
+                label: item.displayName,
+              })) ?? []
+            }
+            onChange={(next) => setExitItemId(next ?? '')}
+          />
         )}
 
-        <Field
+        <TextArea
+          id="transaction-description"
           label={t('finance.cashRegister.transaction.fields.description')}
-          htmlFor="transaction-description"
-        >
-          <textarea
-            id="transaction-description"
-            className="form-control"
-            rows={2}
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </Field>
+          className="col-12"
+          rows={2}
+          value={description}
+          onChange={setDescription}
+        />
       </div>
 
       <p className="mt-4 mb-0" style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>

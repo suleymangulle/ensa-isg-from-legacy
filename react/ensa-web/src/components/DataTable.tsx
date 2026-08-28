@@ -1,5 +1,24 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  Alert,
+  DataGrid,
+  PageHeader,
+  Skeleton,
+  Spinner as RichSpinner,
+  type DataGridColumn,
+} from 'rich-react-component'
+
+/**
+ * List-screen primitives, built on `rich-react-component`.
+ *
+ * The library owns the markup — `DataGrid`, `PageHeader`, `Spinner`, `Alert` — and this module
+ * owns what the library deliberately does not: the Turkish and English copy. The library's
+ * loading text, its pagination labels and its empty-state default are English literals, so the
+ * states that carry words are rendered here and only the wordless ones are handed to it.
+ *
+ * The exported names and their props are unchanged, so every module page keeps working.
+ */
 
 export interface Column<T> {
   /** Stable identifier used as the React key — never shown to the user. */
@@ -21,6 +40,13 @@ interface DataTableProps<T> {
   emptyMessage?: string
   /** Accessible name of the table. */
   label: string
+  /** Placeholder rows drawn while loading. Defaults to five. */
+  skeletonRows?: number
+}
+
+/** One placeholder row. The grid needs a row object; nothing is read off it but the key. */
+interface PlaceholderRow {
+  key: number
 }
 
 export default function DataTable<T>({
@@ -31,60 +57,60 @@ export default function DataTable<T>({
   error,
   emptyMessage,
   label,
+  skeletonRows = 5,
 }: DataTableProps<T>) {
   const { t } = useTranslation()
 
-  if (isLoading) return <Spinner />
+  // Loading and failure are rendered here rather than through the grid's own `loading` / `error`
+  // props: those render an English "Loading…" and a bare red row.
+  //
+  // Loading draws the real grid with placeholder cells rather than a spinner in an empty box, so
+  // the column headers are readable while the rows arrive and the page does not jump once they do.
+  if (isLoading) {
+    const placeholders: PlaceholderRow[] = Array.from(
+      { length: skeletonRows }, (_, index) => ({ key: index }))
 
-  if (error) {
+    const placeholderColumns: DataGridColumn<PlaceholderRow>[] = columns.map((column) => ({
+      key: column.key,
+      header: column.header,
+      align: column.align,
+      width: column.width,
+      render: (row) => <Skeleton width={row.key % 3 === 2 ? '55%' : '80%'} height="1rem" />,
+    }))
+
     return (
-      <div
-        className="alert border-0 m-0"
-        style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-        role="alert"
-      >
-        {error}
+      <div role="group" aria-label={label}>
+        <span className="visually-hidden" role="status">
+          {t('common.loading')}
+        </span>
+        <DataGrid
+          columns={placeholderColumns}
+          rows={placeholders}
+          rowKey={(row) => row.key}
+          emptyText=""
+        />
       </div>
     )
   }
 
-  if (!rows?.length) {
-    return (
-      <div className="text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
-        {emptyMessage ?? t('table.empty')}
-      </div>
-    )
-  }
+  if (error) return <ErrorPanel message={error} flush />
+
+  const gridColumns: DataGridColumn<T>[] = columns.map((column) => ({
+    key: column.key,
+    header: column.header,
+    align: column.align,
+    width: column.width,
+    render: column.render,
+  }))
 
   return (
-    <div className="table-responsive">
-      <table className="table table-hover align-middle mb-0" aria-label={label}>
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th
-                key={column.key}
-                scope="col"
-                style={{ width: column.width }}
-                className={column.align ? `text-${column.align}` : undefined}
-              >
-                {column.header}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={rowKey(row)}>
-              {columns.map((column) => (
-                <td key={column.key} className={column.align ? `text-${column.align}` : undefined}>
-                  {column.render(row)}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div role="group" aria-label={label}>
+      <DataGrid
+        columns={gridColumns}
+        rows={rows ?? []}
+        rowKey={rowKey}
+        emptyText={emptyMessage ?? t('table.empty')}
+      />
     </div>
   )
 }
@@ -94,9 +120,7 @@ export function Spinner() {
   const { t } = useTranslation()
   return (
     <div className="text-center py-5">
-      <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">{t('common.loading')}</span>
-      </div>
+      <RichSpinner label={t('common.loading')} />
     </div>
   )
 }
@@ -108,6 +132,12 @@ interface PaginationProps {
   onPageChange: (nextPage: number) => void
 }
 
+/**
+ * The one control still drawn here rather than taken from the library: `Pagination`'s "Previous"
+ * and "Next" labels and its `aria-label` are English literals with no prop to change them, and a
+ * Turkish-first product cannot ship an English pager. Swap this body for `RichPagination` the day
+ * the library accepts those labels.
+ */
 export function Pagination({ total, page, pageSize, onPageChange }: PaginationProps) {
   const { t } = useTranslation()
 
@@ -152,32 +182,14 @@ export function PageTitle({
   description?: string
   action?: ReactNode
 }) {
-  return (
-    <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
-      <div>
-        <h1 className="h3 fw-bold mb-1" style={{ color: 'var(--kt-gray-900)' }}>
-          {title}
-        </h1>
-        {description && (
-          <p className="mb-0" style={{ color: 'var(--kt-gray-500)' }}>
-            {description}
-          </p>
-        )}
-      </div>
-      {action}
-    </div>
-  )
+  return <PageHeader title={title} description={description} actions={action} />
 }
 
 /** Inline error panel used by pages that render outside a DataTable. */
-export function ErrorPanel({ message }: { message: string }) {
+export function ErrorPanel({ message, flush }: { message: string; flush?: boolean }) {
   return (
-    <div
-      className="alert border-0"
-      style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-      role="alert"
-    >
+    <Alert variant="danger" className={flush ? 'm-0' : undefined}>
       {message}
-    </div>
+    </Alert>
   )
 }

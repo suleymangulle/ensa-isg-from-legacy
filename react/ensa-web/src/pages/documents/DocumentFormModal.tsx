@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckBox, Input, NumberInput, Select } from 'rich-react-component'
 import { Field, Modal, controlClass } from '@/components/Form'
 import { useCreate, useUpdate } from '@/api/mutations'
 import { errorMessage } from '@/api/http'
@@ -22,36 +23,28 @@ interface DocumentFormModalProps {
 
 interface FormState {
   documentName: string
-  documentCategoryId: string
-  companyId: string
+  documentCategoryId: number | null
+  companyId: number | null
   extension: string
   contentType: string
-  sizeBytes: string
+  sizeBytes: number | null
   sha256: string
   ownerType: DocumentOwnerType
-  ownerRecordId: string
+  ownerRecordId: number | null
   isActive: boolean
 }
 
 const EMPTY: FormState = {
   documentName: '',
-  documentCategoryId: '',
-  companyId: '',
+  documentCategoryId: null,
+  companyId: null,
   extension: '',
   contentType: '',
-  sizeBytes: '0',
+  sizeBytes: 0,
   sha256: '',
   ownerType: DocumentOwnerType.Unspecified,
-  ownerRecordId: '',
+  ownerRecordId: null,
   isActive: true,
-}
-
-/** Optional integer field -> `number | null`. */
-function optionalInt(value: string): number | null {
-  const trimmed = value.trim()
-  if (!trimmed) return null
-  const parsed = Number(trimmed)
-  return Number.isFinite(parsed) ? Math.trunc(parsed) : null
 }
 
 /**
@@ -89,14 +82,14 @@ export default function DocumentFormModal({
       existing
         ? {
             documentName: existing.documentName,
-            documentCategoryId: existing.documentCategoryId?.toString() ?? '',
-            companyId: existing.companyId?.toString() ?? '',
+            documentCategoryId: existing.documentCategoryId ?? null,
+            companyId: existing.companyId ?? null,
             extension: existing.extension ?? '',
             contentType: existing.contentType ?? '',
-            sizeBytes: existing.sizeBytes.toString(),
+            sizeBytes: existing.sizeBytes,
             sha256: existing.sha256 ?? '',
             ownerType: existing.ownerType,
-            ownerRecordId: existing.ownerRecordId?.toString() ?? '',
+            ownerRecordId: existing.ownerRecordId ?? null,
             isActive: existing.isActive,
           }
         : EMPTY,
@@ -123,7 +116,7 @@ export default function DocumentFormModal({
       documentName: file.name,
       extension: extensionOf(file.name) ?? '',
       contentType: file.type,
-      sizeBytes: file.size.toString(),
+      sizeBytes: file.size,
     })
 
     if (!canHashLocally()) {
@@ -145,8 +138,9 @@ export default function DocumentFormModal({
     const nextErrors: Partial<Record<keyof FormState, string>> = {}
     if (!form.documentName.trim()) nextErrors.documentName = t('validation.required')
 
-    const size = Number(form.sizeBytes)
-    if (!Number.isFinite(size) || size < 0) nextErrors.sizeBytes = t('document.form.invalidSize')
+    if (form.sizeBytes !== null && form.sizeBytes < 0) {
+      nextErrors.sizeBytes = t('document.form.invalidSize')
+    }
 
     const digest = form.sha256.trim().toLowerCase()
     if (digest && !/^[0-9a-f]{64}$/.test(digest)) {
@@ -158,14 +152,14 @@ export default function DocumentFormModal({
 
     const input: SaveDocumentDto = {
       documentName: form.documentName.trim(),
-      documentCategoryId: optionalInt(form.documentCategoryId),
-      companyId: optionalInt(form.companyId),
+      documentCategoryId: form.documentCategoryId,
+      companyId: form.companyId,
       extension: form.extension.trim() || null,
       contentType: form.contentType.trim() || null,
-      sizeBytes: Math.trunc(size),
+      sizeBytes: Math.trunc(form.sizeBytes ?? 0),
       sha256: digest || null,
       ownerType: form.ownerType,
-      ownerRecordId: optionalInt(form.ownerRecordId),
+      ownerRecordId: form.ownerRecordId,
       isActive: form.isActive,
     }
 
@@ -223,65 +217,41 @@ export default function DocumentFormModal({
           </div>
         )}
 
-        <Field
+        <Input
+          id="document-name"
           label={t('document.fields.documentName')}
-          htmlFor="document-name"
           required
           error={errors.documentName}
           className="col-md-8"
-        >
-          <input
-            id="document-name"
-            type="text"
-            className={controlClass('form-control', errors.documentName)}
-            value={form.documentName}
-            onChange={(event) => patch({ documentName: event.target.value })}
-          />
-        </Field>
+          value={form.documentName}
+          onChange={(value) => patch({ documentName: value })}
+        />
 
-        <Field
+        <Input
+          id="document-extension"
           label={t('document.fields.extension')}
-          htmlFor="document-extension"
           className="col-md-4"
-        >
-          <input
-            id="document-extension"
-            type="text"
-            className="form-control"
-            value={form.extension}
-            onChange={(event) => patch({ extension: event.target.value })}
-          />
-        </Field>
+          value={form.extension}
+          onChange={(value) => patch({ extension: value })}
+        />
 
-        <Field
+        <Input
+          id="document-content-type"
           label={t('document.fields.contentType')}
-          htmlFor="document-content-type"
           className="col-md-6"
-        >
-          <input
-            id="document-content-type"
-            type="text"
-            className="form-control"
-            value={form.contentType}
-            onChange={(event) => patch({ contentType: event.target.value })}
-          />
-        </Field>
+          value={form.contentType}
+          onChange={(value) => patch({ contentType: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="document-size"
           label={t('document.fields.sizeBytes')}
-          htmlFor="document-size"
           error={errors.sizeBytes}
           className="col-md-6"
-        >
-          <input
-            id="document-size"
-            type="number"
-            min={0}
-            className={controlClass('form-control', errors.sizeBytes)}
-            value={form.sizeBytes}
-            onChange={(event) => patch({ sizeBytes: event.target.value })}
-          />
-        </Field>
+          min={0}
+          value={form.sizeBytes}
+          onChange={(value) => patch({ sizeBytes: value })}
+        />
 
         <Field
           label={t('document.fields.sha256')}
@@ -298,86 +268,58 @@ export default function DocumentFormModal({
           />
         </Field>
 
-        <Field
+        <Select
+          id="document-company"
           label={t('document.fields.company')}
-          htmlFor="document-company"
           className="col-md-6"
-        >
-          <select
-            id="document-company"
-            className="form-select"
-            value={form.companyId}
-            onChange={(event) => patch({ companyId: event.target.value })}
-          >
-            <option value="">{t('document.form.noCompany')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('document.form.noCompany')}
+          options={(companies.data?.items ?? []).map((company) => ({
+            value: company.id,
+            label: company.displayName,
+          }))}
+          value={form.companyId}
+          onChange={(value) => patch({ companyId: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="document-category"
           label={t('document.fields.category')}
-          htmlFor="document-category"
-          hint={t('document.form.categoryHint')}
+          helpText={t('document.form.categoryHint')}
           className="col-md-6"
-        >
-          <input
-            id="document-category"
-            type="number"
-            min={1}
-            className="form-control"
-            value={form.documentCategoryId}
-            onChange={(event) => patch({ documentCategoryId: event.target.value })}
-          />
-        </Field>
+          min={1}
+          value={form.documentCategoryId}
+          onChange={(value) => patch({ documentCategoryId: value })}
+        />
 
-        <Field label={t('document.fields.ownerType')} htmlFor="document-owner-type" className="col-md-6">
-          <select
-            id="document-owner-type"
-            className="form-select"
-            value={form.ownerType}
-            onChange={(event) => patch({ ownerType: Number(event.target.value) })}
-          >
-            {OWNER_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.documentOwnerType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="document-owner-type"
+          label={t('document.fields.ownerType')}
+          className="col-md-6"
+          options={OWNER_TYPES.map((value) => ({
+            value,
+            label: t(`enums.documentOwnerType.${value}`),
+          }))}
+          value={form.ownerType}
+          onChange={(value) => value !== null && patch({ ownerType: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="document-owner-record"
           label={t('document.fields.ownerRecordId')}
-          htmlFor="document-owner-record"
-          hint={t('document.form.ownerRecordHint')}
+          helpText={t('document.form.ownerRecordHint')}
           className="col-md-6"
-        >
-          <input
-            id="document-owner-record"
-            type="number"
-            min={1}
-            className="form-control"
-            value={form.ownerRecordId}
-            onChange={(event) => patch({ ownerRecordId: event.target.value })}
-          />
-        </Field>
+          min={1}
+          value={form.ownerRecordId}
+          onChange={(value) => patch({ ownerRecordId: value })}
+        />
 
         <div className="col-12">
-          <div className="form-check">
-            <input
-              id="document-active"
-              type="checkbox"
-              className="form-check-input"
-              checked={form.isActive}
-              onChange={(event) => patch({ isActive: event.target.checked })}
-            />
-            <label htmlFor="document-active" className="form-check-label">
-              {t('common.active')}
-            </label>
-          </div>
+          <CheckBox
+            id="document-active"
+            label={t('common.active')}
+            checked={form.isActive}
+            onChange={(checked) => patch({ isActive: checked })}
+          />
         </div>
       </div>
     </Modal>

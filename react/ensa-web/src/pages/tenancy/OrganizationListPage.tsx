@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -87,9 +88,9 @@ export default function OrganizationListPage() {
       header: t('organization.fields.status'),
       align: 'center',
       render: (organization) => (
-        <span className={organization.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={organization.isActive ? 'success' : 'danger'}>
           {organization.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -99,24 +100,20 @@ export default function OrganizationListPage() {
       width: '140px',
       render: (organization) => (
         <div className="d-inline-flex gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setEditingId(organization.id)}
             aria-label={t('organization.actions.editNamed', { name: organization.name })}
             title={t('common.edit')}
           >
             ✎
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setPendingDelete(organization)}
             aria-label={t('organization.actions.deleteNamed', { name: organization.name })}
             title={t('common.delete')}
           >
             ✕
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -128,14 +125,15 @@ export default function OrganizationListPage() {
         title={t('organization.list.title')}
         description={t('organization.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('organization.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0 d-block">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(value) => {
@@ -144,51 +142,48 @@ export default function OrganizationListPage() {
             }}
             placeholder={t('organization.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ maxWidth: 180 }}>
               <label htmlFor="organization-filter-active" className="visually-hidden">
                 {t('organization.filters.status')}
               </label>
-              <select
+              <Select
                 id="organization-filter-active"
-                className="form-select"
-                style={{ maxWidth: 180 }}
-                value={activeState}
-                onChange={(event) => {
-                  setActiveState(event.target.value)
+                options={[
+                  { value: 'true', label: t('common.active') },
+                  { value: 'false', label: t('common.passive') },
+                ]}
+                value={activeState === '' ? null : activeState}
+                onChange={(value) => {
+                  setActiveState(value ?? '')
                   setPage(1)
                 }}
-              >
-                <option value="">{t('organization.filters.allStatuses')}</option>
-                <option value="true">{t('common.active')}</option>
-                <option value="false">{t('common.passive')}</option>
-              </select>
+                placeholder={t('organization.filters.allStatuses')}
+              />
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('organization.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(organization) => organization.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('organization.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('organization.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(organization) => organization.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('organization.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <OrganizationFormModal onClose={() => setCreateOpen(false)} />}
       {editingId !== null && editing.data && (

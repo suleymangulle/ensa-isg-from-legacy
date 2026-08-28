@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Button, CheckBox, Spinner } from 'rich-react-component'
 import { ErrorPanel } from '@/components/DataTable'
 import { ExistingControlMeasure, ExposedPersonGroup, ImprovementAction } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
@@ -112,35 +113,25 @@ function EnumSet({
           const inputId = `${groupId}-${value}`
           return (
             <div className="col-md-6 col-lg-4" key={value}>
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id={inputId}
-                  checked={values.includes(value)}
-                  onChange={() => toggle(value)}
-                />
-                <label className="form-check-label" htmlFor={inputId}>
-                  {t(`enums.${enumName}.${value}`)}
-                </label>
-              </div>
+              <CheckBox
+                id={inputId}
+                checked={values.includes(value)}
+                onChange={() => toggle(value)}
+                label={t(`enums.${enumName}.${value}`)}
+              />
             </div>
           )
         })}
       </div>
 
       <div className="d-flex align-items-center gap-3 mt-3">
-        <button
-          type="button"
-          className="btn btn-sm btn-primary"
+        <Button variant="primary" size="sm"
           disabled={!isDirty || save.isPending}
           onClick={() => save.mutate(values)}
         >
-          {save.isPending && (
-            <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />
-          )}
+          {save.isPending && <Spinner label={t('common.loading')} size="sm" className="me-2" />}
           {t('common.save')}
-        </button>
+        </Button>
         {isDirty && (
           <span style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>
             {t('riskAssessment.sets.unsaved')}

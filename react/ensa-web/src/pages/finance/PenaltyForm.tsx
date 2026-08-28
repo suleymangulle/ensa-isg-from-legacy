@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { CheckBox, Input, TextArea } from 'rich-react-component'
+import { Modal } from '@/components/Form'
 import type { PenaltyDto, SavePenaltyDto } from './api'
 
 /**
@@ -64,93 +65,61 @@ export default function PenaltyForm({
       size="lg"
     >
       <div className="row g-4">
-        <Field
+        <Input
+          id="penalty-code"
           label={t('finance.penalty.fields.treeNodeCode')}
-          htmlFor="penalty-code"
           className="col-md-4"
-        >
-          <input
-            id="penalty-code"
-            type="text"
-            className="form-control"
-            value={treeNodeCode}
-            onChange={(event) => setTreeNodeCode(event.target.value)}
-          />
-        </Field>
+          value={treeNodeCode}
+          onChange={setTreeNodeCode}
+        />
 
-        <Field
+        <Input
+          id="penalty-law-article"
           label={t('finance.penalty.fields.lawArticle')}
-          htmlFor="penalty-law-article"
           required
           error={validation.lawArticle}
           className="col-md-8"
-        >
-          <input
-            id="penalty-law-article"
-            type="text"
-            className={controlClass('form-control', validation.lawArticle)}
-            value={lawArticle}
-            aria-invalid={validation.lawArticle ? true : undefined}
-            onChange={(event) => setLawArticle(event.target.value)}
-          />
-        </Field>
+          value={lawArticle}
+          onChange={setLawArticle}
+        />
 
-        <Field
+        <TextArea
+          id="penalty-article"
           label={t('finance.penalty.fields.penaltyArticle')}
-          htmlFor="penalty-article"
           required
           error={validation.penaltyArticle}
-        >
-          <textarea
-            id="penalty-article"
-            className={controlClass('form-control', validation.penaltyArticle)}
-            rows={2}
-            value={penaltyArticle}
-            aria-invalid={validation.penaltyArticle ? true : undefined}
-            onChange={(event) => setPenaltyArticle(event.target.value)}
-          />
-        </Field>
+          className="col-12"
+          rows={2}
+          value={penaltyArticle}
+          onChange={setPenaltyArticle}
+        />
 
-        <Field label={t('finance.penalty.fields.offence')} htmlFor="penalty-offence">
-          <textarea
-            id="penalty-offence"
-            className="form-control"
-            rows={2}
-            value={offence}
-            onChange={(event) => setOffence(event.target.value)}
-          />
-        </Field>
+        <TextArea
+          id="penalty-offence"
+          label={t('finance.penalty.fields.offence')}
+          className="col-12"
+          rows={2}
+          value={offence}
+          onChange={setOffence}
+        />
 
         <div className="col-12">
-          <div className="form-check">
-            <input
-              id="penalty-multiplier"
-              type="checkbox"
-              className="form-check-input"
-              checked={multiplier}
-              onChange={(event) => setMultiplier(event.target.checked)}
-            />
-            <label htmlFor="penalty-multiplier" className="form-check-label">
-              {t('finance.penalty.fields.multiplierCalculate')}
-            </label>
-            <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-              {t('finance.penalty.form.multiplierHint')}
-            </div>
-          </div>
+          <CheckBox
+            id="penalty-multiplier"
+            label={t('finance.penalty.fields.multiplierCalculate')}
+            helpText={t('finance.penalty.form.multiplierHint')}
+            checked={multiplier}
+            onChange={setMultiplier}
+          />
 
           {penalty && (
-            <div className="form-check mt-2">
-              <input
-                id="penalty-active"
-                type="checkbox"
-                className="form-check-input"
-                checked={isActive}
-                onChange={(event) => setActive(event.target.checked)}
-              />
-              <label htmlFor="penalty-active" className="form-check-label">
-                {t('common.active')}
-              </label>
-            </div>
+            <CheckBox
+              id="penalty-active"
+              label={t('common.active')}
+              className="mt-2"
+              checked={isActive}
+              onChange={setActive}
+            />
           )}
         </div>
       </div>

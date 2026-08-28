@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, TextArea } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import { useCloseCorrectiveAction } from './api'
 import { toDateInput } from './components'
 
@@ -41,39 +42,27 @@ export default function CorrectiveActionCloseModal({
       error={close.error ? errorMessage(close.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <TextArea
+          id="action-close-result"
           label={t('correctiveAction.fields.result')}
-          htmlFor="action-close-result"
           required
           error={errors.result}
           className="col-12"
-        >
-          <textarea
-            id="action-close-result"
-            className={controlClass('form-control', errors.result)}
-            rows={4}
-            value={result}
-            aria-invalid={errors.result ? true : undefined}
-            onChange={(event) => setResult(event.target.value)}
-          />
-        </Field>
+          rows={4}
+          value={result}
+          onChange={setResult}
+        />
 
-        <Field
+        <Input
+          id="action-close-date"
           label={t('correctiveAction.fields.resultDate')}
-          htmlFor="action-close-date"
           required
           error={errors.resultDate}
           className="col-md-6"
-        >
-          <input
-            id="action-close-date"
-            type="date"
-            className={controlClass('form-control', errors.resultDate)}
-            value={resultDate}
-            aria-invalid={errors.resultDate ? true : undefined}
-            onChange={(event) => setResultDate(event.target.value)}
-          />
-        </Field>
+          value={resultDate}
+          onChange={setResultDate}
+          inputProps={{ type: 'date' }}
+        />
       </div>
     </Modal>
   )

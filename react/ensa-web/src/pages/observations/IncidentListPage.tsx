@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Switch } from 'rich-react-component'
 import DataTable, { PageTitle, Pagination, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { IncidentType } from '@/api/enums'
@@ -123,9 +124,9 @@ export default function IncidentListPage() {
       key: 'incidentType',
       header: t('incident.fields.incidentType'),
       render: (row) => (
-        <span className={INCIDENT_TYPE_BADGE[row.incidentType]}>
+        <Badge variant={INCIDENT_TYPE_BADGE[row.incidentType]}>
           {t(`enums.incidentType.${row.incidentType}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -166,9 +167,9 @@ export default function IncidentListPage() {
         title={t('incident.list.title')}
         description={t('incident.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsCreating(true)}>
+          <Button variant="primary" onClick={() => setIsCreating(true)}>
             {t('incident.list.create')}
-          </button>
+          </Button>
         }
       />
 
@@ -180,9 +181,7 @@ export default function IncidentListPage() {
             </strong>
             <span>{t('incident.ssi.bannerDescription')}</span>
           </div>
-          <button
-            type="button"
-            className="btn btn-sm btn-danger"
+          <Button variant="danger" size="sm"
             onClick={() => {
               setOnlyPending(true)
               setPage(1)
@@ -190,12 +189,13 @@ export default function IncidentListPage() {
             disabled={onlyPending}
           >
             {t('incident.ssi.showPending')}
-          </button>
+          </Button>
         </AlertPanel>
       )}
 
-      <div className="card">
-        <div className="card-header pt-4 pb-0 border-0">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetPage(setSearch)}
@@ -230,47 +230,38 @@ export default function IncidentListPage() {
               ))}
             </FilterSelect>
 
-            <div className="form-check form-switch mb-0">
-              <input
-                id="incident-filter-pending"
-                type="checkbox"
-                className="form-check-input"
-                checked={onlyPending}
-                onChange={(event) => {
-                  setOnlyPending(event.target.checked)
-                  setPage(1)
-                }}
-              />
-              <label className="form-check-label" htmlFor="incident-filter-pending">
-                {t('incident.list.onlyPending')}
-              </label>
-            </div>
+            <Switch
+              id="incident-filter-pending"
+              checked={onlyPending}
+              onChange={(checked) => {
+                setOnlyPending(checked)
+                setPage(1)
+              }}
+              label={t('incident.list.onlyPending')}
+            />
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('incident.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('incident.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('incident.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('incident.list.empty')}
+        />
+      </Card>
 
       {isCreating && <IncidentFormModal onClose={() => setIsCreating(false)} />}
 
@@ -300,9 +291,9 @@ function SsiStatus({ row }: { row: IncidentListDto }) {
 
   if (row.ssiNotificationDate) {
     return (
-      <span className="badge-light-success">
+      <Badge variant="success">
         {t('incident.ssi.notified', { date: formatDate(row.ssiNotificationDate) ?? '' })}
-      </span>
+      </Badge>
     )
   }
 
@@ -311,12 +302,12 @@ function SsiStatus({ row }: { row: IncidentListDto }) {
   }
 
   if (row.ssiNotificationOverdue) {
-    return <span className="badge-light-danger fw-bold">{t('incident.ssi.overdue')}</span>
+    return <Badge variant="danger" className="fw-bold">{t('incident.ssi.overdue')}</Badge>
   }
 
   return (
-    <span className="badge-light-warning">
+    <Badge variant="warning">
       {t('incident.ssi.dueBy', { date: formatDate(row.latestSsiNotificationDate) ?? '' })}
-    </span>
+    </Badge>
   )
 }

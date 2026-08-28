@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, type BadgeVariant } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { ConfirmDialog } from '@/components/Form'
@@ -80,11 +81,11 @@ export default function YearEndReviewDetailPage() {
     detail.data.company?.displayName ??
     t('reports.common.companyFallback', { id: report.companyId })
 
-  const workforce = [
-    { key: 'maleWorker', value: report.maleWorker ?? 0, colour: 'var(--kt-primary)' },
-    { key: 'femaleWorker', value: report.femaleWorker ?? 0, colour: 'var(--kt-info)' },
-    { key: 'youngWorker', value: report.youngWorker ?? 0, colour: 'var(--kt-warning)' },
-    { key: 'childWorker', value: report.childWorker ?? 0, colour: 'var(--kt-danger)' },
+  const workforce: { key: string; value: number; variant: BadgeVariant }[] = [
+    { key: 'maleWorker', value: report.maleWorker ?? 0, variant: 'primary' },
+    { key: 'femaleWorker', value: report.femaleWorker ?? 0, variant: 'info' },
+    { key: 'youngWorker', value: report.youngWorker ?? 0, variant: 'warning' },
+    { key: 'childWorker', value: report.childWorker ?? 0, variant: 'danger' },
   ]
   const headcount = (report.maleWorker ?? 0) + (report.femaleWorker ?? 0)
 
@@ -136,9 +137,9 @@ export default function YearEndReviewDetailPage() {
       header: t('reports.yearEnd.fields.status'),
       align: 'center',
       render: (item) => (
-        <span className={item.line.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={item.line.isActive ? 'success' : 'danger'}>
           {item.line.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -156,9 +157,7 @@ export default function YearEndReviewDetailPage() {
           onEdit={() => setEditingLine(item.line)}
           onDelete={() => setPendingDelete(item.line)}
           extra={
-            <button
-              type="button"
-              className="btn btn-sm btn-light"
+            <Button variant="light" size="sm"
               aria-label={t('reports.yearEnd.lineActions.addChild', {
                 name: item.line.work || `#${item.line.id}`,
               })}
@@ -166,7 +165,7 @@ export default function YearEndReviewDetailPage() {
               onClick={() => setAddingUnder({ parentId: item.line.id })}
             >
               <span aria-hidden="true">＋</span>
-            </button>
+            </Button>
           }
         />
       ),
@@ -196,13 +195,11 @@ export default function YearEndReviewDetailPage() {
         action={
           <div className="d-flex gap-2">
             <PrintButton />
-            <button
-              type="button"
-              className="btn btn-light-primary d-print-none"
+            <Button variant="light" className="d-print-none"
               onClick={() => setIsEditing(true)}
             >
               {t('common.edit')}
-            </button>
+            </Button>
           </div>
         }
       />
@@ -218,13 +215,15 @@ export default function YearEndReviewDetailPage() {
 
       <div className="row g-4 mb-4">
         <div className="col-12 col-xl-7">
-          <div className="card h-100">
-            <div className="card-header">
+          <Card
+            className="h-100"
+            header={
               <h2 className="card-title h6 mb-0 report-print-heading">
                 {t('reports.yearEnd.detail.headerTitle')}
               </h2>
-            </div>
-            <div className="card-body">
+            
+            }
+          >
               <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
                 <Term label={t('reports.yearEnd.fields.reportTitle')}>{report.reportTitle}</Term>
                 <Term label={t('reports.yearEnd.fields.company')}>{companyName}</Term>
@@ -242,18 +241,20 @@ export default function YearEndReviewDetailPage() {
                 </Term>
                 <Term label={t('reports.common.lineCount')}>{formatNumber(flatLines.length)}</Term>
               </dl>
-            </div>
-          </div>
+            
+          </Card>
         </div>
 
         <div className="col-12 col-xl-5">
-          <div className="card h-100">
-            <div className="card-header">
+          <Card
+            className="h-100"
+            header={
               <h2 className="card-title h6 mb-0 report-print-heading">
                 {t('reports.yearEnd.detail.workforceTitle')}
               </h2>
-            </div>
-            <div className="card-body">
+            
+            }
+          >
               {headcount === 0 ? (
                 <EmptyHint message={t('reports.yearEnd.detail.emptyWorkforce')} />
               ) : (
@@ -267,7 +268,7 @@ export default function YearEndReviewDetailPage() {
                       label={t(`reports.yearEnd.fields.${item.key}`)}
                       value={item.value}
                       total={headcount}
-                      colour={item.colour}
+                      variant={item.variant}
                       shareLabel={t('reports.common.percent', {
                         value: percentOf(item.value, headcount),
                       })}
@@ -275,25 +276,27 @@ export default function YearEndReviewDetailPage() {
                   ))}
                 </>
               )}
-            </div>
-          </div>
+            
+          </Card>
         </div>
       </div>
 
-      <div className="card">
-        <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <Card
+        
+        header={
+        <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
           <h2 className="card-title h6 mb-0 report-print-heading">
             {t('reports.yearEnd.detail.activitiesTitle')}
           </h2>
-          <button
-            type="button"
-            className="btn btn-sm btn-primary d-print-none"
+          <Button variant="primary" size="sm" className="d-print-none"
             onClick={() => setAddingUnder({ parentId: undefined })}
           >
             {t('reports.yearEnd.detail.addLine')}
-          </button>
+          </Button>
+        
         </div>
-        <div className="card-body p-0">
+        }
+      >
           <DataTable
             label={t('reports.yearEnd.detail.activitiesTitle')}
             columns={columns}
@@ -301,8 +304,8 @@ export default function YearEndReviewDetailPage() {
             rowKey={(item) => item.line.id}
             emptyMessage={t('reports.yearEnd.detail.emptyActivities')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditing && (
         <YearEndReviewFormModal report={report} onClose={() => setIsEditing(false)} />

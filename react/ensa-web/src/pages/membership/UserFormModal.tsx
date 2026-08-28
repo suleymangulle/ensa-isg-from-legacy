@@ -1,10 +1,18 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  CheckBox,
+  Input,
+  MultiSelect,
+  NumberInput,
+  Select,
+  TextArea,
+} from 'rich-react-component'
 import { StaffRole, useLookup } from '@/api/endpoints'
 import { useAuth } from '@/auth/AuthContext'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Field, Modal } from '@/components/Form'
 import {
   MEMBERSHIP_RESOURCES,
   fromDateInput,
@@ -266,105 +274,79 @@ export default function UserFormModal({ isOpen, user, onClose, onSaved }: UserFo
         </div>
 
         {!isEdit && (
-          <Field
+          <Input
+            id="user-userName"
             label={t('user.fields.userName')}
-            htmlFor="user-userName"
             required
             error={errors.userName}
-            hint={t('user.form.userNameHint')}
+            helpText={t('user.form.userNameHint')}
             className="col-md-4"
-          >
-            <input
-              id="user-userName"
-              className={controlClass('form-control', errors.userName)}
-              value={state.userName}
-              autoComplete="off"
-              onChange={(event) => set('userName', event.target.value)}
-            />
-          </Field>
+            value={state.userName}
+            inputProps={{ autoComplete: 'off' }}
+            onChange={(value) => set('userName', value)}
+          />
         )}
 
-        <Field
+        <Input
+          id="user-name"
           label={t('user.fields.name')}
-          htmlFor="user-name"
           required
           error={errors.name}
           className="col-md-4"
-        >
-          <input
-            id="user-name"
-            className={controlClass('form-control', errors.name)}
-            value={state.name}
-            onChange={(event) => set('name', event.target.value)}
-          />
-        </Field>
+          value={state.name}
+          onChange={(value) => set('name', value)}
+        />
 
-        <Field
+        <Input
+          id="user-lastName"
           label={t('user.fields.lastName')}
-          htmlFor="user-lastName"
           required
           error={errors.lastName}
           className="col-md-4"
-        >
-          <input
-            id="user-lastName"
-            className={controlClass('form-control', errors.lastName)}
-            value={state.lastName}
-            onChange={(event) => set('lastName', event.target.value)}
-          />
-        </Field>
+          value={state.lastName}
+          onChange={(value) => set('lastName', value)}
+        />
 
-        <Field label={t('user.fields.staffRole')} htmlFor="user-staffRole" className="col-md-4">
-          <select
-            id="user-staffRole"
-            className="form-select"
-            value={state.staffRole}
-            onChange={(event) => set('staffRole', Number(event.target.value) as StaffRole)}
-          >
-            {STAFF_ROLES.map((role) => (
-              <option key={role} value={role}>
-                {t(`enums.staffRole.${role}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="user-staffRole"
+          label={t('user.fields.staffRole')}
+          className="col-md-4"
+          options={STAFF_ROLES.map((role) => ({ value: role, label: t(`enums.staffRole.${role}`) }))}
+          value={state.staffRole}
+          onChange={(value) => set('staffRole', value ?? StaffRole.Unspecified)}
+        />
 
         {!isEdit && isHostCaller && (
-          <Field
+          <Select
+            id="user-tenantId"
             label={t('user.fields.organization')}
-            htmlFor="user-tenantId"
             required
             error={errors.tenantId}
-            hint={t('user.form.organizationHint')}
+            helpText={t('user.form.organizationHint')}
             className="col-md-4"
-          >
-            <select
-              id="user-tenantId"
-              className={controlClass('form-select', errors.tenantId)}
-              value={state.tenantId}
-              onChange={(event) => set('tenantId', event.target.value)}
-            >
-              <option value="">{t('common.none')}</option>
-              {organizations.data?.items.map((organization) => (
-                <option key={organization.id} value={organization.id}>
-                  {organization.displayName}
-                </option>
-              ))}
-            </select>
-          </Field>
+            placeholder={t('common.none')}
+            options={
+              organizations.data?.items.map((organization) => ({
+                value: String(organization.id),
+                label: organization.displayName,
+              })) ?? []
+            }
+            value={state.tenantId === '' ? null : state.tenantId}
+            onChange={(value) => set('tenantId', value ?? '')}
+          />
         )}
 
-        <Field label={t('user.fields.status')} htmlFor="user-isActive" className="col-md-4">
-          <select
-            id="user-isActive"
-            className="form-select"
-            value={state.isActive ? 'true' : 'false'}
-            onChange={(event) => set('isActive', event.target.value === 'true')}
-          >
-            <option value="true">{t('common.active')}</option>
-            <option value="false">{t('common.passive')}</option>
-          </select>
-        </Field>
+        <Select
+          id="user-isActive"
+          label={t('user.fields.status')}
+          className="col-md-4"
+          options={[
+            { value: 'true', label: t('common.active') },
+            { value: 'false', label: t('common.passive') },
+          ]}
+          value={state.isActive ? 'true' : 'false'}
+          onChange={(value) => set('isActive', value === 'true')}
+        />
 
         {!isEdit && (
           <>
@@ -377,66 +359,42 @@ export default function UserFormModal({ isOpen, user, onClose, onSaved }: UserFo
               </p>
             </div>
 
-            <Field
+            <Input
+              id="user-password"
+              type="password"
               label={t('user.form.initialPassword')}
-              htmlFor="user-password"
               required
               error={errors.password}
               className="col-md-4"
-            >
-              <input
-                id="user-password"
-                type="password"
-                autoComplete="new-password"
-                className={controlClass('form-control', errors.password)}
-                value={state.password}
-                onChange={(event) => set('password', event.target.value)}
-              />
-            </Field>
+              inputProps={{ autoComplete: 'new-password' }}
+              value={state.password}
+              onChange={(value) => set('password', value)}
+            />
 
-            <Field
+            <Input
+              id="user-passwordRepeat"
+              type="password"
               label={t('user.form.passwordRepeat')}
-              htmlFor="user-passwordRepeat"
               required
               error={errors.passwordRepeat}
               className="col-md-4"
-            >
-              <input
-                id="user-passwordRepeat"
-                type="password"
-                autoComplete="new-password"
-                className={controlClass('form-control', errors.passwordRepeat)}
-                value={state.passwordRepeat}
-                onChange={(event) => set('passwordRepeat', event.target.value)}
-              />
-            </Field>
+              inputProps={{ autoComplete: 'new-password' }}
+              value={state.passwordRepeat}
+              onChange={(value) => set('passwordRepeat', value)}
+            />
 
-            <Field
+            <MultiSelect
+              id="user-roles"
               label={t('user.form.roles')}
-              htmlFor="user-roles"
-              hint={t('user.form.rolesHint')}
+              helpText={t('user.form.rolesHint')}
               className="col-md-4"
-            >
-              <select
-                id="user-roles"
-                multiple
-                className="form-select"
-                size={4}
-                value={state.roles}
-                onChange={(event) =>
-                  set(
-                    'roles',
-                    Array.from(event.target.selectedOptions).map((option) => option.value),
-                  )
-                }
-              >
-                {roles.data?.items.map((role) => (
-                  <option key={role.id} value={role.displayName}>
-                    {role.displayName}
-                  </option>
-                ))}
-              </select>
-            </Field>
+              options={(roles.data?.items ?? []).map((role) => ({
+                value: role.displayName,
+                label: role.displayName,
+              }))}
+              values={state.roles}
+              onChange={(values) => set('roles', values)}
+            />
           </>
         )}
 
@@ -446,94 +404,81 @@ export default function UserFormModal({ isOpen, user, onClose, onSaved }: UserFo
           </h3>
         </div>
 
-        <Field label={t('user.fields.email')} htmlFor="user-email" className="col-md-4">
-          <input
-            id="user-email"
-            type="email"
-            className="form-control"
-            value={state.email}
-            onChange={(event) => set('email', event.target.value)}
-          />
-        </Field>
-
-        <Field label={t('user.fields.phoneNumber')} htmlFor="user-phoneNumber" className="col-md-4">
-          <input
-            id="user-phoneNumber"
-            className="form-control"
-            value={state.phoneNumber}
-            onChange={(event) => set('phoneNumber', event.target.value)}
-          />
-        </Field>
-
-        <Field label={t('user.fields.gsm')} htmlFor="user-gsm" className="col-md-4">
-          <input
-            id="user-gsm"
-            className="form-control"
-            value={state.gsm}
-            onChange={(event) => set('gsm', event.target.value)}
-          />
-        </Field>
-
-        <Field
-          label={t('user.fields.nationalId')}
-          htmlFor="user-nationalId"
-          hint={isEdit ? t('user.form.nationalIdEditHint') : undefined}
+        <Input
+          id="user-email"
+          type="email"
+          label={t('user.fields.email')}
           className="col-md-4"
-        >
-          <input
-            id="user-nationalId"
-            className="form-control"
-            inputMode="numeric"
-            value={state.nationalId}
-            onChange={(event) => set('nationalId', event.target.value)}
-          />
-        </Field>
+          value={state.email}
+          onChange={(value) => set('email', value)}
+        />
 
-        <Field label={t('user.fields.city')} htmlFor="user-cityId" className="col-md-4">
-          <select
-            id="user-cityId"
-            className="form-select"
-            value={state.cityId}
-            onChange={(event) => {
-              set('cityId', event.target.value)
-              set('districtId', '')
-            }}
-          >
-            <option value="">{t('common.none')}</option>
-            {cities.data?.items.map((city) => (
-              <option key={city.id} value={city.id}>
-                {city.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Input
+          id="user-phoneNumber"
+          label={t('user.fields.phoneNumber')}
+          className="col-md-4"
+          value={state.phoneNumber}
+          onChange={(value) => set('phoneNumber', value)}
+        />
 
-        <Field label={t('user.fields.district')} htmlFor="user-districtId" className="col-md-4">
-          <select
-            id="user-districtId"
-            className="form-select"
-            value={state.districtId}
-            disabled={!state.cityId}
-            onChange={(event) => set('districtId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {districts.data?.items.map((district) => (
-              <option key={district.id} value={district.id}>
-                {district.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Input
+          id="user-gsm"
+          label={t('user.fields.gsm')}
+          className="col-md-4"
+          value={state.gsm}
+          onChange={(value) => set('gsm', value)}
+        />
 
-        <Field label={t('user.fields.address')} htmlFor="user-address" className="col-12">
-          <textarea
-            id="user-address"
-            className="form-control"
-            rows={2}
-            value={state.address}
-            onChange={(event) => set('address', event.target.value)}
-          />
-        </Field>
+        <Input
+          id="user-nationalId"
+          label={t('user.fields.nationalId')}
+          helpText={isEdit ? t('user.form.nationalIdEditHint') : undefined}
+          className="col-md-4"
+          inputProps={{ inputMode: 'numeric' }}
+          value={state.nationalId}
+          onChange={(value) => set('nationalId', value)}
+        />
+
+        <Select
+          id="user-cityId"
+          label={t('user.fields.city')}
+          className="col-md-4"
+          placeholder={t('common.none')}
+          options={
+            cities.data?.items.map((city) => ({ value: String(city.id), label: city.displayName })) ??
+            []
+          }
+          value={state.cityId === '' ? null : state.cityId}
+          onChange={(value) => {
+            set('cityId', value ?? '')
+            set('districtId', '')
+          }}
+        />
+
+        <Select
+          id="user-districtId"
+          label={t('user.fields.district')}
+          className="col-md-4"
+          disabled={!state.cityId}
+          placeholder={t('common.none')}
+          options={
+            districts.data?.items.map((district) => ({
+              value: String(district.id),
+              label: district.displayName,
+            })) ?? []
+          }
+          value={state.districtId === '' ? null : state.districtId}
+          onChange={(value) => set('districtId', value ?? '')}
+        />
+
+        <TextArea
+          id="user-address"
+          label={t('user.fields.address')}
+          rows={2}
+          className="col-12"
+          value={state.address}
+          onChange={(value) => set('address', value)}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-bold mb-0 mt-2" style={{ color: 'var(--kt-gray-700)' }}>
@@ -541,99 +486,83 @@ export default function UserFormModal({ isOpen, user, onClose, onSaved }: UserFo
           </h3>
         </div>
 
-        <Field label={t('user.fields.office')} htmlFor="user-officeId" className="col-md-4">
-          <select
-            id="user-officeId"
-            className="form-select"
-            value={state.officeId}
-            onChange={(event) => set('officeId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {offices.data?.items.map((office) => (
-              <option key={office.id} value={office.id}>
-                {office.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="user-officeId"
+          label={t('user.fields.office')}
+          className="col-md-4"
+          placeholder={t('common.none')}
+          options={
+            offices.data?.items.map((office) => ({
+              value: String(office.id),
+              label: office.displayName,
+            })) ?? []
+          }
+          value={state.officeId === '' ? null : state.officeId}
+          onChange={(value) => set('officeId', value ?? '')}
+        />
 
-        <Field label={t('user.fields.company')} htmlFor="user-companyId" className="col-md-4">
-          <select
-            id="user-companyId"
-            className="form-select"
-            value={state.companyId}
-            onChange={(event) => set('companyId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="user-companyId"
+          label={t('user.fields.company')}
+          className="col-md-4"
+          placeholder={t('common.none')}
+          options={
+            companies.data?.items.map((company) => ({
+              value: String(company.id),
+              label: company.displayName,
+            })) ?? []
+          }
+          value={state.companyId === '' ? null : state.companyId}
+          onChange={(value) => set('companyId', value ?? '')}
+        />
 
-        <Field label={t('user.fields.branchCode')} htmlFor="user-branchCode" className="col-md-4">
-          <input
-            id="user-branchCode"
-            className="form-control"
-            value={state.branchCode}
-            onChange={(event) => set('branchCode', event.target.value)}
-          />
-        </Field>
+        <Input
+          id="user-branchCode"
+          label={t('user.fields.branchCode')}
+          className="col-md-4"
+          value={state.branchCode}
+          onChange={(value) => set('branchCode', value)}
+        />
 
-        <Field label={t('user.fields.hireDate')} htmlFor="user-hireDate" className="col-md-4">
-          <input
-            id="user-hireDate"
-            type="date"
-            className="form-control"
-            value={state.hireDate}
-            onChange={(event) => set('hireDate', event.target.value)}
-          />
-        </Field>
+        <Input
+          id="user-hireDate"
+          label={t('user.fields.hireDate')}
+          className="col-md-4"
+          value={state.hireDate}
+          inputProps={{ type: 'date' }}
+          onChange={(value) => set('hireDate', value)}
+        />
 
-        <Field
+        <Input
+          id="user-terminationDate"
           label={t('user.fields.terminationDate')}
-          htmlFor="user-terminationDate"
           className="col-md-4"
-        >
-          <input
-            id="user-terminationDate"
-            type="date"
-            className="form-control"
-            value={state.terminationDate}
-            onChange={(event) => set('terminationDate', event.target.value)}
-          />
-        </Field>
+          value={state.terminationDate}
+          inputProps={{ type: 'date' }}
+          onChange={(value) => set('terminationDate', value)}
+        />
 
-        <Field
+        <NumberInput
+          id="user-monthlyWorkDurationMinutes"
           label={t('user.fields.monthlyWorkDuration')}
-          htmlFor="user-monthlyWorkDurationMinutes"
-          hint={t('user.form.minutesHint')}
+          helpText={t('user.form.minutesHint')}
           className="col-md-4"
-        >
-          <input
-            id="user-monthlyWorkDurationMinutes"
-            type="number"
-            min={0}
-            className="form-control"
-            value={state.monthlyWorkDurationMinutes}
-            onChange={(event) => set('monthlyWorkDurationMinutes', event.target.value)}
-          />
-        </Field>
+          min={0}
+          value={state.monthlyWorkDurationMinutes === '' ? null : Number(state.monthlyWorkDurationMinutes)}
+          onChange={(value) => set('monthlyWorkDurationMinutes', value === null ? '' : String(value))}
+        />
 
-        <Field label={t('user.fields.grossSalary')} htmlFor="user-grossSalary" className="col-md-4">
-          <input
-            id="user-grossSalary"
-            type="number"
-            min={0}
-            step="0.01"
-            className="form-control"
-            value={state.grossSalary}
-            onChange={(event) => set('grossSalary', event.target.value)}
-          />
-        </Field>
+        <NumberInput
+          id="user-grossSalary"
+          label={t('user.fields.grossSalary')}
+          className="col-md-4"
+          min={0}
+          step={0.01}
+          value={state.grossSalary === '' ? null : Number(state.grossSalary)}
+          onChange={(value) => set('grossSalary', value === null ? '' : String(value))}
+        />
 
+        {/* No library equivalent for a native color swatch input; kept raw. */}
         <Field label={t('user.fields.color')} htmlFor="user-color" className="col-md-4">
           <input
             id="user-color"
@@ -646,30 +575,18 @@ export default function UserFormModal({ isOpen, user, onClose, onSaved }: UserFo
 
         <div className="col-md-4 d-flex align-items-end">
           <div className="d-flex flex-column gap-2 pb-2">
-            <div className="form-check">
-              <input
-                id="user-partTime"
-                type="checkbox"
-                className="form-check-input"
-                checked={state.partTime}
-                onChange={(event) => set('partTime', event.target.checked)}
-              />
-              <label className="form-check-label" htmlFor="user-partTime">
-                {t('user.fields.partTime')}
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                id="user-officeAdmin"
-                type="checkbox"
-                className="form-check-input"
-                checked={state.officeAdmin}
-                onChange={(event) => set('officeAdmin', event.target.checked)}
-              />
-              <label className="form-check-label" htmlFor="user-officeAdmin">
-                {t('user.fields.officeAdmin')}
-              </label>
-            </div>
+            <CheckBox
+              id="user-partTime"
+              checked={state.partTime}
+              onChange={(value) => set('partTime', value)}
+              label={t('user.fields.partTime')}
+            />
+            <CheckBox
+              id="user-officeAdmin"
+              checked={state.officeAdmin}
+              onChange={(value) => set('officeAdmin', value)}
+              label={t('user.fields.officeAdmin')}
+            />
           </div>
         </div>
 

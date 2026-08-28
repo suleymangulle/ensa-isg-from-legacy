@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, Input, NumberInput } from 'rich-react-component'
 import DataTable, { ErrorPanel, Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { errorMessage } from '@/api/http'
 import { downloadFile } from '@/api/download'
@@ -28,7 +29,7 @@ export default function FormListPage() {
 
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [categoryId, setCategoryId] = useState('')
+  const [categoryId, setCategoryId] = useState<number | null>(null)
   const [editing, setEditing] = useState<FormListDto | null>(null)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [deleting, setDeleting] = useState<FormListDto | null>(null)
@@ -37,7 +38,7 @@ export default function FormListPage() {
     skipCount: (page - 1) * PAGE_SIZE,
     maxResultCount: PAGE_SIZE,
     filter: search || undefined,
-    categoryId: categoryId === '' ? undefined : Number(categoryId),
+    categoryId: categoryId ?? undefined,
   })
 
   const remove = useDelete(FORM, { onSuccess: () => setDeleting(null) })
@@ -81,7 +82,7 @@ export default function FormListPage() {
       align: 'center',
       render: (row) =>
         row.defaultForm ? (
-          <span className="badge-light-info">{t('common.yes')}</span>
+          <Badge variant="info">{t('common.yes')}</Badge>
         ) : (
           <span style={{ color: 'var(--kt-gray-500)' }}>{t('common.no')}</span>
         ),
@@ -91,9 +92,9 @@ export default function FormListPage() {
       header: t('form.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -107,19 +108,15 @@ export default function FormListPage() {
             A form template is a Document row behind a `documentId`, so the download is the
             document content route. A template with no file attached has nothing to download.
           */}
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             disabled={!row.documentId || downloadingId === row.id}
             title={row.documentId ? t('form.list.download') : t('form.list.noDocument')}
             aria-label={row.documentId ? t('form.list.download') : t('form.list.noDocument')}
             onClick={() => row.documentId && download(row.id, row.documentId, row.formName)}
           >
             {downloadingId === row.id ? '…' : '⭳'}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => {
               setEditing(row)
               setIsFormOpen(true)
@@ -127,15 +124,13 @@ export default function FormListPage() {
             aria-label={t('form.list.editAria', { name: row.formName })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(row)}
             aria-label={t('form.list.deleteAria', { name: row.formName })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -149,21 +144,20 @@ export default function FormListPage() {
         title={t('form.list.title')}
         description={t('form.list.description')}
         action={
-          <button
-            className="btn btn-primary"
-            type="button"
+          <Button variant="primary"
             onClick={() => {
               setEditing(null)
               setIsFormOpen(true)
             }}
           >
             {t('form.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header pt-4 pb-0 border-0">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(value) => {
@@ -172,50 +166,44 @@ export default function FormListPage() {
             }}
             placeholder={t('form.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ maxWidth: 220 }}>
               <label htmlFor="form-category-filter" className="visually-hidden">
                 {t('form.filters.categoryId')}
               </label>
-              <input
+              <NumberInput
                 id="form-category-filter"
-                type="number"
                 min={1}
-                className="form-control"
-                style={{ maxWidth: 220 }}
                 placeholder={t('form.filters.categoryPlaceholder')}
                 value={categoryId}
-                onChange={(event) => {
-                  setCategoryId(event.target.value)
+                onChange={(value) => {
+                  setCategoryId(value)
                   setPage(1)
                 }}
               />
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('form.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('form.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('form.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('form.list.empty')}
+        />
+      </Card>
 
       <FormEditor
         isOpen={isFormOpen}
@@ -241,16 +229,16 @@ export default function FormListPage() {
 
 interface EditorState {
   formName: string
-  categoryId: string
-  documentId: string
+  categoryId: number | null
+  documentId: number | null
   defaultForm: boolean
   isActive: boolean
 }
 
 const EMPTY: EditorState = {
   formName: '',
-  categoryId: '',
-  documentId: '',
+  categoryId: null,
+  documentId: null,
   defaultForm: false,
   isActive: true,
 }
@@ -275,8 +263,8 @@ function FormEditor({
       form
         ? {
             formName: form.formName,
-            categoryId: form.categoryId.toString(),
-            documentId: form.documentId?.toString() ?? '',
+            categoryId: form.categoryId,
+            documentId: form.documentId ?? null,
             defaultForm: form.defaultForm,
             isActive: form.isActive,
           }
@@ -292,20 +280,17 @@ function FormEditor({
     const nextErrors: Partial<Record<keyof EditorState, string>> = {}
     if (!state.formName.trim()) nextErrors.formName = t('validation.required')
 
-    const category = Number(state.categoryId)
-    if (!state.categoryId.trim() || !Number.isFinite(category) || category < 1) {
+    if (state.categoryId === null || state.categoryId < 1) {
       nextErrors.categoryId = t('form.editor.categoryRequired')
     }
 
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length) return
 
-    const documentId = state.documentId.trim() ? Number(state.documentId) : null
-
     const input: SaveFormDto = {
       formName: state.formName.trim(),
-      categoryId: Math.trunc(category),
-      documentId: documentId && Number.isFinite(documentId) ? Math.trunc(documentId) : null,
+      categoryId: Math.trunc(state.categoryId!),
+      documentId: state.documentId !== null ? Math.trunc(state.documentId) : null,
       defaultForm: state.defaultForm,
       isActive: state.isActive,
     }
@@ -324,83 +309,54 @@ function FormEditor({
       error={mutation.error ? errorMessage(mutation.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="form-name"
           label={t('form.fields.formName')}
-          htmlFor="form-name"
           required
           error={errors.formName}
-        >
-          <input
-            id="form-name"
-            type="text"
-            className={controlClass('form-control', errors.formName)}
-            value={state.formName}
-            onChange={(event) => setState((s) => ({ ...s, formName: event.target.value }))}
-          />
-        </Field>
+          className="col-12"
+          value={state.formName}
+          onChange={(value) => setState((s) => ({ ...s, formName: value }))}
+        />
 
-        <Field
+        <NumberInput
+          id="form-category"
           label={t('form.fields.categoryId')}
-          htmlFor="form-category"
           required
           error={errors.categoryId}
-          hint={t('form.editor.categoryHint')}
+          helpText={t('form.editor.categoryHint')}
           className="col-md-6"
-        >
-          <input
-            id="form-category"
-            type="number"
-            min={1}
-            className={controlClass('form-control', errors.categoryId)}
-            value={state.categoryId}
-            onChange={(event) => setState((s) => ({ ...s, categoryId: event.target.value }))}
-          />
-        </Field>
+          min={1}
+          value={state.categoryId}
+          onChange={(value) => setState((s) => ({ ...s, categoryId: value }))}
+        />
 
-        <Field
+        <NumberInput
+          id="form-document"
           label={t('form.fields.documentId')}
-          htmlFor="form-document"
-          hint={t('form.editor.documentHint')}
+          helpText={t('form.editor.documentHint')}
           className="col-md-6"
-        >
-          <input
-            id="form-document"
-            type="number"
-            min={1}
-            className="form-control"
-            value={state.documentId}
-            onChange={(event) => setState((s) => ({ ...s, documentId: event.target.value }))}
-          />
-        </Field>
+          min={1}
+          value={state.documentId}
+          onChange={(value) => setState((s) => ({ ...s, documentId: value }))}
+        />
 
         <div className="col-md-6">
-          <div className="form-check">
-            <input
-              id="form-default"
-              type="checkbox"
-              className="form-check-input"
-              checked={state.defaultForm}
-              onChange={(event) => setState((s) => ({ ...s, defaultForm: event.target.checked }))}
-            />
-            <label htmlFor="form-default" className="form-check-label">
-              {t('form.fields.defaultForm')}
-            </label>
-          </div>
+          <CheckBox
+            id="form-default"
+            label={t('form.fields.defaultForm')}
+            checked={state.defaultForm}
+            onChange={(checked) => setState((s) => ({ ...s, defaultForm: checked }))}
+          />
         </div>
 
         <div className="col-md-6">
-          <div className="form-check">
-            <input
-              id="form-active"
-              type="checkbox"
-              className="form-check-input"
-              checked={state.isActive}
-              onChange={(event) => setState((s) => ({ ...s, isActive: event.target.checked }))}
-            />
-            <label htmlFor="form-active" className="form-check-label">
-              {t('common.active')}
-            </label>
-          </div>
+          <CheckBox
+            id="form-active"
+            label={t('common.active')}
+            checked={state.isActive}
+            onChange={(checked) => setState((s) => ({ ...s, isActive: checked }))}
+          />
         </div>
       </div>
     </Modal>

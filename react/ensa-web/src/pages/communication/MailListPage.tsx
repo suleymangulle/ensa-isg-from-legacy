@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Input, NumberInput, Select, Tabs, TextArea } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, Spinner, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { errorMessage } from '@/api/http'
 import { useEntity } from '@/api/endpoints'
@@ -43,9 +44,9 @@ export default function MailListPage() {
 
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [mailStatus, setMailStatus] = useState('')
-  const [mailType, setMailType] = useState('')
-  const [mailPriority, setMailPriority] = useState('')
+  const [mailStatus, setMailStatus] = useState<MailStatus | null>(null)
+  const [mailType, setMailType] = useState<MailType | null>(null)
+  const [mailPriority, setMailPriority] = useState<MailPriority | null>(null)
 
   const [editingId, setEditingId] = useState<number | undefined>()
   const [isEditorOpen, setIsEditorOpen] = useState(false)
@@ -56,9 +57,9 @@ export default function MailListPage() {
     skipCount: (page - 1) * PAGE_SIZE,
     maxResultCount: PAGE_SIZE,
     filter: search || undefined,
-    mailStatus: mailStatus === '' ? undefined : (Number(mailStatus) as MailStatus),
-    mailType: mailType === '' ? undefined : (Number(mailType) as MailType),
-    mailPriority: mailPriority === '' ? undefined : (Number(mailPriority) as MailPriority),
+    mailStatus: mailStatus ?? undefined,
+    mailType: mailType ?? undefined,
+    mailPriority: mailPriority ?? undefined,
   })
 
   const editing = useEntity<MailDto>(MAIL, editingId)
@@ -70,13 +71,11 @@ export default function MailListPage() {
       key: 'topic',
       header: t('mail.fields.topic'),
       render: (row) => (
-        <button
-          type="button"
-          className="btn btn-link p-0 text-start text-decoration-none fw-semibold"
+        <Button variant="link" className="p-0 text-start text-decoration-none fw-semibold"
           onClick={() => setDetailId(row.id)}
         >
           {row.topic}
-        </button>
+        </Button>
       ),
     },
     { key: 'recipient', header: t('mail.fields.recipient'), render: (row) => row.recipient },
@@ -86,9 +85,9 @@ export default function MailListPage() {
       header: t('mail.fields.mailStatus'),
       align: 'center',
       render: (row) => (
-        <span className={MAIL_STATUS_BADGE[row.mailStatus]}>
+        <Badge variant={MAIL_STATUS_BADGE[row.mailStatus]}>
           {t(`enums.mailStatus.${row.mailStatus}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -96,9 +95,9 @@ export default function MailListPage() {
       header: t('mail.fields.mailPriority'),
       align: 'center',
       render: (row) => (
-        <span className={MAIL_PRIORITY_BADGE[row.mailPriority]}>
+        <Badge variant={MAIL_PRIORITY_BADGE[row.mailPriority]}>
           {t(`enums.mailPriority.${row.mailPriority}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -127,19 +126,15 @@ export default function MailListPage() {
         return (
           <div className="d-flex justify-content-end gap-2">
             {isEditable && (
-              <button
-                type="button"
-                className="btn btn-sm btn-light-success"
+              <Button variant="light" size="sm" 
                 disabled={queue.isPending}
                 onClick={() => queue.mutate(row.id)}
                 aria-label={t('mail.list.queueAria', { topic: row.topic })}
               >
                 {t('mail.list.queue')}
-              </button>
+              </Button>
             )}
-            <button
-              type="button"
-              className="btn btn-sm btn-light-primary"
+            <Button variant="light" size="sm" 
               disabled={!isEditable}
               title={isEditable ? undefined : t('mail.list.notEditable')}
               onClick={() => {
@@ -149,15 +144,13 @@ export default function MailListPage() {
               aria-label={t('mail.list.editAria', { topic: row.topic })}
             >
               {t('common.edit')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-light-danger"
+            </Button>
+            <Button variant="light" size="sm" 
               onClick={() => setDeleting(row)}
               aria-label={t('mail.list.deleteAria', { topic: row.topic })}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         )
       },
@@ -171,54 +164,31 @@ export default function MailListPage() {
         description={t('mail.list.description')}
         action={
           activeTab === 'log' ? (
-            <button
-              className="btn btn-primary"
-              type="button"
+            <Button variant="primary"
               onClick={() => {
                 setEditingId(undefined)
                 setIsEditorOpen(true)
               }}
             >
               {t('mail.list.create')}
-            </button>
+            </Button>
           ) : undefined
         }
       />
 
-      {queue.error && (
-        <div
-          className="alert border-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="alert"
-        >
-          {errorMessage(queue.error)}
-        </div>
-      )}
+      {queue.error && <Alert variant="danger">{errorMessage(queue.error)}</Alert>}
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`mail.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
+      <Card
+        
+        header={
+          <Tabs
+            items={TABS.map((tab) => ({ key: tab, label: t(`mail.tabs.${tab}`) }))}
+            activeKey={activeTab}
+            onChange={(key) => setActiveTab(key as TabKey)}
+            variant="default"
+          />
+        }
+      >
         {activeTab === 'log' ? (
           <>
             <div className="card-body pb-0">
@@ -230,71 +200,59 @@ export default function MailListPage() {
                 }}
                 placeholder={t('mail.list.searchPlaceholder')}
               >
-                <div>
+                <div style={{ minWidth: 170 }}>
                   <label htmlFor="mail-status-filter" className="visually-hidden">
                     {t('mail.filters.mailStatus')}
                   </label>
-                  <select
+                  <Select<MailStatus>
                     id="mail-status-filter"
-                    className="form-select"
-                    style={{ minWidth: 170 }}
+                    options={MAIL_STATUSES.map((value) => ({
+                      value,
+                      label: t(`enums.mailStatus.${value}`),
+                    }))}
                     value={mailStatus}
-                    onChange={(event) => {
-                      setMailStatus(event.target.value)
+                    placeholder={t('mail.filters.allStatuses')}
+                    onChange={(value) => {
+                      setMailStatus(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('mail.filters.allStatuses')}</option>
-                    {MAIL_STATUSES.map((value) => (
-                      <option key={value} value={value}>
-                        {t(`enums.mailStatus.${value}`)}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
-                <div>
+                <div style={{ minWidth: 170 }}>
                   <label htmlFor="mail-type-filter" className="visually-hidden">
                     {t('mail.filters.mailType')}
                   </label>
-                  <select
+                  <Select<MailType>
                     id="mail-type-filter"
-                    className="form-select"
-                    style={{ minWidth: 170 }}
+                    options={MAIL_TYPES.map((value) => ({
+                      value,
+                      label: t(`enums.mailType.${value}`),
+                    }))}
                     value={mailType}
-                    onChange={(event) => {
-                      setMailType(event.target.value)
+                    placeholder={t('mail.filters.allTypes')}
+                    onChange={(value) => {
+                      setMailType(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('mail.filters.allTypes')}</option>
-                    {MAIL_TYPES.map((value) => (
-                      <option key={value} value={value}>
-                        {t(`enums.mailType.${value}`)}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
-                <div>
+                <div style={{ minWidth: 170 }}>
                   <label htmlFor="mail-priority-filter" className="visually-hidden">
                     {t('mail.filters.mailPriority')}
                   </label>
-                  <select
+                  <Select<MailPriority>
                     id="mail-priority-filter"
-                    className="form-select"
-                    style={{ minWidth: 170 }}
+                    options={MAIL_PRIORITIES.map((value) => ({
+                      value,
+                      label: t(`enums.mailPriority.${value}`),
+                    }))}
                     value={mailPriority}
-                    onChange={(event) => {
-                      setMailPriority(event.target.value)
+                    placeholder={t('mail.filters.allPriorities')}
+                    onChange={(value) => {
+                      setMailPriority(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('mail.filters.allPriorities')}</option>
-                    {MAIL_PRIORITIES.map((value) => (
-                      <option key={value} value={value}>
-                        {t(`enums.mailPriority.${value}`)}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </SearchBar>
             </div>
@@ -325,7 +283,7 @@ export default function MailListPage() {
         ) : (
           <MailSettingsPanel />
         )}
-      </div>
+      </Card>
 
       {isEditorOpen && (!editingId || editing.data) && (
         <MailEditor
@@ -449,112 +407,81 @@ function MailEditor({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="mail-sender"
+          type="email"
           label={t('mail.fields.sender')}
-          htmlFor="mail-sender"
           required
           error={errors.sender}
           className="col-md-6"
-        >
-          <input
-            id="mail-sender"
-            type="email"
-            className={controlClass('form-control', errors.sender)}
-            value={state.sender}
-            onChange={(event) => setState((s) => ({ ...s, sender: event.target.value }))}
-          />
-        </Field>
+          value={state.sender}
+          onChange={(value) => setState((s) => ({ ...s, sender: value }))}
+        />
 
-        <Field
+        <Input
+          id="mail-recipient"
+          type="text"
           label={t('mail.fields.recipient')}
-          htmlFor="mail-recipient"
           required
           error={errors.recipient}
-          hint={t('mail.editor.recipientHint')}
+          helpText={t('mail.editor.recipientHint')}
           className="col-md-6"
-        >
-          <input
-            id="mail-recipient"
-            type="text"
-            className={controlClass('form-control', errors.recipient)}
-            value={state.recipient}
-            onChange={(event) => setState((s) => ({ ...s, recipient: event.target.value }))}
-          />
-        </Field>
+          value={state.recipient}
+          onChange={(value) => setState((s) => ({ ...s, recipient: value }))}
+        />
 
-        <Field label={t('mail.fields.topic')} htmlFor="mail-topic" required error={errors.topic}>
-          <input
-            id="mail-topic"
-            type="text"
-            className={controlClass('form-control', errors.topic)}
-            value={state.topic}
-            onChange={(event) => setState((s) => ({ ...s, topic: event.target.value }))}
-          />
-        </Field>
+        <Input
+          id="mail-topic"
+          type="text"
+          label={t('mail.fields.topic')}
+          required
+          error={errors.topic}
+          value={state.topic}
+          onChange={(value) => setState((s) => ({ ...s, topic: value }))}
+        />
 
-        <Field label={t('mail.fields.mailType')} htmlFor="mail-type" className="col-md-4">
-          <select
-            id="mail-type"
-            className="form-select"
-            value={state.mailType}
-            onChange={(event) => setState((s) => ({ ...s, mailType: Number(event.target.value) }))}
-          >
-            {MAIL_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.mailType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select<MailType>
+          id="mail-type"
+          label={t('mail.fields.mailType')}
+          className="col-md-4"
+          options={MAIL_TYPES.map((value) => ({ value, label: t(`enums.mailType.${value}`) }))}
+          value={state.mailType}
+          onChange={(value) => setState((s) => ({ ...s, mailType: value ?? s.mailType }))}
+        />
 
-        <Field label={t('mail.fields.mailPriority')} htmlFor="mail-priority" className="col-md-4">
-          <select
-            id="mail-priority"
-            className="form-select"
-            value={state.mailPriority}
-            onChange={(event) =>
-              setState((s) => ({ ...s, mailPriority: Number(event.target.value) }))
-            }
-          >
-            {MAIL_PRIORITIES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.mailPriority.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select<MailPriority>
+          id="mail-priority"
+          label={t('mail.fields.mailPriority')}
+          className="col-md-4"
+          options={MAIL_PRIORITIES.map((value) => ({
+            value,
+            label: t(`enums.mailPriority.${value}`),
+          }))}
+          value={state.mailPriority}
+          onChange={(value) => setState((s) => ({ ...s, mailPriority: value ?? s.mailPriority }))}
+        />
 
-        <Field label={t('mail.fields.contentFormat')} htmlFor="mail-format" className="col-md-4">
-          <select
-            id="mail-format"
-            className="form-select"
-            value={state.contentFormat}
-            onChange={(event) =>
-              setState((s) => ({ ...s, contentFormat: Number(event.target.value) }))
-            }
-          >
-            {CONTENT_FORMATS.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.contentFormat.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select<ContentFormat>
+          id="mail-format"
+          label={t('mail.fields.contentFormat')}
+          className="col-md-4"
+          options={CONTENT_FORMATS.map((value) => ({
+            value,
+            label: t(`enums.contentFormat.${value}`),
+          }))}
+          value={state.contentFormat}
+          onChange={(value) => setState((s) => ({ ...s, contentFormat: value ?? s.contentFormat }))}
+        />
 
-        <Field
+        <TextArea
+          id="mail-content"
           label={t('mail.fields.content')}
-          htmlFor="mail-content"
           required
           error={errors.content}
-        >
-          <textarea
-            id="mail-content"
-            className={controlClass('form-control font-monospace', errors.content)}
-            rows={8}
-            value={state.content}
-            onChange={(event) => setState((s) => ({ ...s, content: event.target.value }))}
-          />
-        </Field>
+          rows={8}
+          value={state.content}
+          onChange={(value) => setState((s) => ({ ...s, content: value }))}
+        />
       </div>
     </Modal>
   )
@@ -563,7 +490,7 @@ function MailEditor({
 /** `GET api/mail/{id}/detail` — the mail with its attachments, plus attach and detach. */
 function MailDetailModal({ mailId, onClose }: { mailId: number; onClose: () => void }) {
   const { t } = useTranslation()
-  const [documentId, setDocumentId] = useState('')
+  const [documentId, setDocumentId] = useState<number | null>(null)
 
   const detail = useMailDetail(mailId)
   const addAttachment = useAddMailAttachment(mailId)
@@ -576,13 +503,9 @@ function MailDetailModal({ mailId, onClose }: { mailId: number; onClose: () => v
       {detail.isLoading ? (
         <Spinner />
       ) : detail.error ? (
-        <div
-          className="alert border-0 mb-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="alert"
-        >
+        <Alert variant="danger" className="mb-0">
           {errorMessage(detail.error)}
-        </div>
+        </Alert>
       ) : detail.data ? (
         <>
           <dl className="row" style={{ fontSize: '0.9375rem' }}>
@@ -602,9 +525,9 @@ function MailDetailModal({ mailId, onClose }: { mailId: number; onClose: () => v
               {t('mail.fields.mailStatus')}
             </dt>
             <dd className="col-sm-9">
-              <span className={MAIL_STATUS_BADGE[detail.data.mail.mailStatus]}>
+              <Badge variant={MAIL_STATUS_BADGE[detail.data.mail.mailStatus]}>
                 {t(`enums.mailStatus.${detail.data.mail.mailStatus}`)}
-              </span>
+              </Badge>
             </dd>
             {detail.data.mail.errorMessage && (
               <>
@@ -634,15 +557,7 @@ function MailDetailModal({ mailId, onClose }: { mailId: number; onClose: () => v
             {t('mail.detail.attachments')}
           </h3>
 
-          {attachmentError && (
-            <div
-              className="alert border-0"
-              style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-              role="alert"
-            >
-              {errorMessage(attachmentError)}
-            </div>
-          )}
+          {attachmentError && <Alert variant="danger">{errorMessage(attachmentError)}</Alert>}
 
           {detail.data.attachments.length === 0 ? (
             <p className="mb-3" style={{ color: 'var(--kt-gray-500)' }}>
@@ -660,50 +575,40 @@ function MailDetailModal({ mailId, onClose }: { mailId: number; onClose: () => v
                     {entry.document?.displayName ??
                       t('mail.detail.documentFallback', { id: entry.attachment.documentId })}
                   </span>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-light-danger"
+                  <Button variant="light" size="sm" 
                     disabled={removeAttachment.isPending}
                     onClick={() => removeAttachment.mutate(entry.attachment.id)}
                     aria-label={t('mail.detail.removeAttachmentAria')}
                   >
                     {t('mail.detail.removeAttachment')}
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>
           )}
 
           <div className="row g-2 align-items-end">
-            <Field
+            <NumberInput
+              id="mail-attachment-document"
               label={t('mail.detail.attachDocument')}
-              htmlFor="mail-attachment-document"
-              hint={t('mail.detail.attachHint')}
+              helpText={t('mail.detail.attachHint')}
               className="col-sm-8"
-            >
-              <input
-                id="mail-attachment-document"
-                type="number"
-                min={1}
-                className="form-control"
-                value={documentId}
-                onChange={(event) => setDocumentId(event.target.value)}
-              />
-            </Field>
+              min={1}
+              value={documentId}
+              onChange={setDocumentId}
+            />
             <div className="col-sm-4">
-              <button
-                type="button"
-                className="btn btn-light-primary w-100"
+              <Button variant="light" className="w-100"
                 disabled={!documentId || addAttachment.isPending}
                 onClick={() => {
                   addAttachment.mutate(
-                    { documentId: Number(documentId), orderNo: 0 },
-                    { onSuccess: () => setDocumentId('') },
+                    { documentId: documentId as number, orderNo: 0 },
+                    { onSuccess: () => setDocumentId(null) },
                   )
                 }}
               >
                 {t('mail.detail.attach')}
-              </button>
+              </Button>
             </div>
           </div>
         </>
@@ -728,12 +633,7 @@ function MailSettingsPanel() {
 
   return (
     <div className="card-body">
-      <div
-        className="alert border-0"
-        style={{ backgroundColor: 'var(--kt-warning-light)', color: 'var(--kt-warning)' }}
-      >
-        {t('mail.settings.unavailable')}
-      </div>
+      <Alert variant="warning">{t('mail.settings.unavailable')}</Alert>
 
       <fieldset disabled aria-describedby="mail-settings-notice">
         <p id="mail-settings-notice" className="mb-3" style={{ color: 'var(--kt-gray-600)' }}>
@@ -741,49 +641,39 @@ function MailSettingsPanel() {
         </p>
 
         <div className="row g-3">
-          <Field label={t('mail.settings.host')} htmlFor="smtp-host" className="col-md-6">
-            <input id="smtp-host" type="text" className="form-control" defaultValue="" />
-          </Field>
+          <Input id="smtp-host" type="text" label={t('mail.settings.host')} className="col-md-6" />
 
-          <Field label={t('mail.settings.port')} htmlFor="smtp-port" className="col-md-3">
-            <input id="smtp-port" type="number" className="form-control" defaultValue="" />
-          </Field>
+          <NumberInput id="smtp-port" label={t('mail.settings.port')} className="col-md-3" />
 
-          <Field label={t('mail.settings.useSsl')} htmlFor="smtp-ssl" className="col-md-3">
-            <select id="smtp-ssl" className="form-select" defaultValue="">
-              <option value="">{t('common.none')}</option>
-              <option value="true">{t('common.yes')}</option>
-              <option value="false">{t('common.no')}</option>
-            </select>
-          </Field>
+          <Select
+            id="smtp-ssl"
+            label={t('mail.settings.useSsl')}
+            className="col-md-3"
+            placeholder={t('common.none')}
+            options={[
+              { value: 'true', label: t('common.yes') },
+              { value: 'false', label: t('common.no') },
+            ]}
+          />
 
-          <Field label={t('mail.settings.userName')} htmlFor="smtp-user" className="col-md-6">
-            <input id="smtp-user" type="text" className="form-control" defaultValue="" />
-          </Field>
+          <Input id="smtp-user" type="text" label={t('mail.settings.userName')} className="col-md-6" />
 
-          <Field
+          <Input
+            id="smtp-password"
+            type="password"
             label={t('mail.settings.password')}
-            htmlFor="smtp-password"
-            hint={t('mail.settings.passwordHint')}
+            helpText={t('mail.settings.passwordHint')}
             className="col-md-6"
-          >
-            <input
-              id="smtp-password"
-              type="password"
-              className="form-control"
-              autoComplete="new-password"
-              placeholder={t('mail.settings.passwordPlaceholder')}
-              defaultValue=""
-            />
-          </Field>
+            inputProps={{ autoComplete: 'new-password' }}
+            placeholder={t('mail.settings.passwordPlaceholder')}
+          />
 
-          <Field
+          <Input
+            id="smtp-default-sender"
+            type="email"
             label={t('mail.settings.defaultSender')}
-            htmlFor="smtp-default-sender"
             className="col-md-6"
-          >
-            <input id="smtp-default-sender" type="email" className="form-control" defaultValue="" />
-          </Field>
+          />
         </div>
       </fieldset>
     </div>

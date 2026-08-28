@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import DataTable, { PageTitle, Pagination, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -101,9 +102,9 @@ export default function InvoiceListPage() {
       key: 'invoiceType',
       header: t('finance.invoice.fields.invoiceType'),
       render: (row) => (
-        <span className={INVOICE_TYPE_BADGE[row.invoiceType]}>
+        <Badge variant={INVOICE_TYPE_BADGE[row.invoiceType]}>
           {t(`enums.invoiceType.${row.invoiceType}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -151,105 +152,107 @@ export default function InvoiceListPage() {
         title={t('finance.invoice.list.title')}
         description={t('finance.invoice.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreating(true)}>
+          <Button variant="primary" onClick={() => setCreating(true)}>
             {t('finance.invoice.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0">
-          <SearchBar
-            value={search}
-            onChange={(next) => {
-              setSearch(next)
-              setPage(1)
-            }}
-            placeholder={t('finance.invoice.list.searchPlaceholder')}
-          >
-            <FilterSelect
-              id="invoice-filter-type"
-              label={t('finance.invoice.fields.invoiceType')}
-              value={invoiceType}
+      <Card
+        
+        header={
+          <div className="border-0 pt-4 pb-0">
+            <SearchBar
+              value={search}
               onChange={(next) => {
-                setInvoiceType(next)
+                setSearch(next)
                 setPage(1)
               }}
+              placeholder={t('finance.invoice.list.searchPlaceholder')}
             >
-              <option value="">{t('finance.invoice.filters.allTypes')}</option>
-              {enumValues(InvoiceType).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.invoiceType.${value}`)}
-                </option>
-              ))}
-            </FilterSelect>
+              <FilterSelect
+                id="invoice-filter-type"
+                label={t('finance.invoice.fields.invoiceType')}
+                value={invoiceType}
+                onChange={(next) => {
+                  setInvoiceType(next)
+                  setPage(1)
+                }}
+              >
+                <option value="">{t('finance.invoice.filters.allTypes')}</option>
+                {enumValues(InvoiceType).map((value) => (
+                  <option key={value} value={value}>
+                    {t(`enums.invoiceType.${value}`)}
+                  </option>
+                ))}
+              </FilterSelect>
 
-            <FilterSelect
-              id="invoice-filter-company"
-              label={t('finance.invoice.fields.company')}
-              value={companyId}
-              onChange={(next) => {
-                setCompanyId(next)
-                setPage(1)
-              }}
-              width={220}
-            >
-              <option value="">{t('finance.invoice.filters.allCompanies')}</option>
-              {companies.data?.items.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+              <FilterSelect
+                id="invoice-filter-company"
+                label={t('finance.invoice.fields.company')}
+                value={companyId}
+                onChange={(next) => {
+                  setCompanyId(next)
+                  setPage(1)
+                }}
+                width={220}
+              >
+                <option value="">{t('finance.invoice.filters.allCompanies')}</option>
+                {companies.data?.items.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.displayName}
+                  </option>
+                ))}
+              </FilterSelect>
 
-            <FilterDate
-              id="invoice-filter-start"
-              label={t('finance.common.startDate')}
-              value={startDate}
-              onChange={(next) => {
-                setStartDate(next)
-                setPage(1)
-              }}
-            />
-            <FilterDate
-              id="invoice-filter-end"
-              label={t('finance.common.endDate')}
-              value={endDate}
-              onChange={(next) => {
-                setEndDate(next)
-                setPage(1)
-              }}
-            />
+              <FilterDate
+                id="invoice-filter-start"
+                label={t('finance.common.startDate')}
+                value={startDate}
+                onChange={(next) => {
+                  setStartDate(next)
+                  setPage(1)
+                }}
+              />
+              <FilterDate
+                id="invoice-filter-end"
+                label={t('finance.common.endDate')}
+                value={endDate}
+                onChange={(next) => {
+                  setEndDate(next)
+                  setPage(1)
+                }}
+              />
 
-            <button type="button" className="btn btn-light" onClick={resetFilters}>
-              {t('common.clear')}
-            </button>
-          </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('finance.invoice.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('finance.invoice.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
-            <Pagination
-              total={data.totalCount}
-              page={page}
-              pageSize={PAGE_SIZE}
-              onPageChange={setPage}
-            />
+              <Button variant="light" onClick={resetFilters}>
+                {t('common.clear')}
+              </Button>
+            </SearchBar>
           </div>
-        )}
-      </div>
+        }
+        footer={
+          data && data.totalCount > 0 ? (
+            <div className="bg-transparent border-0 pt-0">
+              <Pagination
+                total={data.totalCount}
+                page={page}
+                pageSize={PAGE_SIZE}
+                onPageChange={setPage}
+              />
+            </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('finance.invoice.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('finance.invoice.list.empty')}
+        />
+      </Card>
 
       {isCreating && (
         <InvoiceForm

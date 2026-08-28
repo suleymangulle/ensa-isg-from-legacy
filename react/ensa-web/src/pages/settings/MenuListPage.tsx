@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -53,14 +54,12 @@ export default function MenuListPage() {
       header: t('menu.fields.menuTypeCode'),
       render: (menu) =>
         menu.menuTypeCode ? (
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setMenuTypeCode(menu.menuTypeCode ?? '')}
             title={t('menu.actions.previewWithCode', { code: menu.menuTypeCode })}
           >
             {menu.menuTypeCode}
-          </button>
+          </Button>
         ) : (
           t('common.none')
         ),
@@ -81,9 +80,9 @@ export default function MenuListPage() {
       header: t('menu.fields.status'),
       align: 'center',
       render: (menu) => (
-        <span className={menu.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={menu.isActive ? 'success' : 'danger'}>
           {menu.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
   ]
@@ -92,77 +91,72 @@ export default function MenuListPage() {
     <>
       <PageTitle title={t('menu.list.title')} description={t('menu.list.description')} />
 
-      <div className="card mb-4">
-        <div className="card-header">
-          <h2 className="card-title h6 mb-0">{t('menu.list.definitions')}</h2>
-        </div>
-
-        <div className="card-header border-0 pt-4 pb-0 d-block">
-          <SearchBar
-            value={search}
-            onChange={(value) => {
-              setSearch(value)
-              setPage(1)
-            }}
-            placeholder={t('menu.list.searchPlaceholder')}
-          />
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('menu.list.definitions')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(menu) => menu.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('menu.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+      <Card
+        className="mb-4"
+        header={
+          <>
+            <h2 className="card-title h6 mb-0">{t('menu.list.definitions')}</h2>
+            <SearchBar
+              value={search}
+              onChange={(value) => {
+                setSearch(value)
+                setPage(1)
+              }}
+              placeholder={t('menu.list.searchPlaceholder')}
+            />
+          </>
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('menu.list.definitions')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(menu) => menu.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('menu.list.empty')}
+        />
+      </Card>
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        header={
           <h2 className="card-title h6 mb-0">{t('menu.preview.title')}</h2>
-        </div>
 
-        <div className="card-body">
+        }
+      >
           <p style={{ color: 'var(--kt-gray-600)' }}>{t('menu.preview.description')}</p>
 
           <div className="row g-3 align-items-end mb-4">
             <div className="col-md-4">
-              <label htmlFor="menu-type-code" className="form-label fw-semibold">
-                {t('menu.preview.layoutCode')}
-              </label>
-              <input
+              <Input
                 id="menu-type-code"
-                className="form-control"
-                list="menu-type-codes"
-                value={menuTypeCode}
+                label={t('menu.preview.layoutCode')}
                 placeholder={t('menu.preview.layoutCodePlaceholder')}
-                onChange={(event) => setMenuTypeCode(event.target.value)}
+                helpText={
+                  knownCodes.length > 0
+                    ? t('menu.preview.knownCodes', { codes: knownCodes.join(', ') })
+                    : t('menu.preview.noKnownCodes')
+                }
+                value={menuTypeCode}
+                onChange={setMenuTypeCode}
+                inputProps={{ list: 'menu-type-codes' }}
               />
               <datalist id="menu-type-codes">
                 {knownCodes.map((code) => (
                   <option key={code} value={code} />
                 ))}
               </datalist>
-              <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-                {knownCodes.length > 0
-                  ? t('menu.preview.knownCodes', { codes: knownCodes.join(', ') })
-                  : t('menu.preview.noKnownCodes')}
-              </div>
             </div>
           </div>
 
@@ -175,13 +169,9 @@ export default function MenuListPage() {
           {myMenu.isLoading && <Spinner />}
 
           {myMenu.error && (
-            <div
-              className="alert border-0 mb-0"
-              style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-              role="alert"
-            >
+            <Alert variant="danger" className="mb-0">
               {errorMessage(myMenu.error)}
-            </div>
+            </Alert>
           )}
 
           {myMenu.data && (
@@ -189,9 +179,9 @@ export default function MenuListPage() {
               <p className="fw-semibold mb-2" style={{ color: 'var(--kt-gray-800)' }}>
                 {myMenu.data.menu.name}
                 {myMenu.data.menuType && (
-                  <span className="badge-light-primary ms-2">
+                  <Badge variant="primary" className="ms-2">
                     {myMenu.data.menuType.displayName}
-                  </span>
+                  </Badge>
                 )}
               </p>
 
@@ -207,8 +197,8 @@ export default function MenuListPage() {
               )}
             </>
           )}
-        </div>
-      </div>
+        
+      </Card>
     </>
   )
 }
@@ -229,7 +219,7 @@ function NodeTree({ nodes }: { nodes: MenuNodeNavigationDto[] }) {
             </span>
           )}
           {node.userHidden && (
-            <span className="badge-light-warning ms-2">{t('menu.preview.userHidden')}</span>
+            <Badge variant="warning" className="ms-2">{t('menu.preview.userHidden')}</Badge>
           )}
           <NodeTree nodes={node.children} />
         </li>

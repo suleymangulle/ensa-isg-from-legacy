@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ActivityReportType } from '@/api/enums'
 import { errorMessage } from '@/api/http'
@@ -86,7 +87,7 @@ export default function ActivityReportListPage() {
       key: 'reportType',
       header: t('reports.activity.fields.reportType'),
       render: (row) => (
-        <span className="badge-light-primary">{t(`enums.activityReportType.${row.reportType}`)}</span>
+        <Badge variant="primary">{t(`enums.activityReportType.${row.reportType}`)}</Badge>
       ),
     },
     {
@@ -129,27 +130,27 @@ export default function ActivityReportListPage() {
         title={t('reports.activity.title')}
         description={t('reports.activity.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsCreating(true)}>
+          <Button variant="primary" onClick={() => setIsCreating(true)}>
             {t('reports.activity.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <div className="d-flex flex-wrap align-items-center gap-3 w-100">
             <div className="flex-grow-1" style={{ maxWidth: 280 }}>
               <label htmlFor="activity-search" className="visually-hidden">
                 {t('reports.activity.searchLabel')}
               </label>
-              <input
+              <Input
                 id="activity-search"
                 type="search"
-                className="form-control"
                 value={search}
                 placeholder={t('reports.activity.searchPlaceholder')}
-                onChange={(event) => {
-                  setSearch(event.target.value)
+                onChange={(next) => {
+                  setSearch(next)
                   setPage(1)
                 }}
               />
@@ -160,35 +161,33 @@ export default function ActivityReportListPage() {
               label={t('reports.activity.fields.company')}
               value={companyId === undefined ? '' : String(companyId)}
               width={220}
+              placeholder={t('reports.common.allCompanies')}
+              options={
+                companies.data?.items.map((company) => ({
+                  value: String(company.id),
+                  label: company.displayName,
+                })) ?? []
+              }
               onChange={(next) => {
                 setCompanyId(next === '' ? undefined : Number(next))
                 setPage(1)
               }}
-            >
-              <option value="">{t('reports.common.allCompanies')}</option>
-              {companies.data?.items.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterSelect
               id="activity-type"
               label={t('reports.activity.fields.reportType')}
               value={reportType === undefined ? '' : String(reportType)}
+              placeholder={t('reports.activity.filters.allTypes')}
+              options={enumValues(ActivityReportType).map((value) => ({
+                value: String(value),
+                label: t(`enums.activityReportType.${value}`),
+              }))}
               onChange={(next) => {
                 setReportType(next === '' ? undefined : (Number(next) as ActivityReportType))
                 setPage(1)
               }}
-            >
-              <option value="">{t('reports.activity.filters.allTypes')}</option>
-              {enumValues(ActivityReportType).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.activityReportType.${value}`)}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterDate
               id="activity-start-date"
@@ -209,31 +208,28 @@ export default function ActivityReportListPage() {
               }}
             />
           </div>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('reports.activity.title')}
-            columns={columns}
-            rows={list.data?.items}
-            rowKey={(row) => row.id}
-            isLoading={list.isLoading}
-            error={list.error ? errorMessage(list.error) : null}
-            emptyMessage={t('reports.activity.empty')}
-          />
-        </div>
-
-        {list.data && list.data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          list.data && list.data.totalCount > 0 ? (
             <Pagination
               total={list.data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('reports.activity.title')}
+          columns={columns}
+          rows={list.data?.items}
+          rowKey={(row) => row.id}
+          isLoading={list.isLoading}
+          error={list.error ? errorMessage(list.error) : null}
+          emptyMessage={t('reports.activity.empty')}
+        />
+      </Card>
 
       {isCreating && <ActivityReportFormModal onClose={() => setIsCreating(false)} />}
       {editing && (

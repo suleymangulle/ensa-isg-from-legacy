@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, CheckBox, Input, TextArea } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import {
@@ -108,25 +109,21 @@ export default function ParameterListPage() {
             />
             {isDirty && (
               <>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-light-success"
+                <Button variant="light" size="sm" 
                   disabled={update.isPending}
                   onClick={() => saveValue(parameter)}
                   aria-label={t('parameter.actions.saveNamed', { name: parameter.name })}
                   title={t('common.save')}
                 >
                   ✓
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-light"
+                </Button>
+                <Button variant="light" size="sm"
                   onClick={() => revert(parameter.id)}
                   aria-label={t('parameter.actions.revertNamed', { name: parameter.name })}
                   title={t('parameter.actions.revert')}
                 >
                   ↺
-                </button>
+                </Button>
               </>
             )}
           </div>
@@ -138,9 +135,9 @@ export default function ParameterListPage() {
       header: t('parameter.fields.status'),
       align: 'center',
       render: (parameter) => (
-        <span className={parameter.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={parameter.isActive ? 'success' : 'danger'}>
           {parameter.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -150,24 +147,20 @@ export default function ParameterListPage() {
       width: '140px',
       render: (parameter) => (
         <div className="d-inline-flex gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setEditing(parameter)}
             aria-label={t('parameter.actions.editNamed', { name: parameter.name })}
             title={t('common.edit')}
           >
             ✎
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setPendingDelete(parameter)}
             aria-label={t('parameter.actions.deleteNamed', { name: parameter.name })}
             title={t('common.delete')}
           >
             ✕
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -179,14 +172,15 @@ export default function ParameterListPage() {
         title={t('parameter.list.title')}
         description={t('parameter.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('parameter.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0 d-block">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(value) => {
@@ -195,40 +189,34 @@ export default function ParameterListPage() {
             }}
             placeholder={t('parameter.list.searchPlaceholder')}
           />
-        </div>
-
-        <div className="card-body p-0">
-          {update.error && (
-            <div
-              className="alert border-0 m-4"
-              style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-              role="alert"
-            >
-              {errorMessage(update.error)}
-            </div>
-          )}
-          <DataTable
-            label={t('parameter.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(parameter) => parameter.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('parameter.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
+          )
+        }
+      >
+        {update.error && (
+          <Alert variant="danger" className="m-4">
+            {errorMessage(update.error)}
+          </Alert>
         )}
-      </div>
+        <DataTable
+          label={t('parameter.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(parameter) => parameter.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('parameter.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <ParameterFormModal onClose={() => setCreateOpen(false)} />}
       {editing && (
@@ -303,64 +291,46 @@ function ParameterFormModal({
       error={pending.error ? errorMessage(pending.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="parameter-code"
           label={t('parameter.fields.code')}
-          htmlFor="parameter-code"
           required={!isEdit}
           error={errors.code}
-          hint={t('parameter.form.codeHint')}
-        >
-          <input
-            id="parameter-code"
-            className={controlClass('form-control', errors.code)}
-            value={code}
-            disabled={isEdit}
-            onChange={(event) => setCode(event.target.value)}
-          />
-        </Field>
+          helpText={t('parameter.form.codeHint')}
+          className="col-12"
+          value={code}
+          disabled={isEdit}
+          onChange={setCode}
+        />
 
-        <Field
+        <Input
+          id="parameter-name"
           label={t('parameter.fields.name')}
-          htmlFor="parameter-name"
           required
           error={errors.name}
-        >
-          <input
-            id="parameter-name"
-            className={controlClass('form-control', errors.name)}
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </Field>
+          className="col-12"
+          value={name}
+          onChange={setName}
+        />
 
-        <Field
+        <TextArea
+          id="parameter-value"
           label={t('parameter.fields.value')}
-          htmlFor="parameter-value"
           required
           error={errors.value}
-        >
-          <textarea
-            id="parameter-value"
-            className={controlClass('form-control', errors.value)}
-            rows={3}
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-          />
-        </Field>
+          className="col-12"
+          rows={3}
+          value={value}
+          onChange={setValue}
+        />
 
         <div className="col-12">
-          <div className="form-check">
-            <input
-              id="parameter-isActive"
-              type="checkbox"
-              className="form-check-input"
-              checked={isActive}
-              onChange={(event) => setActive(event.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="parameter-isActive">
-              {t('common.active')}
-            </label>
-          </div>
+          <CheckBox
+            id="parameter-isActive"
+            checked={isActive}
+            onChange={setActive}
+            label={t('common.active')}
+          />
         </div>
       </div>
     </Modal>

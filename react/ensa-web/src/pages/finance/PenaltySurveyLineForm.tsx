@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, NumberInput, Select } from 'rich-react-component'
 import { Field, Modal, controlClass } from '@/components/Form'
 import { usePenaltyList, type PenaltySurveyLineDto, type SavePenaltySurveyLineDto } from './api'
-import { parseDecimal } from './components'
 
 const ARTICLE_PAGE_SIZE = 50
 
@@ -39,7 +39,7 @@ export default function PenaltySurveyLineForm({
   const [articleSearch, setArticleSearch] = useState('')
   const [penaltyId, setPenaltyId] = useState<number | undefined>(line?.penaltyId)
   const [surveyAnswer, setSurveyAnswer] = useState(line?.surveyAnswer ?? true)
-  const [year, setYear] = useState(String(new Date().getFullYear()))
+  const [year, setYear] = useState<number | null>(new Date().getFullYear())
   const [validation, setValidation] = useState<Record<string, string>>({})
 
   const articles = usePenaltyList({
@@ -54,7 +54,7 @@ export default function PenaltySurveyLineForm({
     const errors: Record<string, string> = {}
     if (!penaltyId) errors.penaltyId = t('validation.required')
 
-    const parsedYear = year ? Math.round(parseDecimal(year)) : null
+    const parsedYear = year !== null ? Math.round(year) : null
     if (parsedYear !== null && (parsedYear < 2000 || parsedYear > 2200)) {
       errors.year = t('finance.penalty.amount.yearRange')
     }
@@ -84,19 +84,14 @@ export default function PenaltySurveyLineForm({
       size="lg"
     >
       <div className="row g-4">
-        <Field
+        <Input
+          id="survey-line-search"
           label={t('finance.penaltySurvey.line.fields.articleSearch')}
-          htmlFor="survey-line-search"
-        >
-          <input
-            id="survey-line-search"
-            type="search"
-            className="form-control"
-            value={articleSearch}
-            placeholder={t('finance.penaltySurvey.line.searchPlaceholder')}
-            onChange={(event) => setArticleSearch(event.target.value)}
-          />
-        </Field>
+          type="search"
+          value={articleSearch}
+          placeholder={t('finance.penaltySurvey.line.searchPlaceholder')}
+          onChange={setArticleSearch}
+        />
 
         <Field
           label={t('finance.penaltySurvey.line.fields.penalty')}
@@ -129,42 +124,31 @@ export default function PenaltySurveyLineForm({
           </select>
         </Field>
 
-        <Field
+        <Select<string>
+          id="survey-line-answer"
           label={t('finance.penaltySurvey.line.fields.surveyAnswer')}
-          htmlFor="survey-line-answer"
           required
           className="col-md-6"
-        >
-          <select
-            id="survey-line-answer"
-            className="form-select"
-            value={surveyAnswer ? 'true' : 'false'}
-            onChange={(event) => setSurveyAnswer(event.target.value === 'true')}
-          >
-            <option value="true">{t('finance.penaltySurvey.answer.violation')}</option>
-            <option value="false">{t('finance.penaltySurvey.answer.compliant')}</option>
-          </select>
-        </Field>
+          options={[
+            { value: 'true', label: t('finance.penaltySurvey.answer.violation') },
+            { value: 'false', label: t('finance.penaltySurvey.answer.compliant') },
+          ]}
+          value={surveyAnswer ? 'true' : 'false'}
+          onChange={(next) => setSurveyAnswer(next === 'true')}
+        />
 
-        <Field
+        <NumberInput
+          id="survey-line-year"
           label={t('finance.penaltySurvey.line.fields.year')}
-          htmlFor="survey-line-year"
           error={validation.year}
-          hint={t('finance.penaltySurvey.line.yearHint')}
+          helpText={t('finance.penaltySurvey.line.yearHint')}
           className="col-md-6"
-        >
-          <input
-            id="survey-line-year"
-            type="number"
-            step="1"
-            min="2000"
-            max="2200"
-            className={controlClass('form-control text-end', validation.year)}
-            value={year}
-            aria-invalid={validation.year ? true : undefined}
-            onChange={(event) => setYear(event.target.value)}
-          />
-        </Field>
+          step={1}
+          min={2000}
+          max={2200}
+          value={year}
+          onChange={setYear}
+        />
       </div>
 
       <p className="mt-4 mb-0" style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>

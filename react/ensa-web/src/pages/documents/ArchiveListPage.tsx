@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, NumberInput, Select, Tabs, TextArea, type TabItem } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { errorMessage } from '@/api/http'
 import { useEntity } from '@/api/endpoints'
@@ -37,10 +38,10 @@ export default function ArchiveListPage() {
 
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [moduleType, setModuleType] = useState('')
-  const [companyId, setCompanyId] = useState('')
-  const [year, setYear] = useState('')
-  const [month, setMonth] = useState('')
+  const [moduleType, setModuleType] = useState<DocumentOwnerType | null>(null)
+  const [companyId, setCompanyId] = useState<number | null>(null)
+  const [year, setYear] = useState<number | null>(null)
+  const [month, setMonth] = useState<number | null>(null)
 
   const [editingId, setEditingId] = useState<number | undefined>()
   const [isEditorOpen, setIsEditorOpen] = useState(false)
@@ -59,10 +60,10 @@ export default function ArchiveListPage() {
     skipCount: (page - 1) * PAGE_SIZE,
     maxResultCount: PAGE_SIZE,
     filter: search || undefined,
-    moduleType: moduleType === '' ? undefined : (Number(moduleType) as DocumentOwnerType),
-    companyId: companyId === '' ? undefined : Number(companyId),
-    year: year === '' ? undefined : Number(year),
-    month: month === '' ? undefined : Number(month),
+    moduleType: moduleType ?? undefined,
+    companyId: companyId ?? undefined,
+    year: year ?? undefined,
+    month: month ?? undefined,
   })
 
   const editing = useEntity<ArchiveDto>(ARCHIVE, editingId)
@@ -77,7 +78,7 @@ export default function ArchiveListPage() {
       key: 'moduleType',
       header: t('archive.fields.moduleType'),
       render: (row) => (
-        <span className="badge-light-primary">{t(`enums.documentOwnerType.${row.moduleType}`)}</span>
+        <Badge variant="primary">{t(`enums.documentOwnerType.${row.moduleType}`)}</Badge>
       ),
     },
     { key: 'moduleId', header: t('archive.fields.moduleId'), align: 'end', render: (row) => row.moduleId },
@@ -117,9 +118,7 @@ export default function ArchiveListPage() {
       width: '180px',
       render: (row) => (
         <div className="d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => {
               setEditingId(row.id)
               setIsEditorOpen(true)
@@ -127,19 +126,19 @@ export default function ArchiveListPage() {
             aria-label={t('archive.list.editAria', { id: row.id })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(row)}
             aria-label={t('archive.list.deleteAria', { id: row.id })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
   ]
+
+  const tabItems: TabItem[] = TABS.map((tab) => ({ key: tab, label: t(`archive.tabs.${tab}`) }))
 
   return (
     <>
@@ -147,43 +146,27 @@ export default function ArchiveListPage() {
         title={t('archive.list.title')}
         description={t('archive.list.description')}
         action={
-          <button
-            className="btn btn-primary"
-            type="button"
+          <Button variant="primary"
             onClick={() => {
               setEditingId(undefined)
               setIsEditorOpen(true)
             }}
           >
             {t('archive.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`archive.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
+      <Card
+        
+        header={
+          <Tabs
+            items={tabItems}
+            activeKey={activeTab}
+            onChange={(key) => setActiveTab(key as TabKey)}
+          />
+        }
+      >
         {activeTab === 'all' ? (
           <>
             <div className="card-body pb-0">
@@ -195,93 +178,74 @@ export default function ArchiveListPage() {
                 }}
                 placeholder={t('archive.list.searchPlaceholder')}
               >
-                <div>
+                <div style={{ minWidth: 190 }}>
                   <label htmlFor="archive-module-filter" className="visually-hidden">
                     {t('archive.filters.moduleType')}
                   </label>
-                  <select
+                  <Select
                     id="archive-module-filter"
-                    className="form-select"
-                    style={{ minWidth: 190 }}
+                    placeholder={t('archive.filters.allModules')}
+                    options={OWNER_TYPES.map((value) => ({
+                      value,
+                      label: t(`enums.documentOwnerType.${value}`),
+                    }))}
                     value={moduleType}
-                    onChange={(event) => {
-                      setModuleType(event.target.value)
+                    onChange={(value) => {
+                      setModuleType(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('archive.filters.allModules')}</option>
-                    {OWNER_TYPES.map((value) => (
-                      <option key={value} value={value}>
-                        {t(`enums.documentOwnerType.${value}`)}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
-                <div>
+                <div style={{ minWidth: 190 }}>
                   <label htmlFor="archive-company-filter" className="visually-hidden">
                     {t('archive.filters.company')}
                   </label>
-                  <select
+                  <Select
                     id="archive-company-filter"
-                    className="form-select"
-                    style={{ minWidth: 190 }}
+                    placeholder={t('archive.filters.allCompanies')}
+                    options={(companies.data?.items ?? []).map((company) => ({
+                      value: company.id,
+                      label: company.displayName,
+                    }))}
                     value={companyId}
-                    onChange={(event) => {
-                      setCompanyId(event.target.value)
+                    onChange={(value) => {
+                      setCompanyId(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('archive.filters.allCompanies')}</option>
-                    {companies.data?.items.map((company) => (
-                      <option key={company.id} value={company.id}>
-                        {company.displayName}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
-                <div>
+                <div style={{ minWidth: 130 }}>
                   <label htmlFor="archive-year-filter" className="visually-hidden">
                     {t('archive.filters.year')}
                   </label>
-                  <select
+                  <Select
                     id="archive-year-filter"
-                    className="form-select"
-                    style={{ minWidth: 130 }}
+                    placeholder={t('archive.filters.allYears')}
+                    options={recentYears().map((value) => ({ value, label: String(value) }))}
                     value={year}
-                    onChange={(event) => {
-                      setYear(event.target.value)
+                    onChange={(value) => {
+                      setYear(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('archive.filters.allYears')}</option>
-                    {recentYears().map((value) => (
-                      <option key={value} value={value}>
-                        {value}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
-                <div>
+                <div style={{ minWidth: 150 }}>
                   <label htmlFor="archive-month-filter" className="visually-hidden">
                     {t('archive.filters.month')}
                   </label>
-                  <select
+                  <Select
                     id="archive-month-filter"
-                    className="form-select"
-                    style={{ minWidth: 150 }}
+                    placeholder={t('archive.filters.allMonths')}
+                    options={MONTHS.map((value) => ({
+                      value,
+                      label: t(`enums.month.${value}`),
+                    }))}
                     value={month}
-                    onChange={(event) => {
-                      setMonth(event.target.value)
+                    onChange={(value) => {
+                      setMonth(value)
                       setPage(1)
                     }}
-                  >
-                    <option value="">{t('archive.filters.allMonths')}</option>
-                    {MONTHS.map((value) => (
-                      <option key={value} value={value}>
-                        {t(`enums.month.${value}`)}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </SearchBar>
             </div>
@@ -312,7 +276,7 @@ export default function ArchiveListPage() {
         ) : (
           <ByModulePanel columns={columns} />
         )}
-      </div>
+      </Card>
 
       {isEditorOpen && (!editingId || editing.data) && (
         <ArchiveEditor
@@ -346,9 +310,9 @@ function ByModulePanel({ columns }: { columns: Column<ArchiveListDto>[] }) {
   const { t } = useTranslation()
 
   const [moduleType, setModuleType] = useState<DocumentOwnerType>(DocumentOwnerType.Company)
-  const [moduleId, setModuleId] = useState('')
-  const [month, setMonth] = useState('')
-  const [year, setYear] = useState('')
+  const [moduleId, setModuleId] = useState<number | null>(null)
+  const [month, setMonth] = useState<number | null>(null)
+  const [year, setYear] = useState<number | null>(null)
   const [query, setQuery] = useState<{
     moduleType?: DocumentOwnerType
     moduleId?: number
@@ -357,7 +321,7 @@ function ByModulePanel({ columns }: { columns: Column<ArchiveListDto>[] }) {
   }>({})
 
   const result = useArchiveByModule(query.moduleType, query.moduleId, query.month, query.year)
-  const isReady = !!moduleId.trim() && Number(moduleId) > 0
+  const isReady = moduleId !== null && moduleId > 0
 
   return (
     <>
@@ -369,85 +333,60 @@ function ByModulePanel({ columns }: { columns: Column<ArchiveListDto>[] }) {
             if (!isReady) return
             setQuery({
               moduleType,
-              moduleId: Math.trunc(Number(moduleId)),
-              month: month === '' ? undefined : Number(month),
-              year: year === '' ? undefined : Number(year),
+              moduleId: Math.trunc(moduleId!),
+              month: month ?? undefined,
+              year: year ?? undefined,
             })
           }}
         >
-          <Field
+          <Select
+            id="by-module-type"
             label={t('archive.fields.moduleType')}
-            htmlFor="by-module-type"
             required
             className="col-md-3"
-          >
-            <select
-              id="by-module-type"
-              className="form-select"
-              value={moduleType}
-              onChange={(event) => setModuleType(Number(event.target.value))}
-            >
-              {OWNER_TYPES.map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.documentOwnerType.${value}`)}
-                </option>
-              ))}
-            </select>
-          </Field>
+            options={OWNER_TYPES.map((value) => ({
+              value,
+              label: t(`enums.documentOwnerType.${value}`),
+            }))}
+            value={moduleType}
+            onChange={(value) => value !== null && setModuleType(value)}
+          />
 
-          <Field
+          <NumberInput
+            id="by-module-id"
             label={t('archive.fields.moduleId')}
-            htmlFor="by-module-id"
             required
-            hint={t('archive.byModule.recordHint')}
+            helpText={t('archive.byModule.recordHint')}
             className="col-md-3"
-          >
-            <input
-              id="by-module-id"
-              type="number"
-              min={1}
-              className="form-control"
-              value={moduleId}
-              onChange={(event) => setModuleId(event.target.value)}
-            />
-          </Field>
+            min={1}
+            value={moduleId}
+            onChange={setModuleId}
+          />
 
-          <Field label={t('archive.filters.year')} htmlFor="by-module-year" className="col-md-2">
-            <select
-              id="by-module-year"
-              className="form-select"
-              value={year}
-              onChange={(event) => setYear(event.target.value)}
-            >
-              <option value="">{t('archive.filters.allYears')}</option>
-              {recentYears().map((value) => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </Field>
+          <Select
+            id="by-module-year"
+            label={t('archive.filters.year')}
+            placeholder={t('archive.filters.allYears')}
+            className="col-md-2"
+            options={recentYears().map((value) => ({ value, label: String(value) }))}
+            value={year}
+            onChange={setYear}
+          />
 
-          <Field label={t('archive.filters.month')} htmlFor="by-module-month" className="col-md-2">
-            <select
-              id="by-module-month"
-              className="form-select"
-              value={month}
-              onChange={(event) => setMonth(event.target.value)}
-            >
-              <option value="">{t('archive.filters.allMonths')}</option>
-              {MONTHS.map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.month.${value}`)}
-                </option>
-              ))}
-            </select>
-          </Field>
+          <Select
+            id="by-module-month"
+            label={t('archive.filters.month')}
+            placeholder={t('archive.filters.allMonths')}
+            className="col-md-2"
+            options={MONTHS.map((value) => ({ value, label: t(`enums.month.${value}`) }))}
+            value={month}
+            onChange={setMonth}
+          />
 
           <div className="col-md-2">
-            <button type="submit" className="btn btn-primary w-100" disabled={!isReady}>
+            <Button variant="primary" className="w-100" type="submit" disabled={!isReady}>
               {t('archive.byModule.show')}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
@@ -475,24 +414,24 @@ function ByModulePanel({ columns }: { columns: Column<ArchiveListDto>[] }) {
 
 interface EditorState {
   moduleType: DocumentOwnerType
-  moduleId: string
-  documentId: string
-  companyId: string
-  lineId: string
-  month: string
-  year: string
+  moduleId: number | null
+  documentId: number | null
+  companyId: number | null
+  lineId: number | null
+  month: number | null
+  year: number | null
   description: string
   moduleDescription: string
 }
 
 const EMPTY_EDITOR: EditorState = {
   moduleType: DocumentOwnerType.Company,
-  moduleId: '',
-  documentId: '',
-  companyId: '',
-  lineId: '',
-  month: '',
-  year: '',
+  moduleId: null,
+  documentId: null,
+  companyId: null,
+  lineId: null,
+  month: null,
+  year: null,
   description: '',
   moduleDescription: '',
 }
@@ -518,12 +457,12 @@ function ArchiveEditor({
       archive
         ? {
             moduleType: archive.moduleType,
-            moduleId: archive.moduleId.toString(),
-            documentId: archive.documentId.toString(),
-            companyId: archive.companyId.toString(),
-            lineId: archive.lineId?.toString() ?? '',
-            month: archive.month?.toString() ?? '',
-            year: archive.year?.toString() ?? '',
+            moduleId: archive.moduleId,
+            documentId: archive.documentId,
+            companyId: archive.companyId,
+            lineId: archive.lineId ?? null,
+            month: archive.month ?? null,
+            year: archive.year ?? null,
             description: archive.description ?? '',
             moduleDescription: archive.moduleDescription ?? '',
           }
@@ -535,32 +474,24 @@ function ArchiveEditor({
   const update = useUpdate<SaveArchiveDto>(ARCHIVE, { onSuccess: onClose })
   const mutation = archive ? update : create
 
-  function positive(value: string) {
-    const parsed = Number(value)
-    return value.trim() && Number.isFinite(parsed) && parsed >= 1 ? Math.trunc(parsed) : null
-  }
-
   function submit() {
     const nextErrors: Partial<Record<keyof EditorState, string>> = {}
-    const moduleId = positive(state.moduleId)
-    const documentId = positive(state.documentId)
-    const companyId = positive(state.companyId)
 
-    if (!moduleId) nextErrors.moduleId = t('archive.editor.moduleIdRequired')
-    if (!documentId) nextErrors.documentId = t('archive.editor.documentRequired')
-    if (!companyId) nextErrors.companyId = t('archive.editor.companyRequired')
+    if (state.moduleId === null || state.moduleId < 1) nextErrors.moduleId = t('archive.editor.moduleIdRequired')
+    if (state.documentId === null || state.documentId < 1) nextErrors.documentId = t('archive.editor.documentRequired')
+    if (state.companyId === null || state.companyId < 1) nextErrors.companyId = t('archive.editor.companyRequired')
 
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length) return
 
     const input: SaveArchiveDto = {
       moduleType: state.moduleType,
-      moduleId: moduleId!,
-      documentId: documentId!,
-      companyId: companyId!,
-      lineId: positive(state.lineId),
-      month: state.month === '' ? null : Number(state.month),
-      year: state.year === '' ? null : Number(state.year),
+      moduleId: Math.trunc(state.moduleId!),
+      documentId: Math.trunc(state.documentId!),
+      companyId: Math.trunc(state.companyId!),
+      lineId: state.lineId !== null ? Math.trunc(state.lineId) : null,
+      month: state.month,
+      year: state.year,
       description: state.description.trim() || null,
       moduleDescription: state.moduleDescription.trim() || null,
     }
@@ -580,140 +511,103 @@ function ArchiveEditor({
       size="lg"
     >
       <div className="row g-3">
-        <Field label={t('archive.fields.moduleType')} htmlFor="archive-module-type" required className="col-md-6">
-          <select
-            id="archive-module-type"
-            className="form-select"
-            value={state.moduleType}
-            onChange={(event) => setState((s) => ({ ...s, moduleType: Number(event.target.value) }))}
-          >
-            {OWNER_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.documentOwnerType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="archive-module-type"
+          label={t('archive.fields.moduleType')}
+          required
+          className="col-md-6"
+          options={OWNER_TYPES.map((value) => ({
+            value,
+            label: t(`enums.documentOwnerType.${value}`),
+          }))}
+          value={state.moduleType}
+          onChange={(value) => value !== null && setState((s) => ({ ...s, moduleType: value }))}
+        />
 
-        <Field
+        <NumberInput
+          id="archive-module-id"
           label={t('archive.fields.moduleId')}
-          htmlFor="archive-module-id"
           required
           error={errors.moduleId}
           className="col-md-6"
-        >
-          <input
-            id="archive-module-id"
-            type="number"
-            min={1}
-            className={controlClass('form-control', errors.moduleId)}
-            value={state.moduleId}
-            onChange={(event) => setState((s) => ({ ...s, moduleId: event.target.value }))}
-          />
-        </Field>
+          min={1}
+          value={state.moduleId}
+          onChange={(value) => setState((s) => ({ ...s, moduleId: value }))}
+        />
 
-        <Field
+        <NumberInput
+          id="archive-document-id"
           label={t('archive.fields.documentId')}
-          htmlFor="archive-document-id"
           required
           error={errors.documentId}
-          hint={t('archive.editor.documentHint')}
+          helpText={t('archive.editor.documentHint')}
           className="col-md-6"
-        >
-          <input
-            id="archive-document-id"
-            type="number"
-            min={1}
-            className={controlClass('form-control', errors.documentId)}
-            value={state.documentId}
-            onChange={(event) => setState((s) => ({ ...s, documentId: event.target.value }))}
-          />
-        </Field>
+          min={1}
+          value={state.documentId}
+          onChange={(value) => setState((s) => ({ ...s, documentId: value }))}
+        />
 
-        <Field
+        <Select
+          id="archive-company"
           label={t('archive.fields.company')}
-          htmlFor="archive-company"
           required
           error={errors.companyId}
           className="col-md-6"
-        >
-          <select
-            id="archive-company"
-            className={controlClass('form-select', errors.companyId)}
-            value={state.companyId}
-            onChange={(event) => setState((s) => ({ ...s, companyId: event.target.value }))}
-          >
-            <option value="">{t('archive.editor.selectCompany')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('archive.editor.selectCompany')}
+          options={(companies.data?.items ?? []).map((company) => ({
+            value: company.id,
+            label: company.displayName,
+          }))}
+          value={state.companyId}
+          onChange={(value) => setState((s) => ({ ...s, companyId: value }))}
+        />
 
-        <Field label={t('archive.fields.lineId')} htmlFor="archive-line" className="col-md-4">
-          <input
-            id="archive-line"
-            type="number"
-            min={1}
-            className="form-control"
-            value={state.lineId}
-            onChange={(event) => setState((s) => ({ ...s, lineId: event.target.value }))}
-          />
-        </Field>
+        <NumberInput
+          id="archive-line"
+          label={t('archive.fields.lineId')}
+          className="col-md-4"
+          min={1}
+          value={state.lineId}
+          onChange={(value) => setState((s) => ({ ...s, lineId: value }))}
+        />
 
-        <Field label={t('archive.filters.year')} htmlFor="archive-year" className="col-md-4">
-          <select
-            id="archive-year"
-            className="form-select"
-            value={state.year}
-            onChange={(event) => setState((s) => ({ ...s, year: event.target.value }))}
-          >
-            <option value="">{t('common.none')}</option>
-            {recentYears().map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="archive-year"
+          label={t('archive.filters.year')}
+          className="col-md-4"
+          placeholder={t('common.none')}
+          options={recentYears().map((value) => ({ value, label: String(value) }))}
+          value={state.year}
+          onChange={(value) => setState((s) => ({ ...s, year: value }))}
+        />
 
-        <Field label={t('archive.filters.month')} htmlFor="archive-month" className="col-md-4">
-          <select
-            id="archive-month"
-            className="form-select"
-            value={state.month}
-            onChange={(event) => setState((s) => ({ ...s, month: event.target.value }))}
-          >
-            <option value="">{t('common.none')}</option>
-            {MONTHS.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.month.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="archive-month"
+          label={t('archive.filters.month')}
+          className="col-md-4"
+          placeholder={t('common.none')}
+          options={MONTHS.map((value) => ({ value, label: t(`enums.month.${value}`) }))}
+          value={state.month}
+          onChange={(value) => setState((s) => ({ ...s, month: value }))}
+        />
 
-        <Field label={t('archive.fields.description')} htmlFor="archive-description">
-          <textarea
-            id="archive-description"
-            className="form-control"
-            rows={2}
-            value={state.description}
-            onChange={(event) => setState((s) => ({ ...s, description: event.target.value }))}
-          />
-        </Field>
+        <TextArea
+          id="archive-description"
+          label={t('archive.fields.description')}
+          className="col-12"
+          rows={2}
+          value={state.description}
+          onChange={(value) => setState((s) => ({ ...s, description: value }))}
+        />
 
-        <Field label={t('archive.fields.moduleDescription')} htmlFor="archive-module-description">
-          <textarea
-            id="archive-module-description"
-            className="form-control"
-            rows={2}
-            value={state.moduleDescription}
-            onChange={(event) => setState((s) => ({ ...s, moduleDescription: event.target.value }))}
-          />
-        </Field>
+        <TextArea
+          id="archive-module-description"
+          label={t('archive.fields.moduleDescription')}
+          className="col-12"
+          rows={2}
+          value={state.moduleDescription}
+          onChange={(value) => setState((s) => ({ ...s, moduleDescription: value }))}
+        />
       </div>
     </Modal>
   )

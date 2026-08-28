@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, TextArea } from 'rich-react-component'
 import { RiskCategory } from '@/api/enums'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   OBSERVATION_ENDPOINTS,
   useCompanyLookup,
@@ -141,36 +142,25 @@ export default function CorrectiveActionFormModal({
           onChange={(next) => patch({ riskCategory: (next ?? RiskCategory.Unspecified) as RiskCategory })}
         />
 
-        <Field
+        <TextArea
+          id="action-finding"
           label={t('correctiveAction.fields.finding')}
-          htmlFor="action-finding"
           required
           error={errors.finding}
           className="col-12"
-        >
-          <textarea
-            id="action-finding"
-            className={controlClass('form-control', errors.finding)}
-            rows={3}
-            value={form.finding}
-            aria-invalid={errors.finding ? true : undefined}
-            onChange={(event) => patch({ finding: event.target.value })}
-          />
-        </Field>
+          rows={3}
+          value={form.finding}
+          onChange={(value) => patch({ finding: value })}
+        />
 
-        <Field
+        <TextArea
+          id="action-recommendation"
           label={t('correctiveAction.fields.recommendation')}
-          htmlFor="action-recommendation"
           className="col-12"
-        >
-          <textarea
-            id="action-recommendation"
-            className="form-control"
-            rows={3}
-            value={form.recommendation}
-            onChange={(event) => patch({ recommendation: event.target.value })}
-          />
-        </Field>
+          rows={3}
+          value={form.recommendation}
+          onChange={(value) => patch({ recommendation: value })}
+        />
 
         <LookupField
           id="action-owner-employee"
@@ -186,63 +176,41 @@ export default function CorrectiveActionFormModal({
           onChange={(next) => patch({ ownerCompanyEmployeeId: next })}
         />
 
-        <Field
+        <Input
+          id="action-owner"
           label={t('correctiveAction.fields.owner')}
-          htmlFor="action-owner"
-          hint={t('correctiveAction.form.ownerHint')}
+          helpText={t('correctiveAction.form.ownerHint')}
           className="col-md-6"
-        >
-          <input
-            id="action-owner"
-            type="text"
-            className="form-control"
-            value={form.owner}
-            onChange={(event) => patch({ owner: event.target.value })}
-          />
-        </Field>
+          value={form.owner}
+          onChange={(value) => patch({ owner: value })}
+        />
 
-        <Field
+        <Input
+          id="action-finding-date"
           label={t('correctiveAction.fields.findingDate')}
-          htmlFor="action-finding-date"
           className="col-md-4"
-        >
-          <input
-            id="action-finding-date"
-            type="date"
-            className="form-control"
-            value={form.findingDate}
-            onChange={(event) => patch({ findingDate: event.target.value })}
-          />
-        </Field>
+          value={form.findingDate}
+          onChange={(value) => patch({ findingDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Input
+          id="action-deadline-date"
           label={t('correctiveAction.fields.deadlineDate')}
-          htmlFor="action-deadline-date"
           className="col-md-4"
-        >
-          <input
-            id="action-deadline-date"
-            type="date"
-            className="form-control"
-            value={form.deadlineDate}
-            onChange={(event) => patch({ deadlineDate: event.target.value })}
-          />
-        </Field>
+          value={form.deadlineDate}
+          onChange={(value) => patch({ deadlineDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Input
+          id="action-source"
           label={t('correctiveAction.fields.source')}
-          htmlFor="action-source"
-          hint={t('correctiveAction.form.sourceHint')}
+          helpText={t('correctiveAction.form.sourceHint')}
           className="col-md-4"
-        >
-          <input
-            id="action-source"
-            type="text"
-            className="form-control"
-            value={form.source}
-            onChange={(event) => patch({ source: event.target.value })}
-          />
-        </Field>
+          value={form.source}
+          onChange={(value) => patch({ source: value })}
+        />
       </div>
     </Modal>
   )

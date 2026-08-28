@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input, Select, Tabs, TextArea } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal } from '@/components/Form'
 import {
   EmergencyPlanSectionType,
   EmergencyTeamType,
@@ -89,48 +90,35 @@ export default function EmergencyPlanDetailPage() {
         })}
         action={
           <div className="d-flex gap-2">
-            <button className="btn btn-light-primary" type="button" onClick={() => setEditOpen(true)}>
+            <Button variant="light"  onClick={() => setEditOpen(true)}>
               {t('common.edit')}
-            </button>
-            <button className="btn btn-light-danger" type="button" onClick={() => setDeleteOpen(true)}>
+            </Button>
+            <Button variant="light"  onClick={() => setDeleteOpen(true)}>
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`emergencyPlan.detail.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-body">
-          {activeTab === 'general' && <GeneralTab detail={data} />}
-          {activeTab === 'sections' && <SectionsTab planId={planId} detail={data} />}
-          {activeTab === 'team' && (
-            <TeamTab planId={planId} companyId={plan.companyId} detail={data} />
-          )}
-        </div>
-      </div>
+      <Card>
+        <Tabs
+          items={TABS.map((tab) => ({
+            key: tab,
+            label: t(`emergencyPlan.detail.tabs.${tab}`),
+            content:
+              tab === 'general' ? (
+                <GeneralTab detail={data} />
+              ) : tab === 'sections' ? (
+                <SectionsTab planId={planId} detail={data} />
+              ) : (
+                <TeamTab planId={planId} companyId={plan.companyId} detail={data} />
+              ),
+          }))}
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as TabKey)}
+          variant="underline"
+        />
+      </Card>
 
       {isEditOpen && <EditPlanModal detail={data} onClose={() => setEditOpen(false)} />}
 
@@ -164,18 +152,18 @@ function GeneralTab({ detail }: { detail: EmergencyActionPlanNavigationDto }) {
         )}
       </Term>
       <Term label={t('emergencyPlan.fields.hazardClass')}>
-        <span className={HAZARD_CLASS_BADGE[plan.hazardClass]}>
+        <Badge variant={HAZARD_CLASS_BADGE[plan.hazardClass]}>
           {t(`enums.hazardClass.${plan.hazardClass}`)}
-        </span>
+        </Badge>
       </Term>
       <Term label={t('emergencyPlan.fields.preparedDate')}>
         {formatDate(plan.preparedDate) ?? none}
       </Term>
       <Term label={t('emergencyPlan.fields.validityDate')}>
         <span className="me-2">{formatDate(plan.validityDate) ?? none}</span>
-        <span className={plan.isValid ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={plan.isValid ? 'success' : 'danger'}>
           {plan.isValid ? t('emergencyPlan.validity.valid') : t('emergencyPlan.validity.expired')}
-        </span>
+        </Badge>
       </Term>
       <Term label={t('emergencyPlan.fields.workplaceTitle')}>{plan.companyName || none}</Term>
       <Term label={t('emergencyPlan.fields.registrationNo')}>{plan.registrationNo || none}</Term>
@@ -249,32 +237,28 @@ function SectionsTab({
                   {t(`enums.emergencyPlanSectionType.${sectionType}`)}
                 </h2>
                 <div className="d-flex align-items-center gap-2">
-                  <span className={section ? 'badge-light-success' : 'badge-light-warning'}>
+                  <Badge variant={section ? 'success' : 'warning'}>
                     {section
                       ? t('emergencyPlan.sections.filled')
                       : t('emergencyPlan.sections.missing')}
-                  </span>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-light-primary"
+                  </Badge>
+                  <Button variant="light" size="sm" 
                     onClick={() => setEditing(sectionType)}
                     aria-label={t('emergencyPlan.sections.editFor', {
                       name: t(`enums.emergencyPlanSectionType.${sectionType}`),
                     })}
                   >
                     {section ? t('common.edit') : t('common.create')}
-                  </button>
+                  </Button>
                   {section && (
-                    <button
-                      type="button"
-                      className="btn btn-sm btn-light-danger"
+                    <Button variant="light" size="sm" 
                       onClick={() => setPendingDelete(sectionType)}
                       aria-label={t('emergencyPlan.sections.deleteFor', {
                         name: t(`enums.emergencyPlanSectionType.${sectionType}`),
                       })}
                     >
                       {t('common.delete')}
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -352,20 +336,15 @@ function SectionModal({
       error={save.error ? errorMessage(save.error) : null}
       size="lg"
     >
-      <Field
+      <TextArea
+        id="sectionContent"
         label={t('emergencyPlan.sections.content')}
-        htmlFor="sectionContent"
         required
         error={validation}
-      >
-        <textarea
-          id="sectionContent"
-          className={controlClass('form-control', validation)}
-          rows={12}
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
-        />
-      </Field>
+        rows={12}
+        value={value}
+        onChange={setValue}
+      />
     </Modal>
   )
 }
@@ -403,9 +382,9 @@ function TeamTab({
       key: 'teamType',
       header: t('emergencyPlan.team.fields.teamType'),
       render: (member) => (
-        <span className="badge-light-info">
+        <Badge variant="info">
           {t(`enums.emergencyTeamType.${member.teamMember.teamType}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -419,14 +398,12 @@ function TeamTab({
       align: 'end',
       width: '110px',
       render: (member) => (
-        <button
-          type="button"
-          className="btn btn-sm btn-light-danger"
+        <Button variant="light" size="sm" 
           onClick={() => setPendingDelete(member)}
           aria-label={t('emergencyPlan.team.removeFor', { name: memberName(member) })}
         >
           {t('common.delete')}
-        </button>
+        </Button>
       ),
     },
   ]
@@ -442,9 +419,9 @@ function TeamTab({
             {t('emergencyPlan.team.description')}
           </p>
         </div>
-        <button type="button" className="btn btn-primary" onClick={() => setAddOpen(true)}>
+        <Button variant="primary" onClick={() => setAddOpen(true)}>
           {t('emergencyPlan.team.add')}
-        </button>
+        </Button>
       </div>
 
       <DataTable
@@ -518,56 +495,44 @@ function AddTeamMemberModal({
       error={add.error ? errorMessage(add.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="teamEmployee"
           label={t('emergencyPlan.team.fields.employee')}
-          htmlFor="teamEmployee"
           required
           error={validation}
-        >
-          <select
-            id="teamEmployee"
-            className={controlClass('form-select', validation)}
-            value={companyEmployeeId || ''}
-            onChange={(event) => setEmployeeId(Number(event.target.value))}
-          >
-            <option value="">{t('emergencyPlan.team.selectEmployee')}</option>
-            {employees.data?.items.map((employee) => (
-              <option key={employee.id} value={employee.id}>
-                {employee.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('emergencyPlan.team.selectEmployee')}
+          options={
+            employees.data?.items.map((employee) => ({
+              value: employee.id,
+              label: employee.displayName,
+            })) ?? []
+          }
+          value={companyEmployeeId || null}
+          onChange={(value) => setEmployeeId(value ?? 0)}
+        />
 
-        <Field label={t('emergencyPlan.team.fields.teamType')} htmlFor="teamType" required>
-          <select
-            id="teamType"
-            className="form-select"
-            value={teamType}
-            onChange={(event) => setTeamType(Number(event.target.value) as EmergencyTeamType)}
-          >
-            {enumValues(EmergencyTeamType).map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.emergencyTeamType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="teamType"
+          label={t('emergencyPlan.team.fields.teamType')}
+          required
+          options={enumValues(EmergencyTeamType).map((value) => ({
+            value,
+            label: t(`enums.emergencyTeamType.${value}`),
+          }))}
+          value={teamType}
+          onChange={(value) => setTeamType((value ?? EmergencyTeamType.FireFighting) as EmergencyTeamType)}
+        />
 
-        <Field label={t('emergencyPlan.team.fields.staffRole')} htmlFor="teamStaffRole">
-          <select
-            id="teamStaffRole"
-            className="form-select"
-            value={staffRole}
-            onChange={(event) => setStaffRole(Number(event.target.value) as StaffRole)}
-          >
-            {enumValues(StaffRole).map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.staffRole.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="teamStaffRole"
+          label={t('emergencyPlan.team.fields.staffRole')}
+          options={enumValues(StaffRole).map((value) => ({
+            value,
+            label: t(`enums.staffRole.${value}`),
+          }))}
+          value={staffRole}
+          onChange={(value) => setStaffRole((value ?? StaffRole.Unspecified) as StaffRole)}
+        />
       </div>
     </Modal>
   )
@@ -651,58 +616,39 @@ function EditPlanModal({
       size="xl"
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="editPlanHazardClass"
           label={t('emergencyPlan.fields.hazardClass')}
-          htmlFor="editPlanHazardClass"
-          hint={t('emergencyPlan.create.hazardClassHint')}
+          helpText={t('emergencyPlan.create.hazardClassHint')}
           className="col-md-6"
-        >
-          <select
-            id="editPlanHazardClass"
-            className="form-select"
-            value={form.hazardClass}
-            onChange={(event) => patch({ hazardClass: Number(event.target.value) as HazardClass })}
-          >
-            {SELECTABLE_HAZARD_CLASSES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.hazardClass.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={SELECTABLE_HAZARD_CLASSES.map((value) => ({
+            value,
+            label: t(`enums.hazardClass.${value}`),
+          }))}
+          value={form.hazardClass}
+          onChange={(value) => patch({ hazardClass: (value ?? HazardClass.LowHazard) as HazardClass })}
+        />
 
-        <Field
+        <Input
+          id="editPlanPreparedDate"
           label={t('emergencyPlan.fields.preparedDate')}
-          htmlFor="editPlanPreparedDate"
           required
           error={validation.preparedDate}
           className="col-md-6"
-        >
-          <input
-            id="editPlanPreparedDate"
-            type="date"
-            className={controlClass('form-control', validation.preparedDate)}
-            value={form.preparedDate}
-            onChange={(event) => patch({ preparedDate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={form.preparedDate}
+          onChange={(value) => patch({ preparedDate: value })}
+        />
 
         {textFields.map(({ key, labelKey }) => (
-          <Field
+          <Input
             key={key}
+            id={`editPlan-${key}`}
             label={t(labelKey)}
-            htmlFor={`editPlan-${key}`}
             className="col-md-6"
-          >
-            <input
-              id={`editPlan-${key}`}
-              className="form-control"
-              value={(form[key] as string | null) ?? ''}
-              onChange={(event) =>
-                patch({ [key]: event.target.value } as Partial<SaveEmergencyActionPlanDto>)
-              }
-            />
-          </Field>
+            value={(form[key] as string | null) ?? ''}
+            onChange={(value) => patch({ [key]: value } as Partial<SaveEmergencyActionPlanDto>)}
+          />
         ))}
       </div>
     </Modal>

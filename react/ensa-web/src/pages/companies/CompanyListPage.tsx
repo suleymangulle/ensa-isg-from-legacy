@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ENDPOINTS, HAZARD_CLASS_BADGE, usePagedList, type CompanyListDto } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
@@ -38,9 +39,9 @@ export default function CompanyListPage() {
       key: 'hazardClass',
       header: t('company.fields.hazardClass'),
       render: (company) => (
-        <span className={HAZARD_CLASS_BADGE[company.hazardClass]}>
+        <Badge variant={HAZARD_CLASS_BADGE[company.hazardClass]}>
           {t(`enums.hazardClass.${company.hazardClass}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -70,9 +71,9 @@ export default function CompanyListPage() {
       header: t('company.fields.status'),
       align: 'center',
       render: (company) => (
-        <span className={company.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={company.isActive ? 'success' : 'danger'}>
           {company.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
   ]
@@ -83,48 +84,48 @@ export default function CompanyListPage() {
         title={t('company.list.title')}
         description={t('company.list.description')}
         action={
-          <button className="btn btn-primary" type="button">
+          <Button variant="primary">
             {t('company.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
-          <input
-            className="form-control"
-            style={{ maxWidth: 320 }}
-            placeholder={t('company.list.searchPlaceholder')}
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value)
-              setPage(1)
-            }}
-            aria-label={t('company.list.searchLabel')}
-          />
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('company.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(company) => company.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('company.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+      <Card
+        
+        header={
+          <div style={{ maxWidth: 320 }}>
+            <Input
+              value={search}
+              onChange={(value) => {
+                setSearch(value)
+                setPage(1)
+              }}
+              placeholder={t('company.list.searchPlaceholder')}
+              inputProps={{ 'aria-label': t('company.list.searchLabel') }}
+            />
+          </div>
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('company.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(company) => company.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('company.list.empty')}
+        />
+      </Card>
     </>
   )
 }

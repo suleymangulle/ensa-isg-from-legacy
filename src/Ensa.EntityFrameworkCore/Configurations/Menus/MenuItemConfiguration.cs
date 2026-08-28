@@ -1,4 +1,4 @@
-using Ensa.Domain.Menus;
+﻿using Ensa.Domain.Menus;
 using Ensa.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -58,6 +58,7 @@ public class MenuItemConfiguration : IEntityTypeConfiguration<MenuItem>
 
         builder.HasIndex(x => x.Code).IsUnique();
         builder.HasIndex(x => x.ModuleId);
+        builder.HasIndex(x => x.PermissionId);
         builder.HasIndex(x => new { x.ProjectCode, x.IsActive, x.SortOrder });
     }
 }

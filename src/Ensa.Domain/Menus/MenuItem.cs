@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 
 namespace Ensa.Domain.Menus;
 
@@ -58,6 +58,25 @@ public class MenuItem : AuditedEntity, IActivatable, IHasSortOrder
     /// that as <c>null</c>. (Legacy: ConnectedModule int?)
     /// </summary>
     public int? ModuleId { get; set; }
+
+    /// <summary>
+    /// FK to the permission that governs the entry. When it is set, the entry is rendered only for
+    /// a user whose effective permissions contain it; when it is <c>null</c> the entry is not
+    /// governed by a permission and is always rendered.
+    /// <para>
+    /// <b>This is visibility, not access control.</b> The endpoint gate
+    /// (<c>PermissionEndpoint</c>, ADR-033) decides what a request may do, and it decides it
+    /// independently of this column. Hiding an entry the user could still reach would be a
+    /// cosmetic defect; showing one they cannot use is a cosmetic defect too. Neither is a way in.
+    /// That is why an unmapped entry stays visible here while an unmapped endpoint is refused.
+    /// </para>
+    /// <para>
+    /// Legacy had no equivalent that ran. <c>YetkiBaglanti_T</c> could link a permission to a menu
+    /// (<c>BaglantiType.MenuEleman</c>) but that link was never populated - zero rows - and the
+    /// menu builder never read it. See ADR-041.
+    /// </para>
+    /// </summary>
+    public int? PermissionId { get; set; }
 
     /// <summary>Sort order. (Legacy: Index int? — renamed because "Index" is a problematic name in C# and EF.)</summary>
     public int SortOrder { get; set; }

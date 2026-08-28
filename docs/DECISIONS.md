@@ -927,3 +927,63 @@ ADR-038: the library owns the markup, this repository owns the words.
 **Still owed by the library**, unchanged from ADR-038: label props for `Pagination`'s
 "Previous"/"Next" and `DataGrid`'s loading text, an `aria-live` region around the toast stack, and
 a peer range that admits React 19.
+## ADR-040 — The legacy permission tables governed nothing at runtime
+
+**Context.** The legacy database carries a full authorization model: 419 permissions in
+`Yetki_T`, 9,640 grants across `KullaniciTypeYetki_T`, `PaketTuruYetki_T` and `KurumTuruYetki_T`,
+5,061 scope rows in `YetkiBaglanti_T`, and 362 restrictions in `YetkiKisit_T`. All of it is
+migrated (`PermissionStep`). `Businness/Firmalar/YetkiKontrolu.cs` implements a four-gate
+algorithm over those tables: package type AND organization type AND (user type OR user) AND not
+explicitly denied, with `ser-admin` bypassing everything.
+
+It was natural to read that as the legacy access-control layer and to bind the modern endpoint
+gate to it. Before doing so, three facts were checked.
+
+**What the legacy code actually does.**
+
+1. `YetkiKontrolu.Authorize` has exactly one call site in the entire solution, and it is
+   commented out. `ENSA_ISG/Attributes/LoginControlAttribute.cs` is an `ActionFilterAttribute`
+   whose `OnActionExecuting` override — the whole body — is commented out. The attribute is
+   applied to 62 controllers and does nothing.
+2. None of the 101 controllers in `ENSA_ISG/Controllers` reference `YetkiKontrolu` at all.
+3. The permission tables are read in two places only, and both are configuration screens:
+   `Businness/Firmalar/YetkiIslemleri.cs`, reached from `YetkiAyarlamalariController`, and
+   `Businness/Firmalar/MenuIslemleri.cs`, reached from `MenuIslemleriController`.
+
+So the four-gate algorithm never ran, and the tables governed nothing at runtime — not the
+endpoints and **not the menu either**. `Businness/Menu/MenuIslemleri.cs`, the builder the
+dashboard actually calls, never mentions `Yetki_T`: it picks one of the 319 `Menu_T` rows by
+matching `(MenuTypeCode, KullaniciType, KurumTuru, PaketTuru)`, drops the items whose
+`ConnectedModule` the organization has not licensed, and applies the per-user `KullaniciMenu_T`
+overrides. Access control at the controller was a login-session check plus hand-written branches
+on `Kullanici_T.PersonelTuru` — `if (Kullanici.PersonelTuru != "Müşteri")` and its siblings
+appear throughout `DefaultController`, `FirmaListController`, `DosyaController` and others.
+
+`YetkiBaglanti_T` looks like the missing link and is not. Its `BaglantiType.MenuEleman` value —
+a permission attached to a single menu entry — has **zero rows**, and its `BaglantiType.Menu`
+value has 46, pointing at `YeniMenu_T`, an unfinished second menu model that only the
+administration screen reads.
+
+**The evidence that settles it.** `KullaniciYetki_T`, the per-user grant table and one of the two
+halves of the third gate, is **empty** — zero rows. `Kullanici_T.YetkiGrubuId` is null or zero for
+every one of the 3,901 users. And `KullaniciTypeYetki_T` has grants for six user types but none
+for `Müşteri` (286 users), `Ofis personeli` (6) or the 172 users with no type at all. Under its
+own algorithm the legacy system would have refused a customer every screen — including the
+customer portal it demonstrably shipped (ADR-037). It did not refuse them, because the algorithm
+was not running.
+
+**Decision.** The endpoint permission map (`PermissionEndpoint`, ADR-033) keeps the permissions
+designed for it. The migrated legacy permissions are retained as what they are — menu and
+visibility configuration — and are not repurposed as an endpoint gate.
+
+Binding the 333 guarded endpoints to legacy page permissions was implemented and measured before
+this was understood. It cost the customer portal entirely: `api_customer_portal` fell from 19/19
+to 7/19 and `api_company_scope` from 20/20 to 14/20, every failure a customer receiving 403,
+because a customer holds no legacy grant and never did. Restoring the seeded map returned both to
+green. That measurement is the reason this ADR exists rather than a paragraph of speculation.
+
+**What this means for fidelity.** Any endpoint authorization in this system is new work; the
+legacy system had none to be faithful to. The same turns out to be true of the menu — that
+configuration was authored but nothing consumed it either. What it does record is the customer's
+own decision about which user type, organization type and plan may reach which screen, which is
+exactly the question a menu answers. ADR-041 puts it to that use.

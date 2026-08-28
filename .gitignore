@@ -81,3 +81,6 @@ venv/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Local archives of generated output; the diagrams themselves are tracked.
+*.rar

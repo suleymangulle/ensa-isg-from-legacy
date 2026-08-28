@@ -1,4 +1,5 @@
-using Ensa.Domain.Menus;
+﻿using Ensa.Domain.Menus;
+using Ensa.Domain.Membership;
 using Ensa.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -125,23 +126,74 @@ public class MenuSeeder(EnsaDbContext context, ILogger<MenuSeeder> logger) : IDa
 
     // ------------------------------------------------------------------ items
 
+    /// <summary>
+    /// Permission id by target, for the targets the seed table names.
+    /// <para>
+    /// Most of them are legacy page permissions carried over by <c>PermissionStep</c>, so this
+    /// resolves only after the data migration has run. On a database that has never seen the
+    /// legacy data the lookup misses and the entries stay ungoverned - which is the right
+    /// outcome: a fresh installation has no legacy configuration to obey.
+    /// </para>
+    /// </summary>
+    private async Task<Dictionary<string, int>> ResolvePermissionsAsync(CancellationToken cancellationToken)
+    {
+        var targets = MenuSeedData.Entries
+            .Select(entry => entry.Permission)
+            .Where(target => !string.IsNullOrWhiteSpace(target))
+            .Distinct()
+            .ToList();
+
+        if (targets.Count == 0)
+        {
+            return [];
+        }
+
+        var rows = await context.Set<Permission>()
+            .Where(permission => targets.Contains(permission.PermissionTarget))
+            .Select(permission => new { permission.PermissionTarget, permission.Id })
+            .ToListAsync(cancellationToken);
+
+        return rows
+            .GroupBy(row => row.PermissionTarget)
+            .ToDictionary(group => group.Key, group => group.First().Id);
+    }
+
     /// <summary>Creates or refreshes one <see cref="MenuItem"/> per section and per screen.</summary>
     private async Task<Dictionary<string, int>> EnsureMenuItemsAsync(CancellationToken cancellationToken)
     {
-        var wanted = new List<(string Code, string Name, string? Url, string? Icon, int SortOrder)>();
+        var permissionIds = await ResolvePermissionsAsync(cancellationToken);
+
+        var wanted = new List<(string Code, string Name, string? Url, string? Icon, int SortOrder, int? PermissionId)>();
 
         for (var index = 0; index < MenuSeedData.Groups.Length; index++)
         {
             var (group, name) = MenuSeedData.Groups[index];
 
-            // A section heading is not navigable, so it carries no URL.
+            // A section heading is not navigable, so it carries no URL and governs nothing; it
+            // disappears on its own once every child under it is filtered away.
             wanted.Add((GroupCodePrefix + group.ToUpperInvariant(), name, null, null,
-                        (index + 1) * GroupSortStep));
+                        (index + 1) * GroupSortStep, null));
         }
 
         foreach (var entry in MenuSeedData.Entries)
         {
-            wanted.Add((entry.Code, entry.Name, entry.Url, entry.Icon, entry.SortOrder));
+            int? permissionId = null;
+            if (entry.Permission is { Length: > 0 } target)
+            {
+                if (permissionIds.TryGetValue(target, out var id))
+                {
+                    permissionId = id;
+                }
+                else
+                {
+                    // Loud, because the alternative is an entry that silently governs nothing.
+                    logger.LogWarning(
+                        "Menu entry {Code} names permission {Target}, which does not exist; the "
+                        + "entry will be visible to everyone.", entry.Code, target);
+                }
+            }
+
+            wanted.Add((entry.Code, entry.Name, entry.Url, entry.Icon, entry.SortOrder, permissionId));
         }
 
         var codes = wanted.ConvertAll(item => item.Code);
@@ -153,12 +205,12 @@ public class MenuSeeder(EnsaDbContext context, ILogger<MenuSeeder> logger) : IDa
         var inserted = 0;
         var refreshed = 0;
 
-        foreach (var (code, name, url, icon, sortOrder) in wanted)
+        foreach (var (code, name, url, icon, sortOrder, permissionId) in wanted)
         {
             if (existing.TryGetValue(code, out var item))
             {
                 if (item.Name == name && item.Url == url && item.IconCssClass == icon
-                    && item.SortOrder == sortOrder && item.IsActive)
+                    && item.SortOrder == sortOrder && item.PermissionId == permissionId && item.IsActive)
                 {
                     continue;
                 }
@@ -167,6 +219,7 @@ public class MenuSeeder(EnsaDbContext context, ILogger<MenuSeeder> logger) : IDa
                 item.Url = url;
                 item.IconCssClass = icon;
                 item.SortOrder = sortOrder;
+                item.PermissionId = permissionId;
                 item.IsActive = true;
                 refreshed++;
                 continue;
@@ -179,6 +232,7 @@ public class MenuSeeder(EnsaDbContext context, ILogger<MenuSeeder> logger) : IDa
                 Url = url,
                 IconCssClass = icon,
                 SortOrder = sortOrder,
+                PermissionId = permissionId,
                 IsActive = true
             };
 

@@ -38,6 +38,85 @@ ENTRY = re.compile(r"\{(?P<body>[^{}]*?path:\s*'(?P<path>[^']*)'[^{}]*?)\}", re.
 FIELD = re.compile(r"(\w+):\s*'([^']*)'")
 ORDER = re.compile(r"order:\s*(\d+)")
 
+# `permission: PERMISSIONS.Company.Default` -- a constant reference, not a quoted string, so
+# FIELD above does not see it.
+PERMISSION = re.compile(r"permission:\s*PERMISSIONS\.([A-Za-z0-9_.]+)")
+
+PERMISSIONS_TS = "react/ensa-web/src/api/permissions.ts"
+
+# The legacy screen behind each modern one, keyed by the SPA route. The value is the
+# `Yetki_T.YetkiHedefi` of the legacy page, which is what `PermissionStep` migrated into
+# `Permission.PermissionTarget`.
+#
+# WHY the legacy target rather than the seeded one: this column decides what a user SEES, and the
+# migrated grants -- 940 user-type rows, 1,106 organization-type rows -- are the customer's own
+# decisions about who sees what. Reproducing them is the point of the migration. Access is decided
+# elsewhere and is unaffected: see ADR-040 and PermissionEndpoint (ADR-033).
+#
+# Keyed by route rather than by permission: three report screens share one permission
+# (Ensa.Report) but replaced three different legacy screens, so the permission cannot tell them
+# apart. Written out one by one rather than derived by rule -- no name rule survives the
+# Turkish-to-English renaming (FirmaListController is Company, EK_2_FormuController is
+# MedicalExaminationForm).
+LEGACY_PERMISSION = {
+    "companies":             "ENSA_ISG.FirmaListController",
+    "employees":             "ENSA_ISG.FirmaPersonelListController",
+    "departments":           "ENSA_ISG.FirmaBolumListController",
+    "work-plans":            "ENSA_ISG.CalismaPlaniListController",
+    "activities":            "ENSA_ISG.aktivite_ekle",
+    "equipment":             "ENSA_ISG.FirmaCihazListController",
+    "training-plans":        "ENSA_ISG.EgitimPlaniListController",
+    "risk-assessments":      "ENSA_ISG.RiskAnalizRaporuListController",
+    "trainings":             "ENSA_ISG.EgitimListController",
+    "emergency-plans":       "ENSA_ISG.AcilDurumEylemPlaniListController",
+    "medical-examinations":  "ENSA_ISG.EK_2_FormuController",
+    "training-progress":     "ENSA_ISG.Controllers.EgitimKatilimSertifikasiController",
+    "eprescriptions":        "ENSA_ISG.Controllers.EReceteListesiController",
+    "incidents":             "ENSA_ISG.Controllers.OlayKayitlariController",
+    "corrective-actions":    "ENSA_ISG.Controllers.DOFController",
+    "field-observations":    "ENSA_ISG.SahaGozlemListController",
+    "invoices":              "ENSA_ISG.SatisFaturalariController",
+    "cash-register":         "ENSA_ISG.MuhasebeModulu.CariHareketlerController",
+    "penalties":             "ENSA_ISG.CezaAnketiController",
+    "finance/balances":      "ENSA_ISG.MuhasebeModulu.CariHareketlerController",
+    "ibys":                  "ENSA_ISG.Controllers.IBYSController",
+    "documents":             "ENSA_ISG.DosyaController",
+    "forms":                 "ENSA_ISG.Controllers.IsgDokumantasyonController",
+    "archive":               "ENSA_ISG.ModulArsiviController",
+    "reports/ohs":           "ENSA_ISG.ISGKontrolRaporuController",
+    "reports/activities":    "ENSA_ISG.Controllers.FirmaRaporlamaController",
+    "reports/year-end":      "ENSA_ISG.Controllers.YilSonuDegerlendirmeRaporuController",
+    "visits":                "ENSA_ISG.ZiyaretTakvimiController",
+    "support-tickets":       "ENSA_ISG.UserRequestController",
+    "users":                 "ENSA_ISG.KullaniciListController",
+    "roles":                 "ENSA_ISG.YetkilendirmeController",
+    "permissions":           "ENSA_ISG.YetkilendirmeController",
+    "offices":               "ENSA_ISG.OfisListesiController",
+    "settings/menus":        "ENSA_ISG.MenuSettingsController",
+}
+
+# Screens with no legacy counterpart keep the permission the SPA declares. Inventing a legacy
+# target for functionality the legacy system never had would be fabrication, not migration.
+# (Mail, Message, Organization, Parameter, Lookup -- and the dashboard, which is governed by
+# nothing because every user needs a landing page.)
+
+
+def permission_targets():
+    """`Company.Default` -> `Ensa.Company`, read from the generated SPA constants."""
+    source = io.open(PERMISSIONS_TS, encoding="utf-8").read()
+    targets, group = {}, None
+
+    for line in source.splitlines():
+        opening = re.match(r"\s*(\w+):\s*\{\s*$", line)
+        if opening:
+            group = opening.group(1)
+            continue
+        pair = re.match(r"\s*(\w+):\s*'([^']*)'", line)
+        if pair and group:
+            targets["%s.%s" % (group, pair.group(1))] = pair.group(2)
+
+    return targets
+
 
 def nav_extent(source):
     """Start and end offsets of the nav array body, found by matching brackets."""
@@ -90,7 +169,8 @@ def code_of(path):
 
 def collect():
     bundle = merged_english()
-    entries, missing = [], []
+    targets = permission_targets()
+    entries, missing, unresolved = [], [], []
 
     for module in sorted(os.listdir(MODULES)):
         path = os.path.join(MODULES, module, "module.tsx")
@@ -112,6 +192,16 @@ def collect():
                 missing.append("%s -> %s" % (module, fields.get("labelKey")))
                 text = fields.get("labelKey", match.group("path"))
 
+            # The legacy page permission when the screen replaced one; otherwise whatever the SPA
+            # declares; otherwise nothing, and the entry is not governed.
+            permission = LEGACY_PERMISSION.get(match.group("path"))
+            if permission is None:
+                declared = PERMISSION.search(match.group("body"))
+                if declared:
+                    permission = targets.get(declared.group(1))
+                    if permission is None:
+                        unresolved.append("%s -> PERMISSIONS.%s" % (module, declared.group(1)))
+
             entries.append({
                 "path": match.group("path"),
                 "code": code_of(match.group("path")),
@@ -119,9 +209,10 @@ def collect():
                 "icon": fields.get("icon", ""),
                 "group": fields.get("group", "overview"),
                 "order": int(order.group(1)) if order else 0,
+                "permission": permission,
             })
 
-    return entries, missing, bundle
+    return entries, missing, unresolved, bundle
 
 
 def escape(value):
@@ -129,11 +220,17 @@ def escape(value):
 
 
 def main():
-    entries, missing, bundle = collect()
+    entries, missing, unresolved, bundle = collect()
 
     if missing:
         print("Cevirisi bulunamayan menu etiketi:")
         for item in missing:
+            print("  ", item)
+        return 1
+
+    if unresolved:
+        print("Karsiligi bulunamayan izin sabiti:")
+        for item in unresolved:
             print("  ", item)
         return 1
 
@@ -156,6 +253,10 @@ def main():
         "// The SPA sidebar renders from code and does not read these rows; they are the legacy",
         "// menu module's administration surface and what GET api/menu/my-menu returns.",
         "// tools/api-tests/frontend_menu.py fails if the two ever drift apart.",
+        "//",
+        "// Each entry also carries the permission that governs it. my-menu renders an entry only for",
+        "// a user whose effective permissions contain it (ADR-040); an entry with no permission is",
+        "// not governed. This is visibility, never access -- PermissionEndpoint decides access.",
         "// ---------------------------------------------------------------------------",
         "",
         "namespace Ensa.DbMigrator.Seeding;",
@@ -167,13 +268,20 @@ def main():
         "/// <param name=\"Icon\">The glyph the SPA renders. The sidebar uses emoji rather than an icon font.</param>",
         "/// <param name=\"Group\">Sidebar section the entry belongs to.</param>",
         "/// <param name=\"SortOrder\">Order within the section.</param>",
+        "/// <param name=\"Permission\">",
+        "/// <c>PermissionTarget</c> of the permission that governs the entry, or <c>null</c> when the",
+        "/// entry is governed by none. Where the screen replaced a legacy one this is the legacy page",
+        "/// target, so the migrated grants decide what a user sees; where it did not, it is the",
+        "/// permission the SPA declares. Visibility only - see ADR-040.",
+        "/// </param>",
         "public sealed record MenuSeedEntry(",
         "    string Code,",
         "    string Name,",
         "    string Url,",
         "    string Icon,",
         "    string Group,",
-        "    int SortOrder);",
+        "    int SortOrder,",
+        "    string? Permission);",
         "",
         "/// <summary>The seeded main menu, generated from the SPA navigation.</summary>",
         "public static class MenuSeedData",
@@ -199,9 +307,10 @@ def main():
     ]
 
     for entry in sorted(entries, key=lambda e: (GROUPS.index(e["group"]), e["order"], e["path"])):
-        lines.append('        new("%s", "%s", "/%s", "%s", "%s", %d),' % (
+        permission = ('"%s"' % escape(entry["permission"])) if entry["permission"] else "null"
+        lines.append('        new("%s", "%s", "/%s", "%s", "%s", %d, %s),' % (
             escape(entry["code"]), escape(entry["name"]), escape(entry["path"]),
-            escape(entry["icon"]), escape(entry["group"]), entry["order"]))
+            escape(entry["icon"]), escape(entry["group"]), entry["order"], permission))
 
     lines += ["    ];", "}", ""]
 

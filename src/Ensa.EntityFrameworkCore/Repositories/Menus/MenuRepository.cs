@@ -42,6 +42,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
     public async Task<MenuNavigation?> GetUserMenuOverrideAsync(
         int userId,
         string menuTypeCode,
+        IReadOnlySet<int>? effectivePermissionIds,
         CancellationToken ct = default)
     {
         var userContext = await GetUserContextAsync(userId, ct);
@@ -56,7 +57,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
             return null;
         }
 
-        return await BuildMenuNavigationAsync(menu, userContext, ct);
+        return await BuildMenuNavigationAsync(menu, userContext, effectivePermissionIds, ct);
     }
 
     /// <inheritdoc />
@@ -72,7 +73,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
             return null;
         }
 
-        return await BuildMenuNavigationAsync(menu, userContext: null, ct);
+        return await BuildMenuNavigationAsync(menu, userContext: null, effectivePermissionIds: null, ct);
     }
 
     /// <summary>
@@ -127,6 +128,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
     /// </remarks>
     public async Task<List<string>> GetUserMenuItemCodesAsync(
         int userId,
+        IReadOnlySet<int>? effectivePermissionIds,
         CancellationToken ct = default)
     {
         var userContext = await GetUserContextAsync(userId, ct);
@@ -145,7 +147,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
         }
 
         var lines = await GetMenuRowsAsync(menuIds, ct);
-        var visibleNodes = await CalculateVisibleLinesAsync(lines, userContext, ct);
+        var visibleNodes = await CalculateVisibleLinesAsync(lines, userContext, effectivePermissionIds, ct);
 
         return visibleNodes
             .Select(s => s.Item.Code)
@@ -277,6 +279,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
     private async Task<MenuNavigation> BuildMenuNavigationAsync(
         Menu menu,
         UserContext? userContext,
+        IReadOnlySet<int>? effectivePermissionIds,
         CancellationToken ct)
     {
         var navigation = new MenuNavigation { Menu = menu };
@@ -294,7 +297,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
         if (userContext is not null)
         {
             userRemovedItemIds = await GetRemovedItemIdsAsync(userContext.UserId, ct);
-            lines = await CalculateVisibleLinesAsync(lines, userContext, ct);
+            lines = await CalculateVisibleLinesAsync(lines, userContext, effectivePermissionIds, ct);
         }
 
         navigation.Roots = BuildNodeTree(lines, userRemovedItemIds);
@@ -323,6 +326,9 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
     /// <summary>
     /// Applies the user-specific visibility rules:
     /// <list type="number">
+    ///   <item><b>Permission filter:</b> items with a populated <see cref="MenuItem.PermissionId"/> are
+    ///         visible only if the user's effective permissions contain it. An item with no permission
+    ///         is not governed and stays visible. A user customisation cannot override this.</item>
     ///   <item><b>Module filter:</b> items with a populated <see cref="MenuItem.ModuleId"/> are visible only
     ///         if that module is enabled for the user's company.</item>
     ///   <item><b>User customisation:</b> <c>Added</c> rows are visible even if the module filter would
@@ -334,6 +340,7 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
     private async Task<List<MenuLine>> CalculateVisibleLinesAsync(
         List<MenuLine> lines,
         UserContext userContext,
+        IReadOnlySet<int>? effectivePermissionIds,
         CancellationToken ct)
     {
         if (lines.Count == 0)
@@ -346,6 +353,8 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
         {
             companyModuleIds = (await GetCompanyModuleIdsAsync(companyId, ct)).ToHashSet();
         }
+
+
 
         var customizations = await Context.Set<UserMenuOverride>()
             .AsNoTracking()
@@ -366,6 +375,15 @@ public class MenuRepository(EnsaDbContext context, IDataFilter dataFilter)
         bool DirectVisible(MenuLine line)
         {
             if (removedItemIds.Contains(line.Item.Id))
+            {
+                return false;
+            }
+
+            // Checked before the customisation escape below: a user may hide an entry they are
+            // entitled to, but may not reveal one they hold no permission for.
+            if (effectivePermissionIds is not null
+                && line.Item.PermissionId is int permissionId
+                && !effectivePermissionIds.Contains(permissionId))
             {
                 return false;
             }

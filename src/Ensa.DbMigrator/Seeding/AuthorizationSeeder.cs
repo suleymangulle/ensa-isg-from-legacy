@@ -1,4 +1,4 @@
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Tenancy;
@@ -48,6 +48,37 @@ public class AuthorizationSeeder(EnsaDbContext context, ILogger<AuthorizationSee
         StaffRole.OrganizationAdministrator,
     ];
 
+    /// <summary>
+    /// Screens a customer contact must be able to see, named by the legacy page permission that
+    /// now governs the menu entry (ADR-040).
+    /// <para>
+    /// <b>This is configuration, not migration, and it is written down rather than inferred.</b>
+    /// The legacy <c>KullaniciTypeYetki_T</c> holds grants for six user types and none for
+    /// <c>Musteri</c> - 286 users with no permission row anywhere, because legacy decided customer
+    /// access with a hand-written <c>PersonelTuru == "Musteri"</c> branch inside each controller
+    /// rather than with the permission tables (ADR-039). Migrating faithfully therefore carries
+    /// over nothing at all for them, and a customer would sign in to a navigation bar holding the
+    /// dashboard and four screens they have no business seeing.
+    /// </para>
+    /// <para>
+    /// The list is exactly the customer portal of ADR-037 and nothing else. It grants visibility;
+    /// what a customer may actually do is decided by the endpoint gate and narrowed to their own
+    /// workplace by the company scope filter (ADR-034), neither of which reads this table.
+    /// </para>
+    /// </summary>
+    private static readonly (string UserTypeCode, string[] PermissionTargets)[] CustomerPortalGrants =
+    [
+        ("MUSTERI",
+        [
+            "ENSA_ISG.FirmaListController",                              // their own workplace
+            "ENSA_ISG.FirmaPersonelListController",                      // its employees
+            "ENSA_ISG.FirmaBolumListController",                         // its departments
+            "ENSA_ISG.FirmaCihazListController",                         // its equipment
+            "ENSA_ISG.Controllers.EgitimKatilimSertifikasiController",   // missing trainings
+            "ENSA_ISG.DosyaController",                                  // inspection documents
+        ]),
+    ];
+
     public async Task SeedAsync(CancellationToken cancellationToken = default)
     {
         var permissions = await context.Set<Permission>()
@@ -64,7 +95,154 @@ public class AuthorizationSeeder(EnsaDbContext context, ILogger<AuthorizationSee
 
         await OpenSubscriptionPlansAsync(permissionIds, cancellationToken);
         await OpenOrganizationTypesAsync(permissionIds, cancellationToken);
-        await SeedStaffTypeDefaultsAsync(permissions.ToDictionary(p => p.PermissionTarget, p => p.Id), cancellationToken);
+        var byTarget = permissions.ToDictionary(p => p.PermissionTarget, p => p.Id);
+
+        await SeedStaffTypeDefaultsAsync(byTarget, cancellationToken);
+        await SeedCustomerPortalGrantsAsync(byTarget, cancellationToken);
+    }
+
+    /// <summary>
+    /// Gives the customer user type the visibility legacy never recorded. Additive and idempotent:
+    /// it inserts the rows that are missing and touches nothing else, so an administrator who has
+    /// since removed one does not get it back on the next run.
+    /// </summary>
+    private async Task SeedCustomerPortalGrantsAsync(
+        Dictionary<string, int> permissionsByTarget,
+        CancellationToken cancellationToken)
+    {
+        var toInsert = new List<UserTypePermission>();
+        var unknown = new List<string>();
+
+        foreach (var (userTypeCode, targets) in CustomerPortalGrants)
+        {
+            var userType = await context.Set<UserType>()
+                .Where(type => type.Code == userTypeCode)
+                .Select(type => new { type.Id })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (userType is null)
+            {
+                continue;
+            }
+
+            var held = await context.Set<UserTypePermission>()
+                .Where(row => row.UserTypeId == userType.Id)
+                .Select(row => row.PermissionId)
+                .ToListAsync(cancellationToken);
+
+            var heldIds = held.ToHashSet();
+
+            foreach (var target in targets)
+            {
+                if (!permissionsByTarget.TryGetValue(target, out var permissionId))
+                {
+                    // The legacy data has not been migrated into this database; nothing to grant.
+                    unknown.Add(target);
+                    continue;
+                }
+
+                await PermitRestrictionAsync(permissionId, userType.Id, target, cancellationToken);
+
+                if (heldIds.Add(permissionId))
+                {
+                    toInsert.Add(new UserTypePermission
+                    {
+                        UserTypeId = userType.Id,
+                        PermissionId = permissionId,
+                        IsActive = true,
+                    });
+                }
+            }
+        }
+
+        if (unknown.Count > 0)
+        {
+            logger.LogInformation(
+                "{Count} customer-portal permission(s) are not present in this database and were "
+                + "skipped; they arrive with the legacy migration.", unknown.Count);
+        }
+
+        if (toInsert.Count == 0)
+        {
+            return;
+        }
+
+        context.Set<UserTypePermission>().AddRange(toInsert);
+        await context.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation(
+            "{Count} customer-portal permission row(s) inserted so a customer's navigation is not "
+            + "empty; legacy recorded none for that user type.", toInsert.Count);
+    }
+
+    /// <summary>
+    /// Makes sure a <see cref="PermissionRestriction"/> does not veto the grant just made.
+    /// <para>
+    /// The sixth gate of the legacy algorithm drops a permission whose
+    /// <see cref="PermissionRestrictionMode"/> is <c>OnlySelected</c> when the user type is absent
+    /// from its list. Two of the customer-portal screens carry exactly that:
+    /// <c>FirmaListController</c> and <c>EgitimKatilimSertifikasiController</c> are marked
+    /// "only these user types", and <c>Musteri</c> is not among them.
+    /// </para>
+    /// <para>
+    /// <b>Why overriding it is the faithful reading.</b> That restriction was authored in the same
+    /// administration screen as the rest, and it never ran either (ADR-039) - legacy showed a
+    /// customer their own workplace and their missing trainings through a hand-written branch, so
+    /// the two screens the rule forbids are two the shipped product served. Taking the rule
+    /// literally would remove a working feature on the strength of configuration nothing enforced.
+    /// The rule is left in place for every other user type; only the row that unblocks the portal
+    /// is added.
+    /// </para>
+    /// </summary>
+    private async Task PermitRestrictionAsync(
+        int permissionId,
+        int userTypeId,
+        string target,
+        CancellationToken cancellationToken)
+    {
+        var mode = await context.Set<Permission>()
+            .Where(permission => permission.Id == permissionId)
+            .Select(permission => permission.PermissionRestrictionMode)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (mode != PermissionRestrictionMode.OnlySelected)
+        {
+            // Everyone: nothing vetoes it. SelectedExcept: a veto would mean the customer is named
+            // in a deny list, which is a deliberate exclusion rather than an unfinished allow list;
+            // it is reported instead of edited.
+            if (mode == PermissionRestrictionMode.SelectedExcept
+                && await context.Set<PermissionRestriction>().AnyAsync(
+                       row => row.PermissionId == permissionId && row.UserTypeId == userTypeId,
+                       cancellationToken))
+            {
+                logger.LogWarning(
+                    "{Target} excludes this user type explicitly; the customer portal entry stays "
+                    + "hidden. Remove the restriction row if that is not intended.", target);
+            }
+
+            return;
+        }
+
+        var alreadyPermitted = await context.Set<PermissionRestriction>()
+            .AnyAsync(row => row.PermissionId == permissionId && row.UserTypeId == userTypeId,
+                      cancellationToken);
+
+        if (alreadyPermitted)
+        {
+            return;
+        }
+
+        context.Set<PermissionRestriction>().Add(new PermissionRestriction
+        {
+            PermissionId = permissionId,
+            UserTypeId = userTypeId,
+        });
+
+        await context.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation(
+            "{Target} is restricted to selected user types and did not list the customer; the "
+            + "customer portal needs it, so it was added to that list.", target);
     }
 
     /// <summary>Every plan opens every permission until somebody narrows it.</summary>

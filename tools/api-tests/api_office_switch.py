@@ -172,7 +172,7 @@ def main():
     # Bu bolum kendi verisini kurar. Asil sorunun cevabi burada: sube degistirmek DONEN VERIYI
     # degistiriyor mu? Derlemenin gecmesi ya da baslik dogrulamasinin calismasi bunu kanitlamaz.
     stamp = str(int(time.time()))[-6:]
-    created_offices, created_companies = [], []
+    created_offices, created_companies, created_visits = [], [], []
 
     try:
         for name in ("Sube A %s" % stamp, "Sube B %s" % stamp):
@@ -224,6 +224,36 @@ def main():
         check(results, "isyeri lookup'i da sube kapsaminda", lookup_names == names_a,
               str(lookup_names))
 
+        # Ziyaret listesi de ayni kapsamda olmali. Ziyaretin kendi ofisi yoktur; isyerinin
+        # ofisi uzerinden kapsanir, yani yuklem bir alt sorgudur. Bu uc ayrica olculuyor:
+        # bir donem tam da o alt sorgu yuzunden HTTP 500 donuyordu ve hatayi yalnizca sube
+        # baglami OLAN bir kullanici goruyordu - baglamsiz calisan her kontrol geciyordu.
+        code_, body_ = call("/api/visit", token=admin, body={
+            "companyId": created_companies[0],
+            "visitDate": time.strftime("%Y-%m-%dT09:00:00"),
+            "description": "Sube A Ziyaret %s" % stamp})
+
+        if code_ != 200:
+            print("Ziyaret olusturulamadi: HTTP %s %s" % (code_, body_[:300]))
+            raise SystemExit(1)
+
+        created_visits.append(json.loads(body_)["id"])
+
+        def visit_descriptions(office):
+            c_, b_ = call("/api/visit?MaxResultCount=200&Filter=" + stamp, token=admin, office=office)
+            if c_ != 200:
+                return c_, []
+            return c_, sorted(row.get("description") or "" for row in json.loads(b_)["items"])
+
+        code_va, visits_a = visit_descriptions(str(office_a))
+        code_vb, visits_b = visit_descriptions(str(office_b))
+
+        check(results, "ziyaret listesi sube baglaminda cevrilebiliyor (500 degil)",
+              code_va == 200 and code_vb == 200, "A=HTTP %s B=HTTP %s" % (code_va, code_vb))
+        check(results, "ziyaret yalnizca isyerinin subesinde gorunuyor",
+              visits_a == ["Sube A Ziyaret %s" % stamp] and visits_b == [],
+              "A=%s B=%s" % (visits_a, visits_b))
+
         # Sube filtresi baglamla celisirse istek reddedilir - biri sessizce kazanmaz.
         code_, body_ = call("/api/company?MaxResultCount=1&OfficeId=%d" % office_b,
                             token=admin, office=str(office_a))
@@ -249,13 +279,15 @@ def main():
         check(results, "yeni subeler /account/offices listesine giriyor",
               {office_a, office_b} <= listed, "listede %d sube" % len(listed))
     finally:
+        for visit_id in created_visits:
+            call("/api/visit/%s" % visit_id, token=admin, method="DELETE")
         for company_id in created_companies:
             call("/api/company/%s" % company_id, token=admin, method="DELETE")
         for office_id in created_offices:
             call("/api/office/%s" % office_id, token=admin, method="DELETE")
         if created_offices:
-            print("\nsonda temizlik: %d isyeri, %d sube silindi"
-                  % (len(created_companies), len(created_offices)))
+            print("\nsonda temizlik: %d ziyaret, %d isyeri, %d sube silindi"
+                  % (len(created_visits), len(created_companies), len(created_offices)))
 
     passed = sum(1 for r in results if r)
     print("\n%d kontrolden %d tanesi gecti" % (len(results), passed))

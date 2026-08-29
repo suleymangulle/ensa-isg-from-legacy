@@ -17,6 +17,10 @@ using Serilog.Events;
 //   dotnet run --project src/Ensa.DataMigrator -- --confirm EnsaDbDEv --step locations
 //   dotnet run --project src/Ensa.DataMigrator -- --list
 //
+// Data repair, as opposed to migration. Reports by default; writes only with the second flag:
+//   dotnet run --project src/Ensa.DataMigrator -- --confirm EnsaDbDEv --step company-scope-repair
+//   dotnet run --project src/Ensa.DataMigrator -- --confirm EnsaDbDEv --step company-scope-repair --repair-company-scope
+//
 // --confirm is not a formality. The development and production databases differ by three
 // characters, sit on the same server and answer to the same credentials; naming the destination
 // out loud is what stops this tool from writing to the wrong one.
@@ -93,6 +97,13 @@ try
         new UserIdentityVerifyStep(),
         new UserColumnClassifyStep(),
         new VerifyStep(),
+
+        // Reports by default and writes only when asked. It corrects rows an earlier version of
+        // the user-split step produced, so it must never be a side effect of a routine run.
+        new CompanyScopeRepairStep
+        {
+            Apply = args.Contains("--repair-company-scope", StringComparer.OrdinalIgnoreCase),
+        },
     };
 
     if (args.Contains("--list", StringComparer.OrdinalIgnoreCase))

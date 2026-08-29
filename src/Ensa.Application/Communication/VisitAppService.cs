@@ -245,6 +245,17 @@ public class VisitAppService(
                 .Select(f => f.Id);
     }
 
+    /// <summary>
+    /// The list filter.
+    /// <para>
+    /// The office restriction is <b>appended</b> rather than written into the body as
+    /// <c>scopedCompanyIds == null || scopedCompanyIds.Contains(...)</c>, and that is not a style
+    /// choice. The other optional terms close over scalars, which EF turns into query parameters
+    /// and can leave a redundant comparison in the SQL; a subquery is not a value, so comparing one
+    /// against <c>null</c> inside the tree is a translation failure — the whole list endpoint
+    /// answers 500 for anyone who has an office context, and nobody without one ever sees it.
+    /// </para>
+    /// </summary>
     private static Expression<Func<Visit, bool>>? BuildFilter(
         GetVisitListInput input,
         IQueryable<int>? scopedCompanyIds)
@@ -257,26 +268,61 @@ public class VisitAppService(
         var startDate = input.StartDate;
         var endDate = input.EndDate;
 
-        if (search is null
-            && companyId is null
-            && userId is null
-            && operationType is null
-            && completed is null
-            && startDate is null
-            && endDate is null
-            && scopedCompanyIds is null)
+        var filtered = search is not null
+                       || companyId is not null
+                       || userId is not null
+                       || operationType is not null
+                       || completed is not null
+                       || startDate is not null
+                       || endDate is not null;
+
+        if (!filtered && scopedCompanyIds is null)
         {
             return null;
         }
 
-        return z =>
+        Expression<Func<Visit, bool>> predicate = z =>
             (search == null || (z.Description != null && z.Description.Contains(search)))
             && (companyId == null || z.CompanyId == companyId)
-            && (scopedCompanyIds == null || scopedCompanyIds.Contains(z.CompanyId))
             && (userId == null || z.UserId == userId)
             && (operationType == null || z.OperationType == operationType)
             && (completed == null || z.IsCompleted == completed)
             && (startDate == null || z.VisitDate >= startDate)
             && (endDate == null || z.VisitDate <= endDate);
+
+        if (scopedCompanyIds is not { } scoped)
+        {
+            return predicate;
+        }
+
+        Expression<Func<Visit, bool>> officeScope = z => scoped.Contains(z.CompanyId);
+
+        return filtered ? Combine(predicate, officeScope) : officeScope;
+    }
+
+    /// <summary>
+    /// Logical AND of two predicates over the same entity, rebound onto one parameter — two lambdas
+    /// written separately carry two parameter instances, and a tree holding both does not translate.
+    /// Same technique as <c>CompanyAppService.Combine</c>.
+    /// </summary>
+    private static Expression<Func<Visit, bool>> Combine(
+        Expression<Func<Visit, bool>> left,
+        Expression<Func<Visit, bool>> right)
+    {
+        var parameter = Expression.Parameter(typeof(Visit), "z");
+
+        var body = Expression.AndAlso(
+            new ParameterRebinder(left.Parameters[0], parameter).Visit(left.Body)!,
+            new ParameterRebinder(right.Parameters[0], parameter).Visit(right.Body)!);
+
+        return Expression.Lambda<Func<Visit, bool>>(body, parameter);
+    }
+
+    /// <summary>Rebinds the parameters of two separate lambdas onto a single shared parameter.</summary>
+    private sealed class ParameterRebinder(ParameterExpression previous, ParameterExpression replacement)
+        : ExpressionVisitor
+    {
+        protected override Expression VisitParameter(ParameterExpression node)
+            => node == previous ? replacement : base.VisitParameter(node);
     }
 }

@@ -716,9 +716,10 @@ either. Every client of a provider could read every other client's file.
 **Decision.** Company scope is a global query filter, installed by reflection in `EnsaDbContext`
 alongside tenancy and soft delete:
 
-- `ICompanyScoped` — the entity carries a `CompanyId` (35 entities: employees, examinations,
+- `ICompanyScoped` — the entity carries a `CompanyId` (36 entities: employees, examinations,
   invoices, risk assessments, documents, …). Reached through `EF.Property<int?>`, so both `int`
-  and `int?` declarations work.
+  and `int?` declarations work. `Office` carries the column and is deliberately **not** one of
+  them (ADR-042).
 - `ICompanyRecord` — the entity *is* the workplace, so the scope key is its own `Id`. Only
   `Company`.
 
@@ -740,6 +741,10 @@ one place it cannot reach is a repository that writes raw SQL, and there is none
 the organization binding, the permission claims in the token, and the scope itself. A customer
 sees one company and one employee; reading the neighbour's records answers 404, not 403, because
 a record the caller may not see should not be confirmed to exist.
+
+**Amended by ADR-042.** The filter is right; what fed it was not. The scope key is written only
+for a customer contact, decided from the legacy staff type rather than from whichever accounts
+happened to carry a `FirmaId` — which had pinned 983 members of staff to a single workplace each.
 
 
 ## ADR-035 — The menu is generated from the SPA, not written twice
@@ -1050,3 +1055,88 @@ day through the branch above. The restriction was authored in the same screen th
 nothing, so the seeder adds the customer to those two allow lists and leaves the rule intact for
 every other user type. A `SelectedExcept` exclusion is reported instead of edited: a deny list
 naming the customer is a deliberate act, not an unfinished one.
+
+## ADR-042 — A company scope belongs to a customer, not to whoever had the column filled
+
+**Context.** `info@saglamosgb.com.tr`, the administrator of the largest organization in the
+database, signed in and saw **one** company where 1,536 were waiting. Nothing was missing: all
+1,791 of that provider's workplaces had migrated, the account was in the right tenant, held
+`OrganizationAdministrator` and carried 374 permissions. Its `UserProfile.CompanyId` was 14778 —
+the provider's *own* company record — and ADR-034's filter did exactly what it promises with a
+scope key present: it fails closed, so the account could see that one workplace and nothing else.
+`GET /api/account/offices` returned an empty list at the same time, so the shell could not even
+name the office the user was assigned to.
+
+The value came from `UserSplitStep`, which copied legacy `Kullanici_T.FirmaId` onto every profile
+that had one. That column was never a customer binding. 731 of the 766 legacy `Admin` accounts
+carried one and 728 of those pointed at the organization's own company record; the legacy
+application read it only for `PersonelTuru == "Personel"` (`BaseController.FirmaId`) and decided
+customer scope from `PersonelTuru == "Müşteri"` instead (`GenelMethodsController.MusteriMi()`).
+Its company list filtered on `KurumId` and `OfisId` alone. The migration narrowed a contextual
+hint into a security boundary, and pinned **983 members of staff — 713 of them organization
+administrators — to a single workplace each**. The analysis is in
+`SAGLAMOSGB-FIRMA-GORUNMEME-ANALIZI.md`.
+
+**Decision — the scope key is written from the staff type, never from `FirmaId`.**
+`LegacyStaffType.IsCustomer` is the single authority on the question, used by both the migration
+step that writes a scope and the repair step that removes one, so the two cannot disagree about
+who a customer is. It is deliberately more tolerant than the legacy equality — trimmed and
+`OrdinalIgnoreCase` — because the error directions are not symmetric: an unrecognised customer is
+handed their provider's whole book of workplaces, while an over-recognised one merely keeps a
+scope. It stays ordinal rather than culture-aware precisely because Turkish casing would otherwise
+make a security decision depend on the thread's culture.
+
+**Decision — rows already written are repaired by an explicit step, not by re-running the
+migration.** `UserSplitStep` only ever writes a profile whose `CompanyId` is still null, which is
+right for a migration: a step that widens an existing scope could undo a deliberate correction. So
+it cannot clear what the defective version wrote, and re-importing is not available either — the
+accounts, companies and offices are real rows the rest of the database points at.
+`CompanyScopeRepairStep` clears the one column, on rows it has traced back through `IdMap` to a
+legacy account the staff type proves is not a customer. It reports by default and writes only with
+`--repair-company-scope`, on top of the tool's existing `--confirm <database>` interlock; the
+update runs in one transaction whose postconditions are checked against the database before it
+commits, and rolls back if they do not hold. A profile with no legacy row behind it — an account
+created after the migration — is left exactly as it is, because guessing is how a correction
+becomes a second defect. Applied to `EnsaDbDEv`: 983 cleared, 325 genuine customer scopes
+untouched, and a second run finds nothing to do.
+
+**Decision — `Office` is not `ICompanyScoped`.** An office belongs to the organization, not to a
+customer's workplace, and every office row in the migrated data has a null `CompanyId`. Marking
+the entity company-scoped therefore hid *every* office from *every* company-bound user, including
+the ones they were assigned to — the fail-closed rule of ADR-034 reading a null key as
+provider-level data. `Office.CompanyId` survives as what the legacy `COFirmaId` column was, an
+attribution the office administration list can filter on, and it decides nothing about who may see
+an office; tenancy, active state and soft delete carry that boundary. The exemption is listed by
+name in `ModelValidationTests` rather than silently skipped, so the guard that catches a forgotten
+marker still runs for everything else and this stays a decision somebody made.
+
+**Decision — a customer contact is offered no office at all, and an administrator gets the
+tenant.** `OfficeAccessManager` answers a company-bound caller with an empty set before it asks
+the repository anything: their scope is their workplace, an office to switch to would be
+meaningless, and an office header must never become a route around the company filter. For
+everyone else the permitted set is the union of their `UserOffice` assignments and — for
+`OrganizationAdministrator` and `SystemAdministrator` — every active office of the tenant. The
+union matters because of the same migration: 678 of the 766 legacy administrators had no
+`KullaniciOfis_T` row at all and legacy gave them every office, but the migration wrote their
+legacy *default* office into `UserOffice` as though it were an assignment. Reading that single row
+as the whole permitted set would have quietly taken nineteen offices away from an administrator
+who had twenty. Widening the other 88 grants nothing new: inside a tenant an office is a filter,
+not a boundary — a request with no office context already sees every company of the tenant.
+
+**Verified by** `LegacyStaffTypeTests` (the classifier, including the values that were wrongly
+scoped), `OfficeCompanyScopeTests` (against LocalDB: an office survives the company scope, a
+customer still sees only their own workplace, a customer is offered no office and refused an
+office header, an administrator reaches the whole tenant while keeping their default office), the
+existing `OfficeAccessTests` and `api_company_scope.py`, which proves the customer boundary itself
+did not move.
+
+**One defect only an office context could reveal.** With the company scope lifted, this account was
+the first to reach `GET /api/visit` *with* an office selected — and got a 500. A visit carries no
+office of its own, so `VisitAppService` scopes it through the workplaces of the office as a
+subquery, and the subquery was folded into the filter body as
+`scopedCompanyIds == null || scopedCompanyIds.Contains(...)`. The other optional terms close over
+scalars, which EF turns into parameters; a subquery is not a value, and comparing one to `null`
+inside the tree cannot be translated. The office term is now appended to the predicate instead of
+being written into it, and `api_office_switch.py` lists visits under two different offices — a
+check that fails loudly on both the translation and the scoping, neither of which any test without
+an office context could see.

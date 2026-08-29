@@ -1,4 +1,4 @@
-using System.Reflection;
+﻿using System.Reflection;
 using Ensa.Domain.Common;
 using Ensa.EntityFrameworkCore;
 using Ensa.TestBase;
@@ -145,10 +145,20 @@ public class ModelValidationTests : IAsyncLifetime
         // that carries a CompanyId and forgets the marker is exactly the leak the filter exists to
         // close - and it leaks silently, with no error anywhere. If a new entity genuinely holds
         // provider-level data under a column named CompanyId, exempt it here on purpose.
+        // Office is exempt, on purpose and for exactly the reason the paragraph above allows for.
+        // An office belongs to the organization; Office.CompanyId is an attribution carried over
+        // from the legacy COFirmaId column and is null on every one of the 957 migrated rows. Marking
+        // the entity company-scoped therefore hid every office from every company-bound user —
+        // the filter fails closed on a null scope key — including the offices such a user was
+        // assigned to. It is listed here rather than silently skipped so the exemption stays a
+        // decision somebody made.
+        var providerLevelCompanyColumns = new[] { nameof(Ensa.Domain.Tenancy.Office) };
+
         var unmarked = _context.Model.GetEntityTypes()
             .Where(e => e.FindProperty("CompanyId") is not null)
             .Where(e => !typeof(ICompanyScoped).IsAssignableFrom(e.ClrType))
             .Select(e => e.ClrType.Name)
+            .Where(name => !providerLevelCompanyColumns.Contains(name))
             .ToList();
 
         Assert.True(

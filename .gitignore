@@ -84,3 +84,6 @@ Desktop.ini
 
 # Local archives of generated output; the diagrams themselves are tracked.
 *.rar
+
+# Machine-local build guard (see the file for why). Not part of the project.
+Directory.Build.rsp

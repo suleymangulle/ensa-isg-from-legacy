@@ -349,7 +349,7 @@ in this order — (1) the `ConnectionStrings__Default` environment variable, (2)
 So the command as written in the checklist would **fail rather than migrate the development
 database**. Reaching `EnsaDbDEv` requires setting `ConnectionStrings__Default` explicitly.
 
-### The shared development database was NOT migrated
+### The shared development database was NOT migrated (at the time of this run)
 
 `EnsaDbDEv` (`213.159.30.211,1433`) is shared and holds the real migrated legacy data, so nothing
 was applied to it. Read-only inspection only:
@@ -520,7 +520,10 @@ built to keep unrelated changes — above all the SPA — out of `main`.
 - **No frontend or UI path is included.** `git diff --name-only main..HEAD | grep -E "^react/|^public/|^resources/"` returns nothing. The office switcher's backend ships here without its user interface; the SPA half of `53e8711` stays out.
 - **`20260828101024_MenuItemPermission` is present.**
 - **`20260829195006_RenameLegacyLeftoverColumns` is present**, after it, and its hand-written body is byte-identical to the verified version (`git rev-parse` of the file at `d482819` and at this branch both give `7e420b578e272fb9388a2184e2bd0a8536c95540`).
-- **`EnsaDbDEv` was not migrated.** No migration was applied to any shared database, and the DataMigrator was not run.
+- **`EnsaDbDEv` has since been migrated** — with explicit approval, after this branch reached
+  `main`. See [Applied to EnsaDbDEv](#applied-to-ensadbdev--2026-08-30). Everything earlier in this
+  report describes the state before that, when no shared database had been touched. The
+  DataMigrator has still not been run.
 
 ### Why a backend dependency had to be split out
 
@@ -652,3 +655,97 @@ d70027a Let the migrated permissions decide what the menu shows
 4c301a0 Record that the legacy permission tables governed nothing at runtime
 c59798d (main) Take ensa-web to rich-react-component 0.3.1
 ```
+
+---
+
+## Applied to EnsaDbDEv — 2026-08-30
+
+The rename migration was applied to the shared development database, with explicit approval, after
+`main` fast-forwarded to `f338be4`. This section supersedes every earlier statement in this report
+that says no shared database was migrated.
+
+**Target:** `213.159.30.211,1433` / `EnsaDbDEv` (server reports `SERVER2`). The connection string was
+read from `appsettings.Development.local.json` into `ConnectionStrings__Default` for the command
+only; the bare command would have resolved to `Server=localhost;Database=EnsaDb` and failed.
+
+```
+TARGET -> 213.159.30.211,1433 / EnsaDbDEv
+dotnet ef database update -p src/Ensa.EntityFrameworkCore -s src/Ensa.HttpApi.Host
+  Acquiring an exclusive lock for migration application.
+  Applying migration '20260829195006_RenameLegacyLeftoverColumns'.
+  Done.
+```
+
+The API host was confirmed stopped beforehand, so nothing held a schema lock.
+
+### Value preservation on real data
+
+The same aggregate fingerprint was taken before and after. These are whole-table sums, so a swapped
+pair cannot hide behind a single row.
+
+| Before (old column) | After (new column) | |
+|---|---|---|
+| `company_rows` 32,642 | 32,642 | ✔ |
+| `OrganizationTypeVerified` 0 | `IsHazardClassVerified` 0 | ✔ |
+| `PasswordSent` **3** | `AreEmployeePasswordsSent` **3** | ✔ the pair the scaffolder swapped |
+| `SolutionPartner` 0 | `IsSolutionPartner` 0 | ✔ |
+| `QuoteVatIncluded` 3 | `IsQuoteVatIncluded` 3 | ✔ |
+| `UserLimit` 0 | `IsDistanceLearningUserLimitEnabled` 0 | ✔ |
+| `VisitSpecialist` **511,235** | `SpecialistVisitMinutes` **511,235** | ✔ |
+| `VisitPhysician` **85,373** | `PhysicianVisitMinutes` **85,373** | ✔ |
+| `InvoiceAmountKh` **22,776,218.36** | `UnofficialInvoiceAmount` **22,776,218.36** | ✔ |
+| `GrContractAmount` **26,696,430.99** | `GroupContractAmount` **26,696,430.99** | ✔ |
+| `PayableDigit` **0.00** | `ExpectedPaymentAmount` **0.00** | ✔ |
+| `TaxTaxOffice` non-null 2,857 | `TaxOffice` non-null 2,857 | ✔ |
+| `prospect_rows` 959 | 959 | ✔ |
+| `PhysicianExists` 0 / `Paid` 0 / `MailSent` **235** | `HasPhysician` 0 / `IsPaid` 0 / `IsMailSent` **235** | ✔ |
+| `office_rows` 969, `HeadquarterOffice` **936** | 969, `IsHeadquarterOffice` **936** | ✔ |
+| `visit_rows` **1,733,771**, `Completed` 0 | 1,733,771, `IsCompleted` 0 | ✔ |
+| `UserProfile.ContractApproved` 0 | `IsContractApproved` 0 | ✔ |
+
+The three money columns are the decisive evidence: they hold three distinct sums, and they are
+exactly the trio the scaffolder's positional pairing would have rotated. Each landed on its own
+column.
+
+### Schema after the migration
+
+```
+new columns present      36 of 36
+old columns remaining    0
+MenuItem.PermissionId    1              (untouched by the rename)
+last_migration           20260829195006_RenameLegacyLeftoverColumns
+
+index: IX_Office_TenantId_IsHeadquarterOffice | ([IsHeadquarterOffice]=(1) AND [IsDeleted]=(0))
+index: IX_WorkPlan_TenantId_IsTransferred     | -
+index: IX_TrainingPlan_TenantId_IsTransferred | -
+index: IX_CashRegister_TenantId_IsHeadquarterCashRegister | -
+index: IX_MenuItem_PermissionId               | -
+```
+
+### End-to-end verification, finally possible
+
+With the schema migrated, the API on `main` could be run against it — the check that was blocked in
+every earlier section:
+
+```
+dotnet run --project src/Ensa.HttpApi.Host      -> /health 200
+python tools/api-tests/api_office_switch.py     -> 24 of 24 passed   (exercises isHeadquarterOffice)
+python tools/api-tests/api_company_scope.py     -> 20 of 20 passed
+python tools/api-tests/api_menu_permissions.py  -> 20 of 20 passed   (MenuItem.PermissionId path)
+python tools/api-tests/api_coverage.py          -> exit 0, no 5xx
+```
+
+The API was stopped afterwards. The DataMigrator was **not** run.
+
+### What this changes in the risk list
+
+- *"`EnsaDbDEv` still needs the rename migration"* — **done.** The database and `main` now agree.
+- *"The API contract change is unverified end to end"* — **partly closed.** Four backend suites pass
+  against real data, including the renamed `isHeadquarterOffice` field. Consumers outside these
+  scripts are still untested, and the SPA still reads the old names.
+- *"The DataMigrator must run only against a migrated destination"* — the destination now qualifies,
+  so `FieldFitter` will resolve the eight renamed text columns. The migrator itself remains unrun.
+- **New:** any branch still on the old property names — `DATA-AKTARIM-ANALYZE` is fine, it has the
+  rename, but anything cut from `main` before `f338be4` is not — will now fail against `EnsaDbDEv`.
+  The rename is reversible if that becomes urgent:
+  `dotnet ef database update MenuItemPermission` with the same connection string.

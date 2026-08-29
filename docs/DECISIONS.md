@@ -878,3 +878,52 @@ way to unpad a `Card` body, which the SPA currently does with the `.ensa-card-fl
 `src/styles/metronic.scss`. The package also declares `react ^18` as a peer while the SPA is on
 React 19, which is why `react/ensa-web/.npmrc` sets `legacy-peer-deps=true`; that line is dated
 and comes out the moment the peer range widens.
+
+## ADR-039 — The shell follows the component library instead of working around it
+
+**Context.** `rich-react-component` 0.2.0 gave the SPA a `Sidebar` that took a flat `sections`
+array, knew nothing about routing, and had no collapsed state. The application filled all three
+gaps itself: every entry carried an `onClick` calling `navigate()` instead of an `href`, each
+entry carried its own `active` boolean computed from the URL, and "hiding" the menu meant
+unmounting the whole component from `MainLayout`. Each of those was the right call against 0.2.0
+and each cost something real — a menu of buttons has no middle-click, no open-in-new-tab and no
+status-bar preview; several `active` flags can disagree; and an unmounted menu loses which groups
+were open. The library's stylesheet was not imported at all, so the `rrc-*` layer it ships had no
+effect, and the theme was a constant compiled into SCSS.
+
+**Decision.** Take what 0.3.0 offers rather than keep the workarounds.
+
+- The sidebar is built from the recursive `items` model with one authoritative `activeKey`;
+  ancestors are derived by the library, not passed in. Entries carry a real `href`, and
+  `renderLink` hands the library React Router's own `Link` — so the destinations are links again
+  without the Base layer learning about routing.
+- Hiding the menu is now two separate states, because they answer different questions:
+  `collapsed` is the desktop rail (the menu is still there, reduced to its icons) and `mobileOpen`
+  is the drawer, which only exists at a width that cannot hold the aside. Neither is derived from
+  the other, and neither destroys the expansion state.
+- `rich-react-component/style.css` is imported, between Bootstrap and this application's
+  overrides. The application's own tokens moved out of `metronic.scss` into `ensa.scss` purely so
+  that order could be expressed: one file cannot be both before and after the library.
+- `AppearanceProvider` owns colour mode, sidebar presentation, sidebar tone and accent scheme,
+  persisted under `ensa:appearance`. The accent is registered once as a complete colour scheme in
+  `src/styles/appearance.ts`; the library rejects a partial one, which is the point — recolouring
+  only the primary hue leaves buttons and menu states behind.
+
+**Why a dark palette is ours to write.** The library ships light tokens and documents `--rrc-*` as
+the integration point rather than shipping a second stylesheet. So dark mode is a block in
+`src/styles/ensa.scss` that redefines the `--kt-*` names under Bootstrap 5.3's own
+`data-bs-theme` attribute. That single attribute is what Bootstrap's components, the library's
+components and this application's ~280 inline `var(--kt-gray-*)` styles all read, so one switch
+moves all three. It also means the existing ban on hard-coded hex codes is now enforced by
+appearance rather than by review: a literal colour stays light on a dark page.
+
+**Why the built-in cell formatters are not used.** 0.3.0's `DataGrid` gained declarative columns —
+`field` plus a `format` — which removes a callback from the common case. The formatters behind
+`format` render US dollars and the English words "Yes"/"No", and read the browser's locale rather
+than the language the user chose. So `@/components/DataTable` keeps the declarative column and
+points it at `@/utils/format` through the library's `formatter` escape hatch. The same rule as
+ADR-038: the library owns the markup, this repository owns the words.
+
+**Still owed by the library**, unchanged from ADR-038: label props for `Pagination`'s
+"Previous"/"Next" and `DataGrid`'s loading text, an `aria-live` region around the toast stack, and
+a peer range that admits React 19.

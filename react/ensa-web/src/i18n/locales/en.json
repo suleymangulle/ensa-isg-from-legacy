@@ -58,11 +58,39 @@
       "records": "Records and documents",
       "admin": "Administration"
     },
-    "toggleMenu": "Toggle menu",
-    "closeMenu": "Close menu",
     "sidebar": "Main menu",
     "userMenu": "User menu",
-    "breadcrumb": "Breadcrumb"
+    "breadcrumb": "Breadcrumb",
+    "collapseMenu": "Collapse menu",
+    "expandMenu": "Expand menu",
+    "openMenu": "Open menu"
+  },
+  "appearance": {
+    "title": "Appearance",
+    "presentation": {
+      "title": "Menu layout",
+      "compact": "Compact",
+      "grouped": "Grouped"
+    },
+    "mode": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "tone": {
+      "title": "Menu tone",
+      "light": "Light",
+      "dark": "Dark",
+      "auto": "Follow theme"
+    },
+    "colorScheme": {
+      "title": "Accent colour",
+      "ensa": "Ensa blue",
+      "indigo": "Indigo",
+      "teal": "Teal",
+      "green": "Green"
+    }
   },
   "auth": {
     "signInTitle": "Sign in to Ensa",

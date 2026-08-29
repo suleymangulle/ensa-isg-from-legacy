@@ -100,11 +100,25 @@ file, and the merge puts them next to the core ones.
 
 ## The component library
 
-The SPA is built on [`rich-react-component`](https://www.npmjs.com/package/rich-react-component) —
-Base / Remote / Smart layers over Bootstrap and the Metronic conventions this theme already
-follows. `ToastProvider` is mounted once in `src/main.tsx`; `useToast` works anywhere below it.
+The SPA is built on [`rich-react-component`](https://www.npmjs.com/package/rich-react-component)
+`^0.3.0` — Base / Remote / Smart layers over Bootstrap and the Metronic conventions this theme
+already follows. `ToastProvider` is mounted once in `src/main.tsx`; `useToast` works anywhere
+below it.
 
-Two things to know before you reach for it:
+**The library ships a stylesheet.** `rich-react-component/style.css` is imported in
+`src/main.tsx`, between Bootstrap and this application's own overrides, and that order is
+load-bearing: every rule in it is anchored on an `rrc-*` class, but the tokens it defines are
+overridden by `src/styles/ensa.scss` and would win if the two were swapped. Never import it from
+a screen.
+
+**The theme is a setting, not a constant.** `AppearanceProvider` in `src/main.tsx` owns the colour
+mode (light / dark / system), the sidebar presentation and tone, and the accent scheme; the
+`AppearanceMenu` in the header changes them and `localStorage` remembers them. Two consequences
+for a screen: a colour must come from a `--kt-*` variable or a Bootstrap utility so it follows the
+dark palette in `src/styles/ensa.scss`, and a hard-coded hex — which was already banned — now
+fails visibly rather than only in review.
+
+Two more things to know before you reach for it:
 
 - **The library ships English literals in a few places** — `DataGrid`'s "Loading…", `Pagination`'s
   "Previous"/"Next" and its `aria-label`, `Alert`'s and `Modal`'s "Close" button label. Where the
@@ -148,6 +162,7 @@ Two things to know before you reach for it:
 | an inline trend chart | `Sparkline` | `type`, `data`, `tone`, `width`, `height`, `label` |
 | `<li class="list-group-item">` with an avatar and an action | `ListItem` | `leading`, `title`, `description`, `trailing`, `onClick`, `dense` |
 | a table | `DataTable` from `@/components/DataTable` | never the library's `DataGrid` directly — see below |
+| a column showing one field | a `DataTable` column with `field` + `format` | `format`: `text` \| `date` \| `dateTime` \| `money` \| `number` \| `boolean`, formatted by `@/utils/format` in the active language. Keep `render` for a cell that is a `Badge`, a `Link` or anything composed. A column does one or the other; the compiler rejects both |
 
 ### When raw markup is right
 
@@ -159,9 +174,11 @@ remembered — and anything not on it fails the build.
    needs an anchor, or the user loses middle-click, open-in-new-tab and the browser's own history.
    `<Link to="…" className="btn btn-light-primary">` stays. Use it for navigation only — never for
    an action that just changes state on the page you are on.
-2. **The routed sidebar and the routed breadcrumb.** The library's `Menu` is a pop-up action list
-   that closes on select, and its `Breadcrumb` renders `href` as a plain `<a>`, which reloads the
-   application. `NavLink` and `Link` stay.
+2. **The routed breadcrumb.** The library's `Breadcrumb` renders `href` as a plain `<a>`, which
+   reloads the application, so `Link` stays. The sidebar is no longer on this list: the library's
+   `Sidebar` takes a `renderLink` prop, and `src/layout/Sidebar.tsx` passes React Router's `Link`
+   through it — the entries keep a real `href`, so middle-click and open-in-new-tab still work,
+   and the menu is the library's tree rather than a second one.
 3. **`DataGrid`, `Pagination` and `Modal` are reached through the wrappers**, never imported into a
    screen: they render English words with no prop to change them. `@/components/DataTable` and
    `@/components/Form` supply the translation. `tools/repo-check/check_ui_library.py` fails a build

@@ -42,6 +42,22 @@ export const NAV_GROUPS = ['overview', 'workplace', 'ohs', 'finance', 'records',
 export type NavGroup = (typeof NAV_GROUPS)[number]
 
 /**
+ * One glyph per group, in the same family as the entries' own icons.
+ *
+ * A group needs an icon for the same reason an entry does: on the collapsed
+ * rail the label is gone and the icon is the only thing left to aim at.
+ * Without one the rail is a column of empty rows.
+ */
+export const NAV_GROUP_ICONS: Record<NavGroup, string> = {
+  overview: '⊞',
+  workplace: '🏭',
+  ohs: '⛑',
+  finance: '₺',
+  records: '🗃',
+  admin: '⚙',
+}
+
+/**
  * Every `src/pages/<module>/module.tsx` is collected at build time.
  *
  * Modules register themselves instead of being listed here on purpose: `App.tsx`, `Sidebar.tsx`

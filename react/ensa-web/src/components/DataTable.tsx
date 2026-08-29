@@ -6,8 +6,10 @@ import {
   PageHeader,
   Skeleton,
   Spinner as RichSpinner,
+  type DataGridAlign,
   type DataGridColumn,
 } from 'rich-react-component'
+import { formatDate, formatDateTime, formatMoney, formatNumber } from '@/utils/format'
 
 /**
  * List-screen primitives, built on `rich-react-component`.
@@ -20,15 +22,46 @@ import {
  * The exported names and their props are unchanged, so every module page keeps working.
  */
 
-export interface Column<T> {
+/**
+ * Presentation of a plain field value.
+ *
+ * Deliberately this application's own set rather than the grid's `format`
+ * prop: the library's built-in formatters hard-code US dollars and the English
+ * words "Yes"/"No", and read the browser's locale rather than the language the
+ * user actually selected. The declarative column path is worth having — it is
+ * the aligned, wrapped cell without a callback — so it is kept and pointed at
+ * `@/utils/format`, which already formats in the active language and in TRY.
+ */
+export type ColumnFormat = 'text' | 'date' | 'dateTime' | 'money' | 'number' | 'boolean'
+
+interface ColumnBase {
   /** Stable identifier used as the React key — never shown to the user. */
   key: string
   /** Already translated column header. */
   header: string
-  render: (row: T) => ReactNode
   width?: string
-  align?: 'start' | 'center' | 'end'
+  align?: DataGridAlign
 }
+
+/**
+ * A column either reads a field or renders itself — never both.
+ *
+ * Expressed as a union so the compiler rejects the ambiguous middle case
+ * instead of the grid silently preferring one over the other.
+ */
+export type Column<T> =
+  | (ColumnBase & {
+      render: (row: T) => ReactNode
+      field?: never
+      format?: never
+    })
+  | (ColumnBase & {
+      /** Row property this column shows, checked against the row type. */
+      field: keyof T & string
+      /** Defaults to `text`. */
+      format?: ColumnFormat
+      render?: never
+    })
 
 interface DataTableProps<T> {
   columns: Column<T>[]
@@ -95,13 +128,26 @@ export default function DataTable<T>({
 
   if (error) return <ErrorPanel message={error} flush />
 
-  const gridColumns: DataGridColumn<T>[] = columns.map((column) => ({
-    key: column.key,
-    header: column.header,
-    align: column.align,
-    width: column.width,
-    render: column.render,
-  }))
+  const gridColumns: DataGridColumn<T>[] = columns.map((column) =>
+    column.render
+      ? {
+          key: column.key,
+          header: column.header,
+          align: column.align,
+          width: column.width,
+          render: column.render,
+        }
+      : {
+          key: column.key,
+          field: column.field,
+          header: column.header,
+          // Figures line up on the right unless the caller says otherwise;
+          // everything else keeps the grid's own default.
+          align: column.align ?? (isNumeric(column.format) ? 'end' : undefined),
+          width: column.width,
+          formatter: (value) => present(value, column.format, t),
+        },
+  )
 
   return (
     <div role="group" aria-label={label}>
@@ -113,6 +159,40 @@ export default function DataTable<T>({
       />
     </div>
   )
+}
+
+/** Right-aligned formats — the ones that read as a quantity rather than a word. */
+function isNumeric(format: ColumnFormat | undefined) {
+  return format === 'money' || format === 'number'
+}
+
+/**
+ * A field value as text, in the active language.
+ *
+ * Missing is rendered as the shared em-dash placeholder rather than an empty
+ * cell, so a blank column reads as "no value" instead of as a layout fault.
+ */
+function present(
+  value: unknown,
+  format: ColumnFormat | undefined,
+  t: (key: string) => string,
+): ReactNode {
+  if (value === null || value === undefined || value === '') return t('common.none')
+
+  switch (format) {
+    case 'date':
+      return formatDate(String(value)) ?? t('common.none')
+    case 'dateTime':
+      return formatDateTime(String(value)) ?? t('common.none')
+    case 'money':
+      return formatMoney(Number(value)) ?? t('common.none')
+    case 'number':
+      return formatNumber(Number(value)) ?? t('common.none')
+    case 'boolean':
+      return value ? t('common.yes') : t('common.no')
+    default:
+      return String(value)
+  }
 }
 
 /** Centred loading indicator with a translated screen-reader label. */

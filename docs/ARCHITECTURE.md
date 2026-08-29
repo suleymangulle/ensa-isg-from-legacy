@@ -335,10 +335,32 @@ public class CompanyAppService(
 ```
 Plus Metronic's soft variants: `.badge-light-*`, `.btn-light-*`.
 
+- **Three stylesheets, in this order** — the order is load-bearing and is set once, in
+  `src/main.tsx`:
+
+```
+src/styles/metronic.scss          Bootstrap, compiled over the palette above
+rich-react-component/style.css    the component library's own skin (rrc-* anchored)
+src/styles/ensa.scss              this application's tokens and overrides
+```
+
+- **Theme.** `AppearanceProvider` owns four independent settings — colour mode
+  (light / dark / system), sidebar presentation, sidebar tone and accent scheme — persisted under
+  `ensa:appearance` and written onto the document element as Bootstrap 5.3's own
+  `data-bs-theme` plus the scheme's custom properties. The dark palette lives in
+  `src/styles/ensa.scss`: the `--kt-*` names above are redefined under `[data-bs-theme='dark']`,
+  so Bootstrap's components, the library's and this application's inline `var(--kt-*)` styles all
+  switch on one attribute. The accent colour is registered once as a complete scheme in
+  `src/styles/appearance.ts`; it is never declared a second time in SCSS.
+
 - Sign-in uses the OpenIddict `password` grant; tokens in `localStorage`; 401 triggers one
   refresh attempt then redirects to `/login`.
 - **No hard-coded user-facing strings** — everything goes through i18n (§12).
 - Layout: `src/layout` (Sidebar + Header + Content), `src/pages/{module}`, `src/api`, `src/i18n`.
+  The sidebar is the library's own recursive navigation tree: entries carry a real `href` and are
+  rendered through React Router's `Link`, so middle-click and open-in-new-tab behave. It has a
+  collapsed desktop rail and a mobile drawer, which are separate states and never derived from
+  each other.
 
 ---
 

@@ -1,0 +1,166 @@
+// =============================================================
+// Ensa — application token layer.
+//
+// Loaded AFTER Bootstrap (`metronic.scss`) and AFTER the library skin
+// (`rich-react-component/style.css`), which is the order the library
+// documents. Two families of tokens live here:
+//
+//   --kt-*   the Metronic names this application's own screens read from
+//            inline styles. They are ours; nothing outside this repository
+//            consumes them.
+//   --rrc-*  the library's documented integration point. Its stylesheet
+//            reads these, and the library ships only a light palette — so a
+//            dark theme is expressed by overriding them here rather than by
+//            waiting for the package to grow a second stylesheet.
+//
+// The library's colour scheme (primary and the component/menu tokens derived
+// from it) is NOT set here: `AppearanceProvider` writes it at runtime from the
+// registered scheme in `src/styles/appearance.ts`, so the two never disagree.
+// =============================================================
+
+:root {
+  color-scheme: light;
+
+  // --- Metronic palette, read at runtime by the screens' own inline styles ---
+  --kt-primary: #3E97FF;
+  --kt-primary-active: #2884EF;
+  --kt-primary-light: #F1FAFF;
+  --kt-success: #50CD89;
+  --kt-success-active: #47BE7D;
+  --kt-success-light: #E8FFF3;
+  --kt-info: #7239EA;
+  --kt-info-active: #5014D0;
+  --kt-info-light: #F8F5FF;
+  --kt-warning: #FFC700;
+  --kt-warning-active: #F1BC00;
+  --kt-warning-light: #FFF8DD;
+  --kt-danger: #F1416C;
+  --kt-danger-active: #D9214E;
+  --kt-danger-light: #FFF5F8;
+  --kt-dark: #181C32;
+  --kt-secondary: #E4E6EF;
+
+  --kt-gray-100: #F9F9F9;
+  --kt-gray-200: #F1F1F2;
+  --kt-gray-300: #F4F4F4;
+  --kt-gray-400: #B5B5C3;
+  --kt-gray-500: #A1A5B7;
+  --kt-gray-600: #7E8299;
+  --kt-gray-700: #5E6278;
+  --kt-gray-800: #3F4254;
+  --kt-gray-900: #181C32;
+
+  --kt-body-bg: #F5F8FA;
+  --kt-card-bg: #FFFFFF;
+  --kt-border-color: #F1F1F2;
+
+  --kt-header-height: 68px;
+  --kt-sidebar-width: 265px;
+  --kt-sidebar-width-collapsed: 76px;
+
+  // --- Library tokens pointed at the Metronic palette ---
+  // One direction only: the library follows the application's palette, never
+  // the other way round, so there is a single place a colour is decided.
+  --rrc-app-bg: var(--kt-body-bg);
+  --rrc-card-surface: var(--kt-card-bg);
+  --rrc-elevated-surface: var(--kt-card-bg);
+  --rrc-popup-surface: var(--kt-card-bg);
+  --rrc-dropdown-surface: var(--kt-card-bg);
+  --rrc-drawer-surface: var(--kt-card-bg);
+  --rrc-input-surface: #FFFFFF;
+  --rrc-border: var(--kt-border-color);
+  --rrc-heading-color: var(--kt-gray-900);
+  --rrc-body-color: var(--kt-gray-700);
+  --rrc-text-secondary: var(--kt-gray-600);
+  --rrc-text-muted: var(--kt-gray-500);
+  --rrc-header-height: var(--kt-header-height);
+  --rrc-sidebar-expanded-width: var(--kt-sidebar-width);
+  --rrc-sidebar-collapsed-width: var(--kt-sidebar-width-collapsed);
+}
+
+// The dark palette the library deliberately does not ship. `data-bs-theme` is
+// Bootstrap 5.3's own mechanism and is what `AppearanceProvider` writes, so
+// Bootstrap's components, the library's components and this application's
+// inline `var(--kt-*)` styles all switch on one attribute.
+[data-bs-theme='dark'] {
+  color-scheme: dark;
+
+  --kt-primary-light: #1C2637;
+  --kt-success-light: #1C3238;
+  --kt-info-light: #2F264F;
+  --kt-warning-light: #392F28;
+  --kt-danger-light: #3A2434;
+
+  --kt-gray-100: #1B1B29;
+  --kt-gray-200: #2B2B40;
+  --kt-gray-300: #323248;
+  --kt-gray-400: #474761;
+  --kt-gray-500: #565674;
+  --kt-gray-600: #6D6D80;
+  --kt-gray-700: #92929F;
+  --kt-gray-800: #CDCDDE;
+  --kt-gray-900: #FFFFFF;
+
+  --kt-body-bg: #151521;
+  --kt-card-bg: #1E1E2D;
+  --kt-border-color: #2B2B40;
+  --kt-dark: #FFFFFF;
+  --kt-secondary: #2B2B40;
+
+  // Bootstrap keeps `--bs-light` fixed across themes, because in its own
+  // palette "light" is a colour. In this application it is a role: the raised
+  // chrome behind a `variant="light"` button and a `bg-light` surface. Left
+  // alone, every one of those stays near-white on a dark page.
+  --bs-light: #2B2B40;
+  --bs-light-rgb: 43, 43, 64;
+
+  --rrc-input-surface: #1B1B29;
+  --rrc-sidebar-surface: #1E1E2D;
+  --rrc-header-surface: #1E1E2D;
+  --rrc-table-head-surface: #1B1B29;
+  --rrc-hover-surface: #2A2A3C;
+  --rrc-active-surface: #2B2B40;
+  --rrc-disabled-surface: #2B2B40;
+  --rrc-border-subtle: #232333;
+  --rrc-border-strong: #3B3B57;
+  --rrc-input-border: #3B3B57;
+  --rrc-text-disabled: var(--kt-gray-500);
+  --rrc-shadow-card: 0 3px 4px rgba(0, 0, 0, .25);
+  --rrc-shadow-elevated: 0 .5rem 1.5rem .5rem rgba(0, 0, 0, .35);
+  --rrc-shadow-dropdown: 0 .5rem 1.5rem .25rem rgba(0, 0, 0, .4);
+  --rrc-shadow-drawer: 0 0 2.5rem .5rem rgba(0, 0, 0, .5);
+  --rrc-shadow-header: 0 1px 2px rgba(0, 0, 0, .3);
+}
+
+// Bootstrap is compiled here with `$input-bg: #FFFFFF`, which becomes a literal
+// in `.form-control` rather than a variable, so a raw control stays white on a
+// dark page however the tokens are set. The library's own `Input` is unaffected
+// — it reads `--rrc-input-surface` — but the handful of raw controls the
+// component-library check allows (the sign-in fields, an always-visible
+// listbox, a control inside a table cell) are not, and they are exactly the
+// ones a user meets first.
+[data-bs-theme='dark'] {
+  .form-control,
+  .form-select {
+    background-color: var(--rrc-input-surface);
+    border-color: var(--rrc-input-border);
+    color: var(--kt-gray-800);
+  }
+
+  .form-control::placeholder {
+    color: var(--rrc-text-muted);
+  }
+}
+
+body {
+  background-color: var(--kt-body-bg);
+  color: var(--kt-gray-700);
+  -webkit-font-smoothing: antialiased;
+}
+
+// The library prefers Inter but never fetches a font; opting the page in is
+// the consumer's job, and this application already ships Inter first in its
+// Bootstrap font stack.
+body {
+  font-family: var(--rrc-font-sans);
+}

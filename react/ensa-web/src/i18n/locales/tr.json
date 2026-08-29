@@ -58,11 +58,39 @@
       "records": "Kayıt ve Belgeler",
       "admin": "Yönetim"
     },
-    "toggleMenu": "Menüyü aç/kapat",
-    "closeMenu": "Menüyü kapat",
     "sidebar": "Ana menü",
     "userMenu": "Kullanıcı menüsü",
-    "breadcrumb": "Sayfa yolu"
+    "breadcrumb": "Sayfa yolu",
+    "collapseMenu": "Menüyü daralt",
+    "expandMenu": "Menüyü genişlet",
+    "openMenu": "Menüyü aç"
+  },
+  "appearance": {
+    "title": "Görünüm",
+    "presentation": {
+      "title": "Menü düzeni",
+      "compact": "Dar",
+      "grouped": "Gruplu"
+    },
+    "mode": {
+      "title": "Tema",
+      "light": "Açık",
+      "dark": "Koyu",
+      "system": "Sistem"
+    },
+    "tone": {
+      "title": "Menü tonu",
+      "light": "Açık",
+      "dark": "Koyu",
+      "auto": "Temayı izle"
+    },
+    "colorScheme": {
+      "title": "Vurgu rengi",
+      "ensa": "Ensa mavisi",
+      "indigo": "İndigo",
+      "teal": "Turkuaz",
+      "green": "Yeşil"
+    }
   },
   "auth": {
     "signInTitle": "Ensa Girişi",

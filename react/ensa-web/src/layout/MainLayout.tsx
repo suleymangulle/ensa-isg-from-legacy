@@ -8,29 +8,39 @@ import Header from './Header'
 /**
  * The application shell: navigation beside the screen, the top bar above it.
  *
- * Built from the library's layout primitives — `Flex` for the two columns and the vertical stack,
- * `Container` for the screen's own width, `Divider` and `Text` for the footer. The toggle simply
- * mounts or unmounts the sidebar: the library's `Sidebar` has no collapsed rail of its own, and a
- * hidden-but-present menu is worse than one that is not there.
+ * Two navigation states, kept apart because they answer different questions:
+ * `collapsed` is the desktop rail — the menu is still there, reduced to its
+ * icons — and `mobileOpen` is the drawer, which only exists on a screen too
+ * narrow to hold the aside at all. Collapsing on a laptop must not decide what
+ * happens on a phone, so neither value is derived from the other, and the
+ * library keeps them separate for the same reason.
+ *
+ * The sidebar is no longer unmounted to hide it: the library's `Sidebar` now
+ * has a real collapsed rail and a real drawer, both of which keep the menu
+ * reachable and keep its expansion state intact.
  */
 export default function MainLayout() {
   const { t } = useTranslation()
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
 
   return (
     <Flex align="stretch" gap={0} className="min-vh-100">
-      {isSidebarOpen && (
-        <nav
-          aria-label={t('nav.sidebar')}
-          className="flex-shrink-0 border-end"
-          style={{ width: 'var(--kt-sidebar-width)' }}
-        >
-          <Sidebar />
-        </nav>
-      )}
+      {/* The library's Sidebar is its own `<nav>` landmark; wrapping it in a
+          second one would announce the menu twice. */}
+      <Sidebar
+        collapsed={isCollapsed}
+        onCollapsedChange={setIsCollapsed}
+        mobileOpen={isMobileOpen}
+        onMobileOpenChange={setIsMobileOpen}
+      />
 
       <Flex direction="column" grow className="min-w-0">
-        <Header onMenuToggle={() => setIsSidebarOpen((open) => !open)} />
+        <Header
+          isSidebarCollapsed={isCollapsed}
+          onSidebarCollapseToggle={() => setIsCollapsed((collapsed) => !collapsed)}
+          onMobileMenuOpen={() => setIsMobileOpen(true)}
+        />
 
         <main className="flex-grow-1">
           <Container fluid className="py-4">

@@ -1,6 +1,13 @@
 // =============================================================
-// Ensa — Bootstrap 5 theme built on the Metronic colour palette.
+// Ensa — Bootstrap 5 build, compiled with the Metronic palette.
 // Matches docs/ARCHITECTURE.md §11 exactly.
+//
+// This file owns one job: producing Bootstrap. The application's own token
+// layer lives in `ensa.scss`, which is loaded AFTER `rich-react-component`'s
+// stylesheet — the order the library documents (Bootstrap, then the library
+// skin, then the consumer's overrides). Keeping the two apart is what makes
+// that order expressible at all: a single file cannot be both before and
+// after the library.
 // =============================================================
 
 // --- Metronic palette variables (must come BEFORE Bootstrap) ---
@@ -40,47 +47,3 @@ $table-border-color:   $border-color;
 $table-hover-bg:       #F9F9F9;
 
 @import "bootstrap/scss/bootstrap";
-
-// --- Metronic CSS variables (read at runtime by the screens' own inline styles) ---
-:root {
-  --kt-primary: #3E97FF;
-  --kt-primary-active: #2884EF;
-  --kt-primary-light: #F1FAFF;
-  --kt-success: #50CD89;
-  --kt-success-active: #47BE7D;
-  --kt-success-light: #E8FFF3;
-  --kt-info: #7239EA;
-  --kt-info-active: #5014D0;
-  --kt-info-light: #F8F5FF;
-  --kt-warning: #FFC700;
-  --kt-warning-active: #F1BC00;
-  --kt-warning-light: #FFF8DD;
-  --kt-danger: #F1416C;
-  --kt-danger-active: #D9214E;
-  --kt-danger-light: #FFF5F8;
-  --kt-dark: #181C32;
-  --kt-secondary: #E4E6EF;
-
-  --kt-gray-100: #F9F9F9;
-  --kt-gray-200: #F1F1F2;
-  --kt-gray-300: #F4F4F4;
-  --kt-gray-400: #B5B5C3;
-  --kt-gray-500: #A1A5B7;
-  --kt-gray-600: #7E8299;
-  --kt-gray-700: #5E6278;
-  --kt-gray-800: #3F4254;
-  --kt-gray-900: #181C32;
-
-  --kt-body-bg: #F5F8FA;
-  --kt-card-bg: #FFFFFF;
-  --kt-border-color: #F1F1F2;
-
-  --kt-header-height: 68px;
-  --kt-sidebar-width: 265px;
-  --kt-sidebar-width-collapsed: 76px;
-}
-
-body {
-  background-color: var(--kt-body-bg);
-  -webkit-font-smoothing: antialiased;
-}

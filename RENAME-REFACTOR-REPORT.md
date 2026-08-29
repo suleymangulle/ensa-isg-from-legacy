@@ -13,6 +13,11 @@ frontend edits.
 > [pre-merge checklist](#recommendation-before-merge) was added. Treat this revision as the
 > current statement of what was done and what is still open.
 >
+> **2026-08-30 — re-integrated onto a narrow branch.** This copy lives on
+> `integration/menu-permission-and-rename-refactor`, which carries the menu permission work,
+> the backend half of the office switcher and this rename — and no frontend path. See
+> [Narrow integration](#narrow-integration--integrationmenu-permission-and-rename-refactor-2026-08-30).
+>
 > **2026-08-30 — the checklist was executed as far as it safely could be.** The migration was
 > applied, rolled back and re-applied on a throwaway LocalDB database with representative data;
 > results are in [Pre-merge verification run](#pre-merge-verification-run--2026-08-30). No shared
@@ -497,106 +502,153 @@ They should be run immediately after a real database is migrated — see the che
 
 ---
 
+## Narrow integration — `integration/menu-permission-and-rename-refactor`, 2026-08-30
+
+Everything above describes how the rename was made and verified on the working branch
+`DATA-AKTARIM-ANALYZE`. **This branch is a narrower re-integration of the same work onto `main`**,
+built to keep unrelated changes — above all the SPA — out of `main`.
+
+### What this branch contains
+
+| Commit | What |
+|---|---|
+| `4c301a0` | *Record that the legacy permission tables governed nothing at runtime* (from `8372480`) |
+| `d70027a` | *Let the migrated permissions decide what the menu shows* (from `cb7eeb3`) — carries `20260828101024_MenuItemPermission` |
+| `cfafef6` | *Add backend office access support required by rename refactor* — the backend subset of `53e8711` |
+| `8e75043` | *Rename legacy leftover columns* (from `d482819`) — carries `20260829195006_RenameLegacyLeftoverColumns` |
+
+- **No frontend or UI path is included.** `git diff --name-only main..HEAD | grep -E "^react/|^public/|^resources/"` returns nothing. The office switcher's backend ships here without its user interface; the SPA half of `53e8711` stays out.
+- **`20260828101024_MenuItemPermission` is present.**
+- **`20260829195006_RenameLegacyLeftoverColumns` is present**, after it, and its hand-written body is byte-identical to the verified version (`git rev-parse` of the file at `d482819` and at this branch both give `7e420b578e272fb9388a2184e2bd0a8536c95540`).
+- **`EnsaDbDEv` was not migrated.** No migration was applied to any shared database, and the DataMigrator was not run.
+
+### Why a backend dependency had to be split out
+
+Cherry-picking the rename straight onto `main` failed on five files, all for one reason: the rename
+edits office-switcher code that only exists because of `53e8711`. `MyOfficeDtos.cs`,
+`OfficeAccessTests.cs` and `api_office_switch.py` are created by that commit; the renamed lines in
+`CashRegisterAppService.cs` and `AccountAppService.cs` sit inside code it introduced
+(`officeScope.OfficeIds`, `GetMyOfficesAsync`). Commit `cfafef6` therefore brings the backend half of
+that work — office access manager and scope resolution, the request office context and middleware,
+the account endpoint, the app services that resolve an office scope, their contracts, permissions and
+localized messages, two test suites and the API script — and nothing under `react/`, `public/` or
+`resources/`. The agent definitions and the office-switcher analysis note from the same source commit
+are also left out: neither is needed to build or test. With that in place the rename applied with
+**no conflicts at all**.
+
+### ADR numbering on this branch
+
+`main` owns 038 and 039, so they did not move; the two incoming decisions were appended:
+
+| ADR | Title | Was |
+|---|---|---|
+| **040** | The legacy permission tables governed nothing at runtime | 039 in the source commit |
+| **041** | The migrated permissions decide what the menu shows | 040 in the source commit |
+
+References follow in `MenuAppService.cs`, `AuthorizationSeeder.cs`, `MenuSeedData.cs`,
+`MenuItem.cs`, `api_menu_permissions.py` and `tools/gen-enums/gen_menu.py` — the last one matters
+because it generates `MenuSeedData.cs`, and generator and generated file were checked to agree.
+
+Note that the company-scope ADR is **not** on this branch: it belongs to `947d331`, which was
+deliberately left out. The numbering here therefore differs from `DATA-AKTARIM-ANALYZE`, where that
+ADR took 041 and the permission-tables decision took 042.
+
+### Verification on this branch
+
+```
+git diff --name-only main..HEAD | grep -E "^react/|^public/|^resources/"   -> (nothing)
+
+dotnet build                 -> 0 warnings, 0 errors
+dotnet test --no-restore     -> 110 passed, 0 failed
+                                Application 10 | Domain 52 | EntityFrameworkCore 48
+dotnet ef migrations list --no-connect
+   … 20260827230602_RelaxMedicationDoseUnitCodeIndex
+     20260828101024_MenuItemPermission
+     20260829195006_RenameLegacyLeftoverColumns
+dotnet ef migrations has-pending-model-changes
+   -> No changes have been made to the model since the last migration.
+```
+
+The EF suite is 48 rather than 61 because `OfficeCompanyScopeTests` belongs to the company-scope
+commit that is not on this branch.
+
+**Build-server note.** Two builds during this integration died inside Roslyn with
+`Internal CLR error (0x80131506)` and then `AccessViolationException`, both on
+`Ensa.EntityFrameworkCore`. Deleting `obj/`/`bin/` was not enough; `dotnet build-server shutdown`
+followed by a rebuild was, and every build since has been clean. A local compiler-server fault, not
+a fault in the code — but worth knowing if it recurs on a build machine.
+
+### Throwaway database proof, on this branch's chain
+
+Database `EnsaNarrowProof` on `(localdb)\MSSQLLocalDB`: migrated to `MenuItemPermission`, seeded with
+mirrored values, then migrated to the head of the chain, then dropped.
+
+```
+MenuItem.PermissionId present (before rename): 1
+
+PRE  PROOF-A|1|0|1|0|1|111|222|1111.11|2222.22|3333.33|TAXOFFICE-A
+PRE  PROOF-B|0|1|0|1|0|333|444|4444.44|5555.55|6666.66|TAXOFFICE-B
+PRE  PROSPECT-A|1|0|1     PRE  PROSPECT-B|0|1|0
+PRE  HQ Office|1          PRE  Branch Office|0
+
+  -> Applying migration '20260829195006_RenameLegacyLeftoverColumns'. Done.
+
+POST PROOF-A|1|0|1|0|1|111|222|1111.11|2222.22|3333.33|TAXOFFICE-A
+POST PROOF-B|0|1|0|1|0|333|444|4444.44|5555.55|6666.66|TAXOFFICE-B
+POST PROSPECT-A|1|0|1     POST PROSPECT-B|0|1|0
+POST HQ Office|1          POST Branch Office|0
+
+MenuItem.PermissionId still present: 1     IX_MenuItem_PermissionId present: 1
+new columns present: 36 of 36              old columns still present: 0
+office index: IX_Office_TenantId_IsHeadquarterOffice | ([IsHeadquarterOffice]=(1) AND [IsDeleted]=(0))
+applied migrations: 16 | last: 20260829195006_RenameLegacyLeftoverColumns
+proof dbs left: 0
+```
+
+`PRE` reads through the old column names and `POST` through the new ones; the Company fields are, in
+order, the hazard-class flag, the employee-password flag, solution partner, quote VAT, the
+distance-learning limit, the two visit durations, the three amounts and the tax office. The two
+readings are identical, so the eight pairs the scaffolder once mis-paired each landed in the intended
+column, and `MenuItem.PermissionId` with its index survived the rename.
+
+---
+
+## Remaining risks on this branch
+
+1. **The backend office switcher ships without its UI.** `cfafef6` adds `GET /api/account/offices`,
+   the `X-Ensa-OfficeId` middleware and the office-scoped queries, but no screen uses them until the
+   SPA half of `53e8711` follows. The endpoints are inert rather than wrong — no existing caller
+   sends the header — but the split is a temporary state that should not be left open long.
+2. **The API JSON contract changed** (Needs Review #1 above): 16 DTO properties renamed under
+   `JsonNamingPolicy.CamelCase` with no `[JsonPropertyName]`. Consumers reading the old names get
+   missing fields, silently. This is the finding that reaches users.
+3. **`EnsaDbDEv` still needs the rename applied.** It already carries `MenuItemPermission`; once this
+   branch is on `main`, the database and the mainline agree except for the rename itself.
+4. **ADR numbers differ between this branch and `DATA-AKTARIM-ANALYZE`** (040/041 here, 040/042
+   there, with the company-scope ADR at 041 on that branch). Whichever lands second needs its
+   numbering reconciled — do not merge both without deciding the final order.
+5. **The DataMigrator must run only against a migrated destination**, or `FieldFitter` silently stops
+   fitting the eight renamed text columns.
+6. **The company-scope fix (`947d331`) is not here.** If `EnsaDbDEv` gets the rename while `main`
+   lacks that fix, the behaviour recorded in `SAGLAMOSGB-FIRMA-GORUNMEME-ANALIZI.md` is unchanged —
+   that work still needs its own path to `main`.
+
+---
+
 ## Final Git Status
 
 ```
- M docs/DATA-MIGRATION.md
- M src/Ensa.Application.Contracts/Communication/Dtos/EmailSettingsDtos.cs
- M src/Ensa.Application.Contracts/Communication/Dtos/VisitDtos.cs
- M src/Ensa.Application.Contracts/Companies/Dtos/CompanyDtos.cs
- M src/Ensa.Application.Contracts/Companies/Dtos/WorkplaceDepartmentDtos.cs
- M src/Ensa.Application.Contracts/Finance/Dtos/CashRegisterDtos.cs
- M src/Ensa.Application.Contracts/Finance/Dtos/PenaltyDtos.cs
- M src/Ensa.Application.Contracts/Membership/Dtos/MyOfficeDtos.cs
- M src/Ensa.Application.Contracts/Membership/Dtos/ProfileDto.cs
- M src/Ensa.Application.Contracts/Membership/Dtos/UserDtos.cs
- M src/Ensa.Application.Contracts/Plans/Dtos/WorkPlanDtos.cs
- M src/Ensa.Application.Contracts/Reports/Dtos/ReportDtos.cs
- M src/Ensa.Application.Contracts/Risks/Dtos/EquipmentDtos.cs
- M src/Ensa.Application.Contracts/Risks/Dtos/IncidentDtos.cs
- M src/Ensa.Application.Contracts/Risks/Dtos/RiskAssessmentReportDtos.cs
- M src/Ensa.Application.Contracts/Tenancy/Dtos/Navigations/OrganizationNavigationDto.cs
- M src/Ensa.Application.Contracts/Tenancy/Dtos/OfficeDtos.cs
- M src/Ensa.Application.Contracts/Tenancy/Dtos/OrganizationDtos.cs
- M src/Ensa.Application.Contracts/Trainings/Dtos/EmployeeTrainingProgressDtos.cs
- M src/Ensa.Application.Contracts/Trainings/Dtos/TrainingPlanDtos.cs
- M src/Ensa.Application/Communication/CommunicationAutoMapperProfile.cs
- M src/Ensa.Application/Communication/EmailSettingsAppService.cs
- M src/Ensa.Application/Communication/VisitAppService.cs
- M src/Ensa.Application/Companies/WorkplaceDepartmentAppService.cs
- M src/Ensa.Application/Companies/WorkplaceDepartmentAutoMapperProfile.cs
- M src/Ensa.Application/Finance/CashRegisterAppService.cs
- M src/Ensa.Application/Membership/AccountAppService.cs
- M src/Ensa.Application/Membership/PermissionAppService.cs
- M src/Ensa.Application/Membership/UserAppService.cs
- M src/Ensa.Application/Plans/PlansAutoMapperProfile.cs
- M src/Ensa.Application/Plans/WorkPlanAppService.cs
- M src/Ensa.Application/Risks/EquipmentAppService.cs
- M src/Ensa.Application/Risks/EquipmentAutoMapperProfile.cs
- M src/Ensa.Application/Tenancy/OfficeAppService.cs
- M src/Ensa.Application/Trainings/EmployeeTrainingProgressAppService.cs
- M src/Ensa.Application/Trainings/TrainingPlanAppService.cs
- M src/Ensa.Application/Trainings/TrainingsAutoMapperProfile.cs
- M src/Ensa.DataMigrator/Steps/CommercialStep.cs
- M src/Ensa.DataMigrator/Steps/CompanyStep.cs
- M src/Ensa.DataMigrator/Steps/FinanceStep.cs
- M src/Ensa.DataMigrator/Steps/LookupExtrasStep.cs
- M src/Ensa.DataMigrator/Steps/OperationsStep.cs
- M src/Ensa.DataMigrator/Steps/PlanStep.cs
- M src/Ensa.DataMigrator/Steps/ReportStep.cs
- M src/Ensa.DataMigrator/Steps/RiskStep.cs
- M src/Ensa.DataMigrator/Steps/TenancyStep.cs
- M src/Ensa.DataMigrator/Steps/UserColumnClassifyStep.cs
- M src/Ensa.DataMigrator/Steps/VisitStep.cs
- M src/Ensa.DbMigrator/Seeding/MembershipSeeder.cs
- M src/Ensa.Domain/Communication/EmailSettings.cs
- M src/Ensa.Domain/Communication/Visit.cs
- M src/Ensa.Domain/Companies/Company.cs
- M src/Ensa.Domain/Companies/CompanyManager.cs
- M src/Ensa.Domain/Companies/WorkplaceDepartment.cs
- M src/Ensa.Domain/Finance/CashRegister.cs
- M src/Ensa.Domain/Finance/PenaltySurvey.cs
- M src/Ensa.Domain/Lookups/SystemSetting.cs
- M src/Ensa.Domain/Lookups/TreeNode.cs
- M src/Ensa.Domain/Membership/IPermissionRepository.cs
- M src/Ensa.Domain/Membership/PermissionManager.cs
- M src/Ensa.Domain/Membership/UserMedulaCredential.cs
- M src/Ensa.Domain/Membership/UserPermission.cs
- M src/Ensa.Domain/Membership/UserProfile.cs
- M src/Ensa.Domain/Plans/WorkPlan.cs
- M src/Ensa.Domain/Reports/OhsReport.cs
- M src/Ensa.Domain/Reports/YearEndReviewLine.cs
- M src/Ensa.Domain/Risks/Equipment.cs
- M src/Ensa.Domain/Risks/Incident.cs
- M src/Ensa.Domain/Risks/IncidentManager.cs
- M src/Ensa.Domain/Risks/RiskAssessmentReport.cs
- M src/Ensa.Domain/Tenancy/IOfficeRepository.cs
- M src/Ensa.Domain/Tenancy/Navigations/OrganizationNavigation.cs
- M src/Ensa.Domain/Tenancy/Office.cs
- M src/Ensa.Domain/Tenancy/Organization.cs
- M src/Ensa.Domain/Tenancy/OrganizationContract.cs
- M src/Ensa.Domain/Tenancy/ProspectOrganization.cs
- M src/Ensa.Domain/Trainings/TrainingPlan.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Companies/CompanyConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Finance/CashRegisterConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Finance/PenaltySurveyConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Membership/UserMedulaCredentialConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Plans/WorkPlanConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Reports/YearEndReviewLineConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Risks/RiskAssessmentReportConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Tenancy/OfficeConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Tenancy/OrganizationConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Configurations/Trainings/TrainingPlanConfiguration.cs
- M src/Ensa.EntityFrameworkCore/Migrations/EnsaDbContextModelSnapshot.cs
- M src/Ensa.EntityFrameworkCore/Repositories/Finance/CashRegisterRepository.cs
- M src/Ensa.EntityFrameworkCore/Repositories/Membership/PermissionRepository.cs
- M src/Ensa.EntityFrameworkCore/Repositories/Tenancy/OfficeRepository.cs
- M src/Ensa.EntityFrameworkCore/Repositories/Tenancy/OrganizationRepository.cs
- M src/Ensa.HttpApi.Host/Mailing/SmtpMailSender.cs
- M test/Ensa.EntityFrameworkCore.Tests/OfficeAccessTests.cs
- M tools/api-tests/api_mail.py
- M tools/api-tests/api_office_switch.py
-?? RENAME-REFACTOR-REPORT.md
-?? src/Ensa.EntityFrameworkCore/Migrations/20260829195006_RenameLegacyLeftoverColumns.Designer.cs
-?? src/Ensa.EntityFrameworkCore/Migrations/20260829195006_RenameLegacyLeftoverColumns.cs
+$ git rev-parse --abbrev-ref HEAD
+integration/menu-permission-and-rename-refactor
+
+$ git status --short
+(clean)
+
+$ git log --oneline --decorate -5
+<report commit>  Describe the narrow integration in the rename report
+8e75043 Rename legacy leftover columns
+cfafef6 Add backend office access support required by rename refactor
+d70027a Let the migrated permissions decide what the menu shows
+4c301a0 Record that the legacy permission tables governed nothing at runtime
+c59798d (main) Take ensa-web to rich-react-component 0.3.1
 ```

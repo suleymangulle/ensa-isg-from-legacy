@@ -4,6 +4,7 @@ using Ensa.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ensa.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(EnsaDbContext))]
-    partial class EnsaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260828101024_MenuItemPermission")]
+    partial class MenuItemPermission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,11 +72,11 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<bool>("SslUse")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("UseSsl")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -362,6 +365,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Completed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -380,9 +386,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.Property<DateTime?>("End")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -566,9 +569,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(512)
                         .HasColumnType("nvarchar(512)");
 
-                    b.Property<bool>("AreEmployeePasswordsSent")
-                        .HasColumnType("bit");
-
                     b.Property<string>("AuthorizedPerson")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -639,10 +639,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<decimal?>("ExpectedPaymentAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("Fax")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -658,7 +654,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("FirstMonthProgramIncluded")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("GroupContractAmount")
+                    b.Property<decimal?>("GrContractAmount")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
@@ -683,25 +679,17 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<decimal?>("InvoiceAmountKh")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool?>("IsDistanceLearningUserLimitEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsHazardClassVerified")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsOrganizationRecord")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsQuoteVatIncluded")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSolutionPartner")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsSubcontractor")
@@ -755,6 +743,16 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("OrganizationTypeId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("OrganizationTypeVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PasswordSent")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("PayableDigit")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("datetime2");
 
@@ -766,14 +764,14 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("PhysicianVisitMinutes")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Priority")
                         .HasColumnType("int");
 
                     b.Property<int?>("QuarterId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("QuoteVatIncluded")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("RegionCode")
                         .HasColumnType("int");
@@ -785,12 +783,12 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
+                    b.Property<bool>("SolutionPartner")
+                        .HasColumnType("bit");
+
                     b.Property<decimal?>("SpecialistFee")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("SpecialistVisitMinutes")
-                        .HasColumnType("int");
 
                     b.Property<string>("SsiNumber")
                         .HasMaxLength(64)
@@ -803,16 +801,21 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("TaxOffice")
+                    b.Property<string>("TaxTaxOffice")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("UnofficialInvoiceAmount")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<bool?>("UserLimit")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("VisitPhysician")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VisitSpecialist")
+                        .HasColumnType("int");
 
                     b.Property<string>("WarningNote")
                         .HasMaxLength(2000)
@@ -2189,6 +2192,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("CreatorId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Deletable")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("DeleterId")
                         .HasColumnType("int");
 
@@ -2199,9 +2205,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
-
-                    b.Property<bool>("IsDeletable")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -2841,13 +2844,13 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("HeadquarterCashRegister")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsHeadquarterCashRegister")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -2866,7 +2869,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.HasIndex("OfficeId", "IsActive");
 
-                    b.HasIndex("TenantId", "IsHeadquarterCashRegister");
+                    b.HasIndex("TenantId", "HeadquarterCashRegister");
 
                     b.ToTable("CashRegister", "ensa");
                 });
@@ -3493,7 +3496,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("TaxOffice")
+                    b.Property<string>("TaxTaxOffice")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -5692,10 +5695,10 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsEditable")
+                    b.Property<bool>("Encrypted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsEncrypted")
+                    b.Property<bool>("IsEditable")
                         .HasColumnType("bit");
 
                     b.Property<string>("SettingName")
@@ -5785,14 +5788,14 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsMainItem")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("LastModifierId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("MainItem")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ParentTreeNodeCode")
                         .HasMaxLength(32)
@@ -6402,6 +6405,10 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("BranchCode")
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -6422,10 +6429,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.Property<int?>("LastModifierId")
                         .HasColumnType("int");
-
-                    b.Property<string>("MedicalSpecialtyCode")
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
 
                     b.Property<string>("MedulaPassword")
                         .HasMaxLength(704)
@@ -6496,6 +6499,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Authorized")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -6503,9 +6509,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsAuthorized")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -6558,6 +6561,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ContractApproved")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
@@ -6574,9 +6580,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsContractApproved")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
@@ -7630,9 +7633,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsTransferred")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
@@ -7664,6 +7664,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Transferred")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApproverUserId");
@@ -7678,7 +7681,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.HasIndex("CompanyId", "StartDate");
 
-                    b.HasIndex("TenantId", "IsTransferred");
+                    b.HasIndex("TenantId", "Transferred");
 
                     b.ToTable("WorkPlan", "ensa");
                 });
@@ -7950,7 +7953,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int>("TotalMinutes")
                         .HasColumnType("int");
 
-                    b.Property<int>("TotalMonthlyOvertimeDuration")
+                    b.Property<int>("TotalMonthlyFazlaOvertimeDuration")
                         .HasColumnType("int");
 
                     b.Property<int>("UsedMonthlyMinutes")
@@ -8085,7 +8088,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("ParentLineId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PersonAndTitle")
+                    b.Property<string>("PersonVeTitle")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
@@ -8093,7 +8096,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("ResultAndComment")
+                    b.Property<string>("ResultVeComment")
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
@@ -8623,6 +8626,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("CreatorId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Deletable")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("DeleterId")
                         .HasColumnType("int");
 
@@ -8650,9 +8656,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.Property<int?>("ExaminationReportDocumentId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsDeletable")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -9261,6 +9264,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime?>("IsPerDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
@@ -9269,9 +9275,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.Property<int?>("LostWorkDays")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("ReturnToWorkDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("SsiNotificationDate")
                         .HasColumnType("datetime2");
@@ -9657,7 +9660,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("LastModifierId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MachineryAndEquipment")
+                    b.Property<string>("MachinesVeEquipments")
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
@@ -9711,7 +9714,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(4000)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<string>("WorkplacePhoneNumber")
+                    b.Property<string>("WorkplaceTelefonu")
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
@@ -9784,13 +9787,13 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<bool>("HeadquarterOffice")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsHeadquarterOffice")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -9821,8 +9824,8 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.HasIndex("TenantId")
                         .IsUnique()
-                        .HasDatabaseName("IX_Office_TenantId_IsHeadquarterOffice")
-                        .HasFilter("[IsHeadquarterOffice] = 1 AND [IsDeleted] = 0");
+                        .HasDatabaseName("IX_Office_TenantId_HeadquarterOffice")
+                        .HasFilter("[HeadquarterOffice] = 1 AND [IsDeleted] = 0");
 
                     b.HasIndex("TenantId", "IsDeleted");
 
@@ -9926,7 +9929,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<string>("TaxOffice")
+                    b.Property<string>("TaxTaxOffice")
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -10021,9 +10024,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
@@ -10044,6 +10044,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.Property<int?>("OrganizationTypeId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Phone")
                         .HasMaxLength(20)
@@ -10179,9 +10182,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("HasPhysician")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -10194,13 +10194,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsIndividual")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsMailSent")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsOhsProvider")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -10213,6 +10207,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<bool>("MailSent")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -10234,9 +10231,15 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<bool>("Paid")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Phone")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("PhysicianExists")
+                        .HasColumnType("bit");
 
                     b.Property<decimal?>("Price")
                         .HasPrecision(18, 2)
@@ -11033,9 +11036,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsTransferred")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
 
@@ -11064,6 +11064,9 @@ namespace Ensa.EntityFrameworkCore.Migrations
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Transferred")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApproverUserId");
@@ -11074,7 +11077,7 @@ namespace Ensa.EntityFrameworkCore.Migrations
 
                     b.HasIndex("SpecialistUserId");
 
-                    b.HasIndex("TenantId", "IsTransferred");
+                    b.HasIndex("TenantId", "Transferred");
 
                     b.HasIndex("TenantId", "CompanyId", "StartDate");
 

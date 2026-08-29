@@ -452,7 +452,7 @@ bozulmadığını kanıtlayan mevcut test budur.
 
 **A + B + C birlikte uygulandı.** Sırasıyla: kodun kaynağı düzeltildi, mevcut veri onarıldı, ve
 `Office` varlığının company scope ile çakışması giderildi. Mimari karar `docs/DECISIONS.md`
-**ADR-040**'ta; `docs/ARCHITECTURE.md`'nin company scope bölümü de güncellendi.
+**ADR-041**'ta; `docs/ARCHITECTURE.md`'nin company scope bölümü de güncellendi.
 
 ### 11.1 Sınıflandırma tek bir yere alındı
 

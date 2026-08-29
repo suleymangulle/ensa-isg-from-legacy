@@ -719,7 +719,7 @@ alongside tenancy and soft delete:
 - `ICompanyScoped` — the entity carries a `CompanyId` (36 entities: employees, examinations,
   invoices, risk assessments, documents, …). Reached through `EF.Property<int?>`, so both `int`
   and `int?` declarations work. `Office` carries the column and is deliberately **not** one of
-  them (ADR-040).
+  them (ADR-041).
 - `ICompanyRecord` — the entity *is* the workplace, so the scope key is its own `Id`. Only
   `Company`.
 
@@ -742,7 +742,7 @@ the organization binding, the permission claims in the token, and the scope itse
 sees one company and one employee; reading the neighbour's records answers 404, not 403, because
 a record the caller may not see should not be confirmed to exist.
 
-**Amended by ADR-040.** The filter is right; what fed it was not. The scope key is written only
+**Amended by ADR-041.** The filter is right; what fed it was not. The scope key is written only
 for a customer contact, decided from the legacy staff type rather than from whichever accounts
 happened to carry a `FirmaId` — which had pinned 983 members of staff to a single workplace each.
 
@@ -933,7 +933,69 @@ ADR-038: the library owns the markup, this repository owns the words.
 "Previous"/"Next" and `DataGrid`'s loading text, an `aria-live` region around the toast stack, and
 a peer range that admits React 19.
 
-## ADR-040 — A company scope belongs to a customer, not to whoever had the column filled
+## ADR-040 — The migrated permissions decide what the menu shows
+
+**Context.** ADR-042 established that the legacy permission tables — 419 permissions and 9,640
+grants across user type, organization type and subscription plan — were authored through an
+administration screen and then consumed by nothing. They are the only surviving record of the
+customer's own decision about which kind of user may reach which screen, and that is precisely
+the question a navigation menu answers.
+
+The modern menu already reproduced the legacy menu's real filter: `Menu` carries `UserTypeCode`,
+`OrganizationTypeId` and `SubscriptionPlanId`, `MenuItem.ModuleId` is checked against the
+company's licensed modules, and `UserMenuOverride` applies the per-user additions and removals.
+What it had no notion of was a permission.
+
+**Decision.** `MenuItem` gains a nullable `PermissionId`. `GET api/menu/my-menu` renders an entry
+only when the caller's effective permissions contain it; an entry that names no permission is not
+governed and is always rendered. `tools/gen-enums/gen_menu.py` carries the binding into
+`MenuSeedData`, taking the legacy page permission where the screen replaced a legacy one — 34 of
+the 40 entries — and the permission the SPA declares for the five that had no legacy counterpart
+(Mail, Message, Organisations, Parameters, Reference data). The dashboard is governed by nothing,
+because every user needs a landing page.
+
+The effective set is resolved in `MenuAppService` through `IPermissionManager` and passed into
+the repository rather than looked up there, so the one implementation of the legacy four-gate
+algorithm stays in the domain service and a repository does not depend on it.
+
+The result is a menu that differs by user type for the first time, from the customer's own
+configuration rather than from ours:
+
+| User type | Entries rendered |
+|---|---|
+| Organization administrator | 28 |
+| Safety specialist | 22 |
+| Customer | 16 |
+
+**This is visibility, not access.** The endpoint gate (ADR-033) decides what a request may do and
+decides it independently: it reads `PermissionEndpoint`, not this column. The two can therefore
+disagree, and one case is worth naming — a customer holds the seeded `Ensa.Invoice` permission
+and so may call `GET api/invoice`, while the menu entry is bound to the legacy
+`SatisFaturalariController` permission they do not hold, and stays hidden. Hiding an entry the
+user could reach is a cosmetic defect; showing one they cannot use is a cosmetic defect too.
+Neither is a way in, which is why an unmapped menu entry stays visible while an unmapped endpoint
+is refused. `tools/api-tests/api_menu_permissions.py` asserts the independence rather than
+papering over it.
+
+**Two places where legacy recorded nothing, and what was done instead.**
+
+*The customer user type has no grants at all.* `KullaniciTypeYetki_T` holds rows for six user
+types and none for `Müşteri` — 286 users — because legacy decided customer access with a
+hand-written `PersonelTuru == "Müşteri"` branch. Migrating faithfully carries over nothing, and a
+customer would have signed in to a navigation bar holding the dashboard and four screens that are
+not theirs. `AuthorizationSeeder` grants that user type exactly the six customer-portal screens of
+ADR-037 and nothing else. It is configuration, it is written out one line at a time, and it says
+so.
+
+*Two of those six screens are explicitly forbidden to them.* `FirmaListController` and
+`EgitimKatilimSertifikasiController` carry `PermissionRestrictionMode.OnlySelected` with the
+customer absent from the list — the sixth gate drops the grant. Taken literally that removes a
+customer's own workplace and their missing trainings, two screens the legacy product served every
+day through the branch above. The restriction was authored in the same screen that governed
+nothing, so the seeder adds the customer to those two allow lists and leaves the rule intact for
+every other user type. A `SelectedExcept` exclusion is reported instead of edited: a deny list
+naming the customer is a deliberate act, not an unfinished one.
+## ADR-041 — A company scope belongs to a customer, not to whoever had the column filled
 
 **Context.** `info@saglamosgb.com.tr`, the administrator of the largest organization in the
 database, signed in and saw **one** company where 1,536 were waiting. Nothing was missing: all
@@ -1017,3 +1079,64 @@ inside the tree cannot be translated. The office term is now appended to the pre
 being written into it, and `api_office_switch.py` lists visits under two different offices — a
 check that fails loudly on both the translation and the scoping, neither of which any test without
 an office context could see.
+## ADR-042 — The legacy permission tables governed nothing at runtime
+
+**Context.** The legacy database carries a full authorization model: 419 permissions in
+`Yetki_T`, 9,640 grants across `KullaniciTypeYetki_T`, `PaketTuruYetki_T` and `KurumTuruYetki_T`,
+5,061 scope rows in `YetkiBaglanti_T`, and 362 restrictions in `YetkiKisit_T`. All of it is
+migrated (`PermissionStep`). `Businness/Firmalar/YetkiKontrolu.cs` implements a four-gate
+algorithm over those tables: package type AND organization type AND (user type OR user) AND not
+explicitly denied, with `ser-admin` bypassing everything.
+
+It was natural to read that as the legacy access-control layer and to bind the modern endpoint
+gate to it. Before doing so, three facts were checked.
+
+**What the legacy code actually does.**
+
+1. `YetkiKontrolu.Authorize` has exactly one call site in the entire solution, and it is
+   commented out. `ENSA_ISG/Attributes/LoginControlAttribute.cs` is an `ActionFilterAttribute`
+   whose `OnActionExecuting` override — the whole body — is commented out. The attribute is
+   applied to 62 controllers and does nothing.
+2. None of the 101 controllers in `ENSA_ISG/Controllers` reference `YetkiKontrolu` at all.
+3. The permission tables are read in two places only, and both are configuration screens:
+   `Businness/Firmalar/YetkiIslemleri.cs`, reached from `YetkiAyarlamalariController`, and
+   `Businness/Firmalar/MenuIslemleri.cs`, reached from `MenuIslemleriController`.
+
+So the four-gate algorithm never ran, and the tables governed nothing at runtime — not the
+endpoints and **not the menu either**. `Businness/Menu/MenuIslemleri.cs`, the builder the
+dashboard actually calls, never mentions `Yetki_T`: it picks one of the 319 `Menu_T` rows by
+matching `(MenuTypeCode, KullaniciType, KurumTuru, PaketTuru)`, drops the items whose
+`ConnectedModule` the organization has not licensed, and applies the per-user `KullaniciMenu_T`
+overrides. Access control at the controller was a login-session check plus hand-written branches
+on `Kullanici_T.PersonelTuru` — `if (Kullanici.PersonelTuru != "Müşteri")` and its siblings
+appear throughout `DefaultController`, `FirmaListController`, `DosyaController` and others.
+
+`YetkiBaglanti_T` looks like the missing link and is not. Its `BaglantiType.MenuEleman` value —
+a permission attached to a single menu entry — has **zero rows**, and its `BaglantiType.Menu`
+value has 46, pointing at `YeniMenu_T`, an unfinished second menu model that only the
+administration screen reads.
+
+**The evidence that settles it.** `KullaniciYetki_T`, the per-user grant table and one of the two
+halves of the third gate, is **empty** — zero rows. `Kullanici_T.YetkiGrubuId` is null or zero for
+every one of the 3,901 users. And `KullaniciTypeYetki_T` has grants for six user types but none
+for `Müşteri` (286 users), `Ofis personeli` (6) or the 172 users with no type at all. Under its
+own algorithm the legacy system would have refused a customer every screen — including the
+customer portal it demonstrably shipped (ADR-037). It did not refuse them, because the algorithm
+was not running.
+
+**Decision.** The endpoint permission map (`PermissionEndpoint`, ADR-033) keeps the permissions
+designed for it. The migrated legacy permissions are retained as what they are — menu and
+visibility configuration — and are not repurposed as an endpoint gate.
+
+Binding the 333 guarded endpoints to legacy page permissions was implemented and measured before
+this was understood. It cost the customer portal entirely: `api_customer_portal` fell from 19/19
+to 7/19 and `api_company_scope` from 20/20 to 14/20, every failure a customer receiving 403,
+because a customer holds no legacy grant and never did. Restoring the seeded map returned both to
+green. That measurement is the reason this ADR exists rather than a paragraph of speculation.
+
+**What this means for fidelity.** Any endpoint authorization in this system is new work; the
+legacy system had none to be faithful to. The same turns out to be true of the menu — that
+configuration was authored but nothing consumed it either. What it does record is the customer's
+own decision about which user type, organization type and plan may reach which screen, which is
+exactly the question a menu answers. ADR-040 puts it to that use.
+

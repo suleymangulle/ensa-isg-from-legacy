@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, NumberInput, Select } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -108,14 +109,13 @@ export default function PenaltyDetailPage() {
         title={penalty.lawArticle}
         description={penalty.treeNodeCode ?? undefined}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setEditing(true)}>
+          <Button variant="primary" onClick={() => setEditing(true)}>
             {t('common.edit')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-body">
+      <Card>
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('finance.penalty.fields.penaltyArticle')}>
               {penalty.penaltyArticle}
@@ -124,33 +124,36 @@ export default function PenaltyDetailPage() {
               {penalty.lawArticleReferencedOffence || none}
             </Term>
             <Term label={t('finance.penalty.fields.multiplierCalculate')}>
-              <span
-                className={penalty.multiplierCalculate ? 'badge-light-warning' : 'badge-light-primary'}
+              <Badge variant={penalty.multiplierCalculate ? 'warning' : 'primary'}
               >
                 {penalty.multiplierCalculate
                   ? t('finance.penalty.filters.perEmployee')
                   : t('finance.penalty.filters.flat')}
-              </span>
+              </Badge>
             </Term>
             <Term label={t('finance.penalty.fields.status')}>
-              <span className={penalty.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+              <Badge variant={penalty.isActive ? 'success' : 'danger'}>
                 {penalty.isActive ? t('common.active') : t('common.passive')}
-              </span>
+              </Badge>
             </Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card mt-4">
-        <div className="card-header border-0 pt-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <Card
+        className="mt-4"
+        header={
+        <div className="border-0 pt-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
           <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('finance.penalty.amount.section')}
           </h2>
-          <button className="btn btn-light-primary" type="button" onClick={() => setAdding(true)}>
+          <Button variant="light"  onClick={() => setAdding(true)}>
             {t('finance.penalty.amount.create')}
-          </button>
+          </Button>
+        
         </div>
-        <div className="card-body p-0">
+        }
+      >
           <DataTable
             label={t('finance.penalty.amount.section')}
             columns={columns}
@@ -158,8 +161,8 @@ export default function PenaltyDetailPage() {
             rowKey={(row) => row.id}
             emptyMessage={t('finance.penalty.amount.empty')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       <ApplicableAmountPanel penaltyId={penaltyId} />
 
@@ -212,21 +215,21 @@ function ApplicableAmountPanel({ penaltyId }: { penaltyId: number }) {
   const { t } = useTranslation()
   const [hazardClass, setHazardClass] = useState<HazardClass>(HazardClass.LowHazard)
   const [range, setRange] = useState<EmployeeCountRange>(EmployeeCountRange.FewerThanTen)
-  const [year, setYear] = useState(String(new Date().getFullYear()))
+  const [year, setYear] = useState<number | null>(new Date().getFullYear())
   const [isAsked, setAsked] = useState(false)
 
-  const parsedYear = Number(year)
   const applicable = useApplicablePenaltyAmount(
     penaltyId,
     hazardClass,
     range,
-    Number.isFinite(parsedYear) ? parsedYear : undefined,
+    year ?? undefined,
     isAsked,
   )
 
   return (
-    <div className="card mt-4">
-      <div className="card-body">
+    <Card
+      className="mt-4"
+    >
         <h2 className="h6 fw-semibold mb-1" style={{ color: 'var(--kt-gray-900)' }}>
           {t('finance.penalty.applicable.title')}
         </h2>
@@ -235,78 +238,59 @@ function ApplicableAmountPanel({ penaltyId }: { penaltyId: number }) {
         </p>
 
         <div className="row g-3 align-items-end">
-          <div className="col-md-3">
-            <label htmlFor="applicable-hazard" className="form-label fw-semibold">
-              {t('finance.penalty.amount.fields.hazardClass')}
-            </label>
-            <select
-              id="applicable-hazard"
-              className="form-select"
-              value={hazardClass}
-              onChange={(event) => {
-                setHazardClass(Number(event.target.value) as HazardClass)
-                setAsked(false)
-              }}
-            >
-              {enumValues(HazardClass).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.hazardClass.${value}`)}
-                </option>
-              ))}
-            </select>
-          </div>
+          <Select<HazardClass>
+            id="applicable-hazard"
+            label={t('finance.penalty.amount.fields.hazardClass')}
+            className="col-md-3"
+            options={enumValues(HazardClass).map((value) => ({
+              value,
+              label: t(`enums.hazardClass.${value}`),
+            }))}
+            value={hazardClass}
+            onChange={(next) => {
+              setHazardClass((next ?? HazardClass.LowHazard) as HazardClass)
+              setAsked(false)
+            }}
+          />
+
+          <Select<EmployeeCountRange>
+            id="applicable-range"
+            label={t('finance.penalty.amount.fields.employeeCountRange')}
+            className="col-md-3"
+            options={enumValues(EmployeeCountRange).map((value) => ({
+              value,
+              label: t(`enums.employeeCountRange.${value}`),
+            }))}
+            value={range}
+            onChange={(next) => {
+              setRange((next ?? EmployeeCountRange.FewerThanTen) as EmployeeCountRange)
+              setAsked(false)
+            }}
+          />
+
+          <NumberInput
+            id="applicable-year"
+            label={t('finance.penalty.amount.fields.validityYear')}
+            className="col-md-3"
+            step={1}
+            min={2000}
+            max={2200}
+            value={year}
+            onChange={(next) => {
+              setYear(next)
+              setAsked(false)
+            }}
+          />
 
           <div className="col-md-3">
-            <label htmlFor="applicable-range" className="form-label fw-semibold">
-              {t('finance.penalty.amount.fields.employeeCountRange')}
-            </label>
-            <select
-              id="applicable-range"
-              className="form-select"
-              value={range}
-              onChange={(event) => {
-                setRange(Number(event.target.value) as EmployeeCountRange)
-                setAsked(false)
-              }}
-            >
-              {enumValues(EmployeeCountRange).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.employeeCountRange.${value}`)}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="col-md-3">
-            <label htmlFor="applicable-year" className="form-label fw-semibold">
-              {t('finance.penalty.amount.fields.validityYear')}
-            </label>
-            <input
-              id="applicable-year"
-              type="number"
-              step="1"
-              min="2000"
-              max="2200"
-              className="form-control text-end"
-              value={year}
-              onChange={(event) => {
-                setYear(event.target.value)
-                setAsked(false)
-              }}
-            />
-          </div>
-
-          <div className="col-md-3">
-            <button
-              type="button"
-              className="btn btn-primary w-100"
+            <Button variant="primary" className="w-100"
               onClick={() => setAsked(true)}
               disabled={applicable.isFetching}
             >
               {applicable.isFetching
                 ? t('common.loading')
                 : t('finance.penalty.applicable.action')}
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -325,7 +309,7 @@ function ApplicableAmountPanel({ penaltyId }: { penaltyId: number }) {
           )}
           {!isAsked && <EmptyHint message={t('finance.penalty.applicable.idle')} />}
         </div>
-      </div>
-    </div>
+      
+    </Card>
   )
 }

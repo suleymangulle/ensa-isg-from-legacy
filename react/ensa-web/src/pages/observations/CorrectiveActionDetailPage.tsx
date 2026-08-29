@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { CorrectiveActionStatus } from '@/api/enums'
@@ -62,24 +63,20 @@ export default function CorrectiveActionDetailPage() {
         action={
           <div className="d-flex gap-2">
             {isOpen && (
-              <button className="btn btn-success" type="button" onClick={() => setIsClosing(true)}>
+              <Button variant="success" onClick={() => setIsClosing(true)}>
                 {t('correctiveAction.detail.close')}
-              </button>
+              </Button>
             )}
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            <Button variant="light" 
               onClick={() => setIsEditing(true)}
             >
               {t('common.edit')}
-            </button>
-            <button
-              className="btn btn-light-danger"
-              type="button"
+            </Button>
+            <Button variant="light" 
               onClick={() => setIsDeleting(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
@@ -99,21 +96,22 @@ export default function CorrectiveActionDetailPage() {
         </div>
       )}
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
             {t('correctiveAction.detail.general')}
           </h2>
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('correctiveAction.fields.status')}>
-              <span className={CORRECTIVE_ACTION_STATUS_BADGE[action.operationResult]}>
+              <Badge variant={CORRECTIVE_ACTION_STATUS_BADGE[action.operationResult]}>
                 {t(`enums.correctiveActionStatus.${action.operationResult}`)}
-              </span>
+              </Badge>
             </Term>
             <Term label={t('correctiveAction.fields.riskCategory')}>
-              <span className={RISK_CATEGORY_BADGE[action.riskCategory]}>
+              <Badge variant={RISK_CATEGORY_BADGE[action.riskCategory]}>
                 {t(`enums.riskCategory.${action.riskCategory}`)}
-              </span>
+              </Badge>
             </Term>
             <Term label={t('correctiveAction.fields.company')}>
               {data.company?.displayName ?? none}
@@ -136,12 +134,11 @@ export default function CorrectiveActionDetailPage() {
               {formatDate(action.resultDate) ?? none}
             </Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
       {data.sourceFieldObservationLine && (
-        <div className="card">
-          <div className="card-body">
+        <Card>
             <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
               {t('correctiveAction.detail.sourceLine')}
             </h2>
@@ -158,12 +155,12 @@ export default function CorrectiveActionDetailPage() {
             </dl>
             <Link
               to={`/field-observations/${data.sourceFieldObservationLine.fieldObservationReportId}`}
-              className="btn btn-sm btn-light-primary"
+              className="btn btn-sm"
             >
               {t('correctiveAction.detail.openSourceReport')}
             </Link>
-          </div>
-        </div>
+          
+        </Card>
       )}
 
       {isEditing && (

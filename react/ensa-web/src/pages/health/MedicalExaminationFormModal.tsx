@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, Select, TextArea } from 'rich-react-component'
 import { useLookup } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
 import { FitnessForWorkOpinion, MedicalReportType } from '@/api/enums'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   FITNESS_OPINIONS,
   HEALTH_ENDPOINTS,
@@ -217,55 +218,40 @@ export default function MedicalExaminationFormModal({
           onChange={(id, name) => patch({ companyEmployeeId: id, employeeName: name })}
         />
 
-        <Field
+        <Select<MedicalReportType>
+          id="exam-report-type"
           className="col-md-4"
           label={t('medicalExamination.fields.reportType')}
-          htmlFor="exam-report-type"
           required
-        >
-          <select
-            id="exam-report-type"
-            className="form-select"
-            value={state.reportType}
-            onChange={(event) => patch({ reportType: Number(event.target.value) })}
-          >
-            {MEDICAL_REPORT_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {t(`enums.medicalReportType.${type}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={MEDICAL_REPORT_TYPES.map((type) => ({
+            value: type,
+            label: t(`enums.medicalReportType.${type}`),
+          }))}
+          value={state.reportType}
+          onChange={(value) =>
+            patch({ reportType: value ?? MedicalReportType.PeriodicExamination })
+          }
+        />
 
-        <Field
+        <Input
+          id="exam-date"
           className="col-md-4"
           label={t('medicalExamination.fields.examinationDate')}
-          htmlFor="exam-date"
           required
-        >
-          <input
-            id="exam-date"
-            type="date"
-            className="form-control"
-            value={state.examinationDate}
-            onChange={(event) => patch({ examinationDate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={state.examinationDate}
+          onChange={(value) => patch({ examinationDate: value })}
+        />
 
-        <Field
+        <Input
+          id="exam-validity"
           className="col-md-4"
           label={t('medicalExamination.fields.validityDate')}
-          htmlFor="exam-validity"
-          hint={t('medicalExamination.form.validityHint')}
-        >
-          <input
-            id="exam-validity"
-            type="date"
-            className="form-control"
-            value={state.validityDate}
-            onChange={(event) => patch({ validityDate: event.target.value })}
-          />
-        </Field>
+          helpText={t('medicalExamination.form.validityHint')}
+          inputProps={{ type: 'date' }}
+          value={state.validityDate}
+          onChange={(value) => patch({ validityDate: value })}
+        />
 
         <LookupPicker
           id="exam-physician"
@@ -280,19 +266,14 @@ export default function MedicalExaminationFormModal({
           onChange={(id, name) => patch({ physicianUserId: id, physicianName: name })}
         />
 
-        <Field
+        <Input
+          id="exam-occupation-code"
           className="col-md-6"
           label={t('medicalExamination.fields.ibysOccupationCode')}
-          htmlFor="exam-occupation-code"
-          hint={t('medicalExamination.form.occupationCodeHint')}
-        >
-          <input
-            id="exam-occupation-code"
-            className="form-control"
-            value={state.ibysOccupationCode}
-            onChange={(event) => patch({ ibysOccupationCode: event.target.value })}
-          />
-        </Field>
+          helpText={t('medicalExamination.form.occupationCodeHint')}
+          value={state.ibysOccupationCode}
+          onChange={(value) => patch({ ibysOccupationCode: value })}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-bold mb-0 mt-2" style={{ color: 'var(--kt-gray-900)' }}>
@@ -300,89 +281,59 @@ export default function MedicalExaminationFormModal({
           </h3>
         </div>
 
-        <Field
+        <Input
+          id="exam-height"
           className="col-6 col-md-2"
           label={t('medicalExamination.fields.heightCm')}
-          htmlFor="exam-height"
-        >
-          <input
-            id="exam-height"
-            type="number"
-            className="form-control"
-            value={state.heightCm}
-            onChange={(event) => patch({ heightCm: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'number' }}
+          value={state.heightCm}
+          onChange={(value) => patch({ heightCm: value })}
+        />
 
-        <Field
+        <Input
+          id="exam-weight"
           className="col-6 col-md-2"
           label={t('medicalExamination.fields.weightKg')}
-          htmlFor="exam-weight"
-        >
-          <input
-            id="exam-weight"
-            type="number"
-            step="0.1"
-            className="form-control"
-            value={state.weightKg}
-            onChange={(event) => patch({ weightKg: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'number', step: '0.1' }}
+          value={state.weightKg}
+          onChange={(value) => patch({ weightKg: value })}
+        />
 
-        <Field
+        <Input
+          id="exam-systolic"
           className="col-6 col-md-3"
           label={t('medicalExamination.fields.bloodPressureSystolic')}
-          htmlFor="exam-systolic"
-        >
-          <input
-            id="exam-systolic"
-            type="number"
-            className="form-control"
-            value={state.bloodPressureSystolic}
-            onChange={(event) => patch({ bloodPressureSystolic: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'number' }}
+          value={state.bloodPressureSystolic}
+          onChange={(value) => patch({ bloodPressureSystolic: value })}
+        />
 
-        <Field
+        <Input
+          id="exam-diastolic"
           className="col-6 col-md-3"
           label={t('medicalExamination.fields.bloodPressureDiastolic')}
-          htmlFor="exam-diastolic"
-        >
-          <input
-            id="exam-diastolic"
-            type="number"
-            className="form-control"
-            value={state.bloodPressureDiastolic}
-            onChange={(event) => patch({ bloodPressureDiastolic: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'number' }}
+          value={state.bloodPressureDiastolic}
+          onChange={(value) => patch({ bloodPressureDiastolic: value })}
+        />
 
-        <Field
+        <Input
+          id="exam-pulse"
           className="col-6 col-md-2"
           label={t('medicalExamination.fields.pulseRate')}
-          htmlFor="exam-pulse"
-        >
-          <input
-            id="exam-pulse"
-            type="number"
-            className="form-control"
-            value={state.pulseRate}
-            onChange={(event) => patch({ pulseRate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'number' }}
+          value={state.pulseRate}
+          onChange={(value) => patch({ pulseRate: value })}
+        />
 
-        <Field
+        <TextArea
+          id="exam-chronic"
+          className="col-12"
           label={t('medicalExamination.fields.chronicIllnessDeclaration')}
-          htmlFor="exam-chronic"
-        >
-          <textarea
-            id="exam-chronic"
-            className="form-control"
-            rows={2}
-            value={state.chronicIllnessDeclaration}
-            onChange={(event) => patch({ chronicIllnessDeclaration: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={state.chronicIllnessDeclaration}
+          onChange={(value) => patch({ chronicIllnessDeclaration: value })}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-bold mb-0 mt-2" style={{ color: 'var(--kt-gray-900)' }}>
@@ -390,49 +341,36 @@ export default function MedicalExaminationFormModal({
           </h3>
         </div>
 
-        <Field
+        <Select<FitnessForWorkOpinion>
+          id="exam-opinion"
           className="col-md-4"
           label={t('medicalExamination.fields.opinion')}
-          htmlFor="exam-opinion"
           required
-          hint={t('medicalExamination.form.opinionHint')}
-        >
-          <select
-            id="exam-opinion"
-            className={controlClass('form-select')}
-            value={state.opinion}
-            onChange={(event) => patch({ opinion: Number(event.target.value) })}
-          >
-            {FITNESS_OPINIONS.map((opinion) => (
-              <option key={opinion} value={opinion}>
-                {t(`enums.fitnessForWorkOpinion.${opinion}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          helpText={t('medicalExamination.form.opinionHint')}
+          options={FITNESS_OPINIONS.map((opinion) => ({
+            value: opinion,
+            label: t(`enums.fitnessForWorkOpinion.${opinion}`),
+          }))}
+          value={state.opinion}
+          onChange={(value) => patch({ opinion: value ?? FitnessForWorkOpinion.Unspecified })}
+        />
 
-        <Field
+        <Input
+          id="exam-opinion-description"
           className="col-md-8"
           label={t('medicalExamination.fields.opinionDescription')}
-          htmlFor="exam-opinion-description"
-        >
-          <input
-            id="exam-opinion-description"
-            className="form-control"
-            value={state.opinionDescription}
-            onChange={(event) => patch({ opinionDescription: event.target.value })}
-          />
-        </Field>
+          value={state.opinionDescription}
+          onChange={(value) => patch({ opinionDescription: value })}
+        />
 
-        <Field label={t('medicalExamination.fields.recommendations')} htmlFor="exam-recommendations">
-          <textarea
-            id="exam-recommendations"
-            className="form-control"
-            rows={2}
-            value={state.recommendations}
-            onChange={(event) => patch({ recommendations: event.target.value })}
-          />
-        </Field>
+        <TextArea
+          id="exam-recommendations"
+          className="col-12"
+          label={t('medicalExamination.fields.recommendations')}
+          rows={2}
+          value={state.recommendations}
+          onChange={(value) => patch({ recommendations: value })}
+        />
       </div>
     </Modal>
   )

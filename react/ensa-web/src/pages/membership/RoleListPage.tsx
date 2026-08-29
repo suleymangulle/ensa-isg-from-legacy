@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, Input, TextArea } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { MEMBERSHIP_RESOURCES, useRoleList, type RoleInput, type RoleListDto } from './api'
@@ -43,7 +44,7 @@ export default function RoleListPage() {
       align: 'center',
       render: (role) =>
         role.isDefault ? (
-          <span className="badge-light-primary">{t('common.yes')}</span>
+          <Badge variant="primary">{t('common.yes')}</Badge>
         ) : (
           t('common.no')
         ),
@@ -54,7 +55,7 @@ export default function RoleListPage() {
       align: 'center',
       render: (role) =>
         role.isStatic ? (
-          <span className="badge-light-warning">{t('role.badges.system')}</span>
+          <Badge variant="warning">{t('role.badges.system')}</Badge>
         ) : (
           t('common.no')
         ),
@@ -66,25 +67,21 @@ export default function RoleListPage() {
       width: '140px',
       render: (role) => (
         <div className="d-inline-flex gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setEditing(role)}
             aria-label={t('role.actions.editNamed', { name: role.name })}
             title={t('common.edit')}
           >
             ✎
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             disabled={role.isStatic}
             onClick={() => setPendingDelete(role)}
             aria-label={t('role.actions.deleteNamed', { name: role.name })}
             title={role.isStatic ? t('role.actions.systemRoleLocked') : t('common.delete')}
           >
             ✕
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -96,14 +93,15 @@ export default function RoleListPage() {
         title={t('role.list.title')}
         description={t('role.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('role.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0 d-block">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(value) => {
@@ -112,31 +110,28 @@ export default function RoleListPage() {
             }}
             placeholder={t('role.list.searchPlaceholder')}
           />
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('role.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(role) => role.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('role.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('role.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(role) => role.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('role.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <RoleFormModal onClose={() => setCreateOpen(false)} />}
       {editing && <RoleFormModal role={editing} onClose={() => setEditing(null)} />}
@@ -200,48 +195,35 @@ function RoleFormModal({ role, onClose }: { role?: RoleListDto; onClose: () => v
       error={pending.error ? errorMessage(pending.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="role-name"
           label={t('role.fields.name')}
-          htmlFor="role-name"
           required
           error={nameError}
-          hint={role?.isStatic ? t('role.form.staticNameHint') : undefined}
-        >
-          <input
-            id="role-name"
-            className={controlClass('form-control', nameError)}
-            value={name}
-            disabled={role?.isStatic}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </Field>
+          helpText={role?.isStatic ? t('role.form.staticNameHint') : undefined}
+          value={name}
+          disabled={role?.isStatic}
+          onChange={setName}
+          className="col-12"
+        />
 
-        <Field label={t('role.fields.description')} htmlFor="role-description">
-          <textarea
-            id="role-description"
-            className="form-control"
-            rows={3}
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </Field>
+        <TextArea
+          id="role-description"
+          label={t('role.fields.description')}
+          rows={3}
+          value={description}
+          onChange={setDescription}
+          className="col-12"
+        />
 
         <div className="col-12">
-          <div className="form-check">
-            <input
-              id="role-isDefault"
-              type="checkbox"
-              className="form-check-input"
-              checked={isDefault}
-              onChange={(event) => setDefault(event.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="role-isDefault">
-              {t('role.fields.isDefault')}
-            </label>
-          </div>
-          <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-            {t('role.form.isDefaultHint')}
-          </div>
+          <CheckBox
+            id="role-isDefault"
+            checked={isDefault}
+            onChange={setDefault}
+            label={t('role.fields.isDefault')}
+            helpText={t('role.form.isDefaultHint')}
+          />
         </div>
 
         <div className="col-12">

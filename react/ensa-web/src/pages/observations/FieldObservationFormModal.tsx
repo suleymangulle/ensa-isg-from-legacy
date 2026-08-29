@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, Switch } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   OBSERVATION_ENDPOINTS,
   useCompanyLookup,
@@ -126,55 +127,37 @@ export default function FieldObservationFormModal({
           onChange={(next) => patch({ departmentId: next })}
         />
 
-        <Field
+        <Input
+          id="observation-date"
           label={t('fieldObservation.fields.date')}
-          htmlFor="observation-date"
           required
           error={errors.date}
           className="col-md-6"
-        >
-          <input
-            id="observation-date"
-            type="date"
-            className={controlClass('form-control', errors.date)}
-            value={form.date}
-            aria-invalid={errors.date ? true : undefined}
-            onChange={(event) => patch({ date: event.target.value })}
-          />
-        </Field>
+          value={form.date}
+          onChange={(value) => patch({ date: value })}
+          inputProps={{ type: 'date' }}
+        />
 
         <div className="col-12">
-          <div className="form-check form-switch">
-            <input
-              id="observation-send-mail"
-              type="checkbox"
-              className="form-check-input"
-              checked={form.sendMail}
-              onChange={(event) => patch({ sendMail: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="observation-send-mail">
-              {t('fieldObservation.fields.sendMail')}
-            </label>
-          </div>
+          <Switch
+            id="observation-send-mail"
+            checked={form.sendMail}
+            onChange={(checked) => patch({ sendMail: checked })}
+            label={t('fieldObservation.fields.sendMail')}
+          />
         </div>
 
         {form.sendMail && (
-          <Field
+          <Input
+            id="observation-mail-address"
+            type="email"
             label={t('fieldObservation.fields.mailAddress')}
-            htmlFor="observation-mail-address"
             required
             error={errors.mailAddress}
             className="col-12"
-          >
-            <input
-              id="observation-mail-address"
-              type="email"
-              className={controlClass('form-control', errors.mailAddress)}
-              value={form.mailAddress}
-              aria-invalid={errors.mailAddress ? true : undefined}
-              onChange={(event) => patch({ mailAddress: event.target.value })}
-            />
-          </Field>
+            value={form.mailAddress}
+            onChange={(value) => patch({ mailAddress: value })}
+          />
         )}
       </div>
     </Modal>

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, NumberInput, Select, TextArea } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
 import { useReferenceData } from '@/api/endpoints'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   TENANCY_RESOURCES,
   optionalNumber,
@@ -192,106 +193,76 @@ export default function OrganizationFormModal({
           </h3>
         </div>
 
-        <Field
+        <Input
+          id="organization-name"
           label={t('organization.fields.name')}
-          htmlFor="organization-name"
           required
           error={errors.name}
           className="col-md-6"
-        >
-          <input
-            id="organization-name"
-            className={controlClass('form-control', errors.name)}
-            value={state.name}
-            onChange={(event) => set('name', event.target.value)}
-          />
-        </Field>
+          value={state.name}
+          onChange={(value) => set('name', value)}
+        />
 
-        <Field
+        <Input
+          id="organization-code"
           label={t('organization.fields.code')}
-          htmlFor="organization-code"
           required
           error={errors.code}
-          hint={t('organization.form.codeHint')}
+          helpText={t('organization.form.codeHint')}
           className="col-md-6"
-        >
-          <input
-            id="organization-code"
-            className={controlClass('form-control', errors.code)}
-            value={state.code}
-            onChange={(event) => set('code', event.target.value)}
-          />
-        </Field>
+          value={state.code}
+          onChange={(value) => set('code', value)}
+        />
 
-        <Field
+        <Select
+          id="organization-organizationTypeId"
           label={t('organization.fields.organizationTypeId')}
-          htmlFor="organization-organizationTypeId"
           required
           error={errors.organizationTypeId}
           className="col-md-3"
-        >
-          <select
-            id="organization-organizationTypeId"
-            className={controlClass('form-select', errors.organizationTypeId)}
-            value={state.organizationTypeId}
-            onChange={(event) => set('organizationTypeId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {organizationTypes.data?.items.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            organizationTypes.data?.items.map((item) => ({
+              value: String(item.id),
+              label: item.displayName,
+            })) ?? []
+          }
+          value={state.organizationTypeId === '' ? null : state.organizationTypeId}
+          onChange={(value) => set('organizationTypeId', value ?? '')}
+        />
 
-        <Field
+        <Select
+          id="organization-subscriptionPlanId"
           label={t('organization.fields.subscriptionPlanId')}
-          htmlFor="organization-subscriptionPlanId"
           required
           error={errors.subscriptionPlanId}
           className="col-md-3"
-        >
-          <select
-            id="organization-subscriptionPlanId"
-            className={controlClass('form-select', errors.subscriptionPlanId)}
-            value={state.subscriptionPlanId}
-            onChange={(event) => set('subscriptionPlanId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {subscriptionPlans.data?.items.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            subscriptionPlans.data?.items.map((item) => ({
+              value: String(item.id),
+              label: item.displayName,
+            })) ?? []
+          }
+          value={state.subscriptionPlanId === '' ? null : state.subscriptionPlanId}
+          onChange={(value) => set('subscriptionPlanId', value ?? '')}
+        />
 
-        <Field
+        <Input
+          id="organization-taxTaxOffice"
           label={t('organization.fields.taxOffice')}
-          htmlFor="organization-taxTaxOffice"
           className="col-md-3"
-        >
-          <input
-            id="organization-taxTaxOffice"
-            className="form-control"
-            value={state.taxTaxOffice}
-            onChange={(event) => set('taxTaxOffice', event.target.value)}
-          />
-        </Field>
+          value={state.taxTaxOffice}
+          onChange={(value) => set('taxTaxOffice', value)}
+        />
 
-        <Field
+        <Input
+          id="organization-taxNumber"
           label={t('organization.fields.taxNumber')}
-          htmlFor="organization-taxNumber"
           className="col-md-3"
-        >
-          <input
-            id="organization-taxNumber"
-            className="form-control"
-            value={state.taxNumber}
-            onChange={(event) => set('taxNumber', event.target.value)}
-          />
-        </Field>
+          value={state.taxNumber}
+          onChange={(value) => set('taxNumber', value)}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-bold mb-0 mt-2" style={{ color: 'var(--kt-gray-700)' }}>
@@ -299,103 +270,73 @@ export default function OrganizationFormModal({
           </h3>
         </div>
 
-        <Field
+        <Input
+          id="organization-phone"
           label={t('organization.fields.phone')}
-          htmlFor="organization-phone"
           className="col-md-4"
-        >
-          <input
-            id="organization-phone"
-            className="form-control"
-            value={state.phone}
-            onChange={(event) => set('phone', event.target.value)}
-          />
-        </Field>
+          value={state.phone}
+          onChange={(value) => set('phone', value)}
+        />
 
-        <Field
+        <Input
+          id="organization-email"
+          type="email"
           label={t('organization.fields.email')}
-          htmlFor="organization-email"
           className="col-md-4"
-        >
-          <input
-            id="organization-email"
-            type="email"
-            className="form-control"
-            value={state.email}
-            onChange={(event) => set('email', event.target.value)}
-          />
-        </Field>
+          value={state.email}
+          onChange={(value) => set('email', value)}
+        />
 
-        <Field
+        <Input
+          id="organization-webUrl"
           label={t('organization.fields.webUrl')}
-          htmlFor="organization-webUrl"
           className="col-md-4"
-        >
-          <input
-            id="organization-webUrl"
-            className="form-control"
-            value={state.webUrl}
-            onChange={(event) => set('webUrl', event.target.value)}
-          />
-        </Field>
+          value={state.webUrl}
+          onChange={(value) => set('webUrl', value)}
+        />
 
-        <Field
+        <Select
+          id="organization-cityId"
           label={t('organization.fields.city')}
-          htmlFor="organization-cityId"
           className="col-md-4"
-        >
-          <select
-            id="organization-cityId"
-            className="form-select"
-            value={state.cityId}
-            onChange={(event) => {
-              set('cityId', event.target.value)
-              set('districtId', '')
-            }}
-          >
-            <option value="">{t('common.none')}</option>
-            {cities.data?.items.map((city) => (
-              <option key={city.id} value={city.id}>
-                {city.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            cities.data?.items.map((city) => ({
+              value: String(city.id),
+              label: city.displayName,
+            })) ?? []
+          }
+          value={state.cityId === '' ? null : state.cityId}
+          onChange={(value) => {
+            set('cityId', value ?? '')
+            set('districtId', '')
+          }}
+        />
 
-        <Field
+        <Select
+          id="organization-districtId"
           label={t('organization.fields.district')}
-          htmlFor="organization-districtId"
           className="col-md-4"
-        >
-          <select
-            id="organization-districtId"
-            className="form-select"
-            value={state.districtId}
-            disabled={!state.cityId}
-            onChange={(event) => set('districtId', event.target.value)}
-          >
-            <option value="">{t('common.none')}</option>
-            {districts.data?.items.map((district) => (
-              <option key={district.id} value={district.id}>
-                {district.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          disabled={!state.cityId}
+          options={
+            districts.data?.items.map((district) => ({
+              value: String(district.id),
+              label: district.displayName,
+            })) ?? []
+          }
+          value={state.districtId === '' ? null : state.districtId}
+          onChange={(value) => set('districtId', value ?? '')}
+        />
 
-        <Field
+        <TextArea
+          id="organization-address"
           label={t('organization.fields.address')}
-          htmlFor="organization-address"
           className="col-12"
-        >
-          <textarea
-            id="organization-address"
-            className="form-control"
-            rows={2}
-            value={state.address}
-            onChange={(event) => set('address', event.target.value)}
-          />
-        </Field>
+          rows={2}
+          value={state.address}
+          onChange={(value) => set('address', value)}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-bold mb-0 mt-2" style={{ color: 'var(--kt-gray-700)' }}>
@@ -403,45 +344,30 @@ export default function OrganizationFormModal({
           </h3>
         </div>
 
-        <Field
+        <Input
+          id="organization-authorizedFullName"
           label={t('organization.fields.authorizedFullName')}
-          htmlFor="organization-authorizedFullName"
           className="col-md-4"
-        >
-          <input
-            id="organization-authorizedFullName"
-            className="form-control"
-            value={state.authorizedFullName}
-            onChange={(event) => set('authorizedFullName', event.target.value)}
-          />
-        </Field>
+          value={state.authorizedFullName}
+          onChange={(value) => set('authorizedFullName', value)}
+        />
 
-        <Field
+        <Input
+          id="organization-authorizedPhone"
           label={t('organization.fields.authorizedPhone')}
-          htmlFor="organization-authorizedPhone"
           className="col-md-4"
-        >
-          <input
-            id="organization-authorizedPhone"
-            className="form-control"
-            value={state.authorizedPhone}
-            onChange={(event) => set('authorizedPhone', event.target.value)}
-          />
-        </Field>
+          value={state.authorizedPhone}
+          onChange={(value) => set('authorizedPhone', value)}
+        />
 
-        <Field
+        <Input
+          id="organization-authorizedEmail"
+          type="email"
           label={t('organization.fields.authorizedEmail')}
-          htmlFor="organization-authorizedEmail"
           className="col-md-4"
-        >
-          <input
-            id="organization-authorizedEmail"
-            type="email"
-            className="form-control"
-            value={state.authorizedEmail}
-            onChange={(event) => set('authorizedEmail', event.target.value)}
-          />
-        </Field>
+          value={state.authorizedEmail}
+          onChange={(value) => set('authorizedEmail', value)}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-bold mb-0 mt-2" style={{ color: 'var(--kt-gray-700)' }}>
@@ -449,85 +375,59 @@ export default function OrganizationFormModal({
           </h3>
         </div>
 
-        <Field
+        <Input
+          id="organization-subscriptionStart"
           label={t('organization.fields.subscriptionStart')}
-          htmlFor="organization-subscriptionStart"
           required
           error={errors.subscriptionStart}
           className="col-md-3"
-        >
-          <input
-            id="organization-subscriptionStart"
-            type="date"
-            className={controlClass('form-control', errors.subscriptionStart)}
-            value={state.subscriptionStart}
-            onChange={(event) => set('subscriptionStart', event.target.value)}
-          />
-        </Field>
+          value={state.subscriptionStart}
+          onChange={(value) => set('subscriptionStart', value)}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Input
+          id="organization-subscriptionEnd"
           label={t('organization.fields.subscriptionEnd')}
-          htmlFor="organization-subscriptionEnd"
-          hint={t('organization.form.openEndedHint')}
+          helpText={t('organization.form.openEndedHint')}
           className="col-md-3"
-        >
-          <input
-            id="organization-subscriptionEnd"
-            type="date"
-            className="form-control"
-            value={state.subscriptionEnd}
-            onChange={(event) => set('subscriptionEnd', event.target.value)}
-          />
-        </Field>
+          value={state.subscriptionEnd}
+          onChange={(value) => set('subscriptionEnd', value)}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <NumberInput
+          id="organization-maximumUserCount"
           label={t('organization.fields.maximumUserCount')}
-          htmlFor="organization-maximumUserCount"
-          hint={t('organization.form.unlimitedHint')}
+          helpText={t('organization.form.unlimitedHint')}
           className="col-md-3"
-        >
-          <input
-            id="organization-maximumUserCount"
-            type="number"
-            min={1}
-            className="form-control"
-            value={state.maximumUserCount}
-            onChange={(event) => set('maximumUserCount', event.target.value)}
-          />
-        </Field>
+          min={1}
+          value={state.maximumUserCount === '' ? null : Number(state.maximumUserCount)}
+          onChange={(value) => set('maximumUserCount', value === null ? '' : String(value))}
+        />
 
-        <Field
+        <NumberInput
+          id="organization-maximumCompanyCount"
           label={t('organization.fields.maximumCompanyCount')}
-          htmlFor="organization-maximumCompanyCount"
-          hint={t('organization.form.unlimitedHint')}
+          helpText={t('organization.form.unlimitedHint')}
           className="col-md-3"
-        >
-          <input
-            id="organization-maximumCompanyCount"
-            type="number"
-            min={1}
-            className="form-control"
-            value={state.maximumCompanyCount}
-            onChange={(event) => set('maximumCompanyCount', event.target.value)}
-          />
-        </Field>
+          min={1}
+          value={state.maximumCompanyCount === '' ? null : Number(state.maximumCompanyCount)}
+          onChange={(value) => set('maximumCompanyCount', value === null ? '' : String(value))}
+        />
 
         {isEdit && (
-          <Field
+          <Select
+            id="organization-isActive"
             label={t('organization.fields.status')}
-            htmlFor="organization-isActive"
             className="col-md-3"
-          >
-            <select
-              id="organization-isActive"
-              className="form-select"
-              value={state.isActive ? 'true' : 'false'}
-              onChange={(event) => set('isActive', event.target.value === 'true')}
-            >
-              <option value="true">{t('common.active')}</option>
-              <option value="false">{t('common.passive')}</option>
-            </select>
-          </Field>
+            options={[
+              { value: 'true', label: t('common.active') },
+              { value: 'false', label: t('common.passive') },
+            ]}
+            value={state.isActive ? 'true' : 'false'}
+            onChange={(value) => set('isActive', value === 'true')}
+          />
         )}
       </div>
     </Modal>

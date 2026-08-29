@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { type BadgeVariant } from 'rich-react-component'
 import { http, type ListResult, type PagedResult } from '@/api/http'
 import type {
   ApprovalStatus,
@@ -51,20 +52,20 @@ export const COMPANY_EMPLOYEE = 'company-employee'
 // watched, red for what has to be fixed, and a solid red for the intolerable end.
 // ---------------------------------------------------------------
 
-export const RISK_LEVEL_BADGE: Record<RiskLevel, string> = {
-  0: 'badge-light-primary',
-  1: 'badge-light-success',
-  2: 'badge-light-info',
-  3: 'badge-light-warning',
-  4: 'badge-light-danger',
-  5: 'badge bg-danger',
+export const RISK_LEVEL_BADGE: Record<RiskLevel, BadgeVariant> = {
+  0: 'primary',
+  1: 'success',
+  2: 'info',
+  3: 'warning',
+  4: 'danger',
+  5: 'danger',
 }
 
-export const APPROVAL_STATUS_BADGE: Record<ApprovalStatus, string> = {
-  0: 'badge-light-primary',
-  1: 'badge-light-warning',
-  2: 'badge-light-success',
-  3: 'badge-light-danger',
+export const APPROVAL_STATUS_BADGE: Record<ApprovalStatus, BadgeVariant> = {
+  0: 'primary',
+  1: 'warning',
+  2: 'success',
+  3: 'danger',
 }
 
 // ---------------------------------------------------------------

@@ -77,7 +77,7 @@ function userFromToken(token: string): UserInfo | null {
  */
 async function fetchPermissions(): Promise<string[]> {
   try {
-    const { data } = await http.get<ListResult<string>>('/api/account/permissions')
+    const { data } = await http.get<ListResult<string>>('/account/permissions')
     return data.items ?? []
   } catch {
     return []

@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input, NumberInput, Select, Tabs, TextArea } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal } from '@/components/Form'
 import {
   HAZARD_CLASS_BADGE,
   HazardClass,
@@ -77,64 +78,48 @@ export default function RiskAssessmentDetailPage() {
         description={data.company?.displayName ?? report.workplaceTitle}
         action={
           <div className="d-flex gap-2">
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            <Button variant="light" 
               onClick={() => setEditOpen(true)}
             >
               {t('common.edit')}
-            </button>
-            <button
-              className="btn btn-light-danger"
-              type="button"
+            </Button>
+            <Button variant="light" 
               onClick={() => setDeleteOpen(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <SummaryStrip detail={data} />
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`riskAssessment.detail.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-body">
-          {activeTab === 'general' && <GeneralTab detail={data} />}
-          {activeTab === 'hazards' && (
-            <RiskHazardSection
-              reportId={reportId}
-              companyId={report.companyId}
-              method={report.reportMethod}
-              hazards={data.identifiedHazards}
-            />
-          )}
-          {activeTab === 'sets' && <RiskHeaderSetsSection reportId={reportId} detail={data} />}
-          {activeTab === 'team' && <TeamTab detail={data} />}
-        </div>
-      </div>
+      <Card>
+        <Tabs
+          items={TABS.map((tab) => ({
+            key: tab,
+            label: t(`riskAssessment.detail.tabs.${tab}`),
+            content:
+              tab === 'general' ? (
+                <GeneralTab detail={data} />
+              ) : tab === 'hazards' ? (
+                <RiskHazardSection
+                  reportId={reportId}
+                  companyId={report.companyId}
+                  method={report.reportMethod}
+                  hazards={data.identifiedHazards}
+                />
+              ) : tab === 'sets' ? (
+                <RiskHeaderSetsSection reportId={reportId} detail={data} />
+              ) : (
+                <TeamTab detail={data} />
+              ),
+          }))}
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as TabKey)}
+          variant="underline"
+        />
+      </Card>
 
       {isEditOpen && (
         <EditReportModal report={data} onClose={() => setEditOpen(false)} />
@@ -166,11 +151,11 @@ function SummaryStrip({ detail }: { detail: RiskAssessmentReportNavigationDto })
         label={t('riskAssessment.fields.validity')}
         value={formatDate(report.validityDate) ?? t('common.none')}
         badge={
-          <span className={report.isValid ? 'badge-light-success' : 'badge-light-danger'}>
+          <Badge variant={report.isValid ? 'success' : 'danger'}>
             {report.isValid
               ? t('riskAssessment.validity.valid')
               : t('riskAssessment.validity.expired')}
-          </span>
+          </Badge>
         }
       />
       <SummaryCard
@@ -182,9 +167,9 @@ function SummaryStrip({ detail }: { detail: RiskAssessmentReportNavigationDto })
         value={String(highRisk)}
         badge={
           highRisk > 0 ? (
-            <span className={RISK_LEVEL_BADGE[4]}>{t('riskAssessment.detail.needsAction')}</span>
+            <Badge variant={RISK_LEVEL_BADGE[4]}>{t('riskAssessment.detail.needsAction')}</Badge>
           ) : (
-            <span className="badge-light-success">{t('riskAssessment.detail.underControl')}</span>
+            <Badge variant="success">{t('riskAssessment.detail.underControl')}</Badge>
           )
         }
       />
@@ -192,9 +177,9 @@ function SummaryStrip({ detail }: { detail: RiskAssessmentReportNavigationDto })
         label={t('riskAssessment.fields.method')}
         value={t(`enums.riskAssessmentMethod.${report.reportMethod}`)}
         badge={
-          <span className={APPROVAL_STATUS_BADGE[report.approvalStatus]}>
+          <Badge variant={APPROVAL_STATUS_BADGE[report.approvalStatus]}>
             {t(`enums.approvalStatus.${report.approvalStatus}`)}
-          </span>
+          </Badge>
         }
       />
     </div>
@@ -212,15 +197,13 @@ function SummaryCard({
 }) {
   return (
     <div className="col-sm-6 col-xl-3">
-      <div className="card h-100">
-        <div className="card-body py-4">
-          <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{label}</div>
-          <div className="fw-bold h5 mb-2 mt-1" style={{ color: 'var(--kt-gray-900)' }}>
-            {value}
-          </div>
-          {badge}
+      <Card className="h-100">
+        <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{label}</div>
+        <div className="fw-bold h5 mb-2 mt-1" style={{ color: 'var(--kt-gray-900)' }}>
+          {value}
         </div>
-      </div>
+        {badge}
+      </Card>
     </div>
   )
 }
@@ -242,9 +225,9 @@ function GeneralTab({ detail }: { detail: RiskAssessmentReportNavigationDto }) {
         )}
       </Term>
       <Term label={t('riskAssessment.fields.hazardClass')}>
-        <span className={HAZARD_CLASS_BADGE[report.hazardClass]}>
+        <Badge variant={HAZARD_CLASS_BADGE[report.hazardClass]}>
           {t(`enums.hazardClass.${report.hazardClass}`)}
-        </span>
+        </Badge>
       </Term>
       <Term label={t('riskAssessment.fields.method')}>
         {t(`enums.riskAssessmentMethod.${report.reportMethod}`)}
@@ -311,9 +294,9 @@ function TeamTab({ detail }: { detail: RiskAssessmentReportNavigationDto }) {
                 <span className="fw-semibold" style={{ color: 'var(--kt-gray-800)' }}>
                   {participant.fullName}
                 </span>
-                <span className="badge-light-info">
+                <Badge variant="info">
                   {t(`enums.reportParticipantType.${participant.participantType}`)}
-                </span>
+                </Badge>
                 {participant.title && (
                   <span style={{ color: 'var(--kt-gray-500)' }}>{participant.title}</span>
                 )}
@@ -335,10 +318,10 @@ function TeamTab({ detail }: { detail: RiskAssessmentReportNavigationDto }) {
           <ul className="list-unstyled mb-0 d-flex flex-wrap gap-2">
             {detail.protectedGroups.map((group) => (
               <li key={group.id}>
-                <span className="badge-light-warning">
+                <Badge variant="warning">
                   {t(`enums.vulnerableWorkerGroup.${group.group}`)}
                   {group.number != null ? ` · ${group.number}` : ''}
-                </span>
+                </Badge>
               </li>
             ))}
           </ul>
@@ -357,9 +340,9 @@ function TeamTab({ detail }: { detail: RiskAssessmentReportNavigationDto }) {
           <ul className="list-unstyled mb-0 d-flex flex-column gap-2">
             {detail.historyRecords.map((record) => (
               <li key={record.id} className="d-flex flex-wrap align-items-baseline gap-2">
-                <span className="badge-light-danger">
+                <Badge variant="danger">
                   {t(`enums.riskHistoryRecordType.${record.recordType}`)}
-                </span>
+                </Badge>
                 <span style={{ color: 'var(--kt-gray-500)' }}>{formatDate(record.date)}</span>
                 <span style={{ color: 'var(--kt-gray-800)' }}>{record.description}</span>
               </li>
@@ -442,270 +425,175 @@ function EditReportModal({
       size="xl"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="editReportName"
           label={t('riskAssessment.fields.reportName')}
-          htmlFor="editReportName"
           required
           error={validation.reportName}
           className="col-md-6"
-        >
-          <input
-            id="editReportName"
-            className={controlClass('form-control', validation.reportName)}
-            value={form.reportName}
-            onChange={(event) => patch({ reportName: event.target.value })}
-          />
-        </Field>
+          value={form.reportName}
+          onChange={(value) => patch({ reportName: value })}
+        />
 
-        <Field
+        <Select
+          id="editApprovalStatus"
           label={t('riskAssessment.fields.approvalStatus')}
-          htmlFor="editApprovalStatus"
           className="col-md-3"
-        >
-          <select
-            id="editApprovalStatus"
-            className="form-select"
-            value={form.approvalStatus}
-            onChange={(event) =>
-              patch({ approvalStatus: Number(event.target.value) as ApprovalStatus })
-            }
-          >
-            {APPROVAL_STATUSES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.approvalStatus.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={APPROVAL_STATUSES.map((value) => ({
+            value,
+            label: t(`enums.approvalStatus.${value}`),
+          }))}
+          value={form.approvalStatus}
+          onChange={(value) => patch({ approvalStatus: (value ?? 0) as ApprovalStatus })}
+        />
 
-        <Field
+        <NumberInput
+          id="editWorkerCount"
           label={t('riskAssessment.fields.workerCount')}
-          htmlFor="editWorkerCount"
           className="col-md-3"
-        >
-          <input
-            id="editWorkerCount"
-            type="number"
-            min={0}
-            className="form-control"
-            value={form.workerCount}
-            onChange={(event) => patch({ workerCount: Number(event.target.value) })}
-          />
-        </Field>
+          min={0}
+          value={form.workerCount}
+          onChange={(value) => patch({ workerCount: value ?? 0 })}
+        />
 
-        <Field
+        <Select
+          id="editHazardClass"
           label={t('riskAssessment.fields.hazardClass')}
-          htmlFor="editHazardClass"
-          hint={t('riskAssessment.create.hazardClassHint')}
+          helpText={t('riskAssessment.create.hazardClassHint')}
           className="col-md-4"
-        >
-          <select
-            id="editHazardClass"
-            className="form-select"
-            value={form.hazardClass}
-            onChange={(event) => patch({ hazardClass: Number(event.target.value) as HazardClass })}
-          >
-            {SELECTABLE_HAZARD_CLASSES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.hazardClass.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={SELECTABLE_HAZARD_CLASSES.map((value) => ({
+            value,
+            label: t(`enums.hazardClass.${value}`),
+          }))}
+          value={form.hazardClass}
+          onChange={(value) => patch({ hazardClass: (value ?? HazardClass.LowHazard) as HazardClass })}
+        />
 
-        <Field label={t('riskAssessment.fields.method')} htmlFor="editMethod" className="col-md-4">
-          <select
-            id="editMethod"
-            className="form-select"
-            value={form.reportMethod}
-            onChange={(event) =>
-              patch({ reportMethod: Number(event.target.value) as RiskAssessmentMethod })
-            }
-          >
-            {SELECTABLE_METHODS.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.riskAssessmentMethod.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="editMethod"
+          label={t('riskAssessment.fields.method')}
+          className="col-md-4"
+          options={SELECTABLE_METHODS.map((value) => ({
+            value,
+            label: t(`enums.riskAssessmentMethod.${value}`),
+          }))}
+          value={form.reportMethod}
+          onChange={(value) =>
+            patch({ reportMethod: (value ?? RiskAssessmentMethod.FineKinney) as RiskAssessmentMethod })
+          }
+        />
 
-        <Field
+        <Input
+          id="editPerformedDate"
           label={t('riskAssessment.fields.performedDate')}
-          htmlFor="editPerformedDate"
           required
           error={validation.performedDate}
           className="col-md-2"
-        >
-          <input
-            id="editPerformedDate"
-            type="date"
-            className={controlClass('form-control', validation.performedDate)}
-            value={form.performedDate}
-            onChange={(event) => patch({ performedDate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={form.performedDate}
+          onChange={(value) => patch({ performedDate: value })}
+        />
 
-        <Field
+        <Input
+          id="editRevisionDate"
           label={t('riskAssessment.fields.revisionDate')}
-          htmlFor="editRevisionDate"
           className="col-md-2"
-        >
-          <input
-            id="editRevisionDate"
-            type="date"
-            className="form-control"
-            value={form.revisionDate ?? ''}
-            onChange={(event) => patch({ revisionDate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={form.revisionDate ?? ''}
+          onChange={(value) => patch({ revisionDate: value })}
+        />
 
-        <Field
+        <Input
+          id="editWorkplaceTitle"
           label={t('riskAssessment.fields.workplaceTitle')}
-          htmlFor="editWorkplaceTitle"
           className="col-md-6"
-        >
-          <input
-            id="editWorkplaceTitle"
-            className="form-control"
-            value={form.workplaceTitle}
-            onChange={(event) => patch({ workplaceTitle: event.target.value })}
-          />
-        </Field>
+          value={form.workplaceTitle}
+          onChange={(value) => patch({ workplaceTitle: value })}
+        />
 
-        <Field
+        <Input
+          id="editBusinessActivity"
           label={t('riskAssessment.fields.businessActivity')}
-          htmlFor="editBusinessActivity"
           className="col-md-6"
-        >
-          <input
-            id="editBusinessActivity"
-            className="form-control"
-            value={form.businessActivity}
-            onChange={(event) => patch({ businessActivity: event.target.value })}
-          />
-        </Field>
+          value={form.businessActivity}
+          onChange={(value) => patch({ businessActivity: value })}
+        />
 
-        <Field
+        <Input
+          id="editWorkplaceAddress"
           label={t('riskAssessment.fields.workplaceAddress')}
-          htmlFor="editWorkplaceAddress"
           className="col-md-8"
-        >
-          <input
-            id="editWorkplaceAddress"
-            className="form-control"
-            value={form.workplaceAddress}
-            onChange={(event) => patch({ workplaceAddress: event.target.value })}
-          />
-        </Field>
+          value={form.workplaceAddress}
+          onChange={(value) => patch({ workplaceAddress: value })}
+        />
 
-        <Field
+        <Input
+          id="editWorkplacePhone"
           label={t('riskAssessment.fields.workplacePhone')}
-          htmlFor="editWorkplacePhone"
           className="col-md-4"
-        >
-          <input
-            id="editWorkplacePhone"
-            className="form-control"
-            value={form.workplaceTelefonu}
-            onChange={(event) => patch({ workplaceTelefonu: event.target.value })}
-          />
-        </Field>
+          value={form.workplaceTelefonu}
+          onChange={(value) => patch({ workplaceTelefonu: value })}
+        />
 
-        <Field
+        <TextArea
+          id="editDepartments"
           label={t('riskAssessment.fields.workplaceDepartments')}
-          htmlFor="editDepartments"
           className="col-md-6"
-        >
-          <textarea
-            id="editDepartments"
-            className="form-control"
-            rows={2}
-            value={form.workplaceDepartments ?? ''}
-            onChange={(event) => patch({ workplaceDepartments: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={form.workplaceDepartments ?? ''}
+          onChange={(value) => patch({ workplaceDepartments: value })}
+        />
 
-        <Field
+        <TextArea
+          id="editMachines"
           label={t('riskAssessment.fields.machinesAndEquipment')}
-          htmlFor="editMachines"
           className="col-md-6"
-        >
-          <textarea
-            id="editMachines"
-            className="form-control"
-            rows={2}
-            value={form.machinesVeEquipments ?? ''}
-            onChange={(event) => patch({ machinesVeEquipments: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={form.machinesVeEquipments ?? ''}
+          onChange={(value) => patch({ machinesVeEquipments: value })}
+        />
 
-        <Field
+        <TextArea
+          id="editHazardousArticles"
           label={t('riskAssessment.fields.hazardousArticles')}
-          htmlFor="editHazardousArticles"
           className="col-md-6"
-        >
-          <textarea
-            id="editHazardousArticles"
-            className="form-control"
-            rows={2}
-            value={form.hazardousArticles ?? ''}
-            onChange={(event) => patch({ hazardousArticles: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={form.hazardousArticles ?? ''}
+          onChange={(value) => patch({ hazardousArticles: value })}
+        />
 
-        <Field
+        <TextArea
+          id="editWasteOperations"
           label={t('riskAssessment.fields.wasteOperations')}
-          htmlFor="editWasteOperations"
           className="col-md-6"
-        >
-          <textarea
-            id="editWasteOperations"
-            className="form-control"
-            rows={2}
-            value={form.wasteOperations ?? ''}
-            onChange={(event) => patch({ wasteOperations: event.target.value })}
-          />
-        </Field>
+          rows={2}
+          value={form.wasteOperations ?? ''}
+          onChange={(value) => patch({ wasteOperations: value })}
+        />
 
-        <Field
+        <Input
+          id="editEmployer"
           label={t('riskAssessment.fields.employer')}
-          htmlFor="editEmployer"
           className="col-md-4"
-        >
-          <input
-            id="editEmployer"
-            className="form-control"
-            value={form.employer ?? ''}
-            onChange={(event) => patch({ employer: event.target.value })}
-          />
-        </Field>
+          value={form.employer ?? ''}
+          onChange={(value) => patch({ employer: value })}
+        />
 
-        <Field
+        <Input
+          id="editSpecialist"
           label={t('riskAssessment.fields.specialist')}
-          htmlFor="editSpecialist"
           className="col-md-4"
-        >
-          <input
-            id="editSpecialist"
-            className="form-control"
-            value={form.specialistFullName ?? ''}
-            onChange={(event) => patch({ specialistFullName: event.target.value })}
-          />
-        </Field>
+          value={form.specialistFullName ?? ''}
+          onChange={(value) => patch({ specialistFullName: value })}
+        />
 
-        <Field
+        <Input
+          id="editPhysician"
           label={t('riskAssessment.fields.physician')}
-          htmlFor="editPhysician"
           className="col-md-4"
-        >
-          <input
-            id="editPhysician"
-            className="form-control"
-            value={form.physicianFullName ?? ''}
-            onChange={(event) => patch({ physicianFullName: event.target.value })}
-          />
-        </Field>
+          value={form.physicianFullName ?? ''}
+          onChange={(value) => patch({ physicianFullName: value })}
+        />
       </div>
     </Modal>
   )

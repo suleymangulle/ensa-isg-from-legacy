@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { IncidentPersonRole, IncidentType } from '@/api/enums'
@@ -77,36 +78,33 @@ export default function IncidentDetailPage() {
         description={data.company?.displayName ?? undefined}
         action={
           <div className="d-flex gap-2">
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            <Button variant="light" 
               onClick={() => setIsEditing(true)}
             >
               {t('common.edit')}
-            </button>
-            <button
-              className="btn btn-light-danger"
-              type="button"
+            </Button>
+            <Button variant="light" 
               onClick={() => setIsDeleting(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <SsiNotificationPanel incident={incident} />
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
             {t('incident.detail.general')}
           </h2>
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('incident.fields.incidentType')}>
-              <span className={INCIDENT_TYPE_BADGE[incident.incidentType]}>
+              <Badge variant={INCIDENT_TYPE_BADGE[incident.incidentType]}>
                 {t(`enums.incidentType.${incident.incidentType}`)}
-              </span>
+              </Badge>
             </Term>
             <Term label={t('incident.fields.accidentType')}>
               {t(`enums.accidentType.${incident.accidentType}`)}
@@ -132,11 +130,10 @@ export default function IncidentDetailPage() {
             <Term label={t('incident.fields.description')}>{incident.description ?? none}</Term>
             <Term label={t('incident.fields.expression')}>{incident.expression ?? none}</Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-body">
+      <Card>
           <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
             {t('incident.persons.title')}
           </h2>
@@ -152,8 +149,8 @@ export default function IncidentDetailPage() {
               />
             ))}
           </div>
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditing && (
         <IncidentFormModal incident={incident} onClose={() => setIsEditing(false)} />
@@ -272,14 +269,12 @@ function PersonSection({
         <h3 className="h6 mb-0" style={{ color: 'var(--kt-gray-700)' }}>
           {t(`enums.incidentPersonRole.${role}`)}
         </h3>
-        <button
-          type="button"
-          className="btn btn-sm btn-light-primary"
+        <Button variant="light" size="sm" 
           onClick={onAdd}
           aria-label={t(`incident.persons.add.${role}`)}
         >
           <span aria-hidden="true">＋</span>
-        </button>
+        </Button>
       </div>
 
       {people.length === 0 ? (
@@ -295,16 +290,14 @@ function PersonSection({
               <span style={{ color: 'var(--kt-gray-800)' }}>
                 {`${person.name} ${person.lastName}`.trim()}
               </span>
-              <button
-                type="button"
-                className="btn btn-sm btn-light-danger"
+              <Button variant="light" size="sm" 
                 aria-label={t('incident.persons.removeAction', {
                   name: `${person.name} ${person.lastName}`.trim(),
                 })}
                 onClick={() => onRemove(person)}
               >
                 <span aria-hidden="true">✕</span>
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

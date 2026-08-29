@@ -8,6 +8,7 @@ import {
   type CompanyWarningSummaryDto,
 } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
+import { Avatar, Badge, Button, Card, Tabs, type TabItem } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 
 const TABS = ['general', 'departments', 'specialists', 'branches'] as const
@@ -43,6 +44,46 @@ export default function CompanyDetailPage() {
 
   const company = data.company
 
+  // The counter on the tab tells the user whether a section is worth opening; a tab that opens
+  // onto "no records" is the small waste this removes.
+  const counts: Partial<Record<TabKey, number>> = {
+    departments: data.departments.length,
+    specialists: data.assignedSpecialists.length,
+    branches: data.branches.length,
+  }
+
+  const tabs: TabItem[] = [
+    { key: 'general', label: t('company.detail.tabs.general'), content: <GeneralTab detail={data} /> },
+    {
+      key: 'departments',
+      label: t('company.detail.tabs.departments'),
+      badge: counts.departments,
+      content: (
+        <LookupList
+          items={data.departments.map((item) => item.displayName)}
+          emptyMessage={t('company.detail.emptyDepartments')}
+        />
+      ),
+    },
+    {
+      key: 'specialists',
+      label: t('company.detail.tabs.specialists'),
+      badge: counts.specialists,
+      content: <SpecialistList detail={data} />,
+    },
+    {
+      key: 'branches',
+      label: t('company.detail.tabs.branches'),
+      badge: counts.branches,
+      content: (
+        <LookupList
+          items={data.branches.map((item) => item.displayName)}
+          emptyMessage={t('company.detail.emptyBranches')}
+        />
+      ),
+    },
+  ]
+
   return (
     <>
       <nav aria-label={t('nav.breadcrumb')} className="mb-3">
@@ -66,55 +107,20 @@ export default function CompanyDetailPage() {
             : undefined
         }
         action={
-          <button className="btn btn-light-primary" type="button">
+          <Button variant="light" >
             {t('common.edit')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`company.detail.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-body">
-          {activeTab === 'general' && <GeneralTab detail={data} />}
-          {activeTab === 'departments' && (
-            <LookupList
-              items={data.departments.map((item) => item.displayName)}
-              emptyMessage={t('company.detail.emptyDepartments')}
-            />
-          )}
-          {activeTab === 'specialists' && (
-            <SpecialistList detail={data} />
-          )}
-          {activeTab === 'branches' && (
-            <LookupList
-              items={data.branches.map((item) => item.displayName)}
-              emptyMessage={t('company.detail.emptyBranches')}
-            />
-          )}
-        </div>
-      </div>
+      <Card>
+        <Tabs
+          items={tabs}
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as TabKey)}
+          variant="underline"
+        />
+      </Card>
     </>
   )
 }
@@ -131,9 +137,9 @@ function GeneralTab({ detail }: { detail: CompanyNavigationDto }) {
     <>
       <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
         <Term label={t('company.fields.hazardClass')}>
-          <span className={HAZARD_CLASS_BADGE[company.hazardClass]}>
+          <Badge variant={HAZARD_CLASS_BADGE[company.hazardClass]}>
             {t(`enums.hazardClass.${company.hazardClass}`)}
-          </span>
+          </Badge>
         </Term>
 
         <Term label={t('company.fields.workplaceType')}>
@@ -156,9 +162,9 @@ function GeneralTab({ detail }: { detail: CompanyNavigationDto }) {
         {detail.office && <Term label={t('company.fields.office')}>{detail.office.displayName}</Term>}
         <Term label={t('company.fields.activeEmployeeCount')}>{detail.activeEmployeeCount}</Term>
         <Term label={t('company.fields.status')}>
-          <span className={company.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+          <Badge variant={company.isActive ? 'success' : 'danger'}>
             {company.isActive ? t('common.active') : t('common.passive')}
-          </span>
+          </Badge>
         </Term>
         {company.notes && (
           <Term label={t('company.fields.note')}>{company.notes}</Term>
@@ -183,9 +189,9 @@ function WarningSummary({ summary }: { summary: CompanyWarningSummaryDto }) {
       <ul className="list-unstyled mb-3 d-flex flex-wrap gap-2">
         {rows.map(({ field, labelKey }) => (
           <li key={field}>
-            <span className="badge-light-warning">
+            <Badge variant="warning">
               {t(labelKey)}: {String(summary[field])}
-            </span>
+            </Badge>
           </li>
         ))}
       </ul>
@@ -211,13 +217,14 @@ function SpecialistList({ detail }: { detail: CompanyNavigationDto }) {
     <ul className="list-unstyled mb-0 d-flex flex-column gap-2">
       {detail.assignedSpecialists.map((specialist) => (
         <li key={specialist.id} className="d-flex flex-wrap align-items-center gap-2">
+          <Avatar name={specialist.fullName} size="sm" />
           <span className="fw-semibold" style={{ color: 'var(--kt-gray-800)' }}>
             {specialist.fullName}
           </span>
-          <span className="badge-light-info">{t(`enums.staffRole.${specialist.staffRole}`)}</span>
-          <span className={specialist.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+          <Badge variant="info">{t(`enums.staffRole.${specialist.staffRole}`)}</Badge>
+          <Badge variant={specialist.isActive ? 'success' : 'danger'}>
             {specialist.isActive ? t('common.active') : t('common.passive')}
-          </span>
+          </Badge>
         </li>
       ))}
     </ul>
@@ -237,7 +244,7 @@ function LookupList({ items, emptyMessage }: { items: string[]; emptyMessage: st
     <ul className="list-unstyled mb-0 d-flex flex-wrap gap-2">
       {items.map((item) => (
         <li key={item}>
-          <span className="badge-light-primary">{item}</span>
+          <Badge variant="primary">{item}</Badge>
         </li>
       ))}
     </ul>

@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { type BadgeVariant } from 'rich-react-component'
 import { http, type ListResult, type PagedResult } from '@/api/http'
 import type {
   ContentFormat,
@@ -53,25 +54,25 @@ export const USER = 'user'
 // Only the colour mapping stays in code; the labels come from the locale bundle.
 // ---------------------------------------------------------------
 
-export const TICKET_STATUS_BADGE: Record<SupportTicketStatus, string> = {
-  0: 'badge-light-warning',
-  1: 'badge-light-info',
-  2: 'badge-light-success',
-  3: 'badge-light-danger',
+export const TICKET_STATUS_BADGE: Record<SupportTicketStatus, BadgeVariant> = {
+  0: 'warning',
+  1: 'info',
+  2: 'success',
+  3: 'danger',
 }
 
-export const MAIL_STATUS_BADGE: Record<MailStatus, string> = {
-  0: 'badge-light-primary',
-  1: 'badge-light-info',
-  2: 'badge-light-success',
-  3: 'badge-light-danger',
-  4: 'badge-light-warning',
+export const MAIL_STATUS_BADGE: Record<MailStatus, BadgeVariant> = {
+  0: 'primary',
+  1: 'info',
+  2: 'success',
+  3: 'danger',
+  4: 'warning',
 }
 
-export const MAIL_PRIORITY_BADGE: Record<MailPriority, string> = {
-  0: 'badge-light-primary',
-  1: 'badge-light-info',
-  2: 'badge-light-danger',
+export const MAIL_PRIORITY_BADGE: Record<MailPriority, BadgeVariant> = {
+  0: 'primary',
+  1: 'info',
+  2: 'danger',
 }
 
 // ---------------------------------------------------------------

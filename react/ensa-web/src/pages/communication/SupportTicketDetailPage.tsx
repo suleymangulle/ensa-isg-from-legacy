@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, TextArea } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { SupportTicketStatus } from '@/api/enums'
@@ -86,47 +87,36 @@ function TicketDetail({
         })}
         action={
           isOpen ? (
-            <button
-              type="button"
-              className="btn btn-light-success"
+            <Button variant="light" 
               disabled={close.isPending}
               onClick={() => close.mutate(ticketId)}
             >
               {t('supportTicket.list.close')}
-            </button>
+            </Button>
           ) : (
-            <button
-              type="button"
-              className="btn btn-light-warning"
+            <Button variant="light" 
               disabled={reopen.isPending}
               onClick={() => reopen.mutate(ticketId)}
             >
               {t('supportTicket.list.reopen')}
-            </button>
+            </Button>
           )
         }
       />
 
-      {actionError && (
-        <div
-          className="alert border-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="alert"
-        >
-          {errorMessage(actionError)}
-        </div>
-      )}
+      {actionError && <Alert variant="danger">{errorMessage(actionError)}</Alert>}
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <dt className="col-sm-3" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
               {t('supportTicket.fields.status')}
             </dt>
             <dd className="col-sm-9">
-              <span className={TICKET_STATUS_BADGE[ticket.status]}>
+              <Badge variant={TICKET_STATUS_BADGE[ticket.status]}>
                 {t(`enums.supportTicketStatus.${ticket.status}`)}
-              </span>
+              </Badge>
             </dd>
 
             <dt className="col-sm-3" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
@@ -139,17 +129,49 @@ function TicketDetail({
             </dt>
             <dd className="col-sm-9">{formatDate(ticket.closingDate) ?? t('common.none')}</dd>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        header={
           <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-800)' }}>
             {t('supportTicket.detail.thread')}
           </h2>
+        
+        }
+        footer={
+        <div className="bg-transparent">
+          {isOpen ? (
+            <form
+              onSubmit={(event) => {
+                event.preventDefault()
+                send()
+              }}
+            >
+              <TextArea
+                id="ticket-reply"
+                label={t('supportTicket.detail.replyLabel')}
+                rows={3}
+                maxLength={4000}
+                value={reply}
+                onChange={setReply}
+              />
+              <Button variant="primary"
+                type="submit"
+                disabled={addMessage.isPending || !reply.trim()}
+              >
+                {t('supportTicket.detail.send')}
+              </Button>
+            </form>
+          ) : (
+            <p className="mb-0" style={{ color: 'var(--kt-gray-500)' }}>
+              {t('supportTicket.detail.closedNotice')}
+            </p>
+          )}
+        
         </div>
-
-        <div className="card-body">
+        }
+      >
           {detail.messages.length === 0 ? (
             <p className="mb-0 text-center py-4" style={{ color: 'var(--kt-gray-500)' }}>
               {t('supportTicket.detail.emptyThread')}
@@ -161,42 +183,8 @@ function TicketDetail({
               ))}
             </ul>
           )}
-        </div>
-
-        <div className="card-footer bg-transparent">
-          {isOpen ? (
-            <form
-              onSubmit={(event) => {
-                event.preventDefault()
-                send()
-              }}
-            >
-              <label htmlFor="ticket-reply" className="form-label fw-semibold">
-                {t('supportTicket.detail.replyLabel')}
-              </label>
-              <textarea
-                id="ticket-reply"
-                className="form-control mb-2"
-                rows={3}
-                maxLength={4000}
-                value={reply}
-                onChange={(event) => setReply(event.target.value)}
-              />
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={addMessage.isPending || !reply.trim()}
-              >
-                {t('supportTicket.detail.send')}
-              </button>
-            </form>
-          ) : (
-            <p className="mb-0" style={{ color: 'var(--kt-gray-500)' }}>
-              {t('supportTicket.detail.closedNotice')}
-            </p>
-          )}
-        </div>
-      </div>
+        
+      </Card>
     </>
   )
 }
@@ -242,7 +230,7 @@ function ThreadEntry({
           {formatDateTime(message.creationTime) ?? ''}
         </span>
         {!message.isRead && (
-          <span className="badge-light-warning">{t('supportTicket.detail.unread')}</span>
+          <Badge variant="warning">{t('supportTicket.detail.unread')}</Badge>
         )}
       </div>
       <p className="mb-0" style={{ whiteSpace: 'pre-wrap', color: 'var(--kt-gray-700)' }}>

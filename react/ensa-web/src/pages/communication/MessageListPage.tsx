@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Select, Tabs, TextArea } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { useDelete } from '@/api/mutations'
 import { errorMessage } from '@/api/http'
 import { MessageType } from '@/api/enums'
@@ -37,7 +38,7 @@ export default function MessageListPage() {
   const [folder, setFolder] = useState<MessageFolder>('inbox')
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [messageType, setMessageType] = useState('')
+  const [messageType, setMessageType] = useState<MessageType | null>(null)
   const [isRead, setIsRead] = useState('')
 
   const [isComposeOpen, setIsComposeOpen] = useState(false)
@@ -48,7 +49,7 @@ export default function MessageListPage() {
     skipCount: (page - 1) * PAGE_SIZE,
     maxResultCount: PAGE_SIZE,
     filter: search || undefined,
-    messageType: messageType === '' ? undefined : (Number(messageType) as MessageType),
+    messageType: messageType ?? undefined,
     isRead: isRead === '' ? undefined : isRead === 'true',
   })
 
@@ -88,22 +89,20 @@ export default function MessageListPage() {
       key: 'content',
       header: t('message.fields.content'),
       render: (row) => (
-        <button
-          type="button"
-          className="btn btn-link p-0 text-start text-decoration-none"
+        <Button variant="link" className="p-0 text-start text-decoration-none"
           onClick={() => open(row)}
         >
           <span className={row.isRead || folder === 'sent' ? '' : 'fw-semibold'}>
             {excerpt(row.content)}
           </span>
-        </button>
+        </Button>
       ),
     },
     {
       key: 'messageType',
       header: t('message.fields.messageType'),
       render: (row) => (
-        <span className="badge-light-info">{t(`enums.messageType.${row.messageType}`)}</span>
+        <Badge variant="info">{t(`enums.messageType.${row.messageType}`)}</Badge>
       ),
     },
     {
@@ -116,9 +115,9 @@ export default function MessageListPage() {
       header: t('message.fields.readState'),
       align: 'center',
       render: (row) => (
-        <span className={row.isRead ? 'badge-light-success' : 'badge-light-warning'}>
+        <Badge variant={row.isRead ? 'success' : 'warning'}>
           {row.isRead ? t('message.list.read') : t('message.list.unread')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -128,27 +127,23 @@ export default function MessageListPage() {
       width: '200px',
       render: (row) => (
         <div className="d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => open(row)}
             aria-label={t('message.list.openAria')}
           >
             {t('message.list.open')}
-          </button>
+          </Button>
           {/*
             `DELETE api/message/{id}` is refused for anyone but the sender, so the control is
             offered in the sent folder only rather than being shown and then failing.
           */}
           {folder === 'sent' && (
-            <button
-              type="button"
-              className="btn btn-sm btn-light-danger"
+            <Button variant="light" size="sm" 
               onClick={() => setDeleting(row)}
               aria-label={t('message.list.deleteAria')}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           )}
         </div>
       ),
@@ -161,48 +156,32 @@ export default function MessageListPage() {
         title={t('message.list.title')}
         description={t('message.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsComposeOpen(true)}>
+          <Button variant="primary" onClick={() => setIsComposeOpen(true)}>
             {t('message.list.compose')}
-          </button>
+          </Button>
         }
       />
 
       {unread.data && unread.data.unreadCount > 0 && (
-        <div
-          className="alert border-0"
-          style={{ backgroundColor: 'var(--kt-warning-light)', color: 'var(--kt-warning)' }}
-        >
+        <Alert variant="warning">
           {t('message.list.unreadCount', { count: unread.data.unreadCount })}
-        </div>
+        </Alert>
       )}
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {FOLDERS.map((name) => (
-              <li className="nav-item" key={name} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={folder === name}
-                  className={`nav-link border-0 px-3 py-3 ${folder === name ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: folder === name ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${folder === name ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => {
-                    setFolder(name)
-                    setPage(1)
-                  }}
-                >
-                  {t(`message.folders.${name}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
+      <Card
+        
+        header={
+          <Tabs
+            items={FOLDERS.map((name) => ({ key: name, label: t(`message.folders.${name}`) }))}
+            activeKey={folder}
+            onChange={(key) => {
+              setFolder(key as MessageFolder)
+              setPage(1)
+            }}
+            variant="default"
+          />
+        }
+      >
         <div className="card-body pb-0">
           <SearchBar
             value={search}
@@ -212,46 +191,41 @@ export default function MessageListPage() {
             }}
             placeholder={t('message.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ minWidth: 220 }}>
               <label htmlFor="message-type-filter" className="visually-hidden">
                 {t('message.filters.messageType')}
               </label>
-              <select
+              <Select<MessageType>
                 id="message-type-filter"
-                className="form-select"
-                style={{ minWidth: 220 }}
+                options={MESSAGE_TYPES.map((value) => ({
+                  value,
+                  label: t(`enums.messageType.${value}`),
+                }))}
                 value={messageType}
-                onChange={(event) => {
-                  setMessageType(event.target.value)
+                placeholder={t('message.filters.allTypes')}
+                onChange={(value) => {
+                  setMessageType(value)
                   setPage(1)
                 }}
-              >
-                <option value="">{t('message.filters.allTypes')}</option>
-                {MESSAGE_TYPES.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.messageType.${value}`)}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
-            <div>
+            <div style={{ minWidth: 170 }}>
               <label htmlFor="message-read-filter" className="visually-hidden">
                 {t('message.filters.readState')}
               </label>
-              <select
+              <Select
                 id="message-read-filter"
-                className="form-select"
-                style={{ minWidth: 170 }}
-                value={isRead}
-                onChange={(event) => {
-                  setIsRead(event.target.value)
+                options={[
+                  { value: 'false', label: t('message.list.unread') },
+                  { value: 'true', label: t('message.list.read') },
+                ]}
+                value={isRead === '' ? null : isRead}
+                placeholder={t('common.all')}
+                onChange={(value) => {
+                  setIsRead(value ?? '')
                   setPage(1)
                 }}
-              >
-                <option value="">{t('common.all')}</option>
-                <option value="false">{t('message.list.unread')}</option>
-                <option value="true">{t('message.list.read')}</option>
-              </select>
+              />
             </div>
           </SearchBar>
         </div>
@@ -278,7 +252,7 @@ export default function MessageListPage() {
             />
           </div>
         )}
-      </div>
+      </Card>
 
       <ComposeModal isOpen={isComposeOpen} onClose={() => setIsComposeOpen(false)} />
 
@@ -332,10 +306,10 @@ export default function MessageListPage() {
 function ComposeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const { t } = useTranslation()
 
-  const [recipientId, setRecipientId] = useState('')
+  const [recipientId, setRecipientId] = useState<number | null>(null)
   const [content, setContent] = useState('')
   const [messageType, setMessageType] = useState<MessageType>(MessageType.UserMessage)
-  const [companyId, setCompanyId] = useState('')
+  const [companyId, setCompanyId] = useState<number | null>(null)
   const [errors, setErrors] = useState<{ recipientId?: string; content?: string }>({})
 
   const users = useUserLookup()
@@ -344,10 +318,10 @@ function ComposeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
 
   useEffect(() => {
     if (!isOpen) return
-    setRecipientId('')
+    setRecipientId(null)
     setContent('')
     setMessageType(MessageType.UserMessage)
-    setCompanyId('')
+    setCompanyId(null)
     setErrors({})
   }, [isOpen])
 
@@ -360,10 +334,10 @@ function ComposeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
     if (Object.keys(nextErrors).length) return
 
     const input: SendMessageDto = {
-      recipientId: Number(recipientId),
+      recipientId: recipientId as number,
       content: content.trim(),
       messageType,
-      companyId: companyId ? Number(companyId) : null,
+      companyId,
     }
     send.mutate(input)
   }
@@ -380,82 +354,56 @@ function ComposeModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Select<number>
+          id="compose-recipient"
           label={t('message.fields.recipient')}
-          htmlFor="compose-recipient"
           required
           error={errors.recipientId}
           className="col-md-6"
-        >
-          <select
-            id="compose-recipient"
-            className={controlClass('form-select', errors.recipientId)}
-            value={recipientId}
-            onChange={(event) => setRecipientId(event.target.value)}
-          >
-            <option value="">{t('message.compose.selectRecipient')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('message.compose.selectRecipient')}
+          options={(users.data?.items ?? []).map((user) => ({
+            value: user.id,
+            label: user.displayName,
+          }))}
+          value={recipientId}
+          onChange={setRecipientId}
+        />
 
-        <Field
+        <Select<MessageType>
+          id="compose-type"
           label={t('message.fields.messageType')}
-          htmlFor="compose-type"
           className="col-md-6"
-        >
-          <select
-            id="compose-type"
-            className="form-select"
-            value={messageType}
-            onChange={(event) => setMessageType(Number(event.target.value))}
-          >
-            {MESSAGE_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.messageType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={MESSAGE_TYPES.map((value) => ({
+            value,
+            label: t(`enums.messageType.${value}`),
+          }))}
+          value={messageType}
+          onChange={(value) => setMessageType(value ?? messageType)}
+        />
 
-        <Field
+        <Select<number>
+          id="compose-company"
           label={t('message.fields.company')}
-          htmlFor="compose-company"
-          hint={t('message.compose.companyHint')}
-        >
-          <select
-            id="compose-company"
-            className="form-select"
-            value={companyId}
-            onChange={(event) => setCompanyId(event.target.value)}
-          >
-            <option value="">{t('message.compose.noCompany')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          helpText={t('message.compose.companyHint')}
+          placeholder={t('message.compose.noCompany')}
+          options={(companies.data?.items ?? []).map((company) => ({
+            value: company.id,
+            label: company.displayName,
+          }))}
+          value={companyId}
+          onChange={setCompanyId}
+        />
 
-        <Field
+        <TextArea
+          id="compose-content"
           label={t('message.fields.content')}
-          htmlFor="compose-content"
           required
           error={errors.content}
-        >
-          <textarea
-            id="compose-content"
-            className={controlClass('form-control', errors.content)}
-            rows={6}
-            maxLength={4000}
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-          />
-        </Field>
+          rows={6}
+          maxLength={4000}
+          value={content}
+          onChange={setContent}
+        />
       </div>
     </Modal>
   )

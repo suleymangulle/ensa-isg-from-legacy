@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Card, Select } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Pagination, type Column } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { InvoiceType } from '@/api/enums'
@@ -86,9 +87,9 @@ export default function CompanyBalancePage() {
       key: 'invoiceType',
       header: t('finance.invoice.fields.invoiceType'),
       render: (row) => (
-        <span className={INVOICE_TYPE_BADGE[row.invoiceType]}>
+        <Badge variant={INVOICE_TYPE_BADGE[row.invoiceType]}>
           {t(`enums.invoiceType.${row.invoiceType}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -123,32 +124,26 @@ export default function CompanyBalancePage() {
         description={t('finance.balance.description')}
       />
 
-      <div className="card">
-        <div className="card-body">
+      <Card>
           <div className="row g-3 align-items-end">
             <div className="col-md-5">
-              <label htmlFor="balance-company" className="form-label fw-semibold">
-                {t('finance.balance.companyLabel')}
-              </label>
-              <select
+              <Select<string>
                 id="balance-company"
-                className="form-select"
-                value={companyId}
-                disabled={companies.isLoading}
-                onChange={(event) => {
-                  setCompanyId(event.target.value)
+                label={t('finance.balance.companyLabel')}
+                loading={companies.isLoading}
+                placeholder={t('finance.common.selectCompany')}
+                value={companyId || null}
+                options={
+                  companies.data?.items.map((item) => ({
+                    value: String(item.id),
+                    label: item.displayName,
+                  })) ?? []
+                }
+                onChange={(next) => {
+                  setCompanyId(next ?? '')
                   setPage(1)
                 }}
-              >
-                <option value="">
-                  {companies.isLoading ? t('common.loading') : t('finance.common.selectCompany')}
-                </option>
-                {companies.data?.items.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.displayName}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
 
             {selectedId && (
@@ -181,84 +176,86 @@ export default function CompanyBalancePage() {
               {t('finance.balance.signHint')}
             </p>
           )}
-        </div>
-      </div>
+        
+      </Card>
 
       {!selectedId ? (
-        <div className="card mt-4">
-          <div className="card-body text-center py-5">
+        <Card className="mt-4">
+          <div className="text-center py-5">
             <EmptyHint message={t('finance.balance.pickCompany')} />
           </div>
-        </div>
+        </Card>
       ) : (
-        <div className="card mt-4">
-          <div className="card-header border-0 pt-4 pb-0">
-            <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-              <h2 className="h6 fw-semibold mb-0 me-auto" style={{ color: 'var(--kt-gray-900)' }}>
-                {t('finance.balance.movementsSection', { company: selectedName })}
-              </h2>
+        <Card
+          className="mt-4"
+          header={
+            <div className="border-0 pt-4 pb-0">
+              <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <h2 className="h6 fw-semibold mb-0 me-auto" style={{ color: 'var(--kt-gray-900)' }}>
+                  {t('finance.balance.movementsSection', { company: selectedName })}
+                </h2>
 
-              <FilterSelect
-                id="balance-filter-type"
-                label={t('finance.invoice.fields.invoiceType')}
-                value={invoiceType}
-                onChange={(next) => {
-                  setInvoiceType(next)
-                  setPage(1)
-                }}
-              >
-                <option value="">{t('finance.invoice.filters.allTypes')}</option>
-                {enumValues(InvoiceType).map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.invoiceType.${value}`)}
-                  </option>
-                ))}
-              </FilterSelect>
+                <FilterSelect
+                  id="balance-filter-type"
+                  label={t('finance.invoice.fields.invoiceType')}
+                  value={invoiceType}
+                  onChange={(next) => {
+                    setInvoiceType(next)
+                    setPage(1)
+                  }}
+                >
+                  <option value="">{t('finance.invoice.filters.allTypes')}</option>
+                  {enumValues(InvoiceType).map((value) => (
+                    <option key={value} value={value}>
+                      {t(`enums.invoiceType.${value}`)}
+                    </option>
+                  ))}
+                </FilterSelect>
 
-              <FilterDate
-                id="balance-filter-start"
-                label={t('finance.common.startDate')}
-                value={startDate}
-                onChange={(next) => {
-                  setStartDate(next)
-                  setPage(1)
-                }}
-              />
-              <FilterDate
-                id="balance-filter-end"
-                label={t('finance.common.endDate')}
-                value={endDate}
-                onChange={(next) => {
-                  setEndDate(next)
-                  setPage(1)
-                }}
-              />
+                <FilterDate
+                  id="balance-filter-start"
+                  label={t('finance.common.startDate')}
+                  value={startDate}
+                  onChange={(next) => {
+                    setStartDate(next)
+                    setPage(1)
+                  }}
+                />
+                <FilterDate
+                  id="balance-filter-end"
+                  label={t('finance.common.endDate')}
+                  value={endDate}
+                  onChange={(next) => {
+                    setEndDate(next)
+                    setPage(1)
+                  }}
+                />
+              </div>
             </div>
-          </div>
-
-          <div className="card-body p-0">
-            <DataTable
-              label={t('finance.balance.movementsLabel')}
-              columns={columns}
-              rows={invoices.data?.items}
-              rowKey={(row) => row.id}
-              isLoading={invoices.isLoading}
-              error={invoices.error ? errorMessage(invoices.error) : null}
-              emptyMessage={t('finance.balance.noMovements')}
-            />
-          </div>
-
-          {invoices.data && invoices.data.totalCount > 0 && (
-            <div className="card-footer bg-transparent border-0 pt-0">
-              <Pagination
-                total={invoices.data.totalCount}
-                page={page}
-                pageSize={PAGE_SIZE}
-                onPageChange={setPage}
-              />
-            </div>
-          )}
-        </div>
+          }
+          footer={
+            invoices.data && invoices.data.totalCount > 0 ? (
+              <div className="bg-transparent border-0 pt-0">
+                <Pagination
+                  total={invoices.data.totalCount}
+                  page={page}
+                  pageSize={PAGE_SIZE}
+                  onPageChange={setPage}
+                />
+              </div>
+            ) : undefined
+          }
+        >
+          <DataTable
+            label={t('finance.balance.movementsLabel')}
+            columns={columns}
+            rows={invoices.data?.items}
+            rowKey={(row) => row.id}
+            isLoading={invoices.isLoading}
+            error={invoices.error ? errorMessage(invoices.error) : null}
+            emptyMessage={t('finance.balance.noMovements')}
+          />
+        </Card>
       )}
     </>
   )

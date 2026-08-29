@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Button, Card } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { ConfirmDialog } from '@/components/Form'
@@ -126,13 +127,11 @@ export default function ActivityReportDetailPage() {
         action={
           <div className="d-flex gap-2">
             <PrintButton />
-            <button
-              type="button"
-              className="btn btn-light-primary d-print-none"
+            <Button variant="light" className="d-print-none"
               onClick={() => setIsEditing(true)}
             >
               {t('common.edit')}
-            </button>
+            </Button>
           </div>
         }
       />
@@ -147,13 +146,15 @@ export default function ActivityReportDetailPage() {
         })}
       />
 
-      <div className="card mb-4">
-        <div className="card-header">
+      <Card
+        className="mb-4"
+        header={
           <h2 className="card-title h6 mb-0 report-print-heading">
             {t('reports.activity.detail.headerTitle')}
           </h2>
-        </div>
-        <div className="card-body">
+        
+        }
+      >
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('reports.activity.fields.reportName')}>{report.reportName}</Term>
             <Term label={t('reports.activity.fields.company')}>{companyName}</Term>
@@ -170,23 +171,25 @@ export default function ActivityReportDetailPage() {
               {formatNumber(detail.data.lines.length)}
             </Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <Card
+        
+        header={
+        <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
           <h2 className="card-title h6 mb-0 report-print-heading">
             {t('reports.activity.detail.linesTitle')}
           </h2>
-          <button
-            type="button"
-            className="btn btn-sm btn-primary d-print-none"
+          <Button variant="primary" size="sm" className="d-print-none"
             onClick={() => setIsAddingLine(true)}
           >
             {t('reports.activity.detail.addLine')}
-          </button>
+          </Button>
+        
         </div>
-        <div className="card-body p-0">
+        }
+      >
           <DataTable
             label={t('reports.activity.detail.linesTitle')}
             columns={columns}
@@ -194,8 +197,8 @@ export default function ActivityReportDetailPage() {
             rowKey={(line) => line.id}
             emptyMessage={t('reports.activity.detail.emptyLines')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditing && (
         <ActivityReportFormModal report={report} onClose={() => setIsEditing(false)} />

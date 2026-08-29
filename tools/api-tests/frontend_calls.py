@@ -107,6 +107,8 @@ def main():
     unknown = []
     wrong_method = []
 
+    double_prefixed = []
+
     for file_path in source_files():
         source = io.open(file_path, encoding="utf-8").read()
         constants = {}
@@ -123,8 +125,14 @@ def main():
             if not path.startswith("/"):
                 continue
 
-            # http.ts baseURL'i '/api' — kaynak icindeki yollar onun uzerine biner.
-            full = "/api" + path if not path.startswith("/api") else path
+            # http.ts baseURL'i '/api' ve axios onu her yolun onune ekler. Kaynakta '/api' ile
+            # baslayan bir yol bu yuzden ikinci bir onek demektir -- '/api/api/...' -- ve bu
+            # satir onceden onu sessizce duzeltiyordu, yani tam da yakalamasi gereken hatayi
+            # gormezden geliyordu. Bir surum boyunca yetki listesi bos dondu ve menu tek satira
+            # dustu; kimse fark etmedi, cunku cagri sitesi tek basina dogru gorunuyor.
+            if path.startswith("/api/"):
+                double_prefixed.append((file_path.replace("\\", "/"), method.upper(), raw))
+            full = "/api" + path
             checked += 1
 
             # Kaynak adinin kendisi degiskense (ör. `/${resource}/${id}`) bu genel bir
@@ -145,6 +153,12 @@ def main():
     print("  dogrulanan cagri        : %d" % checked)
     print("  API'de bulunamayan yol  : %d" % len(unknown))
     print("  yanlis HTTP metodu      : %d" % len(wrong_method))
+    print("  cift '/api' oneki       : %d" % len(double_prefixed))
+
+    if double_prefixed:
+        print("\n-- CIFT '/api' ONEKI (baseURL zaten ekliyor) --")
+        for where, method, raw in double_prefixed:
+            print("  %-52s %-6s %s" % (where, method, raw))
 
     if unknown:
         print("\n-- BULUNAMAYAN --")
@@ -157,7 +171,7 @@ def main():
         for file_path, method, full, allowed in wrong_method:
             print("  %-6s %-52s izinli: %s  (%s)" % (method, full, ", ".join(allowed), file_path))
 
-    return 1 if (unknown or wrong_method) else 0
+    return 1 if (unknown or wrong_method or double_prefixed) else 0
 
 
 if __name__ == "__main__":

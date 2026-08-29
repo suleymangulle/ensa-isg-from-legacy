@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import { Button, Input, Select, type BadgeVariant } from 'rich-react-component'
 import type { LookupDto } from '@/api/endpoints'
 import { CashTransactionType, InvoiceType } from '@/api/enums'
-import { Field, controlClass } from '@/components/Form'
 import { formatMoney } from '@/utils/format'
 
 /**
@@ -15,18 +15,18 @@ import { formatMoney } from '@/utils/format'
  */
 
 /** Sale reads as money in, purchase and the two return types as money out. */
-export const INVOICE_TYPE_BADGE: Record<InvoiceType, string> = {
-  [InvoiceType.Sale]: 'badge-light-success',
-  [InvoiceType.Purchase]: 'badge-light-info',
-  [InvoiceType.SaleReturn]: 'badge-light-warning',
-  [InvoiceType.PurchaseReturn]: 'badge-light-warning',
+export const INVOICE_TYPE_BADGE: Record<InvoiceType, BadgeVariant> = {
+  [InvoiceType.Sale]: 'success',
+  [InvoiceType.Purchase]: 'info',
+  [InvoiceType.SaleReturn]: 'warning',
+  [InvoiceType.PurchaseReturn]: 'warning',
 }
 
 /** Inflow green, outflow red, carry-over neutral — the direction has to read at a glance. */
-export const CASH_TRANSACTION_TYPE_BADGE: Record<CashTransactionType, string> = {
-  [CashTransactionType.Inflow]: 'badge-light-success',
-  [CashTransactionType.Outflow]: 'badge-light-danger',
-  [CashTransactionType.CarryOver]: 'badge-light-primary',
+export const CASH_TRANSACTION_TYPE_BADGE: Record<CashTransactionType, BadgeVariant> = {
+  [CashTransactionType.Inflow]: 'success',
+  [CashTransactionType.Outflow]: 'danger',
+  [CashTransactionType.CarryOver]: 'primary',
 }
 
 /** Text colour for a signed amount: inflow green, outflow red. */
@@ -171,34 +171,30 @@ export function RowActions({
   return (
     <div className="d-flex justify-content-end gap-1">
       {onEdit && (
-        <button
-          type="button"
-          className="btn btn-sm btn-light-primary"
+        <Button variant="light" size="sm" 
           aria-label={editLabel}
           title={editLabel}
           disabled={disabled}
           onClick={onEdit}
         >
           <span aria-hidden="true">✎</span>
-        </button>
+        </Button>
       )}
       {onDelete && (
-        <button
-          type="button"
-          className="btn btn-sm btn-light-danger"
+        <Button variant="light" size="sm" 
           aria-label={deleteLabel}
           title={deleteLabel}
           disabled={disabled}
           onClick={onDelete}
         >
           <span aria-hidden="true">🗑</span>
-        </button>
+        </Button>
       )}
     </div>
   )
 }
 
-/** A `<select>` bound to a lookup list, wrapped in the shared `Field`. */
+/** A `<select>` bound to a lookup list. */
 export function LookupField({
   id,
   label,
@@ -226,33 +222,21 @@ export function LookupField({
   disabled?: boolean
   className?: string
 }) {
-  const { t } = useTranslation()
-
   return (
-    <Field
+    <Select<number>
+      id={id}
       label={label}
-      htmlFor={id}
       required={required}
       error={error}
-      hint={hint}
-      className={className}
-    >
-      <select
-        id={id}
-        className={controlClass('form-select', error)}
-        value={value ?? ''}
-        disabled={disabled || isLoading}
-        aria-invalid={error ? true : undefined}
-        onChange={(event) => onChange(event.target.value ? Number(event.target.value) : undefined)}
-      >
-        <option value="">{isLoading ? t('common.loading') : placeholder}</option>
-        {items?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.displayName}
-          </option>
-        ))}
-      </select>
-    </Field>
+      helpText={hint}
+      className={className ?? 'col-12'}
+      disabled={disabled}
+      loading={isLoading}
+      placeholder={placeholder}
+      value={value ?? null}
+      options={items?.map((item) => ({ value: item.id, label: item.displayName })) ?? []}
+      onChange={(next) => onChange(next ?? undefined)}
+    />
   )
 }
 
@@ -286,25 +270,18 @@ export function EnumField({
   const { t } = useTranslation()
 
   return (
-    <Field label={label} htmlFor={id} required={required} error={error} className={className}>
-      <select
-        id={id}
-        className={controlClass('form-select', error)}
-        value={value ?? ''}
-        disabled={disabled}
-        aria-invalid={error ? true : undefined}
-        onChange={(event) =>
-          onChange(event.target.value === '' ? undefined : Number(event.target.value))
-        }
-      >
-        {placeholder !== undefined && <option value="">{placeholder}</option>}
-        {values.map((item) => (
-          <option key={item} value={item}>
-            {t(`${translationPrefix}.${item}`)}
-          </option>
-        ))}
-      </select>
-    </Field>
+    <Select<number>
+      id={id}
+      label={label}
+      required={required}
+      error={error}
+      className={className ?? 'col-12'}
+      disabled={disabled}
+      placeholder={placeholder}
+      value={value ?? null}
+      options={values.map((item) => ({ value: item, label: t(`${translationPrefix}.${item}`) }))}
+      onChange={(next) => onChange(next ?? undefined)}
+    />
   )
 }
 
@@ -359,14 +336,11 @@ export function FilterDate({
       <label htmlFor={id} className="visually-hidden">
         {label}
       </label>
-      <input
+      <Input
         id={id}
-        type="date"
-        className="form-control"
         value={value}
-        aria-label={label}
-        title={label}
-        onChange={(event) => onChange(event.target.value)}
+        inputProps={{ type: 'date', 'aria-label': label, title: label }}
+        onChange={onChange}
       />
     </div>
   )

@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Card, Skeleton, Statistic } from 'rich-react-component'
 import { useAuth } from '@/auth/AuthContext'
-import { PageTitle, Spinner } from '@/components/DataTable'
+import { PageTitle } from '@/components/DataTable'
 import { http, errorMessage, type ListResult, type PagedResult } from '@/api/http'
 import { formatNumber } from '@/utils/format'
 
@@ -13,6 +14,10 @@ import { formatNumber } from '@/utils/format'
  * three "attention" counters are the ones that turn into findings during an inspection. Every
  * figure is read from the API — nothing is computed in the browser — and each links to the screen
  * where the work is actually done.
+ *
+ * The tiles are `rich-react-component`'s `Card` + `Statistic`, so the loading placeholder, the
+ * label/value hierarchy and the card chrome are the library's rather than three more variations
+ * of them written here.
  */
 
 /** Counts a paged endpoint without transferring its rows. */
@@ -55,9 +60,9 @@ function MetricCard({ metric }: { metric: Metric }) {
 
   return (
     <div className="col-12 col-sm-6 col-xl-3">
-      <Link to={metric.to} className="text-decoration-none">
-        <div className="card h-100">
-          <div className="card-body d-flex align-items-center gap-3">
+      <Link to={metric.to} className="text-decoration-none d-block h-100">
+        <Card className="h-100">
+          <div className="d-flex align-items-center gap-3">
             <span
               className="d-inline-flex align-items-center justify-content-center flex-shrink-0"
               style={{
@@ -72,23 +77,14 @@ function MetricCard({ metric }: { metric: Metric }) {
             >
               {metric.icon}
             </span>
-            <div className="min-w-0">
-              <div
-                className="fw-bold"
-                style={{ fontSize: '1.75rem', color: 'var(--kt-gray-900)', lineHeight: 1.2 }}
-              >
-                {metric.isLoading
-                  ? '…'
-                  : metric.error
-                    ? '—'
-                    : (formatNumber(metric.value) ?? '—')}
-              </div>
-              <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>
-                {t(metric.labelKey)}
-              </div>
-            </div>
+            <Statistic
+              className="min-w-0"
+              label={t(metric.labelKey)}
+              value={metric.error ? t('common.none') : (formatNumber(metric.value) ?? t('common.none'))}
+              loading={metric.isLoading}
+            />
           </div>
-        </div>
+        </Card>
       </Link>
     </div>
   )
@@ -177,8 +173,6 @@ export default function DashboardPage() {
     },
   ]
 
-  const attentionLoading = attention.some((item) => item.query.isLoading)
-
   return (
     <>
       <PageTitle
@@ -194,95 +188,90 @@ export default function DashboardPage() {
 
       <div className="row g-4">
         <div className="col-12 col-xl-7">
-          <div className="card h-100">
-            <div className="card-header">
-              <h2 className="card-title h6">{t('dashboard.attention.title')}</h2>
-            </div>
-            <div className="card-body">
-              {attentionLoading ? (
-                <Spinner />
-              ) : (
-                <ul className="list-unstyled mb-0">
-                  {attention.map((item) => {
-                    const count = item.query.data ?? 0
-                    const failed = Boolean(item.query.error)
+          <Card title={t('dashboard.attention.title')} className="h-100">
+            <ul className="list-unstyled mb-0">
+              {attention.map((item) => {
+                const count = item.query.data ?? 0
+                const failed = Boolean(item.query.error)
 
-                    return (
-                      <li
-                        key={item.key}
-                        className="d-flex align-items-start gap-3 py-3"
-                        style={{ borderTop: '1px solid var(--kt-gray-200)' }}
+                return (
+                  <li
+                    key={item.key}
+                    className="d-flex align-items-start gap-3 py-3"
+                    style={{ borderTop: '1px solid var(--kt-gray-200)' }}
+                  >
+                    {item.query.isLoading ? (
+                      <span
+                        className="flex-shrink-0"
+                        role="status"
+                        aria-label={t('common.loading')}
                       >
-                        <span
-                          className="d-inline-flex align-items-center justify-content-center fw-bold flex-shrink-0"
-                          style={{
-                            minWidth: 44,
-                            height: 32,
-                            borderRadius: 8,
-                            padding: '0 8px',
-                            backgroundColor:
-                              count > 0 ? 'var(--kt-danger-light)' : 'var(--kt-success-light)',
-                            color: count > 0 ? 'var(--kt-danger)' : 'var(--kt-success)',
-                          }}
-                        >
-                          {failed ? '—' : (formatNumber(count) ?? '0')}
-                        </span>
-                        <div className="min-w-0">
-                          <Link to={item.to} className="fw-semibold text-decoration-none">
-                            {t(item.labelKey)}
-                          </Link>
-                          <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>
-                            {failed
-                              ? errorMessage(item.query.error)
-                              : t(item.descriptionKey)}
-                          </div>
-                        </div>
-                      </li>
-                    )
-                  })}
-                </ul>
-              )}
-            </div>
-          </div>
+                        <Skeleton width="44px" height="32px" />
+                      </span>
+                    ) : (
+                      <span
+                        className="d-inline-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                        style={{
+                          minWidth: 44,
+                          height: 32,
+                          borderRadius: 8,
+                          padding: '0 8px',
+                          backgroundColor:
+                            count > 0 ? 'var(--kt-danger-light)' : 'var(--kt-success-light)',
+                          color: count > 0 ? 'var(--kt-danger)' : 'var(--kt-success)',
+                        }}
+                      >
+                        {failed ? t('common.none') : (formatNumber(count) ?? '0')}
+                      </span>
+                    )}
+
+                    <div className="min-w-0">
+                      <Link to={item.to} className="fw-semibold text-decoration-none">
+                        {t(item.labelKey)}
+                      </Link>
+                      <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.875rem' }}>
+                        {failed ? errorMessage(item.query.error) : t(item.descriptionKey)}
+                      </div>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+          </Card>
         </div>
 
         <div className="col-12 col-xl-5">
-          <div className="card h-100">
-            <div className="card-header">
-              <h2 className="card-title h6">{t('dashboard.session.title')}</h2>
-            </div>
-            <div className="card-body">
-              <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
-                <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
-                  {t('dashboard.session.userName')}
-                </dt>
-                <dd className="col-7 fw-semibold">{user?.userName}</dd>
+          <Card title={t('dashboard.session.title')} className="h-100">
+            <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
+              <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
+                {t('dashboard.session.userName')}
+              </dt>
+              <dd className="col-7 fw-semibold">{user?.userName}</dd>
 
-                <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
-                  {t('dashboard.session.tenant')}
-                </dt>
-                <dd className="col-7 fw-semibold">{user?.tenantId ?? t('common.host')}</dd>
+              <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
+                {t('dashboard.session.tenant')}
+              </dt>
+              <dd className="col-7 fw-semibold">{user?.tenantId ?? t('common.host')}</dd>
 
-                <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
-                  {t('dashboard.session.roles')}
-                </dt>
-                <dd className="col-7">
-                  {user?.roles.length
-                    ? user.roles.map((role) => (
-                        <span key={role} className="badge badge-light-primary me-1 mb-1">
-                          {role}
-                        </span>
-                      ))
-                    : t('common.none')}
-                </dd>
+              <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
+                {t('dashboard.session.roles')}
+              </dt>
+              <dd className="col-7 d-flex flex-wrap gap-1">
+                {user?.roles.length
+                  ? user.roles.map((role) => (
+                      <Badge key={role} variant="primary" pill>
+                        {role}
+                      </Badge>
+                    ))
+                  : t('common.none')}
+              </dd>
 
-                <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
-                  {t('dashboard.session.permissionCount')}
-                </dt>
-                <dd className="col-7 fw-semibold">{user?.permissions.length ?? 0}</dd>
-              </dl>
-            </div>
-          </div>
+              <dt className="col-5" style={{ color: 'var(--kt-gray-500)', fontWeight: 500 }}>
+                {t('dashboard.session.permissionCount')}
+              </dt>
+              <dd className="col-7 fw-semibold">{user?.permissions.length ?? 0}</dd>
+            </dl>
+          </Card>
         </div>
       </div>
     </>

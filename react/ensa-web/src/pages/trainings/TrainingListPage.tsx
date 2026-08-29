@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -88,10 +89,10 @@ export default function TrainingListPage() {
       render: (training) => (
         <span className="d-inline-flex flex-wrap gap-1">
           {training.mandatoryTraining && (
-            <span className="badge-light-danger">{t('training.flags.mandatory')}</span>
+            <Badge variant="danger">{t('training.flags.mandatory')}</Badge>
           )}
           {training.defaultTraining && (
-            <span className="badge-light-info">{t('training.flags.default')}</span>
+            <Badge variant="info">{t('training.flags.default')}</Badge>
           )}
           {!training.mandatoryTraining && !training.defaultTraining && t('common.none')}
         </span>
@@ -102,9 +103,9 @@ export default function TrainingListPage() {
       header: t('training.fields.status'),
       align: 'center',
       render: (training) => (
-        <span className={training.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={training.isActive ? 'success' : 'danger'}>
           {training.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -114,22 +115,18 @@ export default function TrainingListPage() {
       width: '120px',
       render: (training) => (
         <div className="d-flex justify-content-end gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => setEditingId(training.id)}
             aria-label={t('training.list.editAria', { name: training.trainingName })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(training)}
             aria-label={t('training.list.deleteAria', { name: training.trainingName })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -141,14 +138,15 @@ export default function TrainingListPage() {
         title={t('training.list.title')}
         description={t('training.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('training.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetToFirstPage(setSearch)}
@@ -158,72 +156,56 @@ export default function TrainingListPage() {
               <label htmlFor="training-type-filter" className="visually-hidden">
                 {t('training.fields.trainingType')}
               </label>
-              <select
+              <Select
                 id="training-type-filter"
-                className="form-select"
-                value={trainingType ?? ''}
-                onChange={(event) =>
-                  resetToFirstPage(setTrainingType)(
-                    event.target.value === '' ? null : (Number(event.target.value) as TrainingType),
-                  )
-                }
-              >
-                <option value="">{t('training.list.allTypes')}</option>
-                {TRAINING_TYPES.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.trainingType.${value}`)}
-                  </option>
-                ))}
-              </select>
+                options={TRAINING_TYPES.map((value) => ({
+                  value,
+                  label: t(`enums.trainingType.${value}`),
+                }))}
+                value={trainingType}
+                onChange={resetToFirstPage(setTrainingType)}
+                placeholder={t('training.list.allTypes')}
+              />
             </div>
             <div>
               <label htmlFor="training-group-filter" className="visually-hidden">
                 {t('training.fields.topicGroup')}
               </label>
-              <select
+              <Select
                 id="training-group-filter"
-                className="form-select"
-                value={topicGroup ?? ''}
-                onChange={(event) =>
-                  resetToFirstPage(setTopicGroup)(
-                    event.target.value === ''
-                      ? null
-                      : (Number(event.target.value) as TrainingSubjectGroup),
-                  )
-                }
-              >
-                <option value="">{t('training.list.allGroups')}</option>
-                {TRAINING_SUBJECT_GROUPS.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.trainingSubjectGroup.${value}`)}
-                  </option>
-                ))}
-              </select>
+                options={TRAINING_SUBJECT_GROUPS.map((value) => ({
+                  value,
+                  label: t(`enums.trainingSubjectGroup.${value}`),
+                }))}
+                value={topicGroup}
+                onChange={resetToFirstPage(setTopicGroup)}
+                placeholder={t('training.list.allGroups')}
+              />
             </div>
           </SearchBar>
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('training.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(training) => training.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('training.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('training.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(training) => training.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('training.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <TrainingFormModal isOpen onClose={() => setCreateOpen(false)} />}
 

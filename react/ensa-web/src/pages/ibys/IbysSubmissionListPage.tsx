@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Card, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { SearchBar } from '@/components/Form'
 import { useLookup } from '@/api/endpoints'
@@ -112,9 +113,9 @@ export default function IbysSubmissionListPage() {
       header: t('ibys.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={IBYS_STATUS_BADGE[row.status]}>
+        <Badge variant={IBYS_STATUS_BADGE[row.status]}>
           {t(`enums.ibysSubmissionStatus.${row.status}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -125,7 +126,7 @@ export default function IbysSubmissionListPage() {
       render: (row) => (
         <Link
           to={`/ibys/${row.id}`}
-          className="btn btn-sm btn-icon btn-light"
+          className="btn btn-sm btn-light"
           aria-label={t('ibys.list.openDetail', { queryNo: row.queryNo ?? String(row.id) })}
         >
           <span aria-hidden="true">→</span>
@@ -140,8 +141,9 @@ export default function IbysSubmissionListPage() {
 
       <PendingQueue />
 
-      <div className="card">
-        <div className="card-header d-block py-4">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetPaging(setSearch)}
@@ -178,61 +180,53 @@ export default function IbysSubmissionListPage() {
                   label: item.displayName,
                 }))}
               />
-              <div>
+              <div style={{ minWidth: 150 }}>
                 <label htmlFor="ibys-filter-from" className="visually-hidden">
                   {t('ibys.filters.dateFrom')}
                 </label>
-                <input
+                <Input
                   id="ibys-filter-from"
-                  type="date"
-                  className="form-control form-control-sm"
-                  style={{ minWidth: 150 }}
-                  title={t('ibys.filters.dateFrom')}
                   value={dateFrom}
-                  onChange={(event) => resetPaging(setDateFrom)(event.target.value)}
+                  onChange={resetPaging(setDateFrom)}
+                  inputProps={{ type: 'date', title: t('ibys.filters.dateFrom') }}
                 />
               </div>
-              <div>
+              <div style={{ minWidth: 150 }}>
                 <label htmlFor="ibys-filter-to" className="visually-hidden">
                   {t('ibys.filters.dateTo')}
                 </label>
-                <input
+                <Input
                   id="ibys-filter-to"
-                  type="date"
-                  className="form-control form-control-sm"
-                  style={{ minWidth: 150 }}
-                  title={t('ibys.filters.dateTo')}
                   value={dateTo}
-                  onChange={(event) => resetPaging(setDateTo)(event.target.value)}
+                  onChange={resetPaging(setDateTo)}
+                  inputProps={{ type: 'date', title: t('ibys.filters.dateTo') }}
                 />
               </div>
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('ibys.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('ibys.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('ibys.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('ibys.list.empty')}
+        />
+      </Card>
     </>
   )
 }
@@ -247,32 +241,31 @@ function PendingQueue() {
   const { data, isLoading, error } = usePendingIbysQueries(type)
 
   return (
-    <div className="card mb-4">
-      <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <Card
+      className="mb-4"
+      header={
+      <div className="d-flex flex-wrap align-items-center justify-content-between gap-2">
         <h2 className="h6 fw-bold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
           {t('ibys.pending.title')}
         </h2>
-        <div>
+        <div style={{ minWidth: 200 }}>
           <label htmlFor="ibys-pending-type" className="visually-hidden">
             {t('ibys.pending.typeLabel')}
           </label>
-          <select
+          <Select
             id="ibys-pending-type"
-            className="form-select form-select-sm"
-            style={{ minWidth: 200 }}
+            options={IBYS_QUERY_TYPES.map((item) => ({
+              value: item,
+              label: t(`enums.ibysQueryType.${item}`),
+            }))}
             value={type}
-            onChange={(event) => setType(Number(event.target.value))}
-          >
-            {IBYS_QUERY_TYPES.map((item) => (
-              <option key={item} value={item}>
-                {t(`enums.ibysQueryType.${item}`)}
-              </option>
-            ))}
-          </select>
+            onChange={(value) => setType(value ?? IbysQueryType.HealthReport)}
+          />
         </div>
+      
       </div>
-
-      <div className="card-body">
+      }
+    >
         {isLoading ? (
           <p className="mb-0" style={{ color: 'var(--kt-gray-500)' }}>
             {t('common.loading')}
@@ -289,19 +282,21 @@ function PendingQueue() {
           <ul className="list-unstyled mb-0 d-flex flex-wrap gap-2">
             {data.items.map((row) => (
               <li key={row.id}>
-                <Link to={`/ibys/${row.id}`} className="badge-light-warning text-decoration-none">
-                  {row.queryNo ?? t('ibys.list.noQueryNo')}
-                  {' · '}
-                  {row.companyName ?? t('common.none')}
-                  {' · '}
-                  {formatDate(row.submissionDate) ?? t('common.none')}
+                <Link to={`/ibys/${row.id}`} className="text-decoration-none">
+                  <Badge variant="warning">
+                    {row.queryNo ?? t('ibys.list.noQueryNo')}
+                    {' · '}
+                    {row.companyName ?? t('common.none')}
+                    {' · '}
+                    {formatDate(row.submissionDate) ?? t('common.none')}
+                  </Badge>
                 </Link>
               </li>
             ))}
           </ul>
         )}
-      </div>
-    </div>
+      
+    </Card>
   )
 }
 
@@ -322,24 +317,17 @@ function FilterSelect({
   const { t } = useTranslation()
 
   return (
-    <div>
+    <div style={{ minWidth: 170 }}>
       <label htmlFor={id} className="visually-hidden">
         {label}
       </label>
-      <select
+      <Select
         id={id}
-        className="form-select form-select-sm"
-        style={{ minWidth: 170 }}
-        value={value}
-        onChange={(event) => onChange(event.target.value === '' ? '' : Number(event.target.value))}
-      >
-        <option value="">{t('common.all')} — {label}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+        options={options}
+        value={value === '' ? null : value}
+        onChange={(next) => onChange(next ?? '')}
+        placeholder={`${t('common.all')} — ${label}`}
+      />
     </div>
   )
 }

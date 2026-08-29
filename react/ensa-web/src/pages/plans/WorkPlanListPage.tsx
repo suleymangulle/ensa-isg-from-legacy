@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { useEntity, useLookup } from '@/api/endpoints'
@@ -96,9 +97,9 @@ export default function WorkPlanListPage() {
       header: t('workPlan.fields.transferred'),
       align: 'center',
       render: (plan) => (
-        <span className={plan.transferred ? 'badge-light-success' : 'badge-light-primary'}>
+        <Badge variant={plan.transferred ? 'success' : 'primary'}>
           {plan.transferred ? t('workPlan.transferred.yes') : t('workPlan.transferred.no')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -106,9 +107,9 @@ export default function WorkPlanListPage() {
       header: t('workPlan.fields.status'),
       align: 'center',
       render: (plan) => (
-        <span className={plan.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={plan.isActive ? 'success' : 'danger'}>
           {plan.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -118,22 +119,18 @@ export default function WorkPlanListPage() {
       width: '120px',
       render: (plan) => (
         <div className="d-flex justify-content-end gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => setEditingId(plan.id)}
             aria-label={t('workPlan.list.editAria', { name: plan.companyName ?? '' })}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setDeleting(plan)}
             aria-label={t('workPlan.list.deleteAria', { name: plan.companyName ?? '' })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -145,14 +142,15 @@ export default function WorkPlanListPage() {
         title={t('workPlan.list.title')}
         description={t('workPlan.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('workPlan.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(next) => {
@@ -165,47 +163,45 @@ export default function WorkPlanListPage() {
               <label htmlFor="work-plan-company-filter" className="visually-hidden">
                 {t('workPlan.fields.companyName')}
               </label>
-              <select
+              <Select
                 id="work-plan-company-filter"
-                className="form-select"
-                value={companyId ?? ''}
-                onChange={(event) => {
-                  setCompanyId(event.target.value === '' ? null : Number(event.target.value))
+                placeholder={t('workPlan.list.allCompanies')}
+                options={
+                  companies.data?.items.map((company) => ({
+                    value: company.id,
+                    label: company.displayName,
+                  })) ?? []
+                }
+                value={companyId}
+                onChange={(value) => {
+                  setCompanyId(value)
                   setPage(1)
                 }}
-              >
-                <option value="">{t('workPlan.list.allCompanies')}</option>
-                {companies.data?.items.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.displayName}
-                  </option>
-                ))}
-              </select>
+              />
             </div>
           </SearchBar>
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('workPlan.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(plan) => plan.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('workPlan.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('workPlan.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(plan) => plan.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('workPlan.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <WorkPlanFormModal onClose={() => setCreateOpen(false)} />}
       {editingId !== null && editing && (
@@ -286,197 +282,116 @@ export function WorkPlanFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="work-plan-company"
           label={t('workPlan.fields.companyName')}
-          htmlFor="work-plan-company"
           required
           error={companyError}
           className="col-md-6"
-        >
-          <select
-            id="work-plan-company"
-            className={controlClass('form-select', companyError)}
-            value={model.companyId || ''}
-            onChange={(event) => setModel({ ...model, companyId: Number(event.target.value) || 0 })}
-          >
-            <option value="">{t('workPlan.form.selectCompany')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('workPlan.form.selectCompany')}
+          options={
+            companies.data?.items.map((company) => ({
+              value: company.id,
+              label: company.displayName,
+            })) ?? []
+          }
+          value={model.companyId || null}
+          onChange={(value) => setModel({ ...model, companyId: value ?? 0 })}
+        />
 
-        <Field
+        <Input
+          id="work-plan-start"
           label={t('workPlan.fields.startDate')}
-          htmlFor="work-plan-start"
           required
           className="col-md-6"
-        >
-          <input
-            id="work-plan-start"
-            type="date"
-            className="form-control"
-            value={toDateInput(model.startDate)}
-            onChange={(event) => setModel({ ...model, startDate: event.target.value })}
-          />
-        </Field>
+          value={toDateInput(model.startDate)}
+          inputProps={{ type: 'date' }}
+          onChange={(value) => setModel({ ...model, startDate: value })}
+        />
 
-        <Field
+        <Input
+          id="work-plan-document"
           label={t('workPlan.fields.documentNo')}
-          htmlFor="work-plan-document"
           className="col-md-3"
-        >
-          <input
-            id="work-plan-document"
-            className="form-control"
-            value={model.documentNo ?? ''}
-            onChange={(event) => setModel({ ...model, documentNo: event.target.value })}
-          />
-        </Field>
+          value={model.documentNo ?? ''}
+          onChange={(value) => setModel({ ...model, documentNo: value })}
+        />
 
-        <Field
+        <Input
+          id="work-plan-revision"
           label={t('workPlan.fields.revisionNo')}
-          htmlFor="work-plan-revision"
           className="col-md-3"
-        >
-          <input
-            id="work-plan-revision"
-            className="form-control"
-            value={model.revisionNo ?? ''}
-            onChange={(event) => setModel({ ...model, revisionNo: event.target.value })}
-          />
-        </Field>
+          value={model.revisionNo ?? ''}
+          onChange={(value) => setModel({ ...model, revisionNo: value })}
+        />
 
-        <Field
+        <Input
+          id="work-plan-revision-date"
           label={t('workPlan.fields.revisionDate')}
-          htmlFor="work-plan-revision-date"
           className="col-md-3"
-        >
-          <input
-            id="work-plan-revision-date"
-            type="date"
-            className="form-control"
-            value={toDateInput(model.revisionDate)}
-            onChange={(event) => setModel({ ...model, revisionDate: event.target.value })}
-          />
-        </Field>
+          value={toDateInput(model.revisionDate)}
+          inputProps={{ type: 'date' }}
+          onChange={(value) => setModel({ ...model, revisionDate: value })}
+        />
 
-        <Field
+        <Input
+          id="work-plan-publication"
           label={t('workPlan.fields.publicationDate')}
-          htmlFor="work-plan-publication"
           className="col-md-3"
-        >
-          <input
-            id="work-plan-publication"
-            type="date"
-            className="form-control"
-            value={toDateInput(model.publicationDate)}
-            onChange={(event) => setModel({ ...model, publicationDate: event.target.value })}
-          />
-        </Field>
+          value={toDateInput(model.publicationDate)}
+          inputProps={{ type: 'date' }}
+          onChange={(value) => setModel({ ...model, publicationDate: value })}
+        />
 
-        <Field
+        <Select
+          id="work-plan-specialist"
           label={t('workPlan.fields.specialist')}
-          htmlFor="work-plan-specialist"
           className="col-md-4"
-        >
-          <select
-            id="work-plan-specialist"
-            className="form-select"
-            value={model.specialistUserId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                specialistUserId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            users.data?.items.map((user) => ({ value: user.id, label: user.displayName })) ?? []
+          }
+          value={model.specialistUserId ?? null}
+          onChange={(value) => setModel({ ...model, specialistUserId: value })}
+        />
 
-        <Field
+        <Select
+          id="work-plan-physician"
           label={t('workPlan.fields.physician')}
-          htmlFor="work-plan-physician"
           className="col-md-4"
-        >
-          <select
-            id="work-plan-physician"
-            className="form-select"
-            value={model.physicianUserId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                physicianUserId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            users.data?.items.map((user) => ({ value: user.id, label: user.displayName })) ?? []
+          }
+          value={model.physicianUserId ?? null}
+          onChange={(value) => setModel({ ...model, physicianUserId: value })}
+        />
 
-        <Field
+        <Select
+          id="work-plan-approver"
           label={t('workPlan.fields.approver')}
-          htmlFor="work-plan-approver"
           className="col-md-4"
-        >
-          <select
-            id="work-plan-approver"
-            className="form-select"
-            value={model.approverUserId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                approverUserId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {users.data?.items.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('common.none')}
+          options={
+            users.data?.items.map((user) => ({ value: user.id, label: user.displayName })) ?? []
+          }
+          value={model.approverUserId ?? null}
+          onChange={(value) => setModel({ ...model, approverUserId: value })}
+        />
 
         <div className="col-12 d-flex flex-wrap gap-4">
-          <div className="form-check">
-            <input
-              id="work-plan-active"
-              type="checkbox"
-              className="form-check-input"
-              checked={model.isActive ?? true}
-              onChange={(event) => setModel({ ...model, isActive: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="work-plan-active">
-              {t('common.active')}
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              id="work-plan-transferred"
-              type="checkbox"
-              className="form-check-input"
-              checked={model.transferred ?? false}
-              onChange={(event) => setModel({ ...model, transferred: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="work-plan-transferred">
-              {t('workPlan.fields.transferred')}
-            </label>
-          </div>
+          <CheckBox
+            id="work-plan-active"
+            checked={model.isActive ?? true}
+            onChange={(value) => setModel({ ...model, isActive: value })}
+            label={t('common.active')}
+          />
+          <CheckBox
+            id="work-plan-transferred"
+            checked={model.transferred ?? false}
+            onChange={(value) => setModel({ ...model, transferred: value })}
+            label={t('workPlan.fields.transferred')}
+          />
         </div>
       </div>
     </Modal>

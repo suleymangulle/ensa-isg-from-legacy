@@ -38,7 +38,6 @@ public class UserAppService(
     IRepository<UserProfile> userProfileRepository,
     IRepository<UserEmployment> userEmploymentRepository,
     IReadOnlyRepository<UserType> userTypeRepository,
-    IReadOnlyRepository<UserOffice> userOfficeRepository,
     IReadOnlyRepository<Organization> organizationRepository)
     : EnsaAppService(serviceProvider), IUserAppService
 {
@@ -490,23 +489,6 @@ public class UserAppService(
     }
 
     /// <summary>
-    /// Turns a failed <see cref="IdentityResult"/> into a field-level validation exception so
-    /// the client can highlight the offending input instead of showing a generic message.
-    /// </summary>
-    /// <summary>
-    /// Gives a new account the person and the contract that go with it.
-    /// <para>
-    /// <b>Why this is not optional.</b> Authorization reads whether a user is active from
-    /// <see cref="UserProfile"/>, and a user with no profile row is treated as inactive — correctly,
-    /// because a half-created account should not be able to act. So an account created without one
-    /// can sign in and then find it may do nothing at all, which is a confusing way to fail.
-    /// </para>
-    /// <para>
-    /// Both rows are written after Identity has accepted the account, because until then there is
-    /// no id to point them at.
-    /// </para>
-    /// </summary>
-    /// <summary>
     /// Fills the half of the DTO that is not on the account.
     /// <para>
     /// The mapper can only see <see cref="User"/>, and the person moved out of it. Rather than
@@ -550,6 +532,19 @@ public class UserAppService(
         return dto;
     }
 
+    /// <summary>
+    /// Gives a new account the person and the contract that go with it.
+    /// <para>
+    /// <b>Why this is not optional.</b> Authorization reads whether a user is active from
+    /// <see cref="UserProfile"/>, and a user with no profile row is treated as inactive — correctly,
+    /// because a half-created account should not be able to act. So an account created without one
+    /// can sign in and then find it may do nothing at all, which is a confusing way to fail.
+    /// </para>
+    /// <para>
+    /// Both rows are written after Identity has accepted the account, because until then there is
+    /// no id to point them at.
+    /// </para>
+    /// </summary>
     private async Task CreatePersonAsync(
         User user,
         CreateUserDto input,
@@ -600,6 +595,10 @@ public class UserAppService(
         }, autoSave: true, cancellationToken);
     }
 
+    /// <summary>
+    /// Turns a failed <see cref="IdentityResult"/> into a field-level validation exception so
+    /// the client can highlight the offending input instead of showing a generic message.
+    /// </summary>
     private static void EnsureIdentitySucceeded(IdentityResult result)
     {
         if (result.Succeeded)

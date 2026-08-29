@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  Badge,
+  Button,
+  Card,
+  CheckBox,
+  Input,
+  Select,
+  TextArea,
+} from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { EquipmentType } from '@/api/enums'
@@ -109,7 +118,7 @@ export default function EquipmentListPage() {
         return (
           <span className="d-inline-flex align-items-center gap-2">
             <span>{date}</span>
-            <span className="badge-light-danger">{t('equipment.overdue')}</span>
+            <Badge variant="danger">{t('equipment.overdue')}</Badge>
           </span>
         )
       },
@@ -130,9 +139,7 @@ export default function EquipmentListPage() {
       width: '140px',
       render: (row) => (
         <div className="d-flex justify-content-end gap-2">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => {
               setEditingId(row.id)
               setForm({
@@ -147,10 +154,8 @@ export default function EquipmentListPage() {
             aria-label={t('common.edit')}
           >
             {t('common.edit')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          </Button>
+          <Button variant="light" size="sm"
             style={{ color: 'var(--kt-danger)' }}
             disabled={!row.deletable}
             title={row.deletable ? undefined : t('equipment.notDeletable')}
@@ -158,7 +163,7 @@ export default function EquipmentListPage() {
             aria-label={t('common.delete')}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -172,16 +177,14 @@ export default function EquipmentListPage() {
         title={t('equipment.title')}
         description={t('equipment.description')}
         action={
-          <button
-            type="button"
-            className="btn btn-primary"
+          <Button variant="primary"
             onClick={() => {
               setEditingId(null)
               setForm({ ...emptyForm })
             }}
           >
             {t('equipment.create')}
-          </button>
+          </Button>
         }
       />
 
@@ -192,21 +195,20 @@ export default function EquipmentListPage() {
           role="status"
         >
           <span>{t('equipment.overdueSummary', { count: overdueCount })}</span>
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => {
               setOnlyOverdue(true)
               setPage(1)
             }}
           >
             {t('equipment.showOverdue')}
-          </button>
+          </Button>
         </div>
       )}
 
-      <div className="card border-0 shadow-sm">
-        <div className="card-body">
+      <Card
+        className="border-0 shadow-sm"
+      >
           <SearchBar
             value={search}
             onChange={(next) => {
@@ -215,21 +217,16 @@ export default function EquipmentListPage() {
             }}
             placeholder={t('equipment.searchPlaceholder')}
           >
-            <div className="form-check ms-2">
-              <input
-                id="onlyOverdue"
-                className="form-check-input"
-                type="checkbox"
-                checked={onlyOverdue}
-                onChange={(event) => {
-                  setOnlyOverdue(event.target.checked)
-                  setPage(1)
-                }}
-              />
-              <label className="form-check-label" htmlFor="onlyOverdue">
-                {t('equipment.onlyOverdue')}
-              </label>
-            </div>
+            <CheckBox
+              id="onlyOverdue"
+              className="ms-2"
+              label={t('equipment.onlyOverdue')}
+              checked={onlyOverdue}
+              onChange={(checked) => {
+                setOnlyOverdue(checked)
+                setPage(1)
+              }}
+            />
           </SearchBar>
 
           <DataTable
@@ -247,8 +244,8 @@ export default function EquipmentListPage() {
             pageSize={PAGE_SIZE}
             onPageChange={setPage}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       <Modal
         title={editingId === null ? t('equipment.create') : t('equipment.edit')}
@@ -261,112 +258,72 @@ export default function EquipmentListPage() {
       >
         {form && (
           <div className="row g-3">
-            <Field
+            <Select<number>
+              id="companyId"
               label={t('equipment.fields.companyName')}
-              htmlFor="companyId"
               required
               className="col-md-6"
-            >
-              <select
-                id="companyId"
-                className={controlClass('form-select')}
-                value={form.companyId || ''}
-                onChange={(event) =>
-                  setForm({ ...form, companyId: Number(event.target.value) || 0 })
-                }
-                required
-              >
-                <option value="">{t('common.none')}</option>
-                {companies.data?.items.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.displayName}
-                  </option>
-                ))}
-              </select>
-            </Field>
+              placeholder={t('common.none')}
+              options={(companies.data?.items ?? []).map((item) => ({
+                value: item.id,
+                label: item.displayName,
+              }))}
+              value={form.companyId || null}
+              onChange={(value) => setForm({ ...form, companyId: value ?? 0 })}
+            />
 
-            <Field
+            <Select<number>
+              id="equipmentType"
               label={t('equipment.fields.equipmentType')}
-              htmlFor="equipmentType"
               required
               className="col-md-6"
-            >
-              <select
-                id="equipmentType"
-                className="form-select"
-                value={form.equipmentType}
-                onChange={(event) =>
-                  setForm({ ...form, equipmentType: Number(event.target.value) as EquipmentType })
-                }
-              >
-                {EQUIPMENT_TYPES.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.equipmentType.${value}`)}
-                  </option>
-                ))}
-              </select>
-            </Field>
+              options={EQUIPMENT_TYPES.map((value) => ({
+                value,
+                label: t(`enums.equipmentType.${value}`),
+              }))}
+              value={form.equipmentType}
+              onChange={(value) =>
+                setForm({ ...form, equipmentType: (value ?? 0) as EquipmentType })
+              }
+            />
 
-            <Field
+            <Input
+              id="equipmentName"
               label={t('equipment.fields.equipmentName')}
-              htmlFor="equipmentName"
               required
               className="col-12"
-            >
-              <input
-                id="equipmentName"
-                className="form-control"
-                value={form.equipmentName}
-                onChange={(event) => setForm({ ...form, equipmentName: event.target.value })}
-                maxLength={200}
-                required
-              />
-            </Field>
+              value={form.equipmentName}
+              onChange={(value) => setForm({ ...form, equipmentName: value })}
+              maxLength={200}
+            />
 
-            <Field
+            <Input
+              id="examinationDate"
               label={t('equipment.fields.examinationDate')}
-              htmlFor="examinationDate"
               className="col-md-6"
-              hint={t('equipment.nextDateHint')}
-            >
-              <input
-                id="examinationDate"
-                type="date"
-                className="form-control"
-                value={form.examinationDate ?? ''}
-                onChange={(event) => setForm({ ...form, examinationDate: event.target.value })}
-              />
-            </Field>
+              helpText={t('equipment.nextDateHint')}
+              value={form.examinationDate ?? ''}
+              onChange={(value) => setForm({ ...form, examinationDate: value })}
+              inputProps={{ type: 'date' }}
+            />
 
-            <Field
+            <Input
+              id="examinationPerformedBy"
               label={t('equipment.fields.examinationPerformedBy')}
-              htmlFor="examinationPerformedBy"
               className="col-md-6"
-            >
-              <input
-                id="examinationPerformedBy"
-                className="form-control"
-                value={form.examinationPerformedBy ?? ''}
-                onChange={(event) =>
-                  setForm({ ...form, examinationPerformedBy: event.target.value })
-                }
-                maxLength={200}
-              />
-            </Field>
+              value={form.examinationPerformedBy ?? ''}
+              onChange={(value) => setForm({ ...form, examinationPerformedBy: value })}
+              maxLength={200}
+            />
 
-            <Field
+            <TextArea
+              id="examinationReport"
               label={t('equipment.fields.examinationReport')}
-              htmlFor="examinationReport"
               className="col-12"
-            >
-              <textarea
-                id="examinationReport"
-                className="form-control"
-                rows={3}
-                value={form.examinationReport ?? ''}
-                onChange={(event) => setForm({ ...form, examinationReport: event.target.value })}
-              />
-            </Field>
+              rows={3}
+              value={form.examinationReport ?? ''}
+              onChange={(value) => setForm({ ...form, examinationReport: value })}
+            />
           </div>
         )}
       </Modal>

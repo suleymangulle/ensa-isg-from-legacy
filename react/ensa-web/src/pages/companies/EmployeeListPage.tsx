@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ENDPOINTS, usePagedList, type CompanyEmployeeListDto } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
@@ -62,9 +63,9 @@ export default function EmployeeListPage() {
       header: t('employee.fields.status'),
       align: 'center',
       render: (employee) => (
-        <span className={employee.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={employee.isActive ? 'success' : 'danger'}>
           {employee.isActive ? t('employee.status.active') : t('employee.status.left')}
-        </span>
+        </Badge>
       ),
     },
   ]
@@ -75,48 +76,48 @@ export default function EmployeeListPage() {
         title={t('employee.list.title')}
         description={t('employee.list.description')}
         action={
-          <button className="btn btn-primary" type="button">
+          <Button variant="primary">
             {t('employee.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header">
-          <input
-            className="form-control"
-            style={{ maxWidth: 320 }}
-            placeholder={t('employee.list.searchPlaceholder')}
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value)
-              setPage(1)
-            }}
-            aria-label={t('employee.list.searchLabel')}
-          />
-        </div>
-        <div className="card-body p-0">
-          <DataTable
-            label={t('employee.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(employee) => employee.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('employee.list.empty')}
-          />
-        </div>
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+      <Card
+        
+        header={
+          <div style={{ maxWidth: 320 }}>
+            <Input
+              value={search}
+              onChange={(value) => {
+                setSearch(value)
+                setPage(1)
+              }}
+              placeholder={t('employee.list.searchPlaceholder')}
+              inputProps={{ 'aria-label': t('employee.list.searchLabel') }}
+            />
+          </div>
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('employee.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(employee) => employee.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('employee.list.empty')}
+        />
+      </Card>
     </>
   )
 }

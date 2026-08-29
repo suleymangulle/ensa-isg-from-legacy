@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
+import { Alert, Badge, Button, Card, CheckBox, Input, Select } from 'rich-react-component'
+import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import {
@@ -198,72 +199,60 @@ export default function PermissionMatrixPage() {
         description={t('permission.page.description')}
         action={
           userId && !isSystemAdministrator ? (
-            <button
-              type="button"
-              className="btn btn-primary"
+            <Button variant="primary"
               disabled={preview.total === 0}
               onClick={() => setConfirmOpen(true)}
             >
               {t('permission.page.review', { count: preview.total })}
-            </button>
+            </Button>
           ) : undefined
         }
       />
 
-      <div className="card mb-4">
-        <div className="card-body">
-          <div className="row g-3 align-items-end">
-            <div className="col-md-4">
-              <label htmlFor="permission-user-filter" className="form-label fw-semibold">
-                {t('permission.page.searchUser')}
-              </label>
-              <input
-                id="permission-user-filter"
-                type="search"
-                className="form-control"
-                value={userFilter}
-                placeholder={t('permission.page.searchUserPlaceholder')}
-                onChange={(event) => setUserFilter(event.target.value)}
-              />
-            </div>
+      <Card className="mb-4">
+        <div className="row g-3 align-items-end">
+          <Input
+            id="permission-user-filter"
+            type="search"
+            label={t('permission.page.searchUser')}
+            className="col-md-4"
+            value={userFilter}
+            placeholder={t('permission.page.searchUserPlaceholder')}
+            onChange={setUserFilter}
+          />
 
-            <div className="col-md-5">
-              <label htmlFor="permission-user" className="form-label fw-semibold">
-                {t('permission.page.subject')}
-              </label>
-              <select
-                id="permission-user"
-                className="form-select"
-                value={userIdParam ?? ''}
-                onChange={(event) => selectUser(event.target.value)}
-              >
-                <option value="">{t('permission.page.subjectPlaceholder')}</option>
-                {users.data?.items.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.displayName}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <Select
+            id="permission-user"
+            label={t('permission.page.subject')}
+            className="col-md-5"
+            placeholder={t('permission.page.subjectPlaceholder')}
+            options={
+              users.data?.items.map((user) => ({
+                value: String(user.id),
+                label: user.displayName,
+              })) ?? []
+            }
+            value={userIdParam ?? null}
+            onChange={(value) => selectUser(value ?? '')}
+          />
 
-            <div className="col-md-3">
-              <p className="mb-0" style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
-                {t('permission.page.roleScopeNote')}
-              </p>
-            </div>
+          <div className="col-md-3">
+            <p className="mb-0" style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
+              {t('permission.page.roleScopeNote')}
+            </p>
           </div>
         </div>
-      </div>
+      </Card>
 
       {tree.error && <ErrorPanel message={errorMessage(tree.error)} />}
       {permissions.error && <ErrorPanel message={errorMessage(permissions.error)} />}
 
       {!userId && !tree.error && (
-        <div className="card">
-          <div className="card-body text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
+        <Card>
+          <div className="text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
             {t('permission.page.selectSubject')}
           </div>
-        </div>
+        </Card>
       )}
 
       {userId && (tree.isLoading || permissions.isLoading) && <Spinner />}
@@ -271,84 +260,63 @@ export default function PermissionMatrixPage() {
       {userId && tree.data && permissions.data && (
         <>
           {isSystemAdministrator && (
-            <div
-              className="alert border-0"
-              style={{ backgroundColor: 'var(--kt-warning-light)', color: 'var(--kt-warning)' }}
-              role="alert"
-            >
-              {t('permission.page.systemAdministratorNote')}
-            </div>
+            <Alert variant="warning">{t('permission.page.systemAdministratorNote')}</Alert>
           )}
 
-          <div className="card mb-4">
-            <div className="card-body">
-              <div className="row g-3 align-items-end">
-                <div className="col-md-4">
-                  <label htmlFor="permission-search" className="form-label fw-semibold">
-                    {t('permission.page.searchPermission')}
-                  </label>
-                  <input
-                    id="permission-search"
-                    type="search"
-                    className="form-control"
-                    value={search}
-                    placeholder={t('permission.page.searchPermissionPlaceholder')}
-                    onChange={(event) => setSearch(event.target.value)}
-                  />
-                </div>
+          <Card className="mb-4">
+            <div className="row g-3 align-items-end">
+              <Input
+                id="permission-search"
+                type="search"
+                label={t('permission.page.searchPermission')}
+                className="col-md-4"
+                value={search}
+                placeholder={t('permission.page.searchPermissionPlaceholder')}
+                onChange={setSearch}
+              />
 
-                <div className="col-md-3">
-                  <div className="form-check">
-                    <input
-                      id="permission-only-changed"
-                      type="checkbox"
-                      className="form-check-input"
-                      checked={onlyChanged}
-                      onChange={(event) => setOnlyChanged(event.target.checked)}
-                    />
-                    <label className="form-check-label" htmlFor="permission-only-changed">
-                      {t('permission.page.onlyChanged')}
-                    </label>
-                  </div>
-                </div>
+              <CheckBox
+                id="permission-only-changed"
+                className="col-md-3"
+                checked={onlyChanged}
+                onChange={setOnlyChanged}
+                label={t('permission.page.onlyChanged')}
+              />
 
-                <div className="col-md-2">
-                  <button
-                    type="button"
-                    className="btn btn-light w-100"
-                    disabled={isFiltered}
-                    onClick={() =>
-                      setExpanded(
-                        Object.values(expanded).some(Boolean)
-                          ? {}
-                          : Object.fromEntries(allGroups.map((group) => [group.key, true])),
-                      )
-                    }
-                  >
-                    {Object.values(expanded).some(Boolean)
-                      ? t('permission.page.collapseAll')
-                      : t('permission.page.expandAll')}
-                  </button>
-                </div>
+              <div className="col-md-2">
+                <Button variant="light" className="w-100"
+                  disabled={isFiltered}
+                  onClick={() =>
+                    setExpanded(
+                      Object.values(expanded).some(Boolean)
+                        ? {}
+                        : Object.fromEntries(allGroups.map((group) => [group.key, true])),
+                    )
+                  }
+                >
+                  {Object.values(expanded).some(Boolean)
+                    ? t('permission.page.collapseAll')
+                    : t('permission.page.expandAll')}
+                </Button>
+              </div>
 
-                <div className="col-md-3 text-md-end">
-                  <span className="badge-light-success me-2">
-                    {t('permission.page.effectiveCount', { count: effectiveNow.size })}
-                  </span>
-                  <span className="badge-light-primary">
-                    {t('permission.page.catalogueCount', { count: tree.data.totalCount })}
-                  </span>
-                </div>
+              <div className="col-md-3 text-md-end">
+                <Badge variant="success" className="me-2">
+                  {t('permission.page.effectiveCount', { count: effectiveNow.size })}
+                </Badge>
+                <Badge variant="primary">
+                  {t('permission.page.catalogueCount', { count: tree.data.totalCount })}
+                </Badge>
               </div>
             </div>
-          </div>
+          </Card>
 
           {groups.length === 0 ? (
-            <div className="card">
-              <div className="card-body text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
+            <Card>
+              <div className="text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
                 {t('permission.page.noMatch')}
               </div>
-            </div>
+            </Card>
           ) : (
             groups.map((group) => {
               const isOpen = isFiltered || (expanded[group.key] ?? false)
@@ -359,150 +327,160 @@ export default function PermissionMatrixPage() {
                 (node) => (draft[node.id] ?? 'inherit') !== (baseline[node.id] ?? 'inherit'),
               ).length
 
-              return (
-                <div className="card mb-3" key={group.key}>
-                  <div className="card-header">
-                    <button
-                      type="button"
-                      className="btn btn-link p-0 text-decoration-none fw-bold"
-                      style={{ color: 'var(--kt-gray-900)' }}
-                      aria-expanded={isOpen}
-                      aria-controls={`permission-group-${group.key}`}
-                      disabled={isFiltered}
-                      onClick={() =>
-                        setExpanded((previous) => ({
-                          ...previous,
-                          [group.key]: !(previous[group.key] ?? false),
-                        }))
-                      }
-                    >
-                      <span aria-hidden="true" className="me-2">
-                        {isOpen ? '▾' : '▸'}
-                      </span>
-                      {group.key}
-                    </button>
-
-                    <span className="ms-auto d-inline-flex gap-2">
-                      {changedInGroup > 0 && (
-                        <span className="badge-light-primary">
-                          {t('permission.page.changedCount', { count: changedInGroup })}
-                        </span>
-                      )}
-                      <span className="badge-light-success">
-                        {t('permission.page.groupSummary', {
-                          effective: effectiveInGroup,
-                          total: group.nodes.length,
-                        })}
-                      </span>
-                    </span>
-                  </div>
-
-                  {isOpen && (
-                    <div className="card-body p-0" id={`permission-group-${group.key}`}>
-                      <div className="table-responsive">
-                        <table
-                          className="table table-hover align-middle mb-0"
-                          aria-label={t('permission.page.tableLabel', { module: group.key })}
+              // Built per group (not hoisted) so each column's `render` can close over this
+              // group's `t(...)` arguments (e.g. the override <select>'s aria-label names the
+              // group) without threading the group through every row.
+              const permissionColumns: Column<PermissionTreeNodeDto>[] = [
+                {
+                  key: 'permission',
+                  header: t('permission.fields.permission'),
+                  render: (node) => {
+                    const state = draft[node.id] ?? 'inherit'
+                    const savedState = baseline[node.id] ?? 'inherit'
+                    const isChanged = state !== savedState
+                    const label = isModuleDefault(node)
+                      ? t('permission.fields.defaultAccess', { module: group.key })
+                      : node.permissionName
+                    return (
+                      <>
+                        <span
+                          className={isChanged ? 'fw-semibold' : undefined}
+                          style={{ color: isChanged ? 'var(--kt-primary)' : 'var(--kt-gray-800)' }}
                         >
-                          <thead>
-                            <tr>
-                              <th scope="col">{t('permission.fields.permission')}</th>
-                              <th scope="col">{t('permission.fields.target')}</th>
-                              <th scope="col">{t('permission.fields.type')}</th>
-                              <th scope="col" className="text-center">
-                                {t('permission.fields.current')}
-                              </th>
-                              <th scope="col" className="text-end" style={{ width: 210 }}>
-                                {t('permission.fields.override')}
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {group.nodes.map((node) => {
-                              const state = draft[node.id] ?? 'inherit'
-                              const savedState = baseline[node.id] ?? 'inherit'
-                              const isChanged = state !== savedState
-                              const label = isModuleDefault(node)
-                                ? t('permission.fields.defaultAccess', { module: group.key })
-                                : node.permissionName
+                          {label}
+                        </span>
+                        {node.permissionDescription && (
+                          <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
+                            {node.permissionDescription}
+                          </div>
+                        )}
+                      </>
+                    )
+                  },
+                },
+                {
+                  key: 'target',
+                  header: t('permission.fields.target'),
+                  render: (node) => (
+                    <span style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
+                      {node.permissionTarget}
+                    </span>
+                  ),
+                },
+                {
+                  key: 'type',
+                  header: t('permission.fields.type'),
+                  render: (node) => t(`enums.permissionType.${node.permissionType}`),
+                },
+                {
+                  key: 'current',
+                  header: t('permission.fields.current'),
+                  align: 'center',
+                  render: (node) => {
+                    const savedState = baseline[node.id] ?? 'inherit'
+                    return (
+                      <>
+                        <Badge variant={effectiveNow.has(node.id) ? 'success' : 'danger'}>
+                          {effectiveNow.has(node.id)
+                            ? t('permission.state.effective')
+                            : t('permission.state.notEffective')}
+                        </Badge>
+                        {savedState !== 'inherit' && (
+                          <Badge variant="primary" className="ms-1">
+                            {t(`permission.override.${savedState}`)}
+                          </Badge>
+                        )}
+                      </>
+                    )
+                  },
+                },
+                {
+                  key: 'override',
+                  header: t('permission.fields.override'),
+                  align: 'end',
+                  width: '210px',
+                  // Kept as a raw <select>, not the library's `Select`: `Select` always wraps
+                  // its control in a `mb-3` field div (see FieldShell), which would inflate this
+                  // cell's height inside the data grid row — a visible regression the rest of
+                  // the row (plain badges/text) doesn't share.
+                  render: (node) => {
+                    const state = draft[node.id] ?? 'inherit'
+                    const label = isModuleDefault(node)
+                      ? t('permission.fields.defaultAccess', { module: group.key })
+                      : node.permissionName
+                    return (
+                      <select
+                        className="form-select form-select-sm"
+                        style={{ maxWidth: 190, marginInlineStart: 'auto' }}
+                        value={state}
+                        disabled={isSystemAdministrator}
+                        aria-label={t('permission.page.overrideLabel', { name: label })}
+                        onChange={(event) =>
+                          setOverride(node.id, event.target.value as Override)
+                        }
+                      >
+                        {OVERRIDES.map((option) => (
+                          <option key={option} value={option}>
+                            {t(`permission.override.${option}`)}
+                          </option>
+                        ))}
+                      </select>
+                    )
+                  },
+                },
+              ]
 
-                              return (
-                                <tr key={node.id}>
-                                  <th scope="row" className="fw-normal">
-                                    <span
-                                      className={isChanged ? 'fw-semibold' : undefined}
-                                      style={{
-                                        color: isChanged
-                                          ? 'var(--kt-primary)'
-                                          : 'var(--kt-gray-800)',
-                                      }}
-                                    >
-                                      {label}
-                                    </span>
-                                    {node.permissionDescription && (
-                                      <div
-                                        style={{
-                                          color: 'var(--kt-gray-500)',
-                                          fontSize: '0.8125rem',
-                                        }}
-                                      >
-                                        {node.permissionDescription}
-                                      </div>
-                                    )}
-                                  </th>
-                                  <td
-                                    style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}
-                                  >
-                                    {node.permissionTarget}
-                                  </td>
-                                  <td>{t(`enums.permissionType.${node.permissionType}`)}</td>
-                                  <td className="text-center">
-                                    <span
-                                      className={
-                                        effectiveNow.has(node.id)
-                                          ? 'badge-light-success'
-                                          : 'badge-light-danger'
-                                      }
-                                    >
-                                      {effectiveNow.has(node.id)
-                                        ? t('permission.state.effective')
-                                        : t('permission.state.notEffective')}
-                                    </span>
-                                    {savedState !== 'inherit' && (
-                                      <span className="badge-light-primary ms-1">
-                                        {t(`permission.override.${savedState}`)}
-                                      </span>
-                                    )}
-                                  </td>
-                                  <td className="text-end">
-                                    <select
-                                      className="form-select form-select-sm"
-                                      style={{ maxWidth: 190, marginInlineStart: 'auto' }}
-                                      value={state}
-                                      disabled={isSystemAdministrator}
-                                      aria-label={t('permission.page.overrideLabel', {
-                                        name: label,
-                                      })}
-                                      onChange={(event) =>
-                                        setOverride(node.id, event.target.value as Override)
-                                      }
-                                    >
-                                      {OVERRIDES.map((option) => (
-                                        <option key={option} value={option}>
-                                          {t(`permission.override.${option}`)}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+              return (
+                <Card
+                  className="mb-3"
+                  key={group.key}
+                  header={
+                    <>
+                      <Button variant="link" className="p-0 text-decoration-none fw-bold"
+                        style={{ color: 'var(--kt-gray-900)' }}
+                        aria-expanded={isOpen}
+                        aria-controls={`permission-group-${group.key}`}
+                        disabled={isFiltered}
+                        onClick={() =>
+                          setExpanded((previous) => ({
+                            ...previous,
+                            [group.key]: !(previous[group.key] ?? false),
+                          }))
+                        }
+                      >
+                        <span aria-hidden="true" className="me-2">
+                          {isOpen ? '▾' : '▸'}
+                        </span>
+                        {group.key}
+                      </Button>
+
+                      <span className="ms-auto d-inline-flex gap-2">
+                        {changedInGroup > 0 && (
+                          <Badge variant="primary">
+                            {t('permission.page.changedCount', { count: changedInGroup })}
+                          </Badge>
+                        )}
+                        <Badge variant="success">
+                          {t('permission.page.groupSummary', {
+                            effective: effectiveInGroup,
+                            total: group.nodes.length,
+                          })}
+                        </Badge>
+                      </span>
+                    </>
+                  }
+                >
+                  {isOpen && (
+                    <div id={`permission-group-${group.key}`}>
+                      <DataTable
+                        label={t('permission.page.tableLabel', { module: group.key })}
+                        columns={permissionColumns}
+                        rows={group.nodes}
+                        rowKey={(node) => node.id}
+                      />
                     </div>
                   )}
-                </div>
+                </Card>
               )
             })
           )}

@@ -41,7 +41,7 @@ $table-hover-bg:       #F9F9F9;
 
 @import "bootstrap/scss/bootstrap";
 
-// --- Metronic CSS variables (read at runtime by components) ---
+// --- Metronic CSS variables (read at runtime by the screens' own inline styles) ---
 :root {
   --kt-primary: #3E97FF;
   --kt-primary-active: #2884EF;
@@ -80,67 +80,7 @@ $table-hover-bg:       #F9F9F9;
   --kt-sidebar-width-collapsed: 76px;
 }
 
-// --- Metronic soft (light) badge and button variants ---
-@each $name, $color in ("primary": #3E97FF, "success": #50CD89, "info": #7239EA,
-                        "warning": #FFC700, "danger": #F1416C) {
-  .badge-light-#{$name} {
-    color: $color;
-    background-color: var(--kt-#{$name}-light);
-    border-radius: 0.425rem;
-    padding: 0.35rem 0.65rem;
-    font-weight: 600;
-    font-size: 0.8125rem;
-  }
-  .btn-light-#{$name} {
-    color: $color;
-    background-color: var(--kt-#{$name}-light);
-    border: 0;
-    &:hover, &:focus { color: #fff; background-color: $color; }
-  }
-}
-
 body {
   background-color: var(--kt-body-bg);
-  color: var(--kt-gray-700);
   -webkit-font-smoothing: antialiased;
-}
-
-.card {
-  box-shadow: 0 0 20px 0 rgba(76, 87, 125, 0.02);
-}
-
-.card-header {
-  border-bottom: 1px solid var(--kt-border-color);
-  min-height: 70px;
-  align-items: center;
-}
-
-.card-title {
-  font-weight: 600;
-  color: var(--kt-gray-900);
-  margin: 0;
-}
-
-.table {
-  th {
-    font-weight: 600;
-    font-size: 0.8125rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--kt-gray-500);
-    border-bottom-width: 1px;
-  }
-  td { vertical-align: middle; color: var(--kt-gray-700); }
-}
-
-.form-label {
-  font-weight: 600;
-  color: var(--kt-gray-800);
-  font-size: 0.9375rem;
-}
-
-.required::after {
-  content: "*";
-  color: var(--kt-danger);
-  margin-inline-start: 0.25rem;
 }

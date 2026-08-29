@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input, Select, TextArea } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
-import { Field, Modal } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import { IbysSubmissionStatus } from '@/api/enums'
 import { errorMessage } from '@/api/http'
 import { formatDate } from '@/utils/format'
@@ -52,9 +53,9 @@ export default function IbysSubmissionDetailPage() {
       header: t('ibys.fields.status'),
       align: 'center',
       render: (form) => (
-        <span className={IBYS_STATUS_BADGE[form.ibysStatus]}>
+        <Badge variant={IBYS_STATUS_BADGE[form.ibysStatus]}>
           {t(`enums.ibysSubmissionStatus.${form.ibysStatus}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -72,7 +73,7 @@ export default function IbysSubmissionDetailPage() {
       render: (form) => (
         <Link
           to={`/medical-examinations/${form.id}`}
-          className="btn btn-sm btn-icon btn-light"
+          className="btn btn-sm btn-light"
           aria-label={t('ibys.detail.openForm')}
         >
           <span aria-hidden="true">→</span>
@@ -103,22 +104,21 @@ export default function IbysSubmissionDetailPage() {
           date: formatDate(query.submissionDate) ?? t('common.none'),
         })}
         action={
-          <button
-            className="btn btn-light-primary"
-            type="button"
+          <Button variant="light" 
             onClick={() => setIsStatusOpen(true)}
           >
             {t('ibys.detail.updateStatus')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <div className="mb-4">
-            <span className={IBYS_STATUS_BADGE[query.status]}>
+            <Badge variant={IBYS_STATUS_BADGE[query.status]}>
               {t(`enums.ibysSubmissionStatus.${query.status}`)}
-            </span>
+            </Badge>
             {query.statusCode !== 0 && (
               <span className="ms-2" style={{ color: 'var(--kt-gray-500)' }}>
                 {t('ibys.fields.statusCode')}: {query.statusCode}
@@ -149,34 +149,32 @@ export default function IbysSubmissionDetailPage() {
             </Term>
             <Term label={t('ibys.fields.message')}>{query.ibysMessage ?? t('common.none')}</Term>
             <Term label={t('ibys.fields.payload')}>
-              <span className={query.hasXmlData ? 'badge-light-success' : 'badge-light-primary'}>
+              <Badge variant={query.hasXmlData ? 'success' : 'primary'}>
                 {query.hasXmlData ? t('ibys.payload.xmlPresent') : t('ibys.payload.xmlAbsent')}
-              </span>
-              <span
-                className={`ms-2 ${
-                  query.hasSignedData ? 'badge-light-success' : 'badge-light-primary'
-                }`}
-              >
+              </Badge>
+              <Badge variant={query.hasSignedData ? 'success' : 'primary'} className="ms-2">
                 {query.hasSignedData
                   ? t('ibys.payload.signaturePresent')
                   : t('ibys.payload.signatureAbsent')}
-              </span>
+              </Badge>
             </Term>
           </dl>
 
           <p className="mb-0 mt-3" style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>
             {t('ibys.detail.payloadNotice')}
           </p>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <h2 className="h6 fw-bold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('ibys.detail.formsTitle')}
           </h2>
-        </div>
-        <div className="card-body p-0">
+        
+        }
+      >
           <DataTable
             label={t('ibys.detail.formsTitle')}
             columns={formColumns}
@@ -184,8 +182,8 @@ export default function IbysSubmissionDetailPage() {
             rowKey={(form) => form.id}
             emptyMessage={t('ibys.detail.noForms')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       <StatusDialog
         isOpen={isStatusOpen}
@@ -241,43 +239,36 @@ function StatusDialog({
       error={update.error ? errorMessage(update.error) : null}
     >
       <div className="row g-3">
-        <Field label={t('ibys.fields.status')} htmlFor="ibys-status" required>
-          <select
-            id="ibys-status"
-            className="form-select"
-            value={status}
-            onChange={(event) => setStatus(Number(event.target.value))}
-          >
-            {IBYS_SUBMISSION_STATUSES.map((item) => (
-              <option key={item} value={item}>
-                {t(`enums.ibysSubmissionStatus.${item}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="ibys-status"
+          label={t('ibys.fields.status')}
+          required
+          className="col-12"
+          options={IBYS_SUBMISSION_STATUSES.map((item) => ({
+            value: item,
+            label: t(`enums.ibysSubmissionStatus.${item}`),
+          }))}
+          value={status}
+          onChange={(value) => setStatus(value ?? currentStatus)}
+        />
 
-        <Field
+        <Input
+          id="ibys-submission-number"
           label={t('ibys.fields.queryNo')}
-          htmlFor="ibys-submission-number"
-          hint={t('ibys.detail.submissionNumberHint')}
-        >
-          <input
-            id="ibys-submission-number"
-            className="form-control"
-            value={submissionNumber}
-            onChange={(event) => setSubmissionNumber(event.target.value)}
-          />
-        </Field>
+          helpText={t('ibys.detail.submissionNumberHint')}
+          className="col-12"
+          value={submissionNumber}
+          onChange={setSubmissionNumber}
+        />
 
-        <Field label={t('ibys.fields.message')} htmlFor="ibys-message">
-          <textarea
-            id="ibys-message"
-            className="form-control"
-            rows={3}
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-          />
-        </Field>
+        <TextArea
+          id="ibys-message"
+          label={t('ibys.fields.message')}
+          className="col-12"
+          rows={3}
+          value={message}
+          onChange={setMessage}
+        />
       </div>
     </Modal>
   )

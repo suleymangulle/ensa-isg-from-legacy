@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { useLookup } from '@/api/endpoints'
@@ -81,7 +82,7 @@ export default function OfficeListPage() {
       align: 'center',
       render: (office) =>
         office.headquarterOffice ? (
-          <span className="badge-light-primary">{t('office.badges.headquarter')}</span>
+          <Badge variant="primary">{t('office.badges.headquarter')}</Badge>
         ) : (
           t('common.none')
         ),
@@ -91,9 +92,9 @@ export default function OfficeListPage() {
       header: t('office.fields.status'),
       align: 'center',
       render: (office) => (
-        <span className={office.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={office.isActive ? 'success' : 'danger'}>
           {office.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -103,24 +104,20 @@ export default function OfficeListPage() {
       width: '140px',
       render: (office) => (
         <div className="d-inline-flex gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={() => setEditingId(office.id)}
             aria-label={t('office.actions.editNamed', { name: office.name })}
             title={t('common.edit')}
           >
             ✎
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setPendingDelete(office)}
             aria-label={t('office.actions.deleteNamed', { name: office.name })}
             title={t('common.delete')}
           >
             ✕
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -132,14 +129,15 @@ export default function OfficeListPage() {
         title={t('office.list.title')}
         description={t('office.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('office.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0 d-block">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(value) => {
@@ -148,51 +146,48 @@ export default function OfficeListPage() {
             }}
             placeholder={t('office.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ maxWidth: 180 }}>
               <label htmlFor="office-filter-active" className="visually-hidden">
                 {t('office.filters.status')}
               </label>
-              <select
+              <Select
                 id="office-filter-active"
-                className="form-select"
-                style={{ maxWidth: 180 }}
-                value={activeState}
-                onChange={(event) => {
-                  setActiveState(event.target.value)
+                options={[
+                  { value: 'true', label: t('common.active') },
+                  { value: 'false', label: t('common.passive') },
+                ]}
+                value={activeState === '' ? null : activeState}
+                onChange={(value) => {
+                  setActiveState(value ?? '')
                   setPage(1)
                 }}
-              >
-                <option value="">{t('office.filters.allStatuses')}</option>
-                <option value="true">{t('common.active')}</option>
-                <option value="false">{t('common.passive')}</option>
-              </select>
+                placeholder={t('office.filters.allStatuses')}
+              />
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('office.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(office) => office.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('office.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data &&
+          data.totalCount > 0 && (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          )
+        }
+      >
+        <DataTable
+          label={t('office.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(office) => office.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('office.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <OfficeFormModal onClose={() => setCreateOpen(false)} />}
       {editingId !== null && editing.data && (

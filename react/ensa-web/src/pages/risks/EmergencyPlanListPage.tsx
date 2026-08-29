@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, Input, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { HAZARD_CLASS_BADGE, HazardClass, useLookup } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
 import { useCreate, useDelete } from '@/api/mutations'
@@ -47,16 +48,16 @@ export default function EmergencyPlanListPage() {
 
   function validityBadge(plan: EmergencyActionPlanListDto): ReactNode {
     if (plan.isExpired) {
-      return <span className="badge-light-danger">{t('emergencyPlan.validity.expired')}</span>
+      return <Badge variant="danger">{t('emergencyPlan.validity.expired')}</Badge>
     }
     if (plan.remainingDays <= EXPIRY_WARNING_DAYS) {
       return (
-        <span className="badge-light-warning">
+        <Badge variant="warning">
           {t('emergencyPlan.validity.expiring', { count: plan.remainingDays })}
-        </span>
+        </Badge>
       )
     }
-    return <span className="badge-light-success">{t('emergencyPlan.validity.valid')}</span>
+    return <Badge variant="success">{t('emergencyPlan.validity.valid')}</Badge>
   }
 
   const columns: Column<EmergencyActionPlanListDto>[] = [
@@ -73,9 +74,9 @@ export default function EmergencyPlanListPage() {
       key: 'hazardClass',
       header: t('emergencyPlan.fields.hazardClass'),
       render: (plan) => (
-        <span className={HAZARD_CLASS_BADGE[plan.hazardClass]}>
+        <Badge variant={HAZARD_CLASS_BADGE[plan.hazardClass]}>
           {t(`enums.hazardClass.${plan.hazardClass}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -108,19 +109,17 @@ export default function EmergencyPlanListPage() {
         <div className="d-flex justify-content-end gap-2">
           <Link
             to={`/emergency-plans/${plan.id}`}
-            className="btn btn-sm btn-light-primary"
+            className="btn btn-sm"
             aria-label={t('emergencyPlan.list.openDetail', { name: planName(plan) })}
           >
             {t('common.detail')}
           </Link>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          <Button variant="light" size="sm" 
             onClick={() => setPendingDelete(plan)}
             aria-label={t('emergencyPlan.list.deletePlan', { name: planName(plan) })}
           >
             {t('common.delete')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -132,14 +131,15 @@ export default function EmergencyPlanListPage() {
         title={t('emergencyPlan.list.title')}
         description={t('emergencyPlan.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('emergencyPlan.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-body">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(next) => {
@@ -148,47 +148,38 @@ export default function EmergencyPlanListPage() {
             }}
             placeholder={t('emergencyPlan.list.searchPlaceholder')}
           >
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                id="onlyExpired"
-                checked={onlyExpired}
-                onChange={(event) => {
-                  setOnlyExpired(event.target.checked)
-                  setPage(1)
-                }}
-              />
-              <label className="form-check-label" htmlFor="onlyExpired">
-                {t('emergencyPlan.list.onlyExpired')}
-              </label>
-            </div>
+            <CheckBox
+              id="onlyExpired"
+              checked={onlyExpired}
+              onChange={(checked) => {
+                setOnlyExpired(checked)
+                setPage(1)
+              }}
+              label={t('emergencyPlan.list.onlyExpired')}
+            />
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('emergencyPlan.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(plan) => plan.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('emergencyPlan.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('emergencyPlan.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(plan) => plan.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('emergencyPlan.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && <CreatePlanModal onClose={() => setCreateOpen(false)} />}
 
@@ -251,130 +242,94 @@ function CreatePlanModal({ onClose }: { onClose: () => void }) {
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="planCompanyId"
           label={t('emergencyPlan.fields.company')}
-          htmlFor="planCompanyId"
           required
           error={validation.companyId}
           className="col-md-6"
-        >
-          <select
-            id="planCompanyId"
-            className={controlClass('form-select', validation.companyId)}
-            value={form.companyId || ''}
-            onChange={(event) => {
-              const selected = companies.data?.items.find(
-                (company) => company.id === Number(event.target.value),
-              )
-              patch({
-                companyId: Number(event.target.value),
-                companyName: form.companyName || (selected?.displayName ?? null),
-              })
-            }}
-          >
-            <option value="">{t('emergencyPlan.create.selectCompany')}</option>
-            {companies.data?.items.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('emergencyPlan.create.selectCompany')}
+          options={
+            companies.data?.items.map((company) => ({
+              value: company.id,
+              label: company.displayName,
+            })) ?? []
+          }
+          value={form.companyId || null}
+          onChange={(value) => {
+            const selected = companies.data?.items.find((company) => company.id === value)
+            patch({
+              companyId: value ?? 0,
+              companyName: form.companyName || (selected?.displayName ?? null),
+            })
+          }}
+        />
 
-        <Field
+        <Select
+          id="planHazardClass"
           label={t('emergencyPlan.fields.hazardClass')}
-          htmlFor="planHazardClass"
           required
-          hint={t('emergencyPlan.create.hazardClassHint')}
+          helpText={t('emergencyPlan.create.hazardClassHint')}
           className="col-md-3"
-        >
-          <select
-            id="planHazardClass"
-            className="form-select"
-            value={form.hazardClass}
-            onChange={(event) => patch({ hazardClass: Number(event.target.value) as HazardClass })}
-          >
-            {SELECTABLE_HAZARD_CLASSES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.hazardClass.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={SELECTABLE_HAZARD_CLASSES.map((value) => ({
+            value,
+            label: t(`enums.hazardClass.${value}`),
+          }))}
+          value={form.hazardClass}
+          onChange={(value) => patch({ hazardClass: (value ?? HazardClass.LowHazard) as HazardClass })}
+        />
 
-        <Field
+        <Input
+          id="planPreparedDate"
           label={t('emergencyPlan.fields.preparedDate')}
-          htmlFor="planPreparedDate"
           required
           error={validation.preparedDate}
           className="col-md-3"
-        >
-          <input
-            id="planPreparedDate"
-            type="date"
-            className={controlClass('form-control', validation.preparedDate)}
-            value={form.preparedDate}
-            onChange={(event) => patch({ preparedDate: event.target.value })}
-          />
-        </Field>
+          inputProps={{ type: 'date' }}
+          value={form.preparedDate}
+          onChange={(value) => patch({ preparedDate: value })}
+        />
 
-        <Field
+        <Input
+          id="planCompanyName"
           label={t('emergencyPlan.fields.workplaceTitle')}
-          htmlFor="planCompanyName"
-          hint={t('emergencyPlan.create.workplaceTitleHint')}
+          helpText={t('emergencyPlan.create.workplaceTitleHint')}
           className="col-md-6"
-        >
-          <input
-            id="planCompanyName"
-            className="form-control"
-            value={form.companyName ?? ''}
-            onChange={(event) => patch({ companyName: event.target.value })}
-          />
-        </Field>
+          value={form.companyName ?? ''}
+          onChange={(value) => patch({ companyName: value })}
+        />
 
-        <Field
+        <Input
+          id="planRegistrationNo"
           label={t('emergencyPlan.fields.registrationNo')}
-          htmlFor="planRegistrationNo"
           className="col-md-3"
-        >
-          <input
-            id="planRegistrationNo"
-            className="form-control"
-            value={form.registrationNo ?? ''}
-            onChange={(event) => patch({ registrationNo: event.target.value })}
-          />
-        </Field>
+          value={form.registrationNo ?? ''}
+          onChange={(value) => patch({ registrationNo: value })}
+        />
 
-        <Field label={t('emergencyPlan.fields.phone')} htmlFor="planPhone" className="col-md-3">
-          <input
-            id="planPhone"
-            className="form-control"
-            value={form.phone ?? ''}
-            onChange={(event) => patch({ phone: event.target.value })}
-          />
-        </Field>
+        <Input
+          id="planPhone"
+          label={t('emergencyPlan.fields.phone')}
+          className="col-md-3"
+          value={form.phone ?? ''}
+          onChange={(value) => patch({ phone: value })}
+        />
 
-        <Field label={t('emergencyPlan.fields.address')} htmlFor="planAddress" className="col-md-8">
-          <input
-            id="planAddress"
-            className="form-control"
-            value={form.address ?? ''}
-            onChange={(event) => patch({ address: event.target.value })}
-          />
-        </Field>
+        <Input
+          id="planAddress"
+          label={t('emergencyPlan.fields.address')}
+          className="col-md-8"
+          value={form.address ?? ''}
+          onChange={(value) => patch({ address: value })}
+        />
 
-        <Field
+        <Input
+          id="planTeamsChief"
           label={t('emergencyPlan.fields.teamsChief')}
-          htmlFor="planTeamsChief"
           className="col-md-4"
-        >
-          <input
-            id="planTeamsChief"
-            className="form-control"
-            value={form.teamsChief ?? ''}
-            onChange={(event) => patch({ teamsChief: event.target.value })}
-          />
-        </Field>
+          value={form.teamsChief ?? ''}
+          onChange={(value) => patch({ teamsChief: value })}
+        />
       </div>
     </Modal>
   )

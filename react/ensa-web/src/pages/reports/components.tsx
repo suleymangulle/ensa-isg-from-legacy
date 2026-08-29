@@ -1,8 +1,19 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  Alert,
+  Button,
+  Card,
+  Input,
+  NumberInput,
+  ProgressBar,
+  Select,
+  TextArea,
+  type BadgeVariant,
+  type SelectOption,
+} from 'rich-react-component'
 import type { LookupDto } from '@/api/endpoints'
 import { AssignmentType, HazardClass, StaffRole } from '@/api/enums'
-import { Field, controlClass } from '@/components/Form'
 import { formatNumber } from '@/utils/format'
 
 /**
@@ -19,30 +30,33 @@ import { formatNumber } from '@/utils/format'
 /**
  * Hazard-class colours, repeated here rather than imported from `@/api/endpoints` because the
  * breakdown summary needs the *solid* variants for its progress bars, not the light badges.
+ *
+ * Feeds `<ProgressBar variant>`, so the palette is a `BadgeVariant` rather than a raw CSS colour;
+ * `Unspecified` has no dedicated Metronic hue, so it falls back to `secondary`.
  */
-export const HAZARD_CLASS_BAR: Record<HazardClass, string> = {
-  [HazardClass.Unspecified]: 'var(--kt-gray-400)',
-  [HazardClass.LowHazard]: 'var(--kt-success)',
-  [HazardClass.Hazardous]: 'var(--kt-warning)',
-  [HazardClass.VeryHazardous]: 'var(--kt-danger)',
+export const HAZARD_CLASS_BAR: Record<HazardClass, BadgeVariant> = {
+  [HazardClass.Unspecified]: 'secondary',
+  [HazardClass.LowHazard]: 'success',
+  [HazardClass.Hazardous]: 'warning',
+  [HazardClass.VeryHazardous]: 'danger',
 }
 
-export const ASSIGNMENT_TYPE_BADGE: Record<AssignmentType, string> = {
-  [AssignmentType.Unspecified]: 'badge-light-primary',
-  [AssignmentType.InboundAssignment]: 'badge-light-info',
-  [AssignmentType.OutboundAssignment]: 'badge-light-warning',
+export const ASSIGNMENT_TYPE_BADGE: Record<AssignmentType, BadgeVariant> = {
+  [AssignmentType.Unspecified]: 'primary',
+  [AssignmentType.InboundAssignment]: 'info',
+  [AssignmentType.OutboundAssignment]: 'warning',
 }
 
-export const STAFF_ROLE_BADGE: Record<StaffRole, string> = {
-  [StaffRole.Unspecified]: 'badge-light-primary',
-  [StaffRole.OccupationalSafetySpecialist]: 'badge-light-info',
-  [StaffRole.WorkplacePhysician]: 'badge-light-success',
-  [StaffRole.OtherHealthPersonnel]: 'badge-light-warning',
-  [StaffRole.OfficeStaff]: 'badge-light-primary',
-  [StaffRole.Customer]: 'badge-light-primary',
-  [StaffRole.OfficeAdministrator]: 'badge-light-primary',
-  [StaffRole.OrganizationAdministrator]: 'badge-light-primary',
-  [StaffRole.SystemAdministrator]: 'badge-light-primary',
+export const STAFF_ROLE_BADGE: Record<StaffRole, BadgeVariant> = {
+  [StaffRole.Unspecified]: 'primary',
+  [StaffRole.OccupationalSafetySpecialist]: 'info',
+  [StaffRole.WorkplacePhysician]: 'success',
+  [StaffRole.OtherHealthPersonnel]: 'warning',
+  [StaffRole.OfficeStaff]: 'primary',
+  [StaffRole.Customer]: 'primary',
+  [StaffRole.OfficeAdministrator]: 'primary',
+  [StaffRole.OrganizationAdministrator]: 'primary',
+  [StaffRole.SystemAdministrator]: 'primary',
 }
 
 // ---------------------------------------------------------------
@@ -100,16 +114,17 @@ export function EmptyHint({ message }: { message: string }) {
   )
 }
 
-/** Neutral panel telling the user which filter still has to be chosen before a request fires. */
+/**
+ * Neutral panel telling the user which filter still has to be chosen before a request fires.
+ *
+ * `Alert` only has an assertive `role="alert"`, unlike the polite `role="status"` this used to
+ * carry — an accepted trade-off of routing every message box through the one library component.
+ */
 export function GateHint({ message }: { message: string }) {
   return (
-    <div
-      className="alert border-0 mb-0"
-      style={{ backgroundColor: 'var(--kt-info-light)', color: 'var(--kt-info)' }}
-      role="status"
-    >
+    <Alert variant="info" className="mb-0">
       {message}
-    </div>
+    </Alert>
   )
 }
 
@@ -128,8 +143,8 @@ export function SummaryCard({
   icon: string
 }) {
   return (
-    <div className="card h-100">
-      <div className="card-body d-flex align-items-center gap-3">
+    <Card className="h-100">
+      <div className="d-flex align-items-center gap-3">
         <span
           className="d-inline-flex align-items-center justify-content-center flex-shrink-0"
           style={{
@@ -157,27 +172,29 @@ export function SummaryCard({
           )}
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
 
 /**
- * One row of a distribution summary: a label, a Bootstrap progress bar and the figure itself.
+ * One row of a distribution summary: a label, a progress bar and the figure itself.
  *
- * The bar is decorative — `aria-hidden` — because the count and the share are already in the
- * text next to it, which is what a screen reader should read out.
+ * The count and the share are already in the text next to the bar, so the bar itself adds no
+ * information a screen reader needs — but `ProgressBar` still reports it via `role="progressbar"`
+ * plus `aria-valuenow`/`-valuemin`/`-valuemax`, which the hand-rolled `.progress` markup this used
+ * to render never did.
  */
 export function DistributionRow({
   label,
   value,
   total,
-  colour,
+  variant,
   shareLabel,
 }: {
   label: string
   value: number
   total: number
-  colour: string
+  variant: BadgeVariant
   /** Already translated share text, e.g. "%42". */
   shareLabel: string
 }) {
@@ -193,12 +210,7 @@ export function DistributionRow({
           {formatNumber(value)} · {shareLabel}
         </span>
       </div>
-      <div className="progress" style={{ height: 8 }} aria-hidden="true">
-        <div
-          className="progress-bar"
-          style={{ width: `${percent}%`, backgroundColor: colour }}
-        />
-      </div>
+      <ProgressBar value={percent} variant={variant} />
     </div>
   )
 }
@@ -226,44 +238,44 @@ export function ReportPeriodBanner({
   extraValue?: string
 }) {
   return (
-    <div
-      className="card mb-4"
-      style={{ borderLeft: '4px solid var(--kt-primary)' }}
-    >
-      <div className="card-body">
-        <div className="row g-3">
-          <div className="col-12 col-md">
-            <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{companyLabel}</div>
-            <div
-              className="fw-bold"
-              style={{ color: 'var(--kt-gray-900)', fontSize: '1.125rem', lineHeight: 1.3 }}
-            >
-              {companyName}
-            </div>
+    // `Card` takes no inline `style`, so the accent bar is rebuilt from Bootstrap's border
+    // utilities instead of the original `borderLeft: '4px solid var(--kt-primary)'`: only the
+    // start side keeps a border, `border-4` widens it, `border-primary` colours it — and since
+    // `$primary` is Metronic's blue (see `metronic.scss`), `border-primary` renders the same hex
+    // the inline style did.
+    <Card className="mb-4 border-top-0 border-end-0 border-bottom-0 border-start border-4 border-primary">
+      <div className="row g-3">
+        <div className="col-12 col-md">
+          <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{companyLabel}</div>
+          <div
+            className="fw-bold"
+            style={{ color: 'var(--kt-gray-900)', fontSize: '1.125rem', lineHeight: 1.3 }}
+          >
+            {companyName}
           </div>
-          <div className="col-12 col-md-auto">
-            <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{periodLabel}</div>
-            <div
-              className="fw-bold"
-              style={{ color: 'var(--kt-gray-900)', fontSize: '1.125rem', lineHeight: 1.3 }}
-            >
-              {periodValue}
-            </div>
-          </div>
-          {extraLabel && (
-            <div className="col-12 col-md-auto">
-              <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{extraLabel}</div>
-              <div
-                className="fw-bold"
-                style={{ color: 'var(--kt-gray-900)', fontSize: '1.125rem', lineHeight: 1.3 }}
-              >
-                {extraValue}
-              </div>
-            </div>
-          )}
         </div>
+        <div className="col-12 col-md-auto">
+          <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{periodLabel}</div>
+          <div
+            className="fw-bold"
+            style={{ color: 'var(--kt-gray-900)', fontSize: '1.125rem', lineHeight: 1.3 }}
+          >
+            {periodValue}
+          </div>
+        </div>
+        {extraLabel && (
+          <div className="col-12 col-md-auto">
+            <div style={{ color: 'var(--kt-gray-500)', fontSize: '0.8125rem' }}>{extraLabel}</div>
+            <div
+              className="fw-bold"
+              style={{ color: 'var(--kt-gray-900)', fontSize: '1.125rem', lineHeight: 1.3 }}
+            >
+              {extraValue}
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+    </Card>
   )
 }
 
@@ -284,24 +296,20 @@ export function RowActions({
   return (
     <div className="d-flex justify-content-end gap-1 d-print-none">
       {extra}
-      <button
-        type="button"
-        className="btn btn-sm btn-light-primary"
+      <Button variant="light" size="sm" 
         aria-label={editLabel}
         title={editLabel}
         onClick={onEdit}
       >
         <span aria-hidden="true">✎</span>
-      </button>
-      <button
-        type="button"
-        className="btn btn-sm btn-light-danger"
+      </Button>
+      <Button variant="light" size="sm" 
         aria-label={deleteLabel}
         title={deleteLabel}
         onClick={onDelete}
       >
         <span aria-hidden="true">🗑</span>
-      </button>
+      </Button>
     </div>
   )
 }
@@ -311,16 +319,14 @@ export function PrintButton() {
   const { t } = useTranslation()
 
   return (
-    <button
-      type="button"
-      className="btn btn-light-primary d-print-none"
+    <Button variant="light" className="d-print-none"
       onClick={() => window.print()}
     >
       <span aria-hidden="true" className="me-2">
         ⎙
       </span>
       {t('reports.common.print')}
-    </button>
+    </Button>
   )
 }
 
@@ -369,7 +375,7 @@ export function ReportPrintStyles() {
 // Form controls
 // ---------------------------------------------------------------
 
-/** A `<select>` bound to a lookup list, wrapped in the shared `Field`. */
+/** A `<select>` bound to a lookup list. */
 export function LookupField({
   id,
   label,
@@ -400,30 +406,19 @@ export function LookupField({
   const { t } = useTranslation()
 
   return (
-    <Field
+    <Select<number>
+      id={id}
       label={label}
-      htmlFor={id}
       required={required}
       error={error}
-      hint={hint}
+      helpText={hint}
       className={className}
-    >
-      <select
-        id={id}
-        className={controlClass('form-select', error)}
-        value={value ?? ''}
-        disabled={disabled || isLoading}
-        aria-invalid={error ? true : undefined}
-        onChange={(event) => onChange(event.target.value ? Number(event.target.value) : undefined)}
-      >
-        <option value="">{isLoading ? t('common.loading') : placeholder}</option>
-        {items?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.displayName}
-          </option>
-        ))}
-      </select>
-    </Field>
+      disabled={disabled || isLoading}
+      placeholder={isLoading ? t('common.loading') : placeholder}
+      options={items?.map((item) => ({ value: item.id, label: item.displayName })) ?? []}
+      value={value ?? null}
+      onChange={(next) => onChange(next ?? undefined)}
+    />
   )
 }
 
@@ -457,29 +452,22 @@ export function EnumField({
   const { t } = useTranslation()
 
   return (
-    <Field label={label} htmlFor={id} required={required} error={error} className={className}>
-      <select
-        id={id}
-        className={controlClass('form-select', error)}
-        value={value ?? ''}
-        disabled={disabled}
-        aria-invalid={error ? true : undefined}
-        onChange={(event) =>
-          onChange(event.target.value === '' ? undefined : Number(event.target.value))
-        }
-      >
-        {placeholder !== undefined && <option value="">{placeholder}</option>}
-        {values.map((item) => (
-          <option key={item} value={item}>
-            {t(`${translationPrefix}.${item}`)}
-          </option>
-        ))}
-      </select>
-    </Field>
+    <Select<number>
+      id={id}
+      label={label}
+      required={required}
+      error={error}
+      className={className}
+      disabled={disabled}
+      placeholder={placeholder}
+      options={values.map((item) => ({ value: item, label: t(`${translationPrefix}.${item}`) }))}
+      value={value ?? null}
+      onChange={(next) => onChange(next ?? undefined)}
+    />
   )
 }
 
-/** A text or number input wrapped in the shared `Field`. */
+/** A text, number or multi-line field, resolved to the matching library field component. */
 export function TextField({
   id,
   label,
@@ -510,39 +498,54 @@ export function TextField({
   min?: number
   max?: number
 }) {
+  if (rows) {
+    return (
+      <TextArea
+        id={id}
+        rows={rows}
+        label={label}
+        required={required}
+        error={error}
+        helpText={hint}
+        className={className}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+      />
+    )
+  }
+
+  if (type === 'number') {
+    return (
+      <NumberInput
+        id={id}
+        label={label}
+        required={required}
+        error={error}
+        helpText={hint}
+        className={className}
+        placeholder={placeholder}
+        min={min}
+        max={max}
+        value={value === '' ? null : Number(value)}
+        onChange={(next) => onChange(next === null ? '' : String(next))}
+      />
+    )
+  }
+
   return (
-    <Field
+    <Input
+      id={id}
       label={label}
-      htmlFor={id}
       required={required}
       error={error}
-      hint={hint}
+      helpText={hint}
       className={className}
-    >
-      {rows ? (
-        <textarea
-          id={id}
-          rows={rows}
-          className={controlClass('form-control', error)}
-          value={value}
-          placeholder={placeholder}
-          aria-invalid={error ? true : undefined}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      ) : (
-        <input
-          id={id}
-          type={type}
-          className={controlClass('form-control', error)}
-          value={value}
-          placeholder={placeholder}
-          min={min}
-          max={max}
-          aria-invalid={error ? true : undefined}
-          onChange={(event) => onChange(event.target.value)}
-        />
-      )}
-    </Field>
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+      inputProps={type === 'date' ? { type: 'date' } : undefined}
+    />
   )
 }
 
@@ -550,20 +553,26 @@ export function TextField({
 // Toolbar filters
 // ---------------------------------------------------------------
 
-/** Toolbar filter select; compact, so it carries a `visually-hidden` label rather than a `Field`. */
+/**
+ * Toolbar filter select; compact, so it carries a `visually-hidden` label rather than the
+ * library's own (visible) `label` prop. Values are kept as strings the same way the raw
+ * `<select>` this replaces did, so an empty string still means "no filter chosen".
+ */
 export function FilterSelect({
   id,
   label,
   value,
   onChange,
-  children,
+  options,
+  placeholder,
   width = 190,
 }: {
   id: string
   label: string
   value: string
   onChange: (next: string) => void
-  children: ReactNode
+  options: SelectOption<string>[]
+  placeholder: string
   width?: number
 }) {
   return (
@@ -571,15 +580,13 @@ export function FilterSelect({
       <label htmlFor={id} className="visually-hidden">
         {label}
       </label>
-      <select
+      <Select
         id={id}
-        className="form-select"
-        value={value}
-        aria-label={label}
-        onChange={(event) => onChange(event.target.value)}
-      >
-        {children}
-      </select>
+        options={options}
+        placeholder={placeholder}
+        value={value === '' ? null : value}
+        onChange={(next) => onChange(next ?? '')}
+      />
     </div>
   )
 }
@@ -605,14 +612,9 @@ export function FilterDate({
       >
         {label}
       </label>
-      <input
-        id={id}
-        type="date"
-        className="form-control"
-        style={{ minWidth: 150 }}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-      />
+      <div style={{ minWidth: 150 }}>
+        <Input id={id} inputProps={{ type: 'date' }} value={value} onChange={onChange} />
+      </div>
     </div>
   )
 }

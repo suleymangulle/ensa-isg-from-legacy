@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { useLookup } from '@/api/endpoints'
@@ -64,26 +65,24 @@ export default function OfficeDetailPage() {
         }
         action={
           <div className="d-flex flex-wrap gap-2">
-            <button type="button" className="btn btn-primary" onClick={() => setEditOpen(true)}>
+            <Button variant="primary" onClick={() => setEditOpen(true)}>
               {t('common.edit')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-light-danger"
+            </Button>
+            <Button variant="light" 
               onClick={() => setDeleteOpen(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <div className="d-flex flex-wrap gap-2 mb-4">
-        <span className={office.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={office.isActive ? 'success' : 'danger'}>
           {office.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
         {office.headquarterOffice && (
-          <span className="badge-light-primary">{t('office.badges.headquarter')}</span>
+          <Badge variant="primary">{t('office.badges.headquarter')}</Badge>
         )}
       </div>
 
@@ -95,11 +94,12 @@ export default function OfficeDetailPage() {
         />
       </div>
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        header={
           <h2 className="card-title h6 mb-0">{t('office.detail.general')}</h2>
-        </div>
-        <div className="card-body">
+        
+        }
+      >
           <div className="row">
             <Detail label={t('office.fields.organization')}>
               {data.organization?.displayName ?? t('common.host')}
@@ -124,8 +124,8 @@ export default function OfficeDetailPage() {
               {office.authorizedEmail ?? none}
             </Detail>
           </div>
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditOpen && <OfficeFormModal office={office} onClose={() => setEditOpen(false)} />}
 
@@ -145,8 +145,9 @@ export default function OfficeDetailPage() {
 function CounterCard({ label, value }: { label: string; value: number }) {
   return (
     <div className="col-sm-6 col-lg-4">
-      <div className="card h-100">
-        <div className="card-body">
+      <Card
+        className="h-100"
+      >
           <div
             className="text-uppercase fw-semibold mb-2"
             style={{ color: 'var(--kt-gray-500)', fontSize: '0.6875rem', letterSpacing: '0.06em' }}
@@ -156,8 +157,8 @@ function CounterCard({ label, value }: { label: string; value: number }) {
           <div className="fs-2 fw-bold" style={{ color: 'var(--kt-gray-900)' }}>
             {value}
           </div>
-        </div>
-      </div>
+        
+      </Card>
     </div>
   )
 }

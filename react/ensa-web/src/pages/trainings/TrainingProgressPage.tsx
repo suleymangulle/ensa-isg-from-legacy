@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, NumberInput, Select } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useLookup } from '@/api/endpoints'
 import {
@@ -62,11 +63,11 @@ export default function TrainingProgressPage() {
       header: t('trainingProgress.fields.completion'),
       align: 'center',
       render: (row) => (
-        <span className={row.latestTestCompleted ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.latestTestCompleted ? 'success' : 'danger'}>
           {row.latestTestCompleted
             ? t('trainingProgress.completed')
             : t('trainingProgress.incomplete')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -100,36 +101,30 @@ export default function TrainingProgressPage() {
       width: '260px',
       render: (row) => (
         <div className="d-flex justify-content-end flex-wrap gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             onClick={() => setDetailId(row.id)}
             aria-label={t('trainingProgress.detailAria', {
               name: trainingNames.get(row.trainingId) ?? '',
             })}
           >
             {t('common.detail')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setSavingProgress(row)}
             aria-label={t('trainingProgress.saveProgressAria', {
               name: trainingNames.get(row.trainingId) ?? '',
             })}
           >
             {t('trainingProgress.saveProgress')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-success"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={() => setExamFor(row)}
             aria-label={t('trainingProgress.submitExamAria', {
               name: trainingNames.get(row.trainingId) ?? '',
             })}
           >
             {t('trainingProgress.submitExam')}
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -141,65 +136,52 @@ export default function TrainingProgressPage() {
         title={t('trainingProgress.title')}
         description={t('trainingProgress.description')}
         action={
-          <button
-            className="btn btn-primary"
-            type="button"
+          <Button variant="primary"
             disabled={!employeeId}
             onClick={() => setStartOpen(true)}
           >
             {t('trainingProgress.start')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <div className="row g-3">
-            <Field
+            <Select
+              id="progress-company"
               label={t('trainingProgress.fields.company')}
-              htmlFor="progress-company"
               className="col-md-4"
-            >
-              <select
-                id="progress-company"
-                className="form-select"
-                value={companyId ?? ''}
-                onChange={(event) => {
-                  setCompanyId(event.target.value === '' ? null : Number(event.target.value))
-                  setEmployeeId(null)
-                }}
-              >
-                <option value="">{t('trainingProgress.selectCompany')}</option>
-                {companies.data?.items.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.displayName}
-                  </option>
-                ))}
-              </select>
-            </Field>
+              placeholder={t('trainingProgress.selectCompany')}
+              options={
+                companies.data?.items.map((company) => ({
+                  value: company.id,
+                  label: company.displayName,
+                })) ?? []
+              }
+              value={companyId}
+              onChange={(value) => {
+                setCompanyId(value)
+                setEmployeeId(null)
+              }}
+            />
 
-            <Field
+            <Select
+              id="progress-employee"
               label={t('trainingProgress.fields.employee')}
-              htmlFor="progress-employee"
               className="col-md-4"
-            >
-              <select
-                id="progress-employee"
-                className="form-select"
-                value={employeeId ?? ''}
-                disabled={!companyId}
-                onChange={(event) =>
-                  setEmployeeId(event.target.value === '' ? null : Number(event.target.value))
-                }
-              >
-                <option value="">{t('trainingProgress.selectEmployee')}</option>
-                {employees.data?.items.map((employee) => (
-                  <option key={employee.id} value={employee.id}>
-                    {employee.displayName}
-                  </option>
-                ))}
-              </select>
-            </Field>
+              placeholder={t('trainingProgress.selectEmployee')}
+              disabled={!companyId}
+              options={
+                employees.data?.items.map((employee) => ({
+                  value: employee.id,
+                  label: employee.displayName,
+                })) ?? []
+              }
+              value={employeeId}
+              onChange={(value) => setEmployeeId(value)}
+            />
 
             {employeeId && rows.length > 0 && (
               <div className="col-md-4 d-flex align-items-end">
@@ -212,18 +194,19 @@ export default function TrainingProgressPage() {
               </div>
             )}
           </div>
-        </div>
-      </div>
+        
+      </Card>
 
       {!employeeId ? (
-        <div className="card">
-          <div className="card-body text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
+        <Card>
+          <div className="text-center py-5" style={{ color: 'var(--kt-gray-500)' }}>
             {t('trainingProgress.awaitingSelection')}
           </div>
-        </div>
+        </Card>
       ) : (
-        <div className="card">
-          <div className="card-body p-0">
+        <Card
+          
+        >
             <DataTable
               label={t('trainingProgress.title')}
               columns={columns}
@@ -233,8 +216,8 @@ export default function TrainingProgressPage() {
               error={progress.error ? errorMessage(progress.error) : null}
               emptyMessage={t('trainingProgress.empty')}
             />
-          </div>
-        </div>
+          
+        </Card>
       )}
 
       {isStartOpen && employeeId && (
@@ -256,10 +239,10 @@ export default function TrainingProgressPage() {
 function TestCell({ completed, score }: { completed: boolean; score?: number | null }) {
   const { t } = useTranslation()
   return (
-    <span className={completed ? 'badge-light-success' : 'badge-light-warning'}>
+    <Badge variant={completed ? 'success' : 'warning'}>
       {completed ? t('trainingProgress.passed') : t('trainingProgress.notTaken')}
       {score != null && ` · ${score}`}
-    </span>
+    </Badge>
   )
 }
 
@@ -304,52 +287,40 @@ function StartModal({ employeeId, onClose }: { employeeId: number; onClose: () =
       error={start.error ? errorMessage(start.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <Select
+          id="start-training"
           label={t('trainingProgress.fields.training')}
-          htmlFor="start-training"
           required
           error={trainingError}
-        >
-          <select
-            id="start-training"
-            className={controlClass('form-select', trainingError)}
-            value={trainingId || ''}
-            onChange={(event) => {
-              setTrainingId(Number(event.target.value) || 0)
-              setTopicId(null)
-            }}
-          >
-            <option value="">{t('trainingProgress.selectTraining')}</option>
-            {trainings.data?.items.map((training) => (
-              <option key={training.id} value={training.id}>
-                {training.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+          placeholder={t('trainingProgress.selectTraining')}
+          options={
+            trainings.data?.items.map((training) => ({
+              value: training.id,
+              label: training.displayName,
+            })) ?? []
+          }
+          value={trainingId || null}
+          onChange={(value) => {
+            setTrainingId(value ?? 0)
+            setTopicId(null)
+          }}
+        />
 
-        <Field
+        <Select
+          id="start-topic"
           label={t('trainingProgress.fields.topic')}
-          htmlFor="start-topic"
-          hint={t('trainingProgress.topicHint')}
-        >
-          <select
-            id="start-topic"
-            className="form-select"
-            value={topicId ?? ''}
-            disabled={!trainingId || !detail.data?.topics.length}
-            onChange={(event) =>
-              setTopicId(event.target.value === '' ? null : Number(event.target.value))
-            }
-          >
-            <option value="">{t('trainingProgress.wholeTraining')}</option>
-            {detail.data?.topics.map((topic) => (
-              <option key={topic.id} value={topic.id}>
-                {topic.topicTitle}
-              </option>
-            ))}
-          </select>
-        </Field>
+          helpText={t('trainingProgress.topicHint')}
+          placeholder={t('trainingProgress.wholeTraining')}
+          disabled={!trainingId || !detail.data?.topics.length}
+          options={
+            detail.data?.topics.map((topic) => ({
+              value: topic.id,
+              label: topic.topicTitle,
+            })) ?? []
+          }
+          value={topicId}
+          onChange={(value) => setTopicId(value)}
+        />
       </div>
     </Modal>
   )
@@ -390,36 +361,24 @@ function SaveProgressModal({
       error={save.error ? errorMessage(save.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <NumberInput
+          id="progress-minutes"
           label={t('trainingProgress.fields.elapsedMinutes')}
-          htmlFor="progress-minutes"
-          hint={t('trainingProgress.elapsedHint')}
+          helpText={t('trainingProgress.elapsedHint')}
           className="col-md-6"
-        >
-          <input
-            id="progress-minutes"
-            type="number"
-            min={0}
-            className="form-control"
-            value={minutes}
-            onChange={(event) => setMinutes(Number(event.target.value) || 0)}
-          />
-        </Field>
+          min={0}
+          value={minutes}
+          onChange={(value) => setMinutes(value ?? 0)}
+        />
 
-        <Field
+        <NumberInput
+          id="progress-page"
           label={t('trainingProgress.fields.activePage')}
-          htmlFor="progress-page"
           className="col-md-6"
-        >
-          <input
-            id="progress-page"
-            type="number"
-            min={0}
-            className="form-control"
-            value={activePage}
-            onChange={(event) => setActivePage(Number(event.target.value) || 0)}
-          />
-        </Field>
+          min={0}
+          value={activePage}
+          onChange={(value) => setActivePage(value ?? 0)}
+        />
       </div>
     </Modal>
   )
@@ -455,43 +414,35 @@ function ExamModal({
       error={submit.error ? errorMessage(submit.error) : null}
     >
       <div className="row g-3">
-        <Field label={t('trainingProgress.fields.examType')} htmlFor="exam-type" className="col-md-6">
-          <select
-            id="exam-type"
-            className="form-select"
-            value={isFirstTest ? 'first' : 'final'}
-            onChange={(event) => setFirstTest(event.target.value === 'first')}
-          >
-            <option value="first">{t('trainingProgress.firstTest')}</option>
-            <option value="final">{t('trainingProgress.finalTest')}</option>
-          </select>
-        </Field>
+        <Select
+          id="exam-type"
+          label={t('trainingProgress.fields.examType')}
+          className="col-md-6"
+          options={[
+            { value: 'first', label: t('trainingProgress.firstTest') },
+            { value: 'final', label: t('trainingProgress.finalTest') },
+          ]}
+          value={isFirstTest ? 'first' : 'final'}
+          onChange={(value) => setFirstTest(value === 'first')}
+        />
 
-        <Field label={t('trainingProgress.fields.score')} htmlFor="exam-score" className="col-md-6">
-          <input
-            id="exam-score"
-            type="number"
-            min={0}
-            max={100}
-            className="form-control"
-            value={score}
-            onChange={(event) => setScore(Number(event.target.value) || 0)}
-          />
-        </Field>
+        <NumberInput
+          id="exam-score"
+          label={t('trainingProgress.fields.score')}
+          className="col-md-6"
+          min={0}
+          max={100}
+          value={score}
+          onChange={(value) => setScore(value ?? 0)}
+        />
 
         <div className="col-12">
-          <div className="form-check">
-            <input
-              id="exam-completed"
-              type="checkbox"
-              className="form-check-input"
-              checked={completed}
-              onChange={(event) => setCompleted(event.target.checked)}
-            />
-            <label className="form-check-label" htmlFor="exam-completed">
-              {t('trainingProgress.countsAsPassed')}
-            </label>
-          </div>
+          <CheckBox
+            id="exam-completed"
+            checked={completed}
+            onChange={setCompleted}
+            label={t('trainingProgress.countsAsPassed')}
+          />
         </div>
       </div>
     </Modal>
@@ -538,15 +489,12 @@ function DetailModal({ id, onClose }: { id: number; onClose: () => void }) {
             {t('trainingProgress.fields.completion')}
           </dt>
           <dd className="col-6">
-            <span
-              className={
-                data.progress.latestTestCompleted ? 'badge-light-success' : 'badge-light-danger'
-              }
+            <Badge variant={data.progress.latestTestCompleted ? 'success' : 'danger'}
             >
               {data.progress.latestTestCompleted
                 ? t('trainingProgress.completed')
                 : t('trainingProgress.incomplete')}
-            </span>
+            </Badge>
           </dd>
         </dl>
       )}

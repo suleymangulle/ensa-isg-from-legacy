@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Select } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { StaffRole } from '@/api/endpoints'
@@ -87,7 +88,7 @@ export default function UserListPage() {
       key: 'staffRole',
       header: t('user.fields.staffRole'),
       render: (user) => (
-        <span className="badge-light-info">{t(`enums.staffRole.${user.staffRole}`)}</span>
+        <Badge variant="info">{t(`enums.staffRole.${user.staffRole}`)}</Badge>
       ),
     },
     {
@@ -101,9 +102,9 @@ export default function UserListPage() {
         return (
           <span className="d-inline-flex flex-wrap gap-1">
             {badges.map((badge) => (
-              <span key={badge} className="badge-light-primary">
+              <Badge variant="primary" key={badge}>
                 {badge}
-              </span>
+              </Badge>
             ))}
           </span>
         )
@@ -114,9 +115,9 @@ export default function UserListPage() {
       header: t('user.fields.status'),
       align: 'center',
       render: (user) => (
-        <span className={user.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={user.isActive ? 'success' : 'danger'}>
           {user.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -128,15 +129,13 @@ export default function UserListPage() {
         <div className="d-inline-flex gap-1">
           <Link
             to={`/users/${user.id}`}
-            className="btn btn-sm btn-light-primary"
+            className="btn btn-sm"
             aria-label={t('user.actions.openDetail', { name: user.fullName })}
             title={t('common.detail')}
           >
             ⋯
           </Link>
-          <button
-            type="button"
-            className="btn btn-sm btn-light"
+          <Button variant="light" size="sm"
             disabled={setActive.isPending}
             onClick={() => setActive.mutate({ id: user.id, isActive: !user.isActive })}
             aria-label={
@@ -147,10 +146,8 @@ export default function UserListPage() {
             title={user.isActive ? t('user.actions.deactivate') : t('user.actions.activate')}
           >
             {user.isActive ? '⏸' : '▶'}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             disabled={currentUser?.id === user.id}
             onClick={() => setPendingDelete(user)}
             aria-label={t('user.actions.deleteNamed', { name: user.fullName })}
@@ -159,7 +156,7 @@ export default function UserListPage() {
             }
           >
             ✕
-          </button>
+          </Button>
         </div>
       ),
     },
@@ -171,80 +168,73 @@ export default function UserListPage() {
         title={t('user.list.title')}
         description={t('user.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setCreateOpen(true)}>
+          <Button variant="primary" onClick={() => setCreateOpen(true)}>
             {t('user.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header border-0 pt-4 pb-0 d-block">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetToFirstPage(setSearch)}
             placeholder={t('user.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ maxWidth: 260 }}>
               <label htmlFor="user-filter-staffRole" className="visually-hidden">
                 {t('user.filters.staffRole')}
               </label>
-              <select
+              <Select
                 id="user-filter-staffRole"
-                className="form-select"
-                style={{ maxWidth: 260 }}
-                value={staffRole}
-                onChange={(event) => resetToFirstPage(setStaffRole)(event.target.value)}
-              >
-                <option value="">{t('user.filters.allStaffRoles')}</option>
-                {STAFF_ROLES.map((role) => (
-                  <option key={role} value={role}>
-                    {t(`enums.staffRole.${role}`)}
-                  </option>
-                ))}
-              </select>
+                placeholder={t('user.filters.allStaffRoles')}
+                options={STAFF_ROLES.map((role) => ({
+                  value: String(role),
+                  label: t(`enums.staffRole.${role}`),
+                }))}
+                value={staffRole === '' ? null : staffRole}
+                onChange={(value) => resetToFirstPage(setStaffRole)(value ?? '')}
+              />
             </div>
-            <div>
+            <div style={{ maxWidth: 180 }}>
               <label htmlFor="user-filter-active" className="visually-hidden">
                 {t('user.filters.status')}
               </label>
-              <select
+              <Select
                 id="user-filter-active"
-                className="form-select"
-                style={{ maxWidth: 180 }}
-                value={activeState}
-                onChange={(event) => resetToFirstPage(setActiveState)(event.target.value)}
-              >
-                <option value="">{t('user.filters.allStatuses')}</option>
-                <option value="true">{t('common.active')}</option>
-                <option value="false">{t('common.passive')}</option>
-              </select>
+                placeholder={t('user.filters.allStatuses')}
+                options={[
+                  { value: 'true', label: t('common.active') },
+                  { value: 'false', label: t('common.passive') },
+                ]}
+                value={activeState === '' ? null : activeState}
+                onChange={(value) => resetToFirstPage(setActiveState)(value ?? '')}
+              />
             </div>
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('user.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(user) => user.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('user.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('user.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(user) => user.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('user.list.empty')}
+        />
+      </Card>
 
       {isCreateOpen && (
         <UserFormModal

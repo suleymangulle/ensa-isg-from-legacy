@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Button } from 'rich-react-component'
 import { ErrorPanel, Spinner } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { formatDate } from '@/utils/format'
@@ -41,9 +42,9 @@ export default function InvoicePrintPage() {
         <Link to={`/invoices/${invoiceId}`} className="btn btn-light">
           {t('common.back')}
         </Link>
-        <button type="button" className="btn btn-primary" onClick={() => window.print()}>
+        <Button variant="primary" onClick={() => window.print()}>
           {t('finance.invoice.print.action')}
-        </button>
+        </Button>
       </div>
 
       <article id="invoice-print" className="card" aria-label={t('finance.invoice.print.title')}>

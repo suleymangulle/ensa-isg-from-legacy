@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Select, Switch } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
-import { Field, Modal } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   useAddYearEndReviewLine,
   useUpdateYearEndReviewLine,
@@ -121,30 +122,19 @@ export default function YearEndReviewLineFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
-          label={t('reports.yearEnd.fields.parentLine')}
-          htmlFor="year-end-line-parent"
-          hint={t('reports.yearEnd.lineForm.parentHint')}
+        <Select<number>
+          id="year-end-line-parent"
           className="col-md-8"
-        >
-          <select
-            id="year-end-line-parent"
-            className="form-select"
-            value={form.parentLineId ?? ''}
-            onChange={(event) =>
-              patch({
-                parentLineId: event.target.value ? Number(event.target.value) : undefined,
-              })
-            }
-          >
-            <option value="">{t('reports.yearEnd.lineForm.noParent')}</option>
-            {selectableParents.map((parent) => (
-              <option key={parent.id} value={parent.id}>
-                {`${'— '.repeat(parent.depth)}${parent.label}`}
-              </option>
-            ))}
-          </select>
-        </Field>
+          label={t('reports.yearEnd.fields.parentLine')}
+          helpText={t('reports.yearEnd.lineForm.parentHint')}
+          placeholder={t('reports.yearEnd.lineForm.noParent')}
+          options={selectableParents.map((parent) => ({
+            value: parent.id,
+            label: `${'— '.repeat(parent.depth)}${parent.label}`,
+          }))}
+          value={form.parentLineId ?? null}
+          onChange={(next) => patch({ parentLineId: next ?? undefined })}
+        />
 
         <TextField
           id="year-end-line-order"
@@ -209,24 +199,18 @@ export default function YearEndReviewLineFormModal({
         />
 
         {line && (
-          <Field
-            label={t('reports.yearEnd.fields.status')}
-            htmlFor="year-end-line-active"
-            className="col-md-4"
-          >
-            <div className="form-check form-switch mt-2">
-              <input
-                id="year-end-line-active"
-                className="form-check-input"
-                type="checkbox"
-                checked={form.isActive}
-                onChange={(event) => patch({ isActive: event.target.checked })}
-              />
-              <label className="form-check-label ms-2" htmlFor="year-end-line-active">
-                {form.isActive ? t('common.active') : t('common.passive')}
-              </label>
-            </div>
-          </Field>
+          <div className="col-md-4 mb-3">
+            <label htmlFor="year-end-line-active" className="form-label">
+              {t('reports.yearEnd.fields.status')}
+            </label>
+            <Switch
+              id="year-end-line-active"
+              className="mt-2"
+              checked={form.isActive}
+              onChange={(checked) => patch({ isActive: checked })}
+              label={form.isActive ? t('common.active') : t('common.passive')}
+            />
+          </div>
         )}
       </div>
     </Modal>

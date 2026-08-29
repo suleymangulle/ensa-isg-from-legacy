@@ -1,5 +1,6 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Input, Select } from 'rich-react-component'
 import type { LookupDto } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
 import {
@@ -60,38 +61,21 @@ function SearchShell({
   children,
 }: SearchShellProps) {
   const { t } = useTranslation()
-  const inputId = useId()
   const isTermTooShort = term.trim().length < REFERENCE_MIN_TERM_LENGTH
 
   return (
     <div>
-      <label htmlFor={inputId} className="form-label fw-semibold">
-        {label}
-      </label>
-      <input
-        id={inputId}
+      <Input
         type="search"
-        className="form-control"
+        label={label}
         value={term}
         placeholder={placeholder}
-        onChange={(event) => onTermChange(event.target.value)}
+        onChange={onTermChange}
+        helpText={isTermTooShort ? hint : isLoading ? t('common.loading') : undefined}
+        error={!isTermTooShort && error ? errorMessage(error) : undefined}
       />
 
-      {isTermTooShort ? (
-        <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-          {hint}
-        </div>
-      ) : error ? (
-        <div className="form-text" style={{ color: 'var(--kt-danger)' }} role="alert">
-          {errorMessage(error)}
-        </div>
-      ) : isLoading ? (
-        <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-          {t('common.loading')}
-        </div>
-      ) : (
-        children
-      )}
+      {!isTermTooShort && !error && !isLoading && children}
     </div>
   )
 }
@@ -130,15 +114,13 @@ function ResultRow({
 }) {
   return (
     <li>
-      <button
-        type="button"
-        className="btn btn-link text-decoration-none text-start w-100 px-3 py-2"
+      <Button variant="link" className="text-decoration-none text-start w-100 px-3 py-2"
         style={{ color: 'var(--kt-gray-800)' }}
         aria-label={ariaLabel}
         onClick={onSelect}
       >
         {children}
-      </button>
+      </Button>
     </li>
   )
 }
@@ -170,7 +152,7 @@ export function Icd10Picker({ onSelect }: { onSelect: (diagnosis: Icd10LookupDto
               setTerm('')
             }}
           >
-            <span className="badge-light-primary me-2">{item.code}</span>
+            <Badge variant="primary" className="me-2">{item.code}</Badge>
             {item.name}
           </ResultRow>
         ))}
@@ -246,25 +228,16 @@ export function ReferenceSelect({
   const { t } = useTranslation()
 
   return (
-    <div className={className ?? 'col-12'}>
-      <label htmlFor={id} className="form-label fw-semibold">
-        {label}
-      </label>
-      <select
-        id={id}
-        className="form-select"
-        value={value || ''}
-        disabled={disabled || isLoading}
-        onChange={(event) => onChange(Number(event.target.value))}
-      >
-        <option value="">{isLoading ? t('common.loading') : t('common.none')}</option>
-        {items?.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.displayName}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Select<number>
+      id={id}
+      label={label}
+      className={className ?? 'col-12'}
+      value={value || null}
+      disabled={disabled || isLoading}
+      placeholder={isLoading ? t('common.loading') : t('common.none')}
+      options={items?.map((item) => ({ value: item.id, label: item.displayName })) ?? []}
+      onChange={(next) => onChange(next ?? 0)}
+    />
   )
 }
 

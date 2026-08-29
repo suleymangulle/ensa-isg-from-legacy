@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -73,7 +74,7 @@ export default function InvoiceDetailPage() {
         <>
           <span className="fw-semibold">{row.line.lineDescription}</span>
           {row.serviceItem && (
-            <span className="badge-light-primary ms-2">{row.serviceItem.displayName}</span>
+            <Badge variant="primary" className="ms-2">{row.serviceItem.displayName}</Badge>
           )}
         </>
       ),
@@ -153,32 +154,31 @@ export default function InvoiceDetailPage() {
         })}
         action={
           <div className="d-flex gap-2">
-            <Link to={`/invoices/${invoiceId}/print`} className="btn btn-light-primary">
+            <Link to={`/invoices/${invoiceId}/print`} className="btn">
               {t('finance.invoice.detail.print')}
             </Link>
-            <button
-              className="btn btn-primary"
-              type="button"
+            <Button variant="primary"
               onClick={() => setEditingHeader(true)}
             >
               {t('common.edit')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <div className="row g-4">
         <div className="col-12 col-xl-4">
-          <div className="card h-100">
-            <div className="card-body">
+          <Card
+            className="h-100"
+          >
               <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('finance.invoice.detail.headerSection')}
               </h2>
               <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
                 <Term label={t('finance.invoice.fields.invoiceType')}>
-                  <span className={INVOICE_TYPE_BADGE[invoice.invoiceType]}>
+                  <Badge variant={INVOICE_TYPE_BADGE[invoice.invoiceType]}>
                     {t(`enums.invoiceType.${invoice.invoiceType}`)}
-                  </span>
+                  </Badge>
                 </Term>
                 <Term label={t('finance.invoice.fields.invoiceDate')}>
                   {formatDate(invoice.invoiceDate) ?? none}
@@ -208,13 +208,14 @@ export default function InvoiceDetailPage() {
                   {invoice.invoiceDescription || none}
                 </Term>
               </dl>
-            </div>
-          </div>
+            
+          </Card>
         </div>
 
         <div className="col-12 col-xl-8">
-          <div className="card h-100">
-            <div className="card-body">
+          <Card
+            className="h-100"
+          >
               <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('finance.invoice.detail.totalsSection')}
               </h2>
@@ -258,21 +259,25 @@ export default function InvoiceDetailPage() {
                   {invoice.inWords || t('finance.invoice.detail.inWordsPending')}
                 </div>
               </div>
-            </div>
-          </div>
+            
+          </Card>
         </div>
       </div>
 
-      <div className="card mt-4">
-        <div className="card-header border-0 pt-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <Card
+        className="mt-4"
+        header={
+        <div className="border-0 pt-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
           <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('finance.invoice.detail.linesSection')}
           </h2>
-          <button className="btn btn-light-primary" type="button" onClick={() => setAddingLine(true)}>
+          <Button variant="light"  onClick={() => setAddingLine(true)}>
             {t('finance.invoice.line.create')}
-          </button>
+          </Button>
+        
         </div>
-        <div className="card-body p-0">
+        }
+      >
           <DataTable
             label={t('finance.invoice.detail.linesSection')}
             columns={columns}
@@ -280,8 +285,8 @@ export default function InvoiceDetailPage() {
             rowKey={(row) => row.line.id}
             emptyMessage={t('finance.invoice.line.empty')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditingHeader && (
         <InvoiceEditor invoiceId={invoiceId} onClose={() => setEditingHeader(false)} />

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -72,20 +73,16 @@ export default function FieldObservationDetailPage() {
         description={data.company?.displayName ?? undefined}
         action={
           <div className="d-flex gap-2">
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            <Button variant="light" 
               onClick={() => setIsEditing(true)}
             >
               {t('common.edit')}
-            </button>
-            <button
-              className="btn btn-light-danger"
-              type="button"
+            </Button>
+            <Button variant="light" 
               onClick={() => setIsDeleting(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
@@ -103,8 +100,9 @@ export default function FieldObservationDetailPage() {
         </div>
       )}
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
             {t('fieldObservation.detail.general')}
           </h2>
@@ -120,24 +118,24 @@ export default function FieldObservationDetailPage() {
             </Term>
             <Term label={t('fieldObservation.fields.lineCount')}>{data.lines.length}</Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-header d-flex flex-wrap align-items-center justify-content-between gap-2 pt-4 border-0">
+      <Card
+        header={
+        <div className="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-4 border-0">
           <h2 className="h6 fw-semibold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('fieldObservation.lines.title')}
           </h2>
-          <button
-            type="button"
-            className="btn btn-sm btn-primary"
+          <Button variant="primary" size="sm"
             onClick={() => setIsAddingLine(true)}
           >
             {t('fieldObservation.lines.create')}
-          </button>
+          </Button>
+        
         </div>
-
-        <div className="card-body">
+        }
+      >
           {data.lines.length === 0 ? (
             <EmptyHint message={t('fieldObservation.lines.empty')} />
           ) : (
@@ -153,8 +151,8 @@ export default function FieldObservationDetailPage() {
               ))}
             </ul>
           )}
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditing && (
         <FieldObservationFormModal report={report} onClose={() => setIsEditing(false)} />
@@ -239,43 +237,37 @@ function LineCard({
     >
       <div className="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-2">
         <div className="d-flex flex-wrap align-items-center gap-2">
-          <span className={RISK_CATEGORY_BADGE[line.riskCategory]}>
+          <Badge variant={RISK_CATEGORY_BADGE[line.riskCategory]}>
             {t(`enums.riskCategory.${line.riskCategory}`)}
-          </span>
+          </Badge>
           {line.isOverdue && (
-            <span className="badge-light-danger fw-bold">
+            <Badge variant="danger" className="fw-bold">
               {t('fieldObservation.lines.overdue')}
-            </span>
+            </Badge>
           )}
         </div>
         <div className="d-flex gap-1">
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          <Button variant="light" size="sm" 
             onClick={onRaiseAction}
             aria-label={t('fieldObservation.lines.raiseAction')}
             title={t('fieldObservation.lines.raiseAction')}
           >
             {t('fieldObservation.lines.raiseAction')}
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-primary"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={onEdit}
             aria-label={t('fieldObservation.lines.editAction')}
             title={t('fieldObservation.lines.editAction')}
           >
             <span aria-hidden="true">✎</span>
-          </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          </Button>
+          <Button variant="light" size="sm" 
             onClick={onDelete}
             aria-label={t('fieldObservation.lines.deleteAction')}
             title={t('fieldObservation.lines.deleteAction')}
           >
             <span aria-hidden="true">🗑</span>
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -304,13 +296,13 @@ function LineCard({
                 >
                   {action.finding}
                 </Link>
-                <span className={CORRECTIVE_ACTION_STATUS_BADGE[action.operationResult]}>
+                <Badge variant={CORRECTIVE_ACTION_STATUS_BADGE[action.operationResult]}>
                   {t(`enums.correctiveActionStatus.${action.operationResult}`)}
-                </span>
+                </Badge>
                 {action.isOverdue && (
-                  <span className="badge-light-danger">
+                  <Badge variant="danger">
                     {t('correctiveAction.overdue.badge')}
-                  </span>
+                  </Badge>
                 )}
               </li>
             ))}

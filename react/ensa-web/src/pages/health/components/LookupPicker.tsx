@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, Select } from 'rich-react-component'
 import type { LookupDto } from '@/api/endpoints'
 import { useDebouncedValue } from './ReferencePickers'
 
@@ -59,52 +60,35 @@ export default function LookupPicker({
 
   return (
     <div className={className ?? 'col-12'}>
-      <label htmlFor={id} className="form-label fw-semibold">
-        {label}
-        {required && (
-          <span style={{ color: 'var(--kt-danger)' }} aria-hidden="true">
-            {' *'}
-          </span>
-        )}
-      </label>
-
-      <input
+      <Input
         type="search"
-        className="form-control form-control-sm mb-2"
         value={term}
         placeholder={searchPlaceholder}
         disabled={disabled}
-        aria-label={searchPlaceholder}
-        onChange={(event) => setTerm(event.target.value)}
+        className="mb-2"
+        inputProps={{ 'aria-label': searchPlaceholder }}
+        onChange={setTerm}
       />
 
-      <select
+      <Select<number>
         id={id}
-        className={error ? 'form-select is-invalid' : 'form-select'}
-        value={value ?? ''}
+        label={label}
+        required={required}
+        error={error}
         disabled={disabled}
-        onChange={(event) => {
-          const nextId = event.target.value ? Number(event.target.value) : null
+        value={value}
+        placeholder={isLoading ? t('common.loading') : t('common.none')}
+        options={[
+          ...(isSelectionMissing && value != null
+            ? [{ value, label: selectedName ?? `#${value}` }]
+            : []),
+          ...options.map((item) => ({ value: item.id, label: item.displayName })),
+        ]}
+        onChange={(nextId) => {
           const match = options.find((item) => item.id === nextId)
           onChange(nextId, match?.displayName ?? null)
         }}
-      >
-        <option value="">{isLoading ? t('common.loading') : t('common.none')}</option>
-        {isSelectionMissing && (
-          <option value={value}>{selectedName ?? `#${value}`}</option>
-        )}
-        {options.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.displayName}
-          </option>
-        ))}
-      </select>
-
-      {error && (
-        <div className="invalid-feedback d-block" role="alert">
-          {error}
-        </div>
-      )}
+      />
     </div>
   )
 }

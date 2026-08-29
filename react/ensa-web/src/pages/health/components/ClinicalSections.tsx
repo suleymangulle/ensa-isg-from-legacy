@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Alert, Button, Spinner } from 'rich-react-component'
 import { errorMessage } from '@/api/http'
 import {
   ExamFinding,
@@ -103,38 +104,24 @@ function SectionShell({
 
         {!isReadOnly && (
           <div className="d-flex gap-2">
-            <button
-              type="button"
-              className="btn btn-sm btn-light"
+            <Button variant="light" size="sm"
               disabled={!isDirty || isSaving}
               onClick={onReset}
             >
               {t('medicalExamination.sections.revert')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-primary"
+            </Button>
+            <Button variant="primary" size="sm"
               disabled={!isDirty || isSaving}
               onClick={onSave}
             >
-              {isSaving && (
-                <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />
-              )}
+              {isSaving && <Spinner size="sm" className="me-2" label={t('common.loading')} />}
               {t('common.save')}
-            </button>
+            </Button>
           </div>
         )}
       </div>
 
-      {error != null && (
-        <div
-          className="alert border-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="alert"
-        >
-          {errorMessage(error)}
-        </div>
-      )}
+      {error != null && <Alert variant="danger">{errorMessage(error)}</Alert>}
 
       <div className="table-responsive">{children}</div>
     </section>

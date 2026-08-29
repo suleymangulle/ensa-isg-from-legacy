@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { CheckBox, Input, NumberInput, Select } from 'rich-react-component'
+import { Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
 import { HazardClass, TrainingSubjectGroup, TrainingType } from '@/api/enums'
@@ -142,86 +143,56 @@ export default function TrainingFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="training-name"
           label={t('training.fields.trainingName')}
-          htmlFor="training-name"
           required
           error={nameError}
           className="col-md-8"
-        >
-          <input
-            id="training-name"
-            className={controlClass('form-control', nameError)}
-            value={model.trainingName}
-            onChange={(event) => set('trainingName', event.target.value)}
-          />
-        </Field>
+          value={model.trainingName}
+          onChange={(value) => set('trainingName', value)}
+        />
 
-        <Field
+        <Input
+          id="training-code"
           label={t('training.fields.trainingCode')}
-          htmlFor="training-code"
           className="col-md-4"
-        >
-          <input
-            id="training-code"
-            className="form-control"
-            value={model.trainingCode ?? ''}
-            onChange={(event) => set('trainingCode', event.target.value)}
-          />
-        </Field>
+          value={model.trainingCode ?? ''}
+          onChange={(value) => set('trainingCode', value)}
+        />
 
-        <Field
+        <Select
+          id="training-type"
           label={t('training.fields.trainingType')}
-          htmlFor="training-type"
           className="col-md-4"
-        >
-          <select
-            id="training-type"
-            className="form-select"
-            value={model.trainingType}
-            onChange={(event) => set('trainingType', Number(event.target.value) as TrainingType)}
-          >
-            {TRAINING_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.trainingType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={TRAINING_TYPES.map((value) => ({
+            value,
+            label: t(`enums.trainingType.${value}`),
+          }))}
+          value={model.trainingType}
+          onChange={(value) => value !== null && set('trainingType', value)}
+        />
 
-        <Field label={t('training.fields.topicGroup')} htmlFor="training-group" className="col-md-4">
-          <select
-            id="training-group"
-            className="form-select"
-            value={model.topicGroup}
-            onChange={(event) =>
-              set('topicGroup', Number(event.target.value) as TrainingSubjectGroup)
-            }
-          >
-            {TRAINING_SUBJECT_GROUPS.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.trainingSubjectGroup.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="training-group"
+          label={t('training.fields.topicGroup')}
+          className="col-md-4"
+          options={TRAINING_SUBJECT_GROUPS.map((value) => ({
+            value,
+            label: t(`enums.trainingSubjectGroup.${value}`),
+          }))}
+          value={model.topicGroup}
+          onChange={(value) => value !== null && set('topicGroup', value)}
+        />
 
-        <Field
+        <NumberInput
+          id="training-ibys"
           label={t('training.fields.ibysTrainingCode')}
-          htmlFor="training-ibys"
-          hint={t('training.form.ibysHint')}
+          helpText={t('training.form.ibysHint')}
           className="col-md-4"
-        >
-          <input
-            id="training-ibys"
-            type="number"
-            className="form-control"
-            value={model.ibysTrainingCode ?? ''}
-            onChange={(event) =>
-              set('ibysTrainingCode', event.target.value === '' ? null : Number(event.target.value))
-            }
-          />
-        </Field>
+          value={model.ibysTrainingCode ?? null}
+          onChange={(value) => set('ibysTrainingCode', value)}
+        />
 
         <div className="col-12">
           <h3 className="h6 fw-semibold mb-2" style={{ color: 'var(--kt-gray-900)' }}>
@@ -232,24 +203,16 @@ export default function TrainingFormModal({
           </p>
           <div className="row g-3">
             {model.durations.map((duration) => (
-              <Field
+              <NumberInput
                 key={duration.hazardClass}
+                id={`training-duration-${duration.hazardClass}`}
                 label={t(`enums.hazardClass.${duration.hazardClass}`)}
-                htmlFor={`training-duration-${duration.hazardClass}`}
                 className="col-md-4"
-              >
-                <input
-                  id={`training-duration-${duration.hazardClass}`}
-                  type="number"
-                  min={0}
-                  max={100000}
-                  className="form-control"
-                  value={duration.durationMinutes}
-                  onChange={(event) =>
-                    setDuration(duration.hazardClass, Number(event.target.value) || 0)
-                  }
-                />
-              </Field>
+                min={0}
+                max={100000}
+                value={duration.durationMinutes}
+                onChange={(value) => setDuration(duration.hazardClass, value ?? 0)}
+              />
             ))}
           </div>
         </div>
@@ -259,78 +222,60 @@ export default function TrainingFormModal({
             {t('training.form.planning')}
           </h3>
           <div className="row g-3">
-            <Field
+            <NumberInput
+              id="training-default-count"
               label={t('training.fields.defaultCount')}
-              htmlFor="training-default-count"
-              hint={t('training.form.defaultCountHint')}
+              helpText={t('training.form.defaultCountHint')}
               className="col-md-4"
-            >
-              <input
-                id="training-default-count"
-                type="number"
-                min={0}
-                max={12}
-                className="form-control"
-                value={model.defaultCount}
-                onChange={(event) => set('defaultCount', Number(event.target.value) || 0)}
-              />
-            </Field>
+              min={0}
+              max={12}
+              value={model.defaultCount}
+              onChange={(value) => set('defaultCount', value ?? 0)}
+            />
 
-            <Field
+            <NumberInput
+              id="training-default-offset"
               label={t('training.fields.defaultStartMonthOffset')}
-              htmlFor="training-default-offset"
-              hint={t('training.form.defaultOffsetHint')}
+              helpText={t('training.form.defaultOffsetHint')}
               className="col-md-4"
-            >
-              <input
-                id="training-default-offset"
-                type="number"
-                min={0}
-                max={11}
-                className="form-control"
-                value={model.defaultStartMonthOffset}
-                onChange={(event) => set('defaultStartMonthOffset', Number(event.target.value) || 0)}
-              />
-            </Field>
+              min={0}
+              max={11}
+              value={model.defaultStartMonthOffset}
+              onChange={(value) => set('defaultStartMonthOffset', value ?? 0)}
+            />
 
-            <Field
+            <NumberInput
+              id="training-default-condition"
               label={t('training.fields.defaultElementCondition')}
-              htmlFor="training-default-condition"
-              hint={t('training.form.defaultConditionHint')}
+              helpText={t('training.form.defaultConditionHint')}
               className="col-md-4"
-            >
-              <input
-                id="training-default-condition"
-                type="number"
-                min={0}
-                className="form-control"
-                value={model.defaultElementCondition}
-                onChange={(event) => set('defaultElementCondition', Number(event.target.value) || 0)}
-              />
-            </Field>
+              min={0}
+              value={model.defaultElementCondition}
+              onChange={(value) => set('defaultElementCondition', value ?? 0)}
+            />
           </div>
         </div>
 
         <div className="col-12 d-flex flex-wrap gap-4">
-          <Checkbox
+          <CheckBox
             id="training-included"
             label={t('training.fields.includedInDefaultPlan')}
             checked={model.includedInDefaultPlan}
             onChange={(value) => set('includedInDefaultPlan', value)}
           />
-          <Checkbox
+          <CheckBox
             id="training-default"
             label={t('training.fields.defaultTraining')}
             checked={model.defaultTraining}
             onChange={(value) => set('defaultTraining', value)}
           />
-          <Checkbox
+          <CheckBox
             id="training-mandatory"
             label={t('training.fields.mandatoryTraining')}
             checked={model.mandatoryTraining}
             onChange={(value) => set('mandatoryTraining', value)}
           />
-          <Checkbox
+          <CheckBox
             id="training-active"
             label={t('common.active')}
             checked={model.isActive ?? true}
@@ -339,33 +284,5 @@ export default function TrainingFormModal({
         </div>
       </div>
     </Modal>
-  )
-}
-
-/** Labelled checkbox; the label is bound to the input so it is clickable and announced. */
-function Checkbox({
-  id,
-  label,
-  checked,
-  onChange,
-}: {
-  id: string
-  label: string
-  checked: boolean
-  onChange: (next: boolean) => void
-}) {
-  return (
-    <div className="form-check">
-      <input
-        id={id}
-        type="checkbox"
-        className="form-check-input"
-        checked={checked}
-        onChange={(event) => onChange(event.target.checked)}
-      />
-      <label className="form-check-label" htmlFor={id}>
-        {label}
-      </label>
-    </div>
   )
 }

@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, TextArea } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -88,7 +89,7 @@ export default function EPrescriptionDetailPage() {
       key: 'code',
       header: t('ePrescription.fields.icd10Code'),
       width: '140px',
-      render: (line) => <span className="badge-light-info">{line.icd10Code}</span>,
+      render: (line) => <Badge variant="info">{line.icd10Code}</Badge>,
     },
     {
       key: 'name',
@@ -138,37 +139,28 @@ export default function EPrescriptionDetailPage() {
         action={
           prescription.cancelled ? undefined : (
             <div className="d-flex gap-2">
-              <button
-                className="btn btn-light-primary"
-                type="button"
+              <Button variant="light" 
                 onClick={() => setIsEditOpen(true)}
               >
                 {t('common.edit')}
-              </button>
-              <button
-                className="btn btn-light-danger"
-                type="button"
+              </Button>
+              <Button variant="light" 
                 onClick={() => setIsCancelOpen(true)}
               >
                 {t('ePrescription.detail.cancelAction')}
-              </button>
+              </Button>
             </div>
           )
         }
       />
 
       {prescription.cancelled && (
-        <div
-          className="alert border-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="status"
-        >
-          {t('ePrescription.detail.cancelledNotice')}
-        </div>
+        <Alert variant="danger">{t('ePrescription.detail.cancelledNotice')}</Alert>
       )}
 
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('ePrescription.fields.patient')}>
               {data.patient?.displayName ?? t('common.none')}
@@ -198,16 +190,18 @@ export default function EPrescriptionDetailPage() {
               </Term>
             )}
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card mb-4">
-        <div className="card-header">
+      <Card
+        className="mb-4"
+        header={
           <h2 className="h6 fw-bold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('ePrescription.detail.diagnosesTitle')}
           </h2>
-        </div>
-        <div className="card-body p-0">
+        
+        }
+      >
           <DataTable
             label={t('ePrescription.detail.diagnosesTitle')}
             columns={diagnosisColumns}
@@ -215,16 +209,18 @@ export default function EPrescriptionDetailPage() {
             rowKey={(line) => line.id}
             emptyMessage={t('ePrescription.detail.noDiagnoses')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <h2 className="h6 fw-bold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('ePrescription.detail.medicationsTitle')}
           </h2>
-        </div>
-        <div className="card-body p-0">
+        
+        }
+      >
           <DataTable
             label={t('ePrescription.detail.medicationsTitle')}
             columns={medicationColumns}
@@ -232,8 +228,8 @@ export default function EPrescriptionDetailPage() {
             rowKey={(line) => line.id}
             emptyMessage={t('ePrescription.detail.noMedications')}
           />
-        </div>
-      </div>
+        
+      </Card>
 
       {isEditOpen && (
         <EPrescriptionFormModal
@@ -252,24 +248,15 @@ export default function EPrescriptionDetailPage() {
         confirmLabel={t('ePrescription.detail.cancelAction')}
         error={cancel.error ? errorMessage(cancel.error) : null}
       >
-        <label htmlFor="cancel-reason" className="form-label fw-semibold">
-          {t('ePrescription.detail.cancelReason')}
-          <span style={{ color: 'var(--kt-danger)' }} aria-hidden="true">
-            {' *'}
-          </span>
-        </label>
-        <textarea
+        <TextArea
           id="cancel-reason"
-          className={reasonError ? 'form-control is-invalid' : 'form-control'}
+          label={t('ePrescription.detail.cancelReason')}
+          required
+          error={reasonError}
           rows={3}
           value={cancelReason}
-          onChange={(event) => setCancelReason(event.target.value)}
+          onChange={setCancelReason}
         />
-        {reasonError && (
-          <div className="invalid-feedback d-block" role="alert">
-            {reasonError}
-          </div>
-        )}
       </Modal>
     </>
   )

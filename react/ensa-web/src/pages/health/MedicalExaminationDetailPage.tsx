@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Tabs } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { FITNESS_OPINION_BADGE } from '@/api/endpoints'
 import { IbysSubmissionStatus } from '@/api/enums'
@@ -81,31 +82,26 @@ export default function MedicalExaminationDetailPage() {
         })}
         action={
           isReadOnly ? undefined : (
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            <Button variant="light" 
               onClick={() => setIsEditOpen(true)}
             >
               {t('common.edit')}
-            </button>
+            </Button>
           )
         }
       />
 
       {isReadOnly && (
-        <div
-          className="alert border-0 d-flex align-items-center gap-2"
-          style={{ backgroundColor: 'var(--kt-warning-light)', color: 'var(--kt-warning)' }}
-          role="status"
-        >
+        <Alert variant="warning" className="d-flex align-items-center gap-2">
           <span aria-hidden="true">🔒</span>
           {t('medicalExamination.detail.ibysLocked')}
-        </div>
+        </Alert>
       )}
 
       {/* The fitness-for-work opinion is the operative output of the examination, so it leads. */}
-      <div className="card mb-4">
-        <div className="card-body">
+      <Card
+        className="mb-4"
+      >
           <div className="row g-4 align-items-start">
             <div className="col-lg-4">
               <p
@@ -115,9 +111,9 @@ export default function MedicalExaminationDetailPage() {
                 {t('medicalExamination.fields.opinion')}
               </p>
               <p className="h4 fw-bold mb-2" style={{ color: 'var(--kt-gray-900)' }}>
-                <span className={FITNESS_OPINION_BADGE[form.opinion]}>
+                <Badge variant={FITNESS_OPINION_BADGE[form.opinion]}>
                   {t(`enums.fitnessForWorkOpinion.${form.opinion}`)}
-                </span>
+                </Badge>
               </p>
               {form.opinionDescription && (
                 <p className="mb-0" style={{ color: 'var(--kt-gray-700)' }}>
@@ -155,9 +151,9 @@ export default function MedicalExaminationDetailPage() {
                   {data.physicianFullName ?? t('common.none')}
                 </Term>
                 <Term label={t('medicalExamination.fields.ibysStatus')}>
-                  <span className={IBYS_STATUS_BADGE[form.ibysStatus]}>
+                  <Badge variant={IBYS_STATUS_BADGE[form.ibysStatus]}>
                     {t(`enums.ibysSubmissionStatus.${form.ibysStatus}`)}
-                  </span>
+                  </Badge>
                   {data.ibysQueryNo && (
                     <span className="ms-2" style={{ color: 'var(--kt-gray-500)' }}>
                       {data.ibysQueryNo}
@@ -172,17 +168,19 @@ export default function MedicalExaminationDetailPage() {
               </dl>
             </div>
           </div>
-        </div>
-      </div>
+        
+      </Card>
 
       {/* Anthropometry and vital signs — clinical, so grouped and labelled as such. */}
-      <div className="card mb-4">
-        <div className="card-header">
+      <Card
+        className="mb-4"
+        header={
           <h2 className="h6 fw-bold mb-0" style={{ color: 'var(--kt-gray-900)' }}>
             {t('medicalExamination.detail.vitalsTitle')}
           </h2>
-        </div>
-        <div className="card-body">
+        
+        }
+      >
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('medicalExamination.fields.heightCm')} narrow>
               {form.heightCm ?? t('common.none')}
@@ -205,43 +203,28 @@ export default function MedicalExaminationDetailPage() {
               {form.chronicIllnessDeclaration ?? t('common.none')}
             </Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0 flex-nowrap overflow-auto" role="tablist">
-            {SECTIONS.map((section) => (
-              <li className="nav-item" key={section} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeSection === section}
-                  className={`nav-link border-0 px-3 py-3 text-nowrap ${
-                    activeSection === section ? 'active fw-semibold' : ''
-                  }`}
-                  style={{
-                    color: activeSection === section ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${
-                      activeSection === section ? 'var(--kt-primary)' : 'transparent'
-                    }`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveSection(section)}
-                >
-                  {t(`medicalExamination.sections.${section}.title`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
+      <Card
+        header={
+          <Tabs
+            items={SECTIONS.map((section) => ({
+              key: section,
+              label: t(`medicalExamination.sections.${section}.title`),
+            }))}
+            activeKey={activeSection}
+            onChange={(key) => setActiveSection(key as SectionKey)}
+            variant="underline"
+          />
+        }
+      >
         {/*
           All six editors stay mounted and the inactive ones are only hidden: an examination is
           filled in over several passes, and unmounting a tab would throw away whatever the
           physician had already typed there but not yet saved.
         */}
-        <div className="card-body">
+        <div>
           <div hidden={activeSection !== 'complaints'}>
             <ComplaintsSection
               formId={form.id}
@@ -277,7 +260,7 @@ export default function MedicalExaminationDetailPage() {
             />
           </div>
         </div>
-      </div>
+      </Card>
 
       {isEditOpen && (
         <MedicalExaminationFormModal

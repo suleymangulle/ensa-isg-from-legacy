@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Button, Card } from 'rich-react-component'
 import { useAuth } from '@/auth/AuthContext'
 import { errorMessage } from '@/api/http'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
@@ -36,8 +37,8 @@ export default function LoginPage() {
       className="d-flex align-items-center justify-content-center p-3"
       style={{ minHeight: '100vh', backgroundColor: 'var(--kt-body-bg)' }}
     >
-      <div className="card shadow-sm w-100" style={{ maxWidth: 440 }}>
-        <div className="card-body p-4 p-sm-5">
+      <Card className="shadow-sm w-100">
+        <div className="p-4 p-sm-5">
           <div className="d-flex justify-content-end mb-3">
             <LanguageSwitcher />
           </div>
@@ -66,13 +67,9 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div
-              className="alert alert-danger border-0"
-              style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-              role="alert"
-            >
+            <Alert variant="danger" className="border-0">
               {error}
-            </div>
+            </Alert>
           )}
 
           <form onSubmit={handleSubmit} noValidate>
@@ -108,23 +105,19 @@ export default function LoginPage() {
               />
             </div>
 
-            <button
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-100"
               type="submit"
-              className="btn btn-primary btn-lg w-100"
+              loading={isSubmitting}
               disabled={isSubmitting || !userName || !password}
             >
-              {isSubmitting ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />
-                  {t('auth.signingIn')}
-                </>
-              ) : (
-                t('auth.signIn')
-              )}
-            </button>
+              {isSubmitting ? t('auth.signingIn') : t('auth.signIn')}
+            </Button>
           </form>
         </div>
-      </div>
+            </Card>
     </div>
   )
 }

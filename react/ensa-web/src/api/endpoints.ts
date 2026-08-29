@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { type BadgeVariant } from 'rich-react-component'
 import { http, type ListResult, type PagedRequest, type PagedResult } from './http'
 import {
   FitnessForWorkOpinion,
@@ -39,27 +40,27 @@ export const ENDPOINTS = {
 
 export * from './enums'
 
-export const HAZARD_CLASS_BADGE: Record<HazardClass, string> = {
-  [HazardClass.Unspecified]: 'badge-light-primary',
-  [HazardClass.LowHazard]: 'badge-light-success',
-  [HazardClass.Hazardous]: 'badge-light-warning',
-  [HazardClass.VeryHazardous]: 'badge-light-danger',
+export const HAZARD_CLASS_BADGE: Record<HazardClass, BadgeVariant> = {
+  [HazardClass.Unspecified]: 'primary',
+  [HazardClass.LowHazard]: 'success',
+  [HazardClass.Hazardous]: 'warning',
+  [HazardClass.VeryHazardous]: 'danger',
 }
 
-export const PLAN_LINE_STATUS_BADGE: Record<PlanLineStatus, string> = {
-  [PlanLineStatus.Planned]: 'badge-light-primary',
-  [PlanLineStatus.Completed]: 'badge-light-success',
-  [PlanLineStatus.NotDone]: 'badge-light-danger',
-  [PlanLineStatus.Postponed]: 'badge-light-warning',
-  [PlanLineStatus.Cancelled]: 'badge-light-danger',
+export const PLAN_LINE_STATUS_BADGE: Record<PlanLineStatus, BadgeVariant> = {
+  [PlanLineStatus.Planned]: 'primary',
+  [PlanLineStatus.Completed]: 'success',
+  [PlanLineStatus.NotDone]: 'danger',
+  [PlanLineStatus.Postponed]: 'warning',
+  [PlanLineStatus.Cancelled]: 'danger',
 }
 
-export const FITNESS_OPINION_BADGE: Record<FitnessForWorkOpinion, string> = {
-  [FitnessForWorkOpinion.Unspecified]: 'badge-light-primary',
-  [FitnessForWorkOpinion.Fit]: 'badge-light-success',
-  [FitnessForWorkOpinion.ConditionallyFit]: 'badge-light-warning',
-  [FitnessForWorkOpinion.Unfit]: 'badge-light-danger',
-  [FitnessForWorkOpinion.FurtherTestsRequired]: 'badge-light-info',
+export const FITNESS_OPINION_BADGE: Record<FitnessForWorkOpinion, BadgeVariant> = {
+  [FitnessForWorkOpinion.Unspecified]: 'primary',
+  [FitnessForWorkOpinion.Fit]: 'success',
+  [FitnessForWorkOpinion.ConditionallyFit]: 'warning',
+  [FitnessForWorkOpinion.Unfit]: 'danger',
+  [FitnessForWorkOpinion.FurtherTestsRequired]: 'info',
 }
 
 // ---------------------------------------------------------------

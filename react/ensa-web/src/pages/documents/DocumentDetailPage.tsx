@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
 import { errorMessage } from '@/api/http'
 import { downloadFile } from '@/api/download'
@@ -55,9 +56,7 @@ export default function DocumentDetailPage() {
         title={document.documentName || t('document.detail.fallbackTitle')}
         description={t('document.detail.subtitle', { size })}
         action={
-          <button
-            type="button"
-            className="btn btn-light"
+          <Button variant="light"
             disabled={isDownloading}
             aria-label={t('document.detail.download')}
             onClick={async () => {
@@ -73,7 +72,7 @@ export default function DocumentDetailPage() {
             }}
           >
             {t('document.detail.download')}
-          </button>
+          </Button>
         }
       />
 
@@ -84,8 +83,7 @@ export default function DocumentDetailPage() {
         {t('document.list.metadataOnlyNotice')}
       </div>
 
-      <div className="card">
-        <div className="card-body">
+      <Card>
           <dl className="row mb-0" style={{ fontSize: '0.9375rem' }}>
             <Term label={t('document.fields.category')}>
               {data.category?.displayName ?? none}
@@ -99,7 +97,7 @@ export default function DocumentDetailPage() {
             </Term>
             <Term label={t('document.fields.extension')}>
               {document.extension ? (
-                <span className="badge-light-primary text-uppercase">{document.extension}</span>
+                <Badge variant="primary" className="text-uppercase">{document.extension}</Badge>
               ) : (
                 none
               )}
@@ -120,13 +118,13 @@ export default function DocumentDetailPage() {
               {formatDate(document.lastModificationTime) ?? none}
             </Term>
             <Term label={t('document.fields.status')}>
-              <span className={document.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+              <Badge variant={document.isActive ? 'success' : 'danger'}>
                 {document.isActive ? t('common.active') : t('common.passive')}
-              </span>
+              </Badge>
             </Term>
           </dl>
-        </div>
-      </div>
+        
+      </Card>
     </>
   )
 }

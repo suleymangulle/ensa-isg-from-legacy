@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { NumberInput } from 'rich-react-component'
 import { EmployeeCountRange, HazardClass } from '@/api/enums'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import type { PenaltyAmountDto, SavePenaltyAmountDto } from './api'
-import { EnumField, enumValues, parseDecimal } from './components'
+import { EnumField, enumValues } from './components'
 
 /** Create / edit dialog for one cell of the hazard class x head-count band x year fine matrix. */
 export default function PenaltyAmountForm({
@@ -29,16 +30,16 @@ export default function PenaltyAmountForm({
   const [range, setRange] = useState<EmployeeCountRange>(
     amount?.employeeCountRange ?? EmployeeCountRange.FewerThanTen,
   )
-  const [value, setValue] = useState(amount ? String(amount.amount) : '')
-  const [year, setYear] = useState(
-    amount ? String(amount.validityYear) : String(new Date().getFullYear()),
+  const [value, setValue] = useState<number | null>(amount?.amount ?? null)
+  const [year, setYear] = useState<number | null>(
+    amount?.validityYear ?? new Date().getFullYear(),
   )
   const [validation, setValidation] = useState<Record<string, string>>({})
 
   function handleSubmit() {
     const errors: Record<string, string> = {}
-    const parsedAmount = parseDecimal(value)
-    const parsedYear = Math.round(parseDecimal(year))
+    const parsedAmount = value ?? 0
+    const parsedYear = year ?? 0
 
     if (parsedAmount < 0) errors.amount = t('finance.penalty.amount.nonNegative')
     if (parsedYear < 2000 || parsedYear > 2200) errors.year = t('finance.penalty.amount.yearRange')
@@ -90,44 +91,30 @@ export default function PenaltyAmountForm({
           className="col-md-6"
         />
 
-        <Field
+        <NumberInput
+          id="amount-value"
           label={t('finance.penalty.amount.fields.amountWithCurrency')}
-          htmlFor="amount-value"
           required
           error={validation.amount}
           className="col-md-6"
-        >
-          <input
-            id="amount-value"
-            type="number"
-            step="0.01"
-            min="0"
-            className={controlClass('form-control text-end', validation.amount)}
-            value={value}
-            aria-invalid={validation.amount ? true : undefined}
-            onChange={(event) => setValue(event.target.value)}
-          />
-        </Field>
+          step={0.01}
+          min={0}
+          value={value}
+          onChange={setValue}
+        />
 
-        <Field
+        <NumberInput
+          id="amount-year"
           label={t('finance.penalty.amount.fields.validityYear')}
-          htmlFor="amount-year"
           required
           error={validation.year}
           className="col-md-6"
-        >
-          <input
-            id="amount-year"
-            type="number"
-            step="1"
-            min="2000"
-            max="2200"
-            className={controlClass('form-control text-end', validation.year)}
-            value={year}
-            aria-invalid={validation.year ? true : undefined}
-            onChange={(event) => setYear(event.target.value)}
-          />
-        </Field>
+          step={1}
+          min={2000}
+          max={2200}
+          value={year}
+          onChange={setYear}
+        />
       </div>
     </Modal>
   )

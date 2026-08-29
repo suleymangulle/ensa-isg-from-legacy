@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, NumberInput, TextArea } from 'rich-react-component'
 import { HazardClass } from '@/api/enums'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import type { PenaltySurveyDto, SavePenaltySurveyDto } from './api'
-import { EnumField, enumValues, parseDecimal } from './components'
+import { EnumField, enumValues } from './components'
 
 interface SurveyFormState {
   companyTitle: string
@@ -18,7 +19,7 @@ interface SurveyFormState {
   taxTaxOffice: string
   taxNumber: string
   ssiRegistrationNumber: string
-  workerCount: string
+  workerCount: number | null
   hazardClass: HazardClass
 }
 
@@ -36,7 +37,7 @@ function initialState(survey?: PenaltySurveyDto): SurveyFormState {
     taxTaxOffice: survey?.taxTaxOffice ?? '',
     taxNumber: survey?.taxNumber ?? '',
     ssiRegistrationNumber: survey?.ssiRegistrationNumber ?? '',
-    workerCount: survey?.workerCount != null ? String(survey.workerCount) : '',
+    workerCount: survey?.workerCount ?? null,
     hazardClass: survey?.hazardClass ?? HazardClass.Unspecified,
   }
 }
@@ -80,7 +81,7 @@ export default function PenaltySurveyForm({
     const errors: Record<string, string> = {}
     if (!form.companyTitle.trim()) errors.companyTitle = t('validation.required')
 
-    const workerCount = form.workerCount ? Math.round(parseDecimal(form.workerCount)) : null
+    const workerCount = form.workerCount !== null ? Math.round(form.workerCount) : null
     if (workerCount !== null && (workerCount < 0 || workerCount > 1_000_000)) {
       errors.workerCount = t('finance.penaltySurvey.form.workerCountRange')
     }
@@ -121,36 +122,23 @@ export default function PenaltySurveyForm({
       size="xl"
     >
       <div className="row g-4">
-        <Field
+        <Input
+          id="survey-company-title"
           label={t('finance.penaltySurvey.fields.companyTitle')}
-          htmlFor="survey-company-title"
           required
           error={validation.companyTitle}
           className="col-md-6"
-        >
-          <input
-            id="survey-company-title"
-            type="text"
-            className={controlClass('form-control', validation.companyTitle)}
-            value={form.companyTitle}
-            aria-invalid={validation.companyTitle ? true : undefined}
-            onChange={(event) => patch({ companyTitle: event.target.value })}
-          />
-        </Field>
+          value={form.companyTitle}
+          onChange={(value) => patch({ companyTitle: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-facility-name"
           label={t('finance.penaltySurvey.fields.facilityName')}
-          htmlFor="survey-facility-name"
           className="col-md-6"
-        >
-          <input
-            id="survey-facility-name"
-            type="text"
-            className="form-control"
-            value={form.facilityName}
-            onChange={(event) => patch({ facilityName: event.target.value })}
-          />
-        </Field>
+          value={form.facilityName}
+          onChange={(value) => patch({ facilityName: value })}
+        />
 
         <EnumField
           id="survey-hazard-class"
@@ -165,160 +153,101 @@ export default function PenaltySurveyForm({
           className="col-md-4"
         />
 
-        <Field
+        <NumberInput
+          id="survey-worker-count"
           label={t('finance.penaltySurvey.fields.workerCount')}
-          htmlFor="survey-worker-count"
           error={validation.workerCount}
-          hint={t('finance.penaltySurvey.form.workerCountHint')}
+          helpText={t('finance.penaltySurvey.form.workerCountHint')}
           className="col-md-4"
-        >
-          <input
-            id="survey-worker-count"
-            type="number"
-            step="1"
-            min="0"
-            className={controlClass('form-control text-end', validation.workerCount)}
-            value={form.workerCount}
-            aria-invalid={validation.workerCount ? true : undefined}
-            onChange={(event) => patch({ workerCount: event.target.value })}
-          />
-        </Field>
+          step={1}
+          min={0}
+          value={form.workerCount}
+          onChange={(value) => patch({ workerCount: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-ssi"
           label={t('finance.penaltySurvey.fields.ssiRegistrationNumber')}
-          htmlFor="survey-ssi"
           className="col-md-4"
-        >
-          <input
-            id="survey-ssi"
-            type="text"
-            className="form-control"
-            value={form.ssiRegistrationNumber}
-            onChange={(event) => patch({ ssiRegistrationNumber: event.target.value })}
-          />
-        </Field>
+          value={form.ssiRegistrationNumber}
+          onChange={(value) => patch({ ssiRegistrationNumber: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-owner"
           label={t('finance.penaltySurvey.fields.facilityOwner')}
-          htmlFor="survey-owner"
           className="col-md-4"
-        >
-          <input
-            id="survey-owner"
-            type="text"
-            className="form-control"
-            value={form.facilityOwner}
-            onChange={(event) => patch({ facilityOwner: event.target.value })}
-          />
-        </Field>
+          value={form.facilityOwner}
+          onChange={(value) => patch({ facilityOwner: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-owner-duty"
           label={t('finance.penaltySurvey.fields.facilityOwnerDuty')}
-          htmlFor="survey-owner-duty"
           className="col-md-4"
-        >
-          <input
-            id="survey-owner-duty"
-            type="text"
-            className="form-control"
-            value={form.facilityOwnerDuty}
-            onChange={(event) => patch({ facilityOwnerDuty: event.target.value })}
-          />
-        </Field>
+          value={form.facilityOwnerDuty}
+          onChange={(value) => patch({ facilityOwnerDuty: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-owner-gsm"
           label={t('finance.penaltySurvey.fields.facilityOwnerGsm')}
-          htmlFor="survey-owner-gsm"
+          type="tel"
           className="col-md-4"
-        >
-          <input
-            id="survey-owner-gsm"
-            type="tel"
-            className="form-control"
-            value={form.facilityOwnerGsm}
-            onChange={(event) => patch({ facilityOwnerGsm: event.target.value })}
-          />
-        </Field>
+          value={form.facilityOwnerGsm}
+          onChange={(value) => patch({ facilityOwnerGsm: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-employer"
           label={t('finance.penaltySurvey.fields.employer')}
-          htmlFor="survey-employer"
           className="col-md-4"
-        >
-          <input
-            id="survey-employer"
-            type="text"
-            className="form-control"
-            value={form.employerNameLastName}
-            onChange={(event) => patch({ employerNameLastName: event.target.value })}
-          />
-        </Field>
+          value={form.employerNameLastName}
+          onChange={(value) => patch({ employerNameLastName: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-phone"
           label={t('finance.penaltySurvey.fields.phone')}
-          htmlFor="survey-phone"
+          type="tel"
           className="col-md-4"
-        >
-          <input
-            id="survey-phone"
-            type="tel"
-            className="form-control"
-            value={form.phone}
-            onChange={(event) => patch({ phone: event.target.value })}
-          />
-        </Field>
+          value={form.phone}
+          onChange={(value) => patch({ phone: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-email"
           label={t('finance.penaltySurvey.fields.email')}
-          htmlFor="survey-email"
+          type="email"
           className="col-md-4"
-        >
-          <input
-            id="survey-email"
-            type="email"
-            className="form-control"
-            value={form.email}
-            onChange={(event) => patch({ email: event.target.value })}
-          />
-        </Field>
+          value={form.email}
+          onChange={(value) => patch({ email: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-tax-office"
           label={t('finance.penaltySurvey.fields.taxOffice')}
-          htmlFor="survey-tax-office"
           className="col-md-6"
-        >
-          <input
-            id="survey-tax-office"
-            type="text"
-            className="form-control"
-            value={form.taxTaxOffice}
-            onChange={(event) => patch({ taxTaxOffice: event.target.value })}
-          />
-        </Field>
+          value={form.taxTaxOffice}
+          onChange={(value) => patch({ taxTaxOffice: value })}
+        />
 
-        <Field
+        <Input
+          id="survey-tax-number"
           label={t('finance.penaltySurvey.fields.taxNumber')}
-          htmlFor="survey-tax-number"
           className="col-md-6"
-        >
-          <input
-            id="survey-tax-number"
-            type="text"
-            className="form-control"
-            value={form.taxNumber}
-            onChange={(event) => patch({ taxNumber: event.target.value })}
-          />
-        </Field>
+          value={form.taxNumber}
+          onChange={(value) => patch({ taxNumber: value })}
+        />
 
-        <Field label={t('finance.penaltySurvey.fields.address')} htmlFor="survey-address">
-          <textarea
-            id="survey-address"
-            className="form-control"
-            rows={2}
-            value={form.address}
-            onChange={(event) => patch({ address: event.target.value })}
-          />
-        </Field>
+        <TextArea
+          id="survey-address"
+          label={t('finance.penaltySurvey.fields.address')}
+          className="col-12"
+          rows={2}
+          value={form.address}
+          onChange={(value) => patch({ address: value })}
+        />
       </div>
     </Modal>
   )

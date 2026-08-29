@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { type BadgeVariant } from 'rich-react-component'
 import { http, type ListResult, type PagedResult } from '@/api/http'
 import { resourceKey } from '@/api/mutations'
 import type { LookupDto } from '@/api/endpoints'
@@ -17,13 +18,13 @@ export const IBYS_ENDPOINTS = {
   ibysQuery: 'ibys-query',
 } as const
 
-export const IBYS_STATUS_BADGE: Record<IbysSubmissionStatus, string> = {
-  [IbysSubmissionStatus.NotSent]: 'badge-light-primary',
-  [IbysSubmissionStatus.Prepared]: 'badge-light-info',
-  [IbysSubmissionStatus.Sent]: 'badge-light-warning',
-  [IbysSubmissionStatus.Approved]: 'badge-light-success',
-  [IbysSubmissionStatus.Failed]: 'badge-light-danger',
-  [IbysSubmissionStatus.Cancelled]: 'badge-light-danger',
+export const IBYS_STATUS_BADGE: Record<IbysSubmissionStatus, BadgeVariant> = {
+  [IbysSubmissionStatus.NotSent]: 'primary',
+  [IbysSubmissionStatus.Prepared]: 'info',
+  [IbysSubmissionStatus.Sent]: 'warning',
+  [IbysSubmissionStatus.Approved]: 'success',
+  [IbysSubmissionStatus.Failed]: 'danger',
+  [IbysSubmissionStatus.Cancelled]: 'danger',
 }
 
 export const IBYS_QUERY_TYPES: IbysQueryType[] = [

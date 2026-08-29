@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Pagination, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -84,11 +85,11 @@ export default function PenaltySurveyDetailPage() {
       header: t('finance.penaltySurvey.line.fields.surveyAnswer'),
       align: 'center',
       render: (row) => (
-        <span className={row.surveyAnswer ? 'badge-light-danger' : 'badge-light-success'}>
+        <Badge variant={row.surveyAnswer ? 'danger' : 'success'}>
           {row.surveyAnswer
             ? t('finance.penaltySurvey.answer.violation')
             : t('finance.penaltySurvey.answer.compliant')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -138,24 +139,23 @@ export default function PenaltySurveyDetailPage() {
         description={header.facilityName ?? undefined}
         action={
           <div className="d-flex gap-2">
-            <button
-              className="btn btn-light-primary"
-              type="button"
+            <Button variant="light" 
               onClick={() => setEditing(true)}
             >
               {t('common.edit')}
-            </button>
-            <button className="btn btn-primary" type="button" onClick={() => setAdding(true)}>
+            </Button>
+            <Button variant="primary" onClick={() => setAdding(true)}>
               {t('finance.penaltySurvey.line.create')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <div className="row g-4">
         <div className="col-12 col-xl-5">
-          <div className="card h-100">
-            <div className="card-body">
+          <Card
+            className="h-100"
+          >
               <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('finance.penaltySurvey.detail.profileSection')}
               </h2>
@@ -185,13 +185,14 @@ export default function PenaltySurveyDetailPage() {
                   {formatDate(header.creationTime) ?? none}
                 </Term>
               </dl>
-            </div>
-          </div>
+            
+          </Card>
         </div>
 
         <div className="col-12 col-xl-7">
-          <div className="card h-100">
-            <div className="card-body">
+          <Card
+            className="h-100"
+          >
               <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('finance.penaltySurvey.detail.exposureSection')}
               </h2>
@@ -244,14 +245,15 @@ export default function PenaltySurveyDetailPage() {
               >
                 {t('finance.penaltySurvey.detail.exposureHint')}
               </p>
-            </div>
-          </div>
+            
+          </Card>
         </div>
       </div>
 
-      <div className="card mt-4">
-        <div className="card-header border-0 pt-4 pb-0">
-          <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+      <Card
+        className="mt-4"
+        header={
+          <div className="d-flex flex-wrap align-items-center gap-2">
             <h2 className="h6 fw-semibold mb-0 me-auto" style={{ color: 'var(--kt-gray-900)' }}>
               {t('finance.penaltySurvey.detail.linesSection')}
             </h2>
@@ -270,31 +272,28 @@ export default function PenaltySurveyDetailPage() {
               <option value="false">{t('finance.penaltySurvey.answer.compliant')}</option>
             </FilterSelect>
           </div>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('finance.penaltySurvey.detail.linesSection')}
-            columns={columns}
-            rows={lines.data?.items}
-            rowKey={(row) => row.id}
-            isLoading={lines.isLoading}
-            error={lines.error ? errorMessage(lines.error) : null}
-            emptyMessage={t('finance.penaltySurvey.line.empty')}
-          />
-        </div>
-
-        {lines.data && lines.data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          lines.data && lines.data.totalCount > 0 ? (
             <Pagination
               total={lines.data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('finance.penaltySurvey.detail.linesSection')}
+          columns={columns}
+          rows={lines.data?.items}
+          rowKey={(row) => row.id}
+          isLoading={lines.isLoading}
+          error={lines.error ? errorMessage(lines.error) : null}
+          emptyMessage={t('finance.penaltySurvey.line.empty')}
+        />
+      </Card>
 
       {isEditing && <PenaltySurveyEditor surveyId={surveyId} onClose={() => setEditing(false)} />}
 

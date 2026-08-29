@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { CheckBox, Input } from 'rich-react-component'
+import { Modal } from '@/components/Form'
 import { useOfficeLookup, type CashRegisterDto, type SaveCashRegisterDto } from './api'
 import { LookupField } from './components'
 
@@ -60,21 +61,15 @@ export default function CashRegisterForm({
       error={error}
     >
       <div className="row g-4">
-        <Field
+        <Input
+          id="register-name"
           label={t('finance.cashRegister.fields.name')}
-          htmlFor="register-name"
           required
           error={validation.name}
-        >
-          <input
-            id="register-name"
-            type="text"
-            className={controlClass('form-control', validation.name)}
-            value={name}
-            aria-invalid={validation.name ? true : undefined}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </Field>
+          className="col-12"
+          value={name}
+          onChange={setName}
+        />
 
         <LookupField
           id="register-office"
@@ -89,32 +84,21 @@ export default function CashRegisterForm({
         />
 
         <div className="col-12">
-          <div className="form-check">
-            <input
-              id="register-headquarter"
-              type="checkbox"
-              className="form-check-input"
-              checked={isHeadquarter}
-              onChange={(event) => setHeadquarter(event.target.checked)}
-            />
-            <label htmlFor="register-headquarter" className="form-check-label">
-              {t('finance.cashRegister.fields.headquarter')}
-            </label>
-          </div>
+          <CheckBox
+            id="register-headquarter"
+            label={t('finance.cashRegister.fields.headquarter')}
+            checked={isHeadquarter}
+            onChange={setHeadquarter}
+          />
 
           {register && (
-            <div className="form-check mt-2">
-              <input
-                id="register-active"
-                type="checkbox"
-                className="form-check-input"
-                checked={isActive}
-                onChange={(event) => setActive(event.target.checked)}
-              />
-              <label htmlFor="register-active" className="form-check-label">
-                {t('common.active')}
-              </label>
-            </div>
+            <CheckBox
+              id="register-active"
+              label={t('common.active')}
+              className="mt-2"
+              checked={isActive}
+              onChange={setActive}
+            />
           )}
         </div>
       </div>

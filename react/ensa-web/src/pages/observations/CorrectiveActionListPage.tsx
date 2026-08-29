@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Switch } from 'rich-react-component'
 import DataTable, { PageTitle, Pagination, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { CorrectiveActionStatus, RiskCategory } from '@/api/enums'
@@ -111,9 +112,9 @@ export default function CorrectiveActionListPage() {
       key: 'riskCategory',
       header: t('correctiveAction.fields.riskCategory'),
       render: (row) => (
-        <span className={RISK_CATEGORY_BADGE[row.riskCategory]}>
+        <Badge variant={RISK_CATEGORY_BADGE[row.riskCategory]}>
           {t(`enums.riskCategory.${row.riskCategory}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -126,11 +127,11 @@ export default function CorrectiveActionListPage() {
       header: t('correctiveAction.fields.deadlineDate'),
       render: (row) =>
         row.isOverdue ? (
-          <span className="badge-light-danger fw-bold">
+          <Badge variant="danger" className="fw-bold">
             {t('correctiveAction.overdue.since', {
               date: formatDate(row.deadlineDate) ?? '',
             })}
-          </span>
+          </Badge>
         ) : (
           (formatDate(row.deadlineDate) ?? t('common.none'))
         ),
@@ -140,9 +141,9 @@ export default function CorrectiveActionListPage() {
       header: t('correctiveAction.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={CORRECTIVE_ACTION_STATUS_BADGE[row.operationResult]}>
+        <Badge variant={CORRECTIVE_ACTION_STATUS_BADGE[row.operationResult]}>
           {t(`enums.correctiveActionStatus.${row.operationResult}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -167,9 +168,9 @@ export default function CorrectiveActionListPage() {
         title={t('correctiveAction.list.title')}
         description={t('correctiveAction.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsCreating(true)}>
+          <Button variant="primary" onClick={() => setIsCreating(true)}>
             {t('correctiveAction.list.create')}
-          </button>
+          </Button>
         }
       />
 
@@ -181,9 +182,7 @@ export default function CorrectiveActionListPage() {
             </strong>
             <span>{t('correctiveAction.overdue.bannerDescription')}</span>
           </div>
-          <button
-            type="button"
-            className="btn btn-sm btn-danger"
+          <Button variant="danger" size="sm"
             disabled={onlyOverdue}
             onClick={() => {
               setOnlyOverdue(true)
@@ -191,12 +190,13 @@ export default function CorrectiveActionListPage() {
             }}
           >
             {t('correctiveAction.overdue.showOverdue')}
-          </button>
+          </Button>
         </AlertPanel>
       )}
 
-      <div className="card">
-        <div className="card-header pt-4 pb-0 border-0">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetPage(setSearch)}
@@ -245,47 +245,38 @@ export default function CorrectiveActionListPage() {
               ))}
             </FilterSelect>
 
-            <div className="form-check form-switch mb-0">
-              <input
-                id="action-filter-overdue"
-                type="checkbox"
-                className="form-check-input"
-                checked={onlyOverdue}
-                onChange={(event) => {
-                  setOnlyOverdue(event.target.checked)
-                  setPage(1)
-                }}
-              />
-              <label className="form-check-label" htmlFor="action-filter-overdue">
-                {t('correctiveAction.list.onlyOverdue')}
-              </label>
-            </div>
+            <Switch
+              id="action-filter-overdue"
+              checked={onlyOverdue}
+              onChange={(checked) => {
+                setOnlyOverdue(checked)
+                setPage(1)
+              }}
+              label={t('correctiveAction.list.onlyOverdue')}
+            />
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('correctiveAction.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('correctiveAction.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('correctiveAction.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('correctiveAction.list.empty')}
+        />
+      </Card>
 
       {isCreating && <CorrectiveActionFormModal onClose={() => setIsCreating(false)} />}
 

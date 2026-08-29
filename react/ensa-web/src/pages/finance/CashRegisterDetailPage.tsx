@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, CheckBox, Input, Select } from 'rich-react-component'
 import DataTable, { ErrorPanel, PageTitle, Pagination, Spinner, type Column } from '@/components/DataTable'
 import { ConfirmDialog } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -97,9 +98,9 @@ export default function CashRegisterDetailPage() {
       key: 'operationType',
       header: t('finance.cashRegister.transaction.fields.operationType'),
       render: (row) => (
-        <span className={CASH_TRANSACTION_TYPE_BADGE[row.operationType]}>
+        <Badge variant={CASH_TRANSACTION_TYPE_BADGE[row.operationType]}>
           {t(`enums.cashTransactionType.${row.operationType}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -129,11 +130,11 @@ export default function CashRegisterDetailPage() {
       header: t('finance.cashRegister.transaction.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive
             ? t('finance.cashRegister.transaction.status.active')
             : t('finance.cashRegister.transaction.status.voided')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -143,13 +144,11 @@ export default function CashRegisterDetailPage() {
       width: '120px',
       render: (row) =>
         row.isActive ? (
-          <button
-            type="button"
-            className="btn btn-sm btn-light-danger"
+          <Button variant="light" size="sm" 
             onClick={() => setVoiding(row)}
           >
             {t('finance.cashRegister.transaction.void.action')}
-          </button>
+          </Button>
         ) : (
           <span style={{ color: 'var(--kt-gray-500)' }}>{none}</span>
         ),
@@ -174,34 +173,33 @@ export default function CashRegisterDetailPage() {
               <label htmlFor="register-switch" className="visually-hidden">
                 {t('finance.cashRegister.detail.switchRegister')}
               </label>
-              <select
+              <Select<number>
                 id="register-switch"
-                className="form-select"
                 value={registerId}
-                aria-label={t('finance.cashRegister.detail.switchRegister')}
-                onChange={(event) => navigate(`/cash-register/${event.target.value}`)}
-              >
-                {registers.data?.items.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.displayName}
-                  </option>
-                ))}
-              </select>
+                options={
+                  registers.data?.items.map((item) => ({
+                    value: item.id,
+                    label: item.displayName,
+                  })) ?? []
+                }
+                onChange={(next) => next != null && navigate(`/cash-register/${next}`)}
+              />
             </div>
-            <button className="btn btn-light-primary" type="button" onClick={() => setEditing(true)}>
+            <Button variant="light"  onClick={() => setEditing(true)}>
               {t('common.edit')}
-            </button>
-            <button className="btn btn-primary" type="button" onClick={() => setAdding(true)}>
+            </Button>
+            <Button variant="primary" onClick={() => setAdding(true)}>
               {t('finance.cashRegister.transaction.create')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <div className="row g-4">
         <div className="col-12 col-lg-5">
-          <div className="card h-100">
-            <div className="card-body">
+          <Card
+            className="h-100"
+          >
               <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('finance.cashRegister.detail.registerSection')}
               </h2>
@@ -215,18 +213,19 @@ export default function CashRegisterDetailPage() {
                     : t('finance.cashRegister.headquarter.no')}
                 </Term>
                 <Term label={t('finance.cashRegister.fields.status')}>
-                  <span className={register.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+                  <Badge variant={register.isActive ? 'success' : 'danger'}>
                     {register.isActive ? t('common.active') : t('common.passive')}
-                  </span>
+                  </Badge>
                 </Term>
               </dl>
-            </div>
-          </div>
+            
+          </Card>
         </div>
 
         <div className="col-12 col-lg-7">
-          <div className="card h-100">
-            <div className="card-body">
+          <Card
+            className="h-100"
+          >
               <h2 className="h6 fw-semibold mb-3" style={{ color: 'var(--kt-gray-900)' }}>
                 {t('finance.cashRegister.detail.balanceSection')}
               </h2>
@@ -250,19 +249,14 @@ export default function CashRegisterDetailPage() {
                   />
                 </div>
                 <div className="col-sm-5">
-                  <label htmlFor="balance-as-of" className="form-label fw-semibold">
-                    {t('finance.cashRegister.detail.asOfLabel')}
-                  </label>
-                  <input
+                  <Input
                     id="balance-as-of"
-                    type="date"
-                    className="form-control"
+                    label={t('finance.cashRegister.detail.asOfLabel')}
+                    helpText={t('finance.cashRegister.detail.asOfHint')}
                     value={asOf}
-                    onChange={(event) => setAsOf(event.target.value)}
+                    inputProps={{ type: 'date' }}
+                    onChange={setAsOf}
                   />
-                  <div className="form-text" style={{ color: 'var(--kt-gray-500)' }}>
-                    {t('finance.cashRegister.detail.asOfHint')}
-                  </div>
                 </div>
               </div>
 
@@ -271,95 +265,92 @@ export default function CashRegisterDetailPage() {
                   <ErrorPanel message={errorMessage(balance.error)} />
                 </div>
               )}
-            </div>
-          </div>
+            
+          </Card>
         </div>
       </div>
 
-      <div className="card mt-4">
-        <div className="card-header border-0 pt-4 pb-0">
-          <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-            <h2 className="h6 fw-semibold mb-0 me-auto" style={{ color: 'var(--kt-gray-900)' }}>
-              {t('finance.cashRegister.detail.transactionsSection')}
-            </h2>
+      <Card
+        className="mt-4"
+        header={
+          <div className="border-0 pt-4 pb-0">
+            <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+              <h2 className="h6 fw-semibold mb-0 me-auto" style={{ color: 'var(--kt-gray-900)' }}>
+                {t('finance.cashRegister.detail.transactionsSection')}
+              </h2>
 
-            <FilterSelect
-              id="transaction-filter-type"
-              label={t('finance.cashRegister.transaction.fields.operationType')}
-              value={operationType}
-              onChange={(next) => {
-                setOperationType(next)
-                setPage(1)
-              }}
-            >
-              <option value="">{t('finance.cashRegister.filters.allTypes')}</option>
-              {enumValues(CashTransactionType).map((value) => (
-                <option key={value} value={value}>
-                  {t(`enums.cashTransactionType.${value}`)}
-                </option>
-              ))}
-            </FilterSelect>
+              <FilterSelect
+                id="transaction-filter-type"
+                label={t('finance.cashRegister.transaction.fields.operationType')}
+                value={operationType}
+                onChange={(next) => {
+                  setOperationType(next)
+                  setPage(1)
+                }}
+              >
+                <option value="">{t('finance.cashRegister.filters.allTypes')}</option>
+                {enumValues(CashTransactionType).map((value) => (
+                  <option key={value} value={value}>
+                    {t(`enums.cashTransactionType.${value}`)}
+                  </option>
+                ))}
+              </FilterSelect>
 
-            <FilterDate
-              id="transaction-filter-start"
-              label={t('finance.common.startDate')}
-              value={startDate}
-              onChange={(next) => {
-                setStartDate(next)
-                setPage(1)
-              }}
-            />
-            <FilterDate
-              id="transaction-filter-end"
-              label={t('finance.common.endDate')}
-              value={endDate}
-              onChange={(next) => {
-                setEndDate(next)
-                setPage(1)
-              }}
-            />
-
-            <div className="form-check mb-0">
-              <input
-                id="transaction-include-voided"
-                type="checkbox"
-                className="form-check-input"
-                checked={includeVoided}
-                onChange={(event) => {
-                  setIncludeVoided(event.target.checked)
+              <FilterDate
+                id="transaction-filter-start"
+                label={t('finance.common.startDate')}
+                value={startDate}
+                onChange={(next) => {
+                  setStartDate(next)
                   setPage(1)
                 }}
               />
-              <label htmlFor="transaction-include-voided" className="form-check-label">
-                {t('finance.cashRegister.filters.includeVoided')}
-              </label>
+              <FilterDate
+                id="transaction-filter-end"
+                label={t('finance.common.endDate')}
+                value={endDate}
+                onChange={(next) => {
+                  setEndDate(next)
+                  setPage(1)
+                }}
+              />
+
+              <CheckBox
+                id="transaction-include-voided"
+                label={t('finance.cashRegister.filters.includeVoided')}
+                className="mb-0"
+                checked={includeVoided}
+                onChange={(checked) => {
+                  setIncludeVoided(checked)
+                  setPage(1)
+                }}
+              />
             </div>
           </div>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('finance.cashRegister.detail.transactionsSection')}
-            columns={columns}
-            rows={transactions.data?.items}
-            rowKey={(row) => row.id}
-            isLoading={transactions.isLoading}
-            error={transactions.error ? errorMessage(transactions.error) : null}
-            emptyMessage={t('finance.cashRegister.transaction.empty')}
-          />
-        </div>
-
-        {transactions.data && transactions.data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
-            <Pagination
-              total={transactions.data.totalCount}
-              page={page}
-              pageSize={PAGE_SIZE}
-              onPageChange={setPage}
-            />
-          </div>
-        )}
-      </div>
+        }
+        footer={
+          transactions.data && transactions.data.totalCount > 0 ? (
+            <div className="bg-transparent border-0 pt-0">
+              <Pagination
+                total={transactions.data.totalCount}
+                page={page}
+                pageSize={PAGE_SIZE}
+                onPageChange={setPage}
+              />
+            </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('finance.cashRegister.detail.transactionsSection')}
+          columns={columns}
+          rows={transactions.data?.items}
+          rowKey={(row) => row.id}
+          isLoading={transactions.isLoading}
+          error={transactions.error ? errorMessage(transactions.error) : null}
+          emptyMessage={t('finance.cashRegister.transaction.empty')}
+        />
+      </Card>
 
       {isEditing && (
         <CashRegisterEditor registerId={registerId} onClose={() => setEditing(false)} />

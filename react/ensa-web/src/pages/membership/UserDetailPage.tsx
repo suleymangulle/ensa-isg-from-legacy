@@ -1,8 +1,17 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  Input,
+  MultiSelect,
+  Tabs,
+} from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useDelete } from '@/api/mutations'
 import { useAuth } from '@/auth/AuthContext'
@@ -71,27 +80,21 @@ export default function UserDetailPage() {
         })}
         action={
           <div className="d-flex flex-wrap gap-2">
-            <button
-              type="button"
-              className="btn btn-light-primary"
+            <Button variant="light" 
               onClick={() => setResetOpen(true)}
             >
               {t('user.actions.resetPassword')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-light"
+            </Button>
+            <Button variant="light"
               disabled={setActive.isPending}
               onClick={() => setActive.mutate({ id: user.id, isActive: !user.isActive })}
             >
               {user.isActive ? t('user.actions.deactivate') : t('user.actions.activate')}
-            </button>
-            <button type="button" className="btn btn-primary" onClick={() => setEditOpen(true)}>
+            </Button>
+            <Button variant="primary" onClick={() => setEditOpen(true)}>
               {t('common.edit')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-light-danger"
+            </Button>
+            <Button variant="light" 
               disabled={currentUser?.id === user.id}
               title={
                 currentUser?.id === user.id ? t('user.actions.cannotDeleteSelf') : t('common.delete')
@@ -99,66 +102,53 @@ export default function UserDetailPage() {
               onClick={() => setDeleteOpen(true)}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         }
       />
 
       <div className="d-flex flex-wrap gap-2 mb-4">
-        <span className={user.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={user.isActive ? 'success' : 'danger'}>
           {user.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
         {user.mustChangePassword && (
-          <span className="badge-light-warning">{t('user.badges.mustChangePassword')}</span>
+          <Badge variant="warning">{t('user.badges.mustChangePassword')}</Badge>
         )}
         {user.systemAdministrator && (
-          <span className="badge-light-danger">{t('user.badges.systemAdministrator')}</span>
+          <Badge variant="danger">{t('user.badges.systemAdministrator')}</Badge>
         )}
         {user.organizationAdmin && (
-          <span className="badge-light-primary">{t('user.badges.organizationAdmin')}</span>
+          <Badge variant="primary">{t('user.badges.organizationAdmin')}</Badge>
         )}
         {user.officeAdmin && (
-          <span className="badge-light-primary">{t('user.badges.officeAdmin')}</span>
+          <Badge variant="primary">{t('user.badges.officeAdmin')}</Badge>
         )}
         {user.lockoutEnd && (
-          <span className="badge-light-warning">
+          <Badge variant="warning">
             {t('user.badges.lockedUntil', { value: formatDate(user.lockoutEnd) ?? '' })}
-          </span>
+          </Badge>
         )}
       </div>
 
-      <div className="card">
-        <div className="card-header p-0 px-4">
-          <ul className="nav nav-tabs border-0" role="tablist">
-            {TABS.map((tab) => (
-              <li className="nav-item" key={tab} role="presentation">
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={activeTab === tab}
-                  className={`nav-link border-0 px-3 py-3 ${activeTab === tab ? 'active fw-semibold' : ''}`}
-                  style={{
-                    color: activeTab === tab ? 'var(--kt-primary)' : 'var(--kt-gray-600)',
-                    borderBottom: `2px solid ${activeTab === tab ? 'var(--kt-primary)' : 'transparent'}`,
-                    backgroundColor: 'transparent',
-                  }}
-                  onClick={() => setActiveTab(tab)}
-                >
-                  {t(`user.detail.tabs.${tab}`)}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div className="card-body">
-          {activeTab === 'general' && <GeneralTab detail={data} />}
-          {activeTab === 'roles' && (
-            <RolesTab detail={data} onEdit={() => setRolesOpen(true)} />
-          )}
-          {activeTab === 'permissions' && <PermissionsTab detail={data} />}
-        </div>
-      </div>
+      <Card>
+        <Tabs
+          items={TABS.map((tab) => ({
+            key: tab,
+            label: t(`user.detail.tabs.${tab}`),
+            content:
+              tab === 'general' ? (
+                <GeneralTab detail={data} />
+              ) : tab === 'roles' ? (
+                <RolesTab detail={data} onEdit={() => setRolesOpen(true)} />
+              ) : (
+                <PermissionsTab detail={data} />
+              ),
+          }))}
+          activeKey={activeTab}
+          onChange={(key) => setActiveTab(key as TabKey)}
+          variant="underline"
+        />
+      </Card>
 
       {isEditOpen && (
         <UserFormModal
@@ -277,9 +267,9 @@ function RolesTab({ detail, onEdit }: { detail: UserNavigationDto; onEdit: () =>
         <p className="mb-0" style={{ color: 'var(--kt-gray-600)' }}>
           {t('user.detail.rolesDescription')}
         </p>
-        <button type="button" className="btn btn-sm btn-light-primary" onClick={onEdit}>
+        <Button variant="light" size="sm"  onClick={onEdit}>
           {t('user.actions.editRoles')}
-        </button>
+        </Button>
       </div>
 
       {detail.roles.length === 0 ? (
@@ -289,8 +279,8 @@ function RolesTab({ detail, onEdit }: { detail: UserNavigationDto; onEdit: () =>
       ) : (
         <ul className="list-unstyled d-flex flex-wrap gap-2 mb-0">
           {detail.roles.map((role) => (
-            <li key={role.id} className="badge-light-primary">
-              {role.displayName}
+            <li key={role.id}>
+              <Badge variant="primary">{role.displayName}</Badge>
             </li>
           ))}
         </ul>
@@ -327,7 +317,7 @@ function PermissionsTab({ detail }: { detail: UserNavigationDto }) {
         </p>
         <Link
           to={`/permissions?userId=${detail.user.id}`}
-          className="btn btn-sm btn-light-primary"
+          className="btn btn-sm"
         >
           {t('user.actions.editPermissions')}
         </Link>
@@ -390,24 +380,17 @@ function RoleAssignmentModal({
       error={assign.error ? errorMessage(assign.error) : null}
     >
       <div className="row g-3">
-        <Field label={t('user.form.roles')} htmlFor="assign-roles" hint={t('user.form.rolesHint')}>
-          <select
-            id="assign-roles"
-            multiple
-            size={8}
-            className="form-select"
-            value={selected}
-            onChange={(event) =>
-              setSelected(Array.from(event.target.selectedOptions).map((option) => option.value))
-            }
-          >
-            {roles.data?.items.map((role) => (
-              <option key={role.id} value={role.displayName}>
-                {role.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <MultiSelect
+          id="assign-roles"
+          label={t('user.form.roles')}
+          helpText={t('user.form.rolesHint')}
+          options={(roles.data?.items ?? []).map((role) => ({
+            value: role.displayName,
+            label: role.displayName,
+          }))}
+          values={selected}
+          onChange={setSelected}
+        />
 
         <div className="col-12">
           <p className="mb-1 fw-semibold" style={{ color: 'var(--kt-gray-700)' }}>
@@ -467,41 +450,33 @@ function ResetPasswordModal({ userId, onClose }: { userId: number; onClose: () =
     >
       <div className="row g-3">
         <div className="col-12">
-          <div
-            className="alert border-0 mb-0"
-            style={{ backgroundColor: 'var(--kt-warning-light)', color: 'var(--kt-warning)' }}
-            role="alert"
-          >
+          <Alert variant="warning" className="mb-0">
             {t('user.actions.resetPasswordWarning')}
-          </div>
+          </Alert>
         </div>
 
-        <Field
+        <Input
+          id="reset-password"
+          type="password"
           label={t('user.form.newPassword')}
-          htmlFor="reset-password"
           required
           error={validation ?? undefined}
-        >
-          <input
-            id="reset-password"
-            type="password"
-            autoComplete="new-password"
-            className={controlClass('form-control', validation ?? undefined)}
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </Field>
+          className="col-12"
+          inputProps={{ autoComplete: 'new-password' }}
+          value={password}
+          onChange={setPassword}
+        />
 
-        <Field label={t('user.form.passwordRepeat')} htmlFor="reset-password-repeat" required>
-          <input
-            id="reset-password-repeat"
-            type="password"
-            autoComplete="new-password"
-            className="form-control"
-            value={repeat}
-            onChange={(event) => setRepeat(event.target.value)}
-          />
-        </Field>
+        <Input
+          id="reset-password-repeat"
+          type="password"
+          label={t('user.form.passwordRepeat')}
+          required
+          className="col-12"
+          inputProps={{ autoComplete: 'new-password' }}
+          value={repeat}
+          onChange={setRepeat}
+        />
       </div>
     </Modal>
   )

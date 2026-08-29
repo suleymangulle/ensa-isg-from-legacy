@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { CheckBox, Input, NumberInput, Select } from 'rich-react-component'
+import { Modal } from '@/components/Form'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
 import { useLookup } from '@/api/endpoints'
@@ -84,199 +85,112 @@ export default function ActivityFormModal({
       size="lg"
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="activity-name"
           label={t('activity.fields.activityName')}
-          htmlFor="activity-name"
           required
           error={nameError}
           className="col-md-8"
-        >
-          <input
-            id="activity-name"
-            className={controlClass('form-control', nameError)}
-            value={model.activityName}
-            onChange={(event) => setModel({ ...model, activityName: event.target.value })}
-          />
-        </Field>
+          value={model.activityName}
+          onChange={(value) => setModel({ ...model, activityName: value })}
+        />
 
-        <Field
+        <Input
+          id="activity-code"
           label={t('activity.fields.activityCode')}
-          htmlFor="activity-code"
           className="col-md-4"
-        >
-          <input
-            id="activity-code"
-            className="form-control"
-            value={model.activityCode ?? ''}
-            onChange={(event) => setModel({ ...model, activityCode: event.target.value })}
-          />
-        </Field>
+          value={model.activityCode ?? ''}
+          onChange={(value) => setModel({ ...model, activityCode: value })}
+        />
 
-        <Field
+        <Select
+          id="activity-type"
           label={t('activity.fields.activityType')}
-          htmlFor="activity-type"
           className="col-md-4"
-        >
-          <select
-            id="activity-type"
-            className="form-select"
-            value={model.activityType}
-            onChange={(event) =>
-              setModel({ ...model, activityType: Number(event.target.value) as ActivityType })
-            }
-          >
-            {ACTIVITY_TYPES.map((value) => (
-              <option key={value} value={value}>
-                {t(`enums.activityType.${value}`)}
-              </option>
-            ))}
-          </select>
-        </Field>
+          options={ACTIVITY_TYPES.map((value) => ({ value, label: t(`enums.activityType.${value}`) }))}
+          value={model.activityType}
+          onChange={(value) => setModel({ ...model, activityType: value ?? ActivityType.Activity })}
+        />
 
-        <Field
+        <Select
+          id="activity-parent"
           label={t('activity.fields.parentActivity')}
-          htmlFor="activity-parent"
-          hint={t('activity.form.parentHint')}
+          helpText={t('activity.form.parentHint')}
           className="col-md-4"
-        >
-          <select
-            id="activity-parent"
-            className="form-select"
-            value={model.parentActivityId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                parentActivityId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('activity.form.noParent')}</option>
-            {parents.data?.items
+          placeholder={t('activity.form.noParent')}
+          options={
+            parents.data?.items
               .filter((item) => item.id !== activity?.id)
-              .map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.displayName}
-                </option>
-              ))}
-          </select>
-        </Field>
+              .map((item) => ({ value: item.id, label: item.displayName })) ?? []
+          }
+          value={model.parentActivityId ?? null}
+          onChange={(value) => setModel({ ...model, parentActivityId: value })}
+        />
 
-        <Field label={t('activity.fields.period')} htmlFor="activity-period" className="col-md-4">
-          <select
-            id="activity-period"
-            className="form-select"
-            value={model.periodId ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                periodId: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          >
-            <option value="">{t('common.none')}</option>
-            {periods.data?.items.map((period) => (
-              <option key={period.id} value={period.id}>
-                {period.displayName}
-              </option>
-            ))}
-          </select>
-        </Field>
+        <Select
+          id="activity-period"
+          label={t('activity.fields.period')}
+          className="col-md-4"
+          placeholder={t('common.none')}
+          options={periods.data?.items.map((period) => ({ value: period.id, label: period.displayName })) ?? []}
+          value={model.periodId ?? null}
+          onChange={(value) => setModel({ ...model, periodId: value })}
+        />
 
-        <Field
+        <NumberInput
+          id="activity-default-count"
           label={t('activity.fields.defaultCount')}
-          htmlFor="activity-default-count"
-          hint={t('activity.form.defaultCountHint')}
+          helpText={t('activity.form.defaultCountHint')}
           className="col-md-3"
-        >
-          <input
-            id="activity-default-count"
-            type="number"
-            min={0}
-            max={12}
-            className="form-control"
-            value={model.defaultCount}
-            onChange={(event) => setModel({ ...model, defaultCount: Number(event.target.value) || 0 })}
-          />
-        </Field>
+          min={0}
+          max={12}
+          value={model.defaultCount}
+          onChange={(value) => setModel({ ...model, defaultCount: value ?? 0 })}
+        />
 
-        <Field
+        <NumberInput
+          id="activity-default-offset"
           label={t('activity.fields.defaultStartMonthOffset')}
-          htmlFor="activity-default-offset"
-          hint={t('activity.form.defaultOffsetHint')}
+          helpText={t('activity.form.defaultOffsetHint')}
           className="col-md-3"
-        >
-          <input
-            id="activity-default-offset"
-            type="number"
-            min={0}
-            max={11}
-            className="form-control"
-            value={model.defaultStartMonthOffset}
-            onChange={(event) =>
-              setModel({ ...model, defaultStartMonthOffset: Number(event.target.value) || 0 })
-            }
-          />
-        </Field>
+          min={0}
+          max={11}
+          value={model.defaultStartMonthOffset}
+          onChange={(value) => setModel({ ...model, defaultStartMonthOffset: value ?? 0 })}
+        />
 
-        <Field
+        <NumberInput
+          id="activity-default-condition"
           label={t('activity.fields.defaultElementCondition')}
-          htmlFor="activity-default-condition"
-          hint={t('activity.form.defaultConditionHint')}
+          helpText={t('activity.form.defaultConditionHint')}
           className="col-md-3"
-        >
-          <input
-            id="activity-default-condition"
-            type="number"
-            min={0}
-            className="form-control"
-            value={model.defaultElementCondition}
-            onChange={(event) =>
-              setModel({ ...model, defaultElementCondition: Number(event.target.value) || 0 })
-            }
-          />
-        </Field>
+          min={0}
+          value={model.defaultElementCondition}
+          onChange={(value) => setModel({ ...model, defaultElementCondition: value ?? 0 })}
+        />
 
-        <Field label={t('activity.fields.orderNo')} htmlFor="activity-order" className="col-md-3">
-          <input
-            id="activity-order"
-            type="number"
-            min={0}
-            className="form-control"
-            value={model.orderNo ?? ''}
-            onChange={(event) =>
-              setModel({
-                ...model,
-                orderNo: event.target.value === '' ? null : Number(event.target.value),
-              })
-            }
-          />
-        </Field>
+        <NumberInput
+          id="activity-order"
+          label={t('activity.fields.orderNo')}
+          className="col-md-3"
+          min={0}
+          value={model.orderNo ?? null}
+          onChange={(value) => setModel({ ...model, orderNo: value })}
+        />
 
         <div className="col-12 d-flex flex-wrap gap-4">
-          <div className="form-check">
-            <input
-              id="activity-default"
-              type="checkbox"
-              className="form-check-input"
-              checked={model.defaultActivity}
-              onChange={(event) => setModel({ ...model, defaultActivity: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="activity-default">
-              {t('activity.fields.defaultActivity')}
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              id="activity-active"
-              type="checkbox"
-              className="form-check-input"
-              checked={model.isActive ?? true}
-              onChange={(event) => setModel({ ...model, isActive: event.target.checked })}
-            />
-            <label className="form-check-label" htmlFor="activity-active">
-              {t('common.active')}
-            </label>
-          </div>
+          <CheckBox
+            id="activity-default"
+            checked={model.defaultActivity}
+            onChange={(value) => setModel({ ...model, defaultActivity: value })}
+            label={t('activity.fields.defaultActivity')}
+          />
+          <CheckBox
+            id="activity-active"
+            checked={model.isActive ?? true}
+            onChange={(value) => setModel({ ...model, isActive: value })}
+            label={t('common.active')}
+          />
         </div>
       </div>
     </Modal>

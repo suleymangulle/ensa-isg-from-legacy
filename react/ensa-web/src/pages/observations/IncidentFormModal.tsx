@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Input, NumberInput, TextArea } from 'rich-react-component'
 import { AccidentType, IncidentType } from '@/api/enums'
 import { errorMessage } from '@/api/http'
 import { useCreate, useUpdate } from '@/api/mutations'
-import { Field, Modal, controlClass } from '@/components/Form'
+import { Modal } from '@/components/Form'
 import {
   OBSERVATION_ENDPOINTS,
   useCompanyLookup,
@@ -173,67 +174,45 @@ export default function IncidentFormModal({
           onChange={(next) => patch({ accidentType: (next ?? AccidentType.Unspecified) as AccidentType })}
         />
 
-        <Field
+        <Input
+          id="incident-date"
           label={t('incident.fields.incidentDate')}
-          htmlFor="incident-date"
           required
           error={errors.incidentDate}
           className="col-md-4"
-        >
-          <input
-            id="incident-date"
-            type="date"
-            className={controlClass('form-control', errors.incidentDate)}
-            value={form.incidentDate}
-            aria-invalid={errors.incidentDate ? true : undefined}
-            onChange={(event) => patch({ incidentDate: event.target.value })}
-          />
-        </Field>
+          value={form.incidentDate}
+          onChange={(value) => patch({ incidentDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <NumberInput
+          id="incident-lost-days"
           label={t('incident.fields.lostWorkDays')}
-          htmlFor="incident-lost-days"
           className="col-md-4"
-        >
-          <input
-            id="incident-lost-days"
-            type="number"
-            min={0}
-            className="form-control"
-            value={form.lostWorkDays}
-            onChange={(event) => patch({ lostWorkDays: event.target.value })}
-          />
-        </Field>
+          min={0}
+          value={form.lostWorkDays === '' ? null : Number(form.lostWorkDays)}
+          onChange={(value) => patch({ lostWorkDays: value === null ? '' : String(value) })}
+        />
 
-        <Field
+        <Input
+          id="incident-isper-date"
           label={t('incident.fields.isPerDate')}
-          htmlFor="incident-isper-date"
-          hint={t('incident.form.isPerDateHint')}
+          helpText={t('incident.form.isPerDateHint')}
           className="col-md-4"
-        >
-          <input
-            id="incident-isper-date"
-            type="date"
-            className="form-control"
-            value={form.isPerDate}
-            onChange={(event) => patch({ isPerDate: event.target.value })}
-          />
-        </Field>
+          value={form.isPerDate}
+          onChange={(value) => patch({ isPerDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
-        <Field
+        <Input
+          id="incident-ssi-date"
           label={t('incident.fields.ssiNotificationDate')}
-          htmlFor="incident-ssi-date"
-          hint={t('incident.form.ssiNotificationHint')}
+          helpText={t('incident.form.ssiNotificationHint')}
           className="col-md-6"
-        >
-          <input
-            id="incident-ssi-date"
-            type="date"
-            className="form-control"
-            value={form.ssiNotificationDate}
-            onChange={(event) => patch({ ssiNotificationDate: event.target.value })}
-          />
-        </Field>
+          value={form.ssiNotificationDate}
+          onChange={(value) => patch({ ssiNotificationDate: value })}
+          inputProps={{ type: 'date' }}
+        />
 
         <LookupField
           id="incident-supervisor"
@@ -249,49 +228,33 @@ export default function IncidentFormModal({
           onChange={(next) => patch({ unitSupervisorId: next })}
         />
 
-        <Field
+        <Input
+          id="incident-supervisor-name"
           label={t('incident.fields.supervisorFullName')}
-          htmlFor="incident-supervisor-name"
-          hint={t('incident.form.supervisorNameHint')}
+          helpText={t('incident.form.supervisorNameHint')}
           className="col-12"
-        >
-          <input
-            id="incident-supervisor-name"
-            type="text"
-            className="form-control"
-            value={form.supervisorFullName}
-            onChange={(event) => patch({ supervisorFullName: event.target.value })}
-          />
-        </Field>
+          value={form.supervisorFullName}
+          onChange={(value) => patch({ supervisorFullName: value })}
+        />
 
-        <Field
+        <TextArea
+          id="incident-description"
           label={t('incident.fields.description')}
-          htmlFor="incident-description"
           className="col-12"
-        >
-          <textarea
-            id="incident-description"
-            className="form-control"
-            rows={3}
-            value={form.description}
-            onChange={(event) => patch({ description: event.target.value })}
-          />
-        </Field>
+          rows={3}
+          value={form.description}
+          onChange={(value) => patch({ description: value })}
+        />
 
-        <Field
+        <TextArea
+          id="incident-expression"
           label={t('incident.fields.expression')}
-          htmlFor="incident-expression"
-          hint={t('incident.form.expressionHint')}
+          helpText={t('incident.form.expressionHint')}
           className="col-12"
-        >
-          <textarea
-            id="incident-expression"
-            className="form-control"
-            rows={3}
-            value={form.expression}
-            onChange={(event) => patch({ expression: event.target.value })}
-          />
-        </Field>
+          rows={3}
+          value={form.expression}
+          onChange={(value) => patch({ expression: value })}
+        />
       </div>
     </Modal>
   )

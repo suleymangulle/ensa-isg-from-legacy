@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { PageTitle, Pagination, type Column } from '@/components/DataTable'
 import { ConfirmDialog, SearchBar } from '@/components/Form'
 import { errorMessage } from '@/api/http'
@@ -80,9 +81,9 @@ export default function FieldObservationListPage() {
       header: t('fieldObservation.fields.lineCount'),
       align: 'center',
       render: (row) => (
-        <span className={row.lineCount > 0 ? 'badge-light-warning' : 'badge-light-success'}>
+        <Badge variant={row.lineCount > 0 ? 'warning' : 'success'}>
           {row.lineCount}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -107,14 +108,15 @@ export default function FieldObservationListPage() {
         title={t('fieldObservation.list.title')}
         description={t('fieldObservation.list.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsCreating(true)}>
+          <Button variant="primary" onClick={() => setIsCreating(true)}>
             {t('fieldObservation.list.create')}
-          </button>
+          </Button>
         }
       />
 
-      <div className="card">
-        <div className="card-header pt-4 pb-0 border-0">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={resetPage(setSearch)}
@@ -135,59 +137,42 @@ export default function FieldObservationListPage() {
               ))}
             </FilterSelect>
 
-            <div>
-              <label htmlFor="observation-filter-from" className="visually-hidden">
-                {t('fieldObservation.list.dateFrom')}
-              </label>
-              <input
-                id="observation-filter-from"
-                type="date"
-                className="form-control"
-                value={dateFrom}
-                aria-label={t('fieldObservation.list.dateFrom')}
-                onChange={(event) => resetPage(setDateFrom)(event.target.value)}
-              />
-            </div>
+            <Input
+              id="observation-filter-from"
+              value={dateFrom}
+              onChange={resetPage(setDateFrom)}
+              inputProps={{ type: 'date', 'aria-label': t('fieldObservation.list.dateFrom') }}
+            />
 
-            <div>
-              <label htmlFor="observation-filter-to" className="visually-hidden">
-                {t('fieldObservation.list.dateTo')}
-              </label>
-              <input
-                id="observation-filter-to"
-                type="date"
-                className="form-control"
-                value={dateTo}
-                aria-label={t('fieldObservation.list.dateTo')}
-                onChange={(event) => resetPage(setDateTo)(event.target.value)}
-              />
-            </div>
+            <Input
+              id="observation-filter-to"
+              value={dateTo}
+              onChange={resetPage(setDateTo)}
+              inputProps={{ type: 'date', 'aria-label': t('fieldObservation.list.dateTo') }}
+            />
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('fieldObservation.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('fieldObservation.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('fieldObservation.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('fieldObservation.list.empty')}
+        />
+      </Card>
 
       {isCreating && <FieldObservationFormModal onClose={() => setIsCreating(false)} />}
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, Spinner, type Column } from '@/components/DataTable'
 import { useEntity } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
@@ -117,9 +118,9 @@ export default function YearEndReviewListPage() {
       header: t('reports.yearEnd.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={row.isActive ? 'badge-light-success' : 'badge-light-danger'}>
+        <Badge variant={row.isActive ? 'success' : 'danger'}>
           {row.isActive ? t('common.active') : t('common.passive')}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -153,20 +154,16 @@ export default function YearEndReviewListPage() {
         title={t('reports.yearEnd.title')}
         description={t('reports.yearEnd.description')}
         action={
-          <button className="btn btn-primary" type="button" onClick={() => setIsCreating(true)}>
+          <Button variant="primary" onClick={() => setIsCreating(true)}>
             {t('reports.yearEnd.create')}
-          </button>
+          </Button>
         }
       />
 
       {companyId && !current.isLoading && (
-        <div
-          className="alert border-0 d-flex flex-wrap align-items-center justify-content-between gap-3"
-          style={{
-            backgroundColor: current.data ? 'var(--kt-success-light)' : 'var(--kt-warning-light)',
-            color: current.data ? 'var(--kt-success)' : 'var(--kt-warning)',
-          }}
-          role="status"
+        <Alert
+          variant={current.data ? 'success' : 'warning'}
+          className="d-flex flex-wrap align-items-center justify-content-between gap-3"
         >
           <span>
             {current.data
@@ -182,24 +179,24 @@ export default function YearEndReviewListPage() {
               {t('common.detail')}
             </Link>
           )}
-        </div>
+        </Alert>
       )}
 
-      <div className="card">
-        <div className="card-header">
+      <Card
+        
+        header={
           <div className="d-flex flex-wrap align-items-center gap-3 w-100">
             <div className="flex-grow-1" style={{ maxWidth: 260 }}>
               <label htmlFor="year-end-search" className="visually-hidden">
                 {t('reports.yearEnd.searchLabel')}
               </label>
-              <input
+              <Input
                 id="year-end-search"
                 type="search"
-                className="form-control"
                 value={search}
                 placeholder={t('reports.yearEnd.searchPlaceholder')}
-                onChange={(event) => {
-                  setSearch(event.target.value)
+                onChange={(next) => {
+                  setSearch(next)
                   setPage(1)
                 }}
               />
@@ -210,67 +207,68 @@ export default function YearEndReviewListPage() {
               label={t('reports.yearEnd.fields.company')}
               value={companyId === undefined ? '' : String(companyId)}
               width={220}
+              placeholder={t('reports.common.allCompanies')}
+              options={
+                companies.data?.items.map((company) => ({
+                  value: String(company.id),
+                  label: company.displayName,
+                })) ?? []
+              }
               onChange={(next) => {
                 setCompanyId(next === '' ? undefined : Number(next))
                 setPage(1)
               }}
-            >
-              <option value="">{t('reports.common.allCompanies')}</option>
-              {companies.data?.items.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterSelect
               id="year-end-specialist-filter"
               label={t('reports.yearEnd.fields.specialist')}
               value={specialistUserId === undefined ? '' : String(specialistUserId)}
+              placeholder={t('reports.yearEnd.filters.allSpecialists')}
+              options={
+                users.data?.items.map((user) => ({
+                  value: String(user.id),
+                  label: user.displayName,
+                })) ?? []
+              }
               onChange={(next) => {
                 setSpecialistUserId(next === '' ? undefined : Number(next))
                 setPage(1)
               }}
-            >
-              <option value="">{t('reports.yearEnd.filters.allSpecialists')}</option>
-              {users.data?.items.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterSelect
               id="year-end-physician-filter"
               label={t('reports.yearEnd.fields.physician')}
               value={physicianUserId === undefined ? '' : String(physicianUserId)}
+              placeholder={t('reports.yearEnd.filters.allPhysicians')}
+              options={
+                users.data?.items.map((user) => ({
+                  value: String(user.id),
+                  label: user.displayName,
+                })) ?? []
+              }
               onChange={(next) => {
                 setPhysicianUserId(next === '' ? undefined : Number(next))
                 setPage(1)
               }}
-            >
-              <option value="">{t('reports.yearEnd.filters.allPhysicians')}</option>
-              {users.data?.items.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.displayName}
-                </option>
-              ))}
-            </FilterSelect>
+            />
 
             <FilterSelect
               id="year-end-status"
               label={t('reports.yearEnd.fields.status')}
               value={activeFilter}
               width={150}
+              placeholder={t('common.all')}
+              options={[
+                { value: 'true', label: t('common.active') },
+                { value: 'false', label: t('common.passive') },
+              ]}
               onChange={(next) => {
                 setActiveFilter(next)
                 setPage(1)
               }}
-            >
-              <option value="">{t('common.all')}</option>
-              <option value="true">{t('common.active')}</option>
-              <option value="false">{t('common.passive')}</option>
-            </FilterSelect>
+            />
 
             <FilterDate
               id="year-end-start-date"
@@ -291,31 +289,28 @@ export default function YearEndReviewListPage() {
               }}
             />
           </div>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('reports.yearEnd.title')}
-            columns={columns}
-            rows={list.data?.items}
-            rowKey={(row) => row.id}
-            isLoading={list.isLoading}
-            error={list.error ? errorMessage(list.error) : null}
-            emptyMessage={t('reports.yearEnd.empty')}
-          />
-        </div>
-
-        {list.data && list.data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          list.data && list.data.totalCount > 0 ? (
             <Pagination
               total={list.data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('reports.yearEnd.title')}
+          columns={columns}
+          rows={list.data?.items}
+          rowKey={(row) => row.id}
+          isLoading={list.isLoading}
+          error={list.error ? errorMessage(list.error) : null}
+          emptyMessage={t('reports.yearEnd.empty')}
+        />
+      </Card>
 
       {isCreating && <YearEndReviewFormModal onClose={() => setIsCreating(false)} />}
       {editingId && (
@@ -351,13 +346,9 @@ function EditGate({ reportId, onClose }: { reportId: number; onClose: () => void
   return (
     <Modal title={t('reports.yearEnd.form.editTitle')} isOpen onClose={onClose} size="sm">
       {report.error ? (
-        <div
-          className="alert border-0 mb-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="alert"
-        >
+        <Alert variant="danger" className="mb-0">
           {errorMessage(report.error)}
-        </div>
+        </Alert>
       ) : (
         <Spinner />
       )}

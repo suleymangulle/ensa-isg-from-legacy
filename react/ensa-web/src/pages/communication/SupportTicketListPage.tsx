@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Alert, Badge, Button, Card, CheckBox, Input, Select, TextArea } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
-import { ConfirmDialog, Field, Modal, SearchBar, controlClass } from '@/components/Form'
+import { ConfirmDialog, Modal, SearchBar } from '@/components/Form'
 import { useCreate, useDelete, useUpdate } from '@/api/mutations'
 import { errorMessage } from '@/api/http'
 import { useEntity } from '@/api/endpoints'
@@ -35,7 +36,7 @@ export default function SupportTicketListPage() {
 
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState<SupportTicketStatus | null>(null)
   const [onlyMine, setOnlyMine] = useState(false)
 
   const [editingId, setEditingId] = useState<number | undefined>()
@@ -46,7 +47,7 @@ export default function SupportTicketListPage() {
     skipCount: (page - 1) * PAGE_SIZE,
     maxResultCount: PAGE_SIZE,
     filter: search || undefined,
-    status: status === '' ? undefined : (Number(status) as SupportTicketStatus),
+    status: status ?? undefined,
     onlyMine: onlyMine || undefined,
   })
 
@@ -85,9 +86,9 @@ export default function SupportTicketListPage() {
       header: t('supportTicket.fields.status'),
       align: 'center',
       render: (row) => (
-        <span className={TICKET_STATUS_BADGE[row.status]}>
+        <Badge variant={TICKET_STATUS_BADGE[row.status]}>
           {t(`enums.supportTicketStatus.${row.status}`)}
-        </span>
+        </Badge>
       ),
     },
     {
@@ -120,29 +121,23 @@ export default function SupportTicketListPage() {
         return (
           <div className="d-flex justify-content-end gap-2">
             {isOpen ? (
-              <button
-                type="button"
-                className="btn btn-sm btn-light-success"
+              <Button variant="light" size="sm" 
                 disabled={close.isPending}
                 onClick={() => close.mutate(row.id)}
                 aria-label={t('supportTicket.list.closeAria', { topic: row.topic })}
               >
                 {t('supportTicket.list.close')}
-              </button>
+              </Button>
             ) : (
-              <button
-                type="button"
-                className="btn btn-sm btn-light-warning"
+              <Button variant="light" size="sm" 
                 disabled={reopen.isPending}
                 onClick={() => reopen.mutate(row.id)}
                 aria-label={t('supportTicket.list.reopenAria', { topic: row.topic })}
               >
                 {t('supportTicket.list.reopen')}
-              </button>
+              </Button>
             )}
-            <button
-              type="button"
-              className="btn btn-sm btn-light-primary"
+            <Button variant="light" size="sm" 
               onClick={() => {
                 setEditingId(row.id)
                 setIsEditorOpen(true)
@@ -150,15 +145,13 @@ export default function SupportTicketListPage() {
               aria-label={t('supportTicket.list.editAria', { topic: row.topic })}
             >
               {t('common.edit')}
-            </button>
-            <button
-              type="button"
-              className="btn btn-sm btn-light-danger"
+            </Button>
+            <Button variant="light" size="sm" 
               onClick={() => setDeleting(row)}
               aria-label={t('supportTicket.list.deleteAria', { topic: row.topic })}
             >
               {t('common.delete')}
-            </button>
+            </Button>
           </div>
         )
       },
@@ -173,45 +166,32 @@ export default function SupportTicketListPage() {
         title={t('supportTicket.list.title')}
         description={t('supportTicket.list.description')}
         action={
-          <button
-            className="btn btn-primary"
-            type="button"
+          <Button variant="primary"
             onClick={() => {
               setEditingId(undefined)
               setIsEditorOpen(true)
             }}
           >
             {t('supportTicket.list.create')}
-          </button>
+          </Button>
         }
       />
 
       {openCount.data && (
-        <div
-          className="alert border-0 d-flex align-items-center gap-2"
-          style={{
-            backgroundColor:
-              openCount.data.openCount > 0 ? 'var(--kt-warning-light)' : 'var(--kt-success-light)',
-            color: openCount.data.openCount > 0 ? 'var(--kt-warning)' : 'var(--kt-success)',
-          }}
+        <Alert
+          variant={openCount.data.openCount > 0 ? 'warning' : 'success'}
+          className="d-flex align-items-center gap-2"
         >
           <span className="fw-bold">{openCount.data.openCount}</span>
           <span>{t('supportTicket.list.openCount')}</span>
-        </div>
+        </Alert>
       )}
 
-      {workflowError && (
-        <div
-          className="alert border-0"
-          style={{ backgroundColor: 'var(--kt-danger-light)', color: 'var(--kt-danger)' }}
-          role="alert"
-        >
-          {errorMessage(workflowError)}
-        </div>
-      )}
+      {workflowError && <Alert variant="danger">{errorMessage(workflowError)}</Alert>}
 
-      <div className="card">
-        <div className="card-header pt-4 pb-0 border-0">
+      <Card
+        
+        header={
           <SearchBar
             value={search}
             onChange={(value) => {
@@ -220,69 +200,56 @@ export default function SupportTicketListPage() {
             }}
             placeholder={t('supportTicket.list.searchPlaceholder')}
           >
-            <div>
+            <div style={{ minWidth: 200 }}>
               <label htmlFor="ticket-status-filter" className="visually-hidden">
                 {t('supportTicket.filters.status')}
               </label>
-              <select
+              <Select<SupportTicketStatus>
                 id="ticket-status-filter"
-                className="form-select"
-                style={{ minWidth: 200 }}
+                options={TICKET_STATUSES.map((value) => ({
+                  value,
+                  label: t(`enums.supportTicketStatus.${value}`),
+                }))}
                 value={status}
-                onChange={(event) => {
-                  setStatus(event.target.value)
-                  setPage(1)
-                }}
-              >
-                <option value="">{t('supportTicket.filters.allStatuses')}</option>
-                {TICKET_STATUSES.map((value) => (
-                  <option key={value} value={value}>
-                    {t(`enums.supportTicketStatus.${value}`)}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-check">
-              <input
-                id="ticket-only-mine"
-                type="checkbox"
-                className="form-check-input"
-                checked={onlyMine}
-                onChange={(event) => {
-                  setOnlyMine(event.target.checked)
+                placeholder={t('supportTicket.filters.allStatuses')}
+                onChange={(value) => {
+                  setStatus(value)
                   setPage(1)
                 }}
               />
-              <label htmlFor="ticket-only-mine" className="form-check-label">
-                {t('supportTicket.filters.onlyMine')}
-              </label>
             </div>
+            <CheckBox
+              id="ticket-only-mine"
+              label={t('supportTicket.filters.onlyMine')}
+              checked={onlyMine}
+              onChange={(checked) => {
+                setOnlyMine(checked)
+                setPage(1)
+              }}
+            />
           </SearchBar>
-        </div>
-
-        <div className="card-body p-0">
-          <DataTable
-            label={t('supportTicket.list.title')}
-            columns={columns}
-            rows={data?.items}
-            rowKey={(row) => row.id}
-            isLoading={isLoading}
-            error={error ? errorMessage(error) : null}
-            emptyMessage={t('supportTicket.list.empty')}
-          />
-        </div>
-
-        {data && data.totalCount > 0 && (
-          <div className="card-footer bg-transparent border-0 pt-0">
+        }
+        footer={
+          data && data.totalCount > 0 ? (
             <Pagination
               total={data.totalCount}
               page={page}
               pageSize={PAGE_SIZE}
               onPageChange={setPage}
             />
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      >
+        <DataTable
+          label={t('supportTicket.list.title')}
+          columns={columns}
+          rows={data?.items}
+          rowKey={(row) => row.id}
+          isLoading={isLoading}
+          error={error ? errorMessage(error) : null}
+          emptyMessage={t('supportTicket.list.empty')}
+        />
+      </Card>
 
       {isEditorOpen && (!editingId || editing.data) && (
         <TicketEditor
@@ -328,7 +295,7 @@ function TicketEditor({
   const { t } = useTranslation()
   const [topic, setTopic] = useState('')
   const [firstMessage, setFirstMessage] = useState('')
-  const [responderUserId, setResponderUserId] = useState('')
+  const [responderUserId, setResponderUserId] = useState<number | null>(null)
   const [topicError, setTopicError] = useState<string>()
 
   const users = useUserLookup()
@@ -338,7 +305,7 @@ function TicketEditor({
     setTopicError(undefined)
     setTopic(ticket?.topic ?? '')
     setFirstMessage('')
-    setResponderUserId(ticket?.responderUserId?.toString() ?? '')
+    setResponderUserId(ticket?.responderUserId ?? null)
   }, [isOpen, ticket])
 
   const create = useCreate<CreateSupportTicketDto, SupportTicketDto>(SUPPORT_TICKET, {
@@ -361,7 +328,7 @@ function TicketEditor({
         id: ticket.id,
         input: {
           topic: topic.trim(),
-          responderUserId: responderUserId ? Number(responderUserId) : null,
+          responderUserId,
         },
       })
     } else {
@@ -379,56 +346,39 @@ function TicketEditor({
       error={mutation.error ? errorMessage(mutation.error) : null}
     >
       <div className="row g-3">
-        <Field
+        <Input
+          id="ticket-topic"
+          type="text"
           label={t('supportTicket.fields.topic')}
-          htmlFor="ticket-topic"
           required
           error={topicError}
-        >
-          <input
-            id="ticket-topic"
-            type="text"
-            className={controlClass('form-control', topicError)}
-            value={topic}
-            onChange={(event) => setTopic(event.target.value)}
-          />
-        </Field>
+          value={topic}
+          onChange={setTopic}
+        />
 
         {ticket ? (
-          <Field
+          <Select<number>
+            id="ticket-responder"
             label={t('supportTicket.fields.responder')}
-            htmlFor="ticket-responder"
-            hint={t('supportTicket.editor.responderHint')}
-          >
-            <select
-              id="ticket-responder"
-              className="form-select"
-              value={responderUserId}
-              onChange={(event) => setResponderUserId(event.target.value)}
-            >
-              <option value="">{t('supportTicket.editor.noResponder')}</option>
-              {users.data?.items.map((user) => (
-                <option key={user.id} value={user.id}>
-                  {user.displayName}
-                </option>
-              ))}
-            </select>
-          </Field>
+            helpText={t('supportTicket.editor.responderHint')}
+            placeholder={t('supportTicket.editor.noResponder')}
+            options={(users.data?.items ?? []).map((user) => ({
+              value: user.id,
+              label: user.displayName,
+            }))}
+            value={responderUserId}
+            onChange={setResponderUserId}
+          />
         ) : (
-          <Field
+          <TextArea
+            id="ticket-first-message"
             label={t('supportTicket.fields.firstMessage')}
-            htmlFor="ticket-first-message"
-            hint={t('supportTicket.editor.firstMessageHint')}
-          >
-            <textarea
-              id="ticket-first-message"
-              className="form-control"
-              rows={4}
-              maxLength={4000}
-              value={firstMessage}
-              onChange={(event) => setFirstMessage(event.target.value)}
-            />
-          </Field>
+            helpText={t('supportTicket.editor.firstMessageHint')}
+            rows={4}
+            maxLength={4000}
+            value={firstMessage}
+            onChange={setFirstMessage}
+          />
         )}
       </div>
     </Modal>

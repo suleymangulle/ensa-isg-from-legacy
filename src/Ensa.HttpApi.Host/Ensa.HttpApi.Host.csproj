@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -18,6 +18,20 @@
     <ProjectReference Include="..\Ensa.HttpApi\Ensa.HttpApi.csproj" />
     <ProjectReference Include="..\Ensa.Application\Ensa.Application.csproj" />
     <ProjectReference Include="..\Ensa.EntityFrameworkCore\Ensa.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <!--
+      Never publish the machine-local settings file.
+
+      appsettings.{Environment}.local.json is where a real connection string lives - it is loaded
+      last and .gitignore excludes it, because this repository is public. dotnet publish picks it
+      up anyway through the default appsettings*.json glob, which puts the database password into
+      every deployment artifact and undoes the whole arrangement. A deployment supplies its own
+      connection string through ConnectionStrings__Default or a key vault.
+    -->
+    <Content Update="appsettings.*.local.json" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
 </Project>

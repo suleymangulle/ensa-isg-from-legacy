@@ -26,8 +26,14 @@ namespace Ensa.HttpApi.Host.Controllers;
 /// </list>
 /// </para>
 /// <para>
-/// The Ensa-specific claims carried by the issued access token:
-/// <c>ensa:tenantId</c> (single) and <c>ensa:permission</c> (multiple).
+/// The Ensa-specific claims carried by the issued access token: <c>ensa:tenantId</c> and,
+/// for a user who belongs to one client workplace, <c>ensa:companyId</c>.
+/// </para>
+/// <para>
+/// <b>No permission claim.</b> Permissions are resolved per request from
+/// <c>PermissionEndpoint</c>, so a permission granted or withdrawn takes effect immediately
+/// rather than when the token next expires, and a token cannot outlive the grant it was
+/// issued under.
 /// </para>
 /// </summary>
 [ApiController]
@@ -35,7 +41,6 @@ namespace Ensa.HttpApi.Host.Controllers;
 public sealed class AuthorizationController(
     UserManager<User> userManager,
     SignInManager<User> signInManager,
-    IPermissionResolver permissionResolver,
     IUserRepository userRepository,
     IDataFilter dataFilter,
     ICurrentTenant currentTenant,
@@ -362,11 +367,6 @@ public sealed class AuthorizationController(
 
     /// <summary>
     /// Builds the <see cref="ClaimsPrincipal"/> that is written into the user's access and refresh tokens.
-    /// <para>
-    /// The permissions are resolved through <see cref="IPermissionResolver"/>, so the contents of
-    /// the token and the result of <c>IAccountAppService.GetPermissionsAsync</c> always come from
-    /// the same source.
-    /// </para>
     /// <para>
     /// The whole method runs inside the signed-in user's own tenant context. Nothing has resolved
     /// a tenant yet at this point in the request - the token that would carry it is what is being

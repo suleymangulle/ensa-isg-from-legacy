@@ -386,7 +386,7 @@ public class CashRegisterAppService(
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
         var officeIds = officeScope.OfficeIds;
         var restricted = officeScope.IsRestricted;
-        var headquarter = input.HeadquarterCashRegister;
+        var headquarter = input.IsHeadquarterCashRegister;
         var isActive = input.IsActive;
 
         if (search is null && !restricted && headquarter is null && isActive is null)
@@ -397,7 +397,7 @@ public class CashRegisterAppService(
         return k =>
             (search == null || k.CashRegisterName.Contains(search))
             && (!restricted || officeIds.Contains(k.OfficeId))
-            && (headquarter == null || k.HeadquarterCashRegister == headquarter)
+            && (headquarter == null || k.IsHeadquarterCashRegister == headquarter)
             && (isActive == null || k.IsActive == isActive);
     }
 

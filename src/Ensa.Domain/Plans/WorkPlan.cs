@@ -35,7 +35,7 @@ public class WorkPlan : FullAuditedTenantEntity, IActivatable, ICompanyScoped
     public bool IsActive { get; set; } = true;
 
     /// <summary>Whether the plan has been transferred to the integrated external system. (Legacy: <c>Aktarildi</c> bool?)</summary>
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 
     /// <summary>
     /// Reference to the previous year's plan revision (self-referencing FK). (Legacy: <c>CPId_E</c>)

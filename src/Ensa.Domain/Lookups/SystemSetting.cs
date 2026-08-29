@@ -23,7 +23,7 @@ public class SystemSetting : Entity
     public string SettingType { get; set; } = string.Empty;
 
     /// <summary>Whether the value must be stored encrypted/secret (e.g. an API key).</summary>
-    public bool Encrypted { get; set; }
+    public bool IsEncrypted { get; set; }
 
     /// <summary>Whether the value can be changed from the user interface.</summary>
     public bool IsEditable { get; set; } = true;

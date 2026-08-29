@@ -60,7 +60,7 @@ public class ProfileDto
     public bool MustChangePassword { get; set; }
 
     /// <summary>Whether the terms of use have been accepted.</summary>
-    public bool ContractApproved { get; set; }
+    public bool IsContractApproved { get; set; }
 
     /// <summary>When the temporary account lockout ends, if the account is locked.</summary>
     public DateTimeOffset? LockoutEnd { get; set; }

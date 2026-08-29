@@ -84,7 +84,7 @@ public class SubmitExamDto
     public int Score { get; set; }
 
     /// <summary>Whether the attempt counts as completed (passed).</summary>
-    public bool Completed { get; set; } = true;
+    public bool IsCompleted { get; set; } = true;
 }
 
 /// <summary>Filter for an employee's progress records.</summary>

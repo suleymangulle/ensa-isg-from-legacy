@@ -356,10 +356,10 @@ public sealed class ReportStep : IMigrationStep
                     Date = DashDate(Text(reader, "Tarih")),
                     DateText = Fit(context, "YearEndReviewLine", "DateText", Text(reader, "Tarih")),
                     Work = Fit(context, "YearEndReviewLine", "Work", Text(reader, "Calisma")),
-                    PersonVeTitle = Fit(context, "YearEndReviewLine", "PersonVeTitle", Text(reader, "KisiveUnvan")),
+                    PersonAndTitle = Fit(context, "YearEndReviewLine", "PersonAndTitle", Text(reader, "KisiveUnvan")),
                     RepeatCount = Fit(context, "YearEndReviewLine", "RepeatCount", Text(reader, "TekrarSayisi")),
                     UsedMethod = Fit(context, "YearEndReviewLine", "UsedMethod", Text(reader, "KullanilanYontem")),
-                    ResultVeComment = Fit(context, "YearEndReviewLine", "ResultVeComment", Text(reader, "SonucveYorum")),
+                    ResultAndComment = Fit(context, "YearEndReviewLine", "ResultAndComment", Text(reader, "SonucveYorum")),
 
                     // AltCalismalarJson holds a report's sub-lines as JSON, and ParentLineId is
                     // where they belong. Unpacking it needs the parent's modern id, which does not
@@ -418,7 +418,7 @@ public sealed class ReportStep : IMigrationStep
                     EmployeeName = Fit(context, "OhsReport", "EmployeeName", Text(reader, "PersonelAdi")) ?? string.Empty,
                     StaffRole = StaffRoleOf(Text(reader, "PersonelTuru")),
                     DutyType = AssignmentTypeOf(Text(reader, "GorevTuru")),
-                    TotalMonthlyFazlaOvertimeDuration = Int(reader, "ToplamAylikFazlaMesaiSuresi") ?? 0,
+                    TotalMonthlyOvertimeDuration = Int(reader, "ToplamAylikFazlaMesaiSuresi") ?? 0,
                     TotalMinutes = Int(reader, "ToplamDakika") ?? 0,
                     UsedMonthlyMinutes = Int(reader, "KullanilanAylikDakika") ?? 0,
                     CreationTime = DateTime.Now,

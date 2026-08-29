@@ -20,7 +20,7 @@ public class MyOfficeDto : EntityDto
     /// Whether this is the organization's headquarters office. Only one office per organization
     /// carries the flag, so the switcher can mark it — it is a label, never a default.
     /// </summary>
-    public bool HeadquarterOffice { get; set; }
+    public bool IsHeadquarterOffice { get; set; }
 }
 
 /// <summary>

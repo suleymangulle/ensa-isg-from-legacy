@@ -34,7 +34,7 @@ public class TreeNode : FullAuditedEntity
     public string TreeNodeName { get; set; } = string.Empty;
 
     /// <summary>Whether this is the root (top-level) item of the tree. (Legacy: <c>MainTreeItem</c>)</summary>
-    public bool MainItem { get; set; }
+    public bool IsMainItem { get; set; }
 
     /// <summary>(Legacy: <c>Aktif</c>)</summary>
     public bool IsActive { get; set; } = true;

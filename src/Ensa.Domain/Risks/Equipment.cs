@@ -53,5 +53,5 @@ public class Equipment : FullAuditedTenantEntity, ICompanyScoped
     /// Whether a user may delete the record. (Legacy: <c>Deletable</c>)
     /// It is <c>false</c> for records created automatically or by an integration.
     /// </summary>
-    public bool Deletable { get; set; } = true;
+    public bool IsDeletable { get; set; } = true;
 }

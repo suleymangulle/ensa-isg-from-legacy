@@ -17,5 +17,5 @@ public class WorkplaceDepartment : FullAuditedTenantEntity, ICompanyScoped
     /// Whether the record may be deleted by a user. It is <c>false</c> for the default
     /// departments the system creates automatically. (Legacy: <c>Deletable</c>)
     /// </summary>
-    public bool Deletable { get; set; } = true;
+    public bool IsDeletable { get; set; } = true;
 }

@@ -23,7 +23,7 @@ public class WorkPlanListDto : EntityDto
 
     public bool IsActive { get; set; }
 
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 
     /// <summary>Number of lines on the plan.</summary>
     public int LineCount { get; set; }
@@ -59,7 +59,7 @@ public class WorkPlanDto : FullAuditedEntityDto, IMultiTenantDto
 
     public bool IsActive { get; set; }
 
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 
     /// <summary>Previous year's revision of this plan.</summary>
     public int? PreviousPlanId { get; set; }
@@ -146,7 +146,7 @@ public class UpdateWorkPlanDto : CreateWorkPlanDto
 {
     public bool IsActive { get; set; } = true;
 
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 }
 
 /// <summary>Input used to add a line to a work plan.</summary>
@@ -198,7 +198,7 @@ public class GetWorkPlanListInput : PagedAndSortedFilterDto
 
     public bool? IsActive { get; set; }
 
-    public bool? Transferred { get; set; }
+    public bool? IsTransferred { get; set; }
 }
 
 /// <summary>Completion figures of a work plan.</summary>

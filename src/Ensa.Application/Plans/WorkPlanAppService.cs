@@ -566,9 +566,9 @@ public class WorkPlanAppService(
             applied = true;
         }
 
-        if (input.Transferred is { } transferred)
+        if (input.IsTransferred is { } transferred)
         {
-            predicate = Combine(predicate, p => p.Transferred == transferred);
+            predicate = Combine(predicate, p => p.IsTransferred == transferred);
             applied = true;
         }
 

@@ -23,7 +23,7 @@ public class TrainingPlanListDto : EntityDto
 
     public bool IsActive { get; set; }
 
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 
     /// <summary>Number of lines on the plan.</summary>
     public int LineCount { get; set; }
@@ -57,7 +57,7 @@ public class TrainingPlanDto : FullAuditedEntityDto, IMultiTenantDto
     public bool IsActive { get; set; }
 
     /// <summary>Whether the plan has been pushed to the integrated external system (IBYS).</summary>
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 }
 
 /// <summary>A single line of a training plan.</summary>
@@ -153,7 +153,7 @@ public class UpdateTrainingPlanDto : CreateTrainingPlanDto
 {
     public bool IsActive { get; set; } = true;
 
-    public bool Transferred { get; set; }
+    public bool IsTransferred { get; set; }
 }
 
 /// <summary>Input used to add a line to a training plan.</summary>
@@ -267,7 +267,7 @@ public class GetTrainingPlanListInput : PagedAndSortedFilterDto
 
     public bool? IsActive { get; set; }
 
-    public bool? Transferred { get; set; }
+    public bool? IsTransferred { get; set; }
 }
 
 /// <summary>Reason supplied when a plan line is rejected.</summary>

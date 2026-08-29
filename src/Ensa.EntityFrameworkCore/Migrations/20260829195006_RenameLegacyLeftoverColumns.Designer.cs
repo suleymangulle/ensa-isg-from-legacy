@@ -4,6 +4,7 @@ using Ensa.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ensa.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(EnsaDbContext))]
-    partial class EnsaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260829195006_RenameLegacyLeftoverColumns")]
+    partial class RenameLegacyLeftoverColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -7029,9 +7032,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<int?>("PermissionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ProjectCode")
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
@@ -7053,8 +7053,6 @@ namespace Ensa.EntityFrameworkCore.Migrations
                         .IsUnique();
 
                     b.HasIndex("ModuleId");
-
-                    b.HasIndex("PermissionId");
 
                     b.HasIndex("ProjectCode", "IsActive", "SortOrder");
 

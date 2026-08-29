@@ -72,7 +72,7 @@ public class AccountAppService(
             OfficeAdmin = roles.Contains(EnsaRoleNames.OfficeAdministrator),
             Roles = [.. roles],
             MustChangePassword = profile?.MustChangePassword ?? false,
-            ContractApproved = profile?.ContractApproved ?? false,
+            IsContractApproved = profile?.IsContractApproved ?? false,
             LockoutEnd = user.LockoutEnd
         };
     }
@@ -122,7 +122,7 @@ public class AccountAppService(
             {
                 Id = o.Id,
                 Name = o.Name,
-                HeadquarterOffice = o.HeadquarterOffice
+                IsHeadquarterOffice = o.IsHeadquarterOffice
             })],
             DefaultOfficeId = access.DefaultOfficeId,
             AllOfficesAllowed = access.AllOfficesAllowed

@@ -236,11 +236,11 @@ public sealed class RiskStep : IMigrationStep
                                        ?? string.Empty,
                     WorkplaceAddress = Fit(context, "RiskAssessmentReport", "WorkplaceAddress", Text(reader, "IsyeriAdresi"))
                                        ?? string.Empty,
-                    WorkplaceTelefonu = Fit(context, "RiskAssessmentReport", "WorkplaceTelefonu", Text(reader, "IsyeriTelefonu"))
+                    WorkplacePhoneNumber = Fit(context, "RiskAssessmentReport", "WorkplacePhoneNumber", Text(reader, "IsyeriTelefonu"))
                                         ?? string.Empty,
                     HazardClass = MapHazardClass(Text(reader, "TehlikeSinifi")),
                     WorkplaceDepartments = Fit(context, "RiskAssessmentReport", "WorkplaceDepartments", Text(reader, "IsyeriBolumleri")),
-                    MachinesVeEquipments = Fit(context, "RiskAssessmentReport", "MachinesVeEquipments", Text(reader, "MakinelerVeEkipmanlar")),
+                    MachineryAndEquipment = Fit(context, "RiskAssessmentReport", "MachineryAndEquipment", Text(reader, "MakinelerVeEkipmanlar")),
                     HazardousArticles = Fit(context, "RiskAssessmentReport", "HazardousArticles", Text(reader, "TehlikeliMaddeler")),
                     WasteOperations = Fit(context, "RiskAssessmentReport", "WasteOperations", Text(reader, "AtikIslemleri")),
                     PerformedDate = Date(reader, "GerceklestirmeTarihi") ?? DateTime.Now,

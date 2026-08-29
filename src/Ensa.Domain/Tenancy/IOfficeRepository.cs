@@ -9,7 +9,7 @@ namespace Ensa.Domain.Tenancy;
 /// </summary>
 public interface IOfficeRepository : IRepository<Office>
 {
-    /// <summary>The active tenant's headquarter office (<c>HeadquarterOffice == true</c>).</summary>
+    /// <summary>The active tenant's headquarter office (<c>IsHeadquarterOffice == true</c>).</summary>
     Task<Office?> FindHeadquarterOfficeAsync(CancellationToken cancellationToken = default);
 
     /// <summary>Loads the office together with its organization and location details.</summary>

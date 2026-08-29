@@ -48,7 +48,7 @@ public interface IPermissionManager : IDomainService
 ///         ("Bu eylem belirlenen Kurum Türü içi kullanım dışı bırakılmıştır...")</item>
 ///   <item><b>Source union</b> — user type defaults ∪ permissions granted explicitly to the user.
 ///         If that union is empty the user is not authorized.</item>
-///   <item><b>Explicit deny</b> — <c>UserPermission.Authorized == false</c> rows override
+///   <item><b>Explicit deny</b> — <c>UserPermission.IsAuthorized == false</c> rows override
 ///         everything; deny always beats allow.</item>
 ///   <item><b>User type restriction</b> — permissions that violate the allow/deny list rule of
 ///         <see cref="Permission.PermissionRestrictionMode"/> are dropped.</item>

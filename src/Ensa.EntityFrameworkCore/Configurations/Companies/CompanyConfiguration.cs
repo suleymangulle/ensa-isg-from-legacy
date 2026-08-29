@@ -33,7 +33,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.Property(x => x.SsiNumber)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.SsiNumber);
 
-        builder.Property(x => x.TaxTaxOffice)
+        builder.Property(x => x.TaxOffice)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
 
         // Encrypted column — deterministic AES; querying and uniqueness are preserved.
@@ -113,9 +113,9 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.Property(x => x.SpecialistFee).HasPrecision(18, 2);
         builder.Property(x => x.PhysicianFee).HasPrecision(18, 2);
         builder.Property(x => x.InvoiceAmount).HasPrecision(18, 2);
-        builder.Property(x => x.InvoiceAmountKh).HasPrecision(18, 2);
-        builder.Property(x => x.GrContractAmount).HasPrecision(18, 2);
-        builder.Property(x => x.PayableDigit).HasPrecision(18, 2);
+        builder.Property(x => x.UnofficialInvoiceAmount).HasPrecision(18, 2);
+        builder.Property(x => x.GroupContractAmount).HasPrecision(18, 2);
+        builder.Property(x => x.ExpectedPaymentAmount).HasPrecision(18, 2);
 
         // ---------------- Notes ----------------
 

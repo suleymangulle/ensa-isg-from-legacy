@@ -70,7 +70,7 @@ def main():
     code, _ = call("/api/email-settings", token=token, method="PUT", body={
         "email": "isg@ensa.local", "password": "irrelevant",
         "pop3Server": "127.0.0.1", "smtpServer": "127.0.0.1",
-        "port": 2525, "sslUse": False, "isActive": True})
+        "port": 2525, "useSsl": False, "isActive": True})
     check("SMTP hesabi tanimlandi", code == 200, "HTTP %s" % code)
 
     before = len(received())

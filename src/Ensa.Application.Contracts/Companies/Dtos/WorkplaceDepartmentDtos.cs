@@ -15,7 +15,7 @@ public class WorkplaceDepartmentListDto : EntityDto
     public string DepartmentName { get; set; } = string.Empty;
 
     /// <summary>False for system-generated default departments, which cannot be removed.</summary>
-    public bool Deletable { get; set; }
+    public bool IsDeletable { get; set; }
 }
 
 /// <summary>Workplace department detail view.</summary>
@@ -27,7 +27,7 @@ public class WorkplaceDepartmentDto : FullAuditedEntityDto, IMultiTenantDto
 
     public string DepartmentName { get; set; } = string.Empty;
 
-    public bool Deletable { get; set; }
+    public bool IsDeletable { get; set; }
 }
 
 /// <summary>Workplace department creation input.</summary>
@@ -50,5 +50,5 @@ public class GetWorkplaceDepartmentListInput : PagedAndSortedFilterDto
     /// <summary>Free-text search runs over the department name.</summary>
     public int? CompanyId { get; set; }
 
-    public bool? Deletable { get; set; }
+    public bool? IsDeletable { get; set; }
 }

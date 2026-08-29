@@ -71,11 +71,11 @@ public class UserDto : FullAuditedEntityDto, IMultiTenantDto
     public bool IsActive { get; set; }
     public bool OrganizationAdmin { get; set; }
     public bool SystemAdministrator { get; set; }
-    public bool ContractApproved { get; set; }
+    public bool IsContractApproved { get; set; }
     public bool MustChangePassword { get; set; }
 
     /// <summary>Workplace physician speciality code used by the Medula (SSI) integration.</summary>
-    public string? BranchCode { get; set; }
+    public string? MedicalSpecialtyCode { get; set; }
 
     public DateTimeOffset? LockoutEnd { get; set; }
 }
@@ -144,7 +144,7 @@ public abstract class UserInputDto
     public int? PermissionGroupId { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Code)]
-    public string? BranchCode { get; set; }
+    public string? MedicalSpecialtyCode { get; set; }
 
     public bool IsActive { get; set; } = true;
 }

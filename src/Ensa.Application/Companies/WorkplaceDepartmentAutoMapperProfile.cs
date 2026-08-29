@@ -9,8 +9,8 @@ namespace Ensa.Application.Companies;
 /// Mappings for the workplace department module.
 /// <para>
 /// Audit fields carry the same names on the base DTOs, so they map by convention.
-/// On the input maps <c>Id</c>, <c>TenantId</c>, <c>Deletable</c> and every audit field are
-/// ignored — <c>Deletable</c> is owned by the system (default departments are protected) and
+/// On the input maps <c>Id</c>, <c>TenantId</c>, <c>IsDeletable</c> and every audit field are
+/// ignored — <c>IsDeletable</c> is owned by the system (default departments are protected) and
 /// must never be set from client input. Navigation DTOs are projected by hand in the
 /// application service and are never mapped here.
 /// </para>
@@ -28,7 +28,7 @@ public class WorkplaceDepartmentAutoMapperProfile : Profile
         CreateMap<CreateWorkplaceDepartmentDto, WorkplaceDepartment>()
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.TenantId, o => o.Ignore())
-            .ForMember(d => d.Deletable, o => o.Ignore())
+            .ForMember(d => d.IsDeletable, o => o.Ignore())
             .ForMember(d => d.CreationTime, o => o.Ignore())
             .ForMember(d => d.CreatorId, o => o.Ignore())
             .ForMember(d => d.LastModificationTime, o => o.Ignore())

@@ -30,7 +30,7 @@ public class EquipmentAutoMapperProfile : Profile
             // Derived from ExaminationDate + Period.
             .ForMember(d => d.NextExaminationDate, o => o.Ignore())
             // Only integrations may lock a record against deletion; create keeps the default.
-            .ForMember(d => d.Deletable, o => o.Ignore())
+            .ForMember(d => d.IsDeletable, o => o.Ignore())
             .ForMember(d => d.Id, o => o.Ignore())
             .ForMember(d => d.TenantId, o => o.Ignore())
             .ForMember(d => d.CreationTime, o => o.Ignore())
@@ -43,7 +43,7 @@ public class EquipmentAutoMapperProfile : Profile
 
         CreateMap<UpdateEquipmentDto, Equipment>()
             .IncludeBase<CreateEquipmentDto, Equipment>()
-            .ForMember(d => d.Deletable, o => o.MapFrom(s => s.Deletable));
+            .ForMember(d => d.IsDeletable, o => o.MapFrom(s => s.IsDeletable));
 
         // ---------------------------------------------- Equipment document
 

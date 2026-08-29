@@ -27,7 +27,7 @@ public class EquipmentListDto : EntityDto
     /// <summary>Days left until <see cref="NextExaminationDate"/>; negative when overdue, null when never inspected.</summary>
     public int? RemainingDays { get; set; }
 
-    public bool Deletable { get; set; }
+    public bool IsDeletable { get; set; }
 }
 
 /// <summary>Work equipment detail.</summary>
@@ -48,7 +48,7 @@ public class EquipmentDto : FullAuditedEntityDto, IMultiTenantDto
     public DateTime? NextExaminationDate { get; set; }
 
     public int? PeriodId { get; set; }
-    public bool Deletable { get; set; }
+    public bool IsDeletable { get; set; }
 
     /// <summary>True when the periodic inspection is missing or its due date has passed.</summary>
     public bool IsInspectionOverdue { get; set; }
@@ -84,7 +84,7 @@ public class CreateEquipmentDto
 public class UpdateEquipmentDto : CreateEquipmentDto
 {
     /// <summary>Records created by integrations are locked against user deletion.</summary>
-    public bool Deletable { get; set; } = true;
+    public bool IsDeletable { get; set; } = true;
 }
 
 /// <summary>Work equipment list filter.</summary>

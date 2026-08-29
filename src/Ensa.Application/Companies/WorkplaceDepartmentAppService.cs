@@ -82,13 +82,13 @@ public class WorkplaceDepartmentAppService(
 
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
         var companyId = input.CompanyId;
-        var deletable = input.Deletable;
+        var deletable = input.IsDeletable;
 
         var sorting = NormalizeSorting(input.Sorting, "DepartmentName ASC");
 
         var total = await workplaceDepartmentRepository.GetCountAsync(
             b => (companyId == null || b.CompanyId == companyId)
-                 && (deletable == null || b.Deletable == deletable)
+                 && (deletable == null || b.IsDeletable == deletable)
                  && (search == null || b.DepartmentName.Contains(search)),
             cancellationToken);
 
@@ -97,7 +97,7 @@ public class WorkplaceDepartmentAppService(
             input.MaxResultCount,
             sorting,
             b => (companyId == null || b.CompanyId == companyId)
-                 && (deletable == null || b.Deletable == deletable)
+                 && (deletable == null || b.IsDeletable == deletable)
                  && (search == null || b.DepartmentName.Contains(search)),
             cancellationToken);
 
@@ -183,7 +183,7 @@ public class WorkplaceDepartmentAppService(
         var department = await workplaceDepartmentRepository.FindAsync(id, cancellationToken)
                          ?? throw new EntityNotFoundException(typeof(WorkplaceDepartment), id);
 
-        if (!department.Deletable)
+        if (!department.IsDeletable)
         {
             throw new BusinessException(
                     "This department was created by the system and cannot be removed.",

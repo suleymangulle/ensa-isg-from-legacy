@@ -34,7 +34,7 @@ public class WorkPlanConfiguration : IEntityTypeConfiguration<WorkPlan>
         builder.HasIndex(x => new { x.CompanyId, x.StartDate });
 
         // Export queue scan for the external system.
-        builder.HasIndex(x => new { x.TenantId, x.Transferred });
+        builder.HasIndex(x => new { x.TenantId, x.IsTransferred });
 
         // Foreign key indexes (no relationship is configured — index only).
         builder.HasIndex(x => x.SpecialistUserId);

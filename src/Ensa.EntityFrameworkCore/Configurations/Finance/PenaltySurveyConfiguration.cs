@@ -48,7 +48,7 @@ public class PenaltySurveyConfiguration : IEntityTypeConfiguration<PenaltySurvey
         builder.Property(x => x.InvoiceAddress)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Address);
 
-        builder.Property(x => x.TaxTaxOffice)
+        builder.Property(x => x.TaxOffice)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
 
         // Tax number — deterministic AES (same approach as Company.TaxNumber).

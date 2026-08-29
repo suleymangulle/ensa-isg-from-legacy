@@ -109,11 +109,11 @@ public class OrganizationRepository(EnsaDbContext context, IDataFilter dataFilte
             navigation.Offices = await Context.Set<Office>()
                 .AsNoTracking()
                 .Where(o => o.TenantId == id && o.IsActive)
-                .OrderByDescending(o => o.HeadquarterOffice)
+                .OrderByDescending(o => o.IsHeadquarterOffice)
                 .ThenBy(o => o.Name)
                 .ToListAsync(cancellationToken);
 
-            navigation.HeadquarterOffice = navigation.Offices.Find(o => o.HeadquarterOffice);
+            navigation.HeadquarterOffice = navigation.Offices.Find(o => o.IsHeadquarterOffice);
 
             navigation.ActiveUserCount = await Context.Set<UserProfile>()
                 .AsNoTracking()

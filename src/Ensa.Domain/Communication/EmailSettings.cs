@@ -26,7 +26,7 @@ public class EmailSettings : AuditedTenantEntity, IActivatable
     public int Port { get; set; }
 
     /// <summary>Not present in legacy; whether the SMTP/POP3 connection uses SSL/TLS.</summary>
-    public bool SslUse { get; set; } = true;
+    public bool UseSsl { get; set; } = true;
 
     public bool IsActive { get; set; } = true;
 }

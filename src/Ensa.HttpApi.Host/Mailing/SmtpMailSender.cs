@@ -70,7 +70,7 @@ public sealed class SmtpMailSender(ILogger<SmtpMailSender> logger) : IMailSender
 
         using var client = new SmtpClient(account.SmtpServer, account.Port)
         {
-            EnableSsl = account.SslUse,
+            EnableSsl = account.UseSsl,
             DeliveryMethod = SmtpDeliveryMethod.Network,
             UseDefaultCredentials = false,
             Credentials = new NetworkCredential(account.Email, account.Password),
@@ -78,7 +78,7 @@ public sealed class SmtpMailSender(ILogger<SmtpMailSender> logger) : IMailSender
 
         logger.LogDebug(
             "Sending mail via {SmtpServer}:{Port} (ssl={Ssl}) to {RecipientCount} recipient(s)",
-            account.SmtpServer, account.Port, account.SslUse, recipients.Count);
+            account.SmtpServer, account.Port, account.UseSsl, recipients.Count);
 
         await client.SendMailAsync(message, cancellationToken);
     }

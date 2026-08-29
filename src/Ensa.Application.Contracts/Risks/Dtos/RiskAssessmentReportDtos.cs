@@ -46,10 +46,10 @@ public class RiskAssessmentReportDto : FullAuditedEntityDto, IMultiTenantDto
     public string WorkplaceTitle { get; set; } = string.Empty;
     public string BusinessActivity { get; set; } = string.Empty;
     public string WorkplaceAddress { get; set; } = string.Empty;
-    public string WorkplaceTelefonu { get; set; } = string.Empty;
+    public string WorkplacePhoneNumber { get; set; } = string.Empty;
     public HazardClass HazardClass { get; set; }
     public string? WorkplaceDepartments { get; set; }
-    public string? MachinesVeEquipments { get; set; }
+    public string? MachineryAndEquipment { get; set; }
     public string? HazardousArticles { get; set; }
     public string? WasteOperations { get; set; }
 
@@ -96,7 +96,7 @@ public class CreateRiskAssessmentReportDto
     public string WorkplaceAddress { get; set; } = string.Empty;
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Phone)]
-    public string WorkplaceTelefonu { get; set; } = string.Empty;
+    public string WorkplacePhoneNumber { get; set; } = string.Empty;
 
     /// <summary>
     /// Drives the validity period (2 / 4 / 6 years).
@@ -108,7 +108,7 @@ public class CreateRiskAssessmentReportDto
     public string? WorkplaceDepartments { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Note)]
-    public string? MachinesVeEquipments { get; set; }
+    public string? MachineryAndEquipment { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Note)]
     public string? HazardousArticles { get; set; }

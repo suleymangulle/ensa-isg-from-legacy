@@ -38,7 +38,7 @@ public sealed class VisitStep : IMigrationStep
     [
         "CompanyId", "UserId", "VisitDate", "Start", "End", "OperationType", "Description",
         "Color", "ScheduledWeek", "ScheduledMonth", "RegionCode", "OtherCompanyDistanceKm",
-        "Completed", "CreationTime", "IsDeleted", "TenantId",
+        "IsCompleted", "CreationTime", "IsDeleted", "TenantId",
     ];
 
     public async Task<StepResult> RunAsync(

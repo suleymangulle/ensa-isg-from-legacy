@@ -43,7 +43,7 @@ public class OfficeConfiguration : IEntityTypeConfiguration<Office>
         // An organization can have only ONE head office.
         builder.HasIndex(x => x.TenantId)
                .IsUnique()
-               .HasDatabaseName("IX_Office_TenantId_HeadquarterOffice")
-               .HasFilter("[HeadquarterOffice] = 1 AND [IsDeleted] = 0");
+               .HasDatabaseName("IX_Office_TenantId_IsHeadquarterOffice")
+               .HasFilter("[IsHeadquarterOffice] = 1 AND [IsDeleted] = 0");
     }
 }

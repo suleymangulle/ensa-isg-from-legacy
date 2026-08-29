@@ -41,7 +41,7 @@ public class PenaltySurvey : AuditedTenantEntity
 
     public string? InvoiceAddress { get; set; }
 
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
 
     public string? TaxNumber { get; set; }
 

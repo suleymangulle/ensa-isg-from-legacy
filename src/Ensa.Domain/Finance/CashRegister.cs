@@ -15,7 +15,7 @@ public class CashRegister : FullAuditedTenantEntity, IActivatable
     public int OfficeId { get; set; }
 
     /// <summary>Whether this is the organization's headquarter cash register.</summary>
-    public bool HeadquarterCashRegister { get; set; }
+    public bool IsHeadquarterCashRegister { get; set; }
 
     /// <summary>(Not present in legacy; added so that a cash register can be deactivated.)</summary>
     public bool IsActive { get; set; } = true;

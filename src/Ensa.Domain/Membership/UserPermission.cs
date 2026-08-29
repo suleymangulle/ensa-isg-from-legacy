@@ -6,7 +6,7 @@ namespace Ensa.Domain.Membership;
 /// An explicit GRANT or DENY of a permission for a single user.
 /// Legacy: <c>KullaniciYetki_T</c> (its tenant column was <c>OrganizationId</c>).
 /// <para>
-/// The <see cref="Authorized"/> flag works in both directions and is the core of the legacy
+/// The <see cref="IsAuthorized"/> flag works in both directions and is the core of the legacy
 /// permission algorithm:
 /// <list type="bullet">
 ///   <item><c>true</c> → the permission is explicitly GRANTED even if the user's type does not
@@ -24,7 +24,7 @@ public class UserPermission : AuditedTenantEntity, IActivatable
     public int PermissionId { get; set; }
 
     /// <summary><c>true</c> = explicit grant, <c>false</c> = explicit deny. (Legacy: Yetkili)</summary>
-    public bool Authorized { get; set; }
+    public bool IsAuthorized { get; set; }
 
     /// <summary>(Legacy: Aktif — inactive rows are excluded from the permission calculation.)</summary>
     public bool IsActive { get; set; } = true;

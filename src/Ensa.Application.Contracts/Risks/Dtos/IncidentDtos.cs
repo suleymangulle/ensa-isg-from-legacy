@@ -52,7 +52,7 @@ public class IncidentDto : FullAuditedEntityDto, IMultiTenantDto
     public string? SupervisorFullName { get; set; }
 
     public int? LostWorkDays { get; set; }
-    public DateTime? IsPerDate { get; set; }
+    public DateTime? ReturnToWorkDate { get; set; }
     public DateTime? SsiNotificationDate { get; set; }
 
     /// <summary>Computed by <c>IIncidentManager.CalculateLatestNotificationDate</c> (3 working days, act 5510 art. 13).</summary>
@@ -99,7 +99,7 @@ public class CreateIncidentDto
     [Range(0, 100000, ErrorMessage = "The lost work day count cannot be negative.")]
     public int? LostWorkDays { get; set; }
 
-    public DateTime? IsPerDate { get; set; }
+    public DateTime? ReturnToWorkDate { get; set; }
 
     public DateTime? SsiNotificationDate { get; set; }
 }

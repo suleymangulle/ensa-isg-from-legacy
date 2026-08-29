@@ -56,7 +56,7 @@ public class OrganizationContractSummaryDto : EntityDto
     public int? OrganizationTypeId { get; set; }
 
     public bool IsApproved { get; set; }
-    public bool Paid { get; set; }
+    public bool IsPaid { get; set; }
     public bool IsActive { get; set; }
 
     public ContractStatus ContractStatus { get; set; }

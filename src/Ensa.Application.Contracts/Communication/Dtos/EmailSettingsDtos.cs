@@ -27,7 +27,7 @@ public class EmailSettingsDto : EntityDto, IMultiTenantDto
     public int Port { get; set; }
 
     /// <summary>Whether the connection uses SSL/TLS.</summary>
-    public bool SslUse { get; set; }
+    public bool UseSsl { get; set; }
 
     public bool IsActive { get; set; }
 }
@@ -64,7 +64,7 @@ public class SaveEmailSettingsDto
     [Range(1, 65535, ErrorMessage = "The port must be between 1 and 65535.")]
     public int Port { get; set; } = 587;
 
-    public bool SslUse { get; set; } = true;
+    public bool UseSsl { get; set; } = true;
 
     public bool IsActive { get; set; } = true;
 }

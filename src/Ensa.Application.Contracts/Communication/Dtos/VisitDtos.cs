@@ -12,7 +12,7 @@ public class VisitListDto : EntityDto
     public int UserId { get; set; }
     public DateTime VisitDate { get; set; }
     public VisitType OperationType { get; set; }
-    public bool Completed { get; set; }
+    public bool IsCompleted { get; set; }
     public string? Description { get; set; }
 }
 
@@ -45,7 +45,7 @@ public class VisitDto : FullAuditedEntityDto, IMultiTenantDto
     public decimal? OtherCompanyDistanceKm { get; set; }
 
     /// <summary>Whether the visit actually took place, as opposed to merely being planned.</summary>
-    public bool Completed { get; set; }
+    public bool IsCompleted { get; set; }
 }
 
 /// <summary>Visit creation input.</summary>
@@ -86,7 +86,7 @@ public class CreateVisitDto
 /// <summary>Visit update input.</summary>
 public class UpdateVisitDto : CreateVisitDto
 {
-    public bool Completed { get; set; }
+    public bool IsCompleted { get; set; }
 }
 
 /// <summary>Visit list filter.</summary>
@@ -95,7 +95,7 @@ public class GetVisitListInput : PagedAndSortedFilterDto
     public int? CompanyId { get; set; }
     public int? UserId { get; set; }
     public VisitType? OperationType { get; set; }
-    public bool? Completed { get; set; }
+    public bool? IsCompleted { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
 }
@@ -126,5 +126,5 @@ public class VisitCalendarDto
     public string? UserFullName { get; set; }
 
     public VisitType OperationType { get; set; }
-    public bool Completed { get; set; }
+    public bool IsCompleted { get; set; }
 }

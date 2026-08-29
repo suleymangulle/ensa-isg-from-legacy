@@ -17,10 +17,10 @@ public interface IPermissionRepository : IRepository<Permission>
     /// <summary>Ids of the active permissions granted by default to a user type.</summary>
     Task<List<int>> GetUserRolePermissionIdsAsync(int userRoleId, CancellationToken ct = default);
 
-    /// <summary>Ids of the permissions explicitly GRANTED to a user (<c>Authorized == true</c>, active).</summary>
+    /// <summary>Ids of the permissions explicitly GRANTED to a user (<c>IsAuthorized == true</c>, active).</summary>
     Task<List<int>> GetUserPermissionPermissionIdsAsync(int userId, CancellationToken ct = default);
 
-    /// <summary>Ids of the permissions explicitly DENIED to a user (<c>Authorized == false</c>, active).</summary>
+    /// <summary>Ids of the permissions explicitly DENIED to a user (<c>IsAuthorized == false</c>, active).</summary>
     Task<List<int>> GetUserRedPermissionIdsAsync(int userId, CancellationToken ct = default);
 
     /// <summary>Ids of the permissions opened up to an organization type (mandatory gate).</summary>

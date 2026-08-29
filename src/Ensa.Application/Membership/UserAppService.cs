@@ -518,7 +518,7 @@ public class UserAppService(
         dto.CompanyId = profile?.CompanyId;
         dto.IsActive = profile?.IsActive ?? false;
         dto.MustChangePassword = profile?.MustChangePassword ?? false;
-        dto.ContractApproved = profile?.ContractApproved ?? false;
+        dto.IsContractApproved = profile?.IsContractApproved ?? false;
 
         dto.HireDate = employment?.HireDate;
         dto.TerminationDate = employment?.TerminationDate;

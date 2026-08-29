@@ -43,7 +43,7 @@ public class ProspectOrganization : FullAuditedEntity
     public bool IsOhsProvider { get; set; }
 
     /// <summary>Whether the prospect employs a workplace physician. (Legacy: IsDoctor bool?)</summary>
-    public bool PhysicianExists { get; set; }
+    public bool HasPhysician { get; set; }
 
     /// <summary>The number of OHS specialists requested. (Legacy: NumberOfSpecialist)</summary>
     public int? SpecialistCount { get; set; }
@@ -61,13 +61,13 @@ public class ProspectOrganization : FullAuditedEntity
     public decimal? GrossWithVatPrice { get; set; }
 
     /// <summary>(Legacy: IsPaid bool?)</summary>
-    public bool Paid { get; set; }
+    public bool IsPaid { get; set; }
 
     /// <summary>Whether a demo account was requested. (Legacy: IsDemo bool?)</summary>
     public bool IsDemo { get; set; }
 
     /// <summary>Whether the information or quotation e-mail has been sent. (Legacy: IsMailSent bool?)</summary>
-    public bool MailSent { get; set; }
+    public bool IsMailSent { get; set; }
 
     /// <summary>Registration date — a business date kept separately from <c>CreationTime</c>. (Legacy: RegistrationDate)</summary>
     public DateTime? RecordDate { get; set; }

@@ -83,7 +83,7 @@ public class VisitAppService(
 
         // A visit recorded without an explicit owner belongs to whoever recorded it.
         visit.UserId = input.UserId ?? GetRequiredUserId();
-        visit.Completed = false;
+        visit.IsCompleted = false;
 
         visit = await visitRepository.InsertAsync(visit, autoSave: true, cancellationToken);
 
@@ -202,7 +202,7 @@ public class VisitAppService(
                         ? who.DisplayName
                         : null,
                     OperationType = visit.OperationType,
-                    Completed = visit.Completed
+                    IsCompleted = visit.IsCompleted
                 };
             })
             .OrderBy(v => v.Start)
@@ -264,7 +264,7 @@ public class VisitAppService(
         var companyId = input.CompanyId;
         var userId = input.UserId;
         var operationType = input.OperationType;
-        var completed = input.Completed;
+        var completed = input.IsCompleted;
         var startDate = input.StartDate;
         var endDate = input.EndDate;
 
@@ -286,7 +286,7 @@ public class VisitAppService(
             && (companyId == null || z.CompanyId == companyId)
             && (userId == null || z.UserId == userId)
             && (operationType == null || z.OperationType == operationType)
-            && (completed == null || z.Completed == completed)
+            && (completed == null || z.IsCompleted == completed)
             && (startDate == null || z.VisitDate >= startDate)
             && (endDate == null || z.VisitDate <= endDate);
 

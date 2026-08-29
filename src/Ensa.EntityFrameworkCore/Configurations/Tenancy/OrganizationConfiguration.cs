@@ -25,7 +25,7 @@ public class OrganizationConfiguration : IEntityTypeConfiguration<Organization>
                .IsRequired()
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
 
-        builder.Property(x => x.TaxTaxOffice)
+        builder.Property(x => x.TaxOffice)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
 
         // Legacy Firma_T.VergiNo was stored with [EncryptColumn]; the same confidentiality level is preserved.

@@ -10,7 +10,7 @@ public class CashRegisterListDto : EntityDto
 {
     public string CashRegisterName { get; set; } = string.Empty;
     public int OfficeId { get; set; }
-    public bool HeadquarterCashRegister { get; set; }
+    public bool IsHeadquarterCashRegister { get; set; }
     public bool IsActive { get; set; }
 }
 
@@ -21,7 +21,7 @@ public class CashRegisterDto : FullAuditedEntityDto, IMultiTenantDto
 
     public string CashRegisterName { get; set; } = string.Empty;
     public int OfficeId { get; set; }
-    public bool HeadquarterCashRegister { get; set; }
+    public bool IsHeadquarterCashRegister { get; set; }
     public bool IsActive { get; set; }
 }
 
@@ -35,7 +35,7 @@ public class CreateCashRegisterDto
     [Range(1, int.MaxValue, ErrorMessage = "An office must be selected.")]
     public int OfficeId { get; set; }
 
-    public bool HeadquarterCashRegister { get; set; }
+    public bool IsHeadquarterCashRegister { get; set; }
 }
 
 /// <summary>Cash register update input.</summary>
@@ -102,7 +102,7 @@ public class CreateCashTransactionDto
 public class GetCashRegisterListInput : PagedAndSortedFilterDto
 {
     public int? OfficeId { get; set; }
-    public bool? HeadquarterCashRegister { get; set; }
+    public bool? IsHeadquarterCashRegister { get; set; }
     public bool? IsActive { get; set; }
 }
 

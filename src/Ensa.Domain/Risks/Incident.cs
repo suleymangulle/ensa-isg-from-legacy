@@ -69,7 +69,7 @@ public class Incident : FullAuditedTenantEntity, ICompanyScoped
     /// <para>NOT PRESENT IN LEGACY — added to meet the legal requirement to track incapacity
     /// periods.</para>
     /// </summary>
-    public DateTime? IsPerDate { get; set; }
+    public DateTime? ReturnToWorkDate { get; set; }
 
     /// <summary>
     /// The date the incident was reported to the SSI.

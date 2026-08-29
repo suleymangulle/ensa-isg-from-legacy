@@ -57,7 +57,7 @@ public class OrganizationContract : FullAuditedEntity
     public bool IsApproved { get; set; }
 
     /// <summary>(Legacy: Odendi)</summary>
-    public bool Paid { get; set; }
+    public bool IsPaid { get; set; }
 
     /// <summary>FK to the sales rep who signed the contract. (Legacy: TemsilciId)</summary>
     public int? SalesRepId { get; set; }

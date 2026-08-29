@@ -90,11 +90,11 @@ public class CommunicationAutoMapperProfile : Profile
             .ForMember(d => d.DeleterId, o => o.Ignore())
             // Nullable on the input (defaults to the caller), non-nullable on the entity.
             .ForMember(d => d.UserId, o => o.Ignore())
-            .ForMember(d => d.Completed, o => o.Ignore());
+            .ForMember(d => d.IsCompleted, o => o.Ignore());
 
         CreateMap<UpdateVisitDto, Visit>()
             .IncludeBase<CreateVisitDto, Visit>()
-            .ForMember(d => d.Completed, o => o.MapFrom(s => s.Completed));
+            .ForMember(d => d.IsCompleted, o => o.MapFrom(s => s.IsCompleted));
     }
 
     private void ConfigureSupportTicket()

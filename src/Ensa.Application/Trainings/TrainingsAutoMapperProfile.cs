@@ -65,12 +65,12 @@ public class TrainingsAutoMapperProfile : Profile
         CreateMap<CreateTrainingPlanDto, TrainingPlan>()
             .IgnoreSystemFields()
             .ForMember(d => d.IsActive, o => o.Ignore())
-            .ForMember(d => d.Transferred, o => o.Ignore());
+            .ForMember(d => d.IsTransferred, o => o.Ignore());
 
         CreateMap<UpdateTrainingPlanDto, TrainingPlan>()
             .IncludeBase<CreateTrainingPlanDto, TrainingPlan>()
             .ForMember(d => d.IsActive, o => o.MapFrom(s => s.IsActive))
-            .ForMember(d => d.Transferred, o => o.MapFrom(s => s.Transferred));
+            .ForMember(d => d.IsTransferred, o => o.MapFrom(s => s.IsTransferred));
 
         CreateMap<TrainingPlanLine, TrainingPlanLineDto>();
 

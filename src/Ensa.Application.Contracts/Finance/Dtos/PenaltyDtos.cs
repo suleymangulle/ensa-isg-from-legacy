@@ -136,7 +136,7 @@ public class PenaltySurveyDto : AuditedEntityDto, IMultiTenantDto
     public int? NeighborhoodId { get; set; }
     public string? Address { get; set; }
     public string? InvoiceAddress { get; set; }
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
     public string? TaxNumber { get; set; }
     public int? WorkerCount { get; set; }
     public string? SsiRegistrationNumber { get; set; }
@@ -207,7 +207,7 @@ public class CreatePenaltySurveyDto
     public string? InvoiceAddress { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Name)]
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.TaxNo)]
     public string? TaxNumber { get; set; }

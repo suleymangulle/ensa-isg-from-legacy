@@ -21,6 +21,6 @@ public class CashRegisterConfiguration : IEntityTypeConfiguration<CashRegister>
         builder.HasIndex(x => new { x.OfficeId, x.IsActive });
 
         // Finding the organization's main cash register.
-        builder.HasIndex(x => new { x.TenantId, x.HeadquarterCashRegister });
+        builder.HasIndex(x => new { x.TenantId, x.IsHeadquarterCashRegister });
     }
 }

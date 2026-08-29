@@ -106,7 +106,7 @@ def main():
           % (len(offices), catalogue.get("defaultOfficeId"), catalogue.get("allOfficesAllowed")))
 
     check(results, "yanit yalnizca gerekli alanlari tasiyor",
-          all(set(o) == {"id", "name", "headquarterOffice"} for o in offices),
+          all(set(o) == {"id", "name", "isHeadquarterOffice"} for o in offices),
           str(sorted(offices[0])) if offices else "(liste bos)")
 
     # -------------------------------------------------- yetkisiz kullanici da erisebilmeli

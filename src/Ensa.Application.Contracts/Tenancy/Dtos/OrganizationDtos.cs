@@ -44,7 +44,7 @@ public class OrganizationDto : FullAuditedEntityDto
     public int OrganizationTypeId { get; set; }
     public int SubscriptionPlanId { get; set; }
 
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
     public string? TaxNumber { get; set; }
 
     public string? Address { get; set; }
@@ -94,7 +94,7 @@ public class CreateOrganizationDto
     public int SubscriptionPlanId { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Name)]
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.TaxNo)]
     public string? TaxNumber { get; set; }

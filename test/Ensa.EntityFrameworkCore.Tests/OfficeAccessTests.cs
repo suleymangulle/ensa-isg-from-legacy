@@ -55,7 +55,7 @@ public class OfficeAccessTests : IAsyncLifetime
 
     private async Task<int> AddOfficeAsync(string name, bool isActive = true, bool headquarters = false)
     {
-        var office = new Office { Name = name, IsActive = isActive, HeadquarterOffice = headquarters };
+        var office = new Office { Name = name, IsActive = isActive, IsHeadquarterOffice = headquarters };
 
         await using var context = _fixture.CreateContext();
         context.Set<Office>().Add(office);

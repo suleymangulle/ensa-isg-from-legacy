@@ -61,10 +61,10 @@ public class IncidentManager : DomainService, IIncidentManager
                 "The incident date cannot be in the future.");
         }
 
-        if (incident.IsPerDate is { } isPer && isPer.Date < incident.IncidentDate.Date)
+        if (incident.ReturnToWorkDate is { } isPer && isPer.Date < incident.IncidentDate.Date)
         {
             throw new EnsaValidationException(
-                nameof(Incident.IsPerDate),
+                nameof(Incident.ReturnToWorkDate),
                 "The return-to-work date cannot precede the incident date.");
         }
 

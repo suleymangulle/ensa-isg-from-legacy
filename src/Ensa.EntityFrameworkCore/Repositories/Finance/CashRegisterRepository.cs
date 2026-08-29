@@ -84,7 +84,7 @@ public class CashRegisterRepository(EnsaDbContext context, IDataFilter? dataFilt
         int officeId,
         CancellationToken cancellationToken = default)
         => GetReadOnlyQueryable()
-            .Where(k => k.OfficeId == officeId && k.HeadquarterCashRegister && k.IsActive)
+            .Where(k => k.OfficeId == officeId && k.IsHeadquarterCashRegister && k.IsActive)
             .OrderBy(k => k.Id)
             .FirstOrDefaultAsync(cancellationToken);
 }

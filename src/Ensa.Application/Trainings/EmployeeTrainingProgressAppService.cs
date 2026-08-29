@@ -182,7 +182,7 @@ public class EmployeeTrainingProgressAppService(
         if (input.IsFirstTest)
         {
             progress.FirstTestNote = input.Score;
-            progress.FirstTestCompleted = input.Completed;
+            progress.FirstTestCompleted = input.IsCompleted;
         }
         else
         {
@@ -191,7 +191,7 @@ public class EmployeeTrainingProgressAppService(
             await EnsureMandatoryDurationSpentAsync(progress, cancellationToken);
 
             progress.LatestTestNote = input.Score;
-            progress.LatestTestCompleted = input.Completed;
+            progress.LatestTestCompleted = input.IsCompleted;
         }
 
         progress = await progressRepository.UpdateAsync(progress, autoSave: true, cancellationToken);

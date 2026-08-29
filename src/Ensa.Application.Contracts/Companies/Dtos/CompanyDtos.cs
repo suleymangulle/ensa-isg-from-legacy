@@ -31,7 +31,7 @@ public class CompanyDto : FullAuditedEntityDto, IMultiTenantDto
     public WorkplaceType WorkplaceType { get; set; }
     public int? HeadquarterCompanyId { get; set; }
 
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
     public string? TaxNumber { get; set; }
     public string? BusinessActivity { get; set; }
     public int? OccupationCodeId { get; set; }
@@ -103,7 +103,7 @@ public class CreateCompanyDto
     public string? TaxNumber { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Name)]
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
 
     public int? OfficeId { get; set; }
     public int? OccupationCodeId { get; set; }

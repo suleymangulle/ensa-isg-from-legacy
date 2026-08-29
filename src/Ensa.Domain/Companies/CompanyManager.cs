@@ -281,7 +281,7 @@ public class CompanyManager : DomainService, ICompanyManager
     /// Consistency between the NACE (occupation) code and the hazard class. When an occupation
     /// code is selected the hazard class is mandatory and must match the class published in the
     /// official communiqué. A user who deliberately wants a different class must clear the
-    /// <see cref="Company.OrganizationTypeVerified"/> flag.
+    /// <see cref="Company.IsHazardClassVerified"/> flag.
     /// </summary>
     private async Task ValidateHazardClassConsistencyAsync(Company company, CancellationToken cancellationToken)
     {
@@ -316,7 +316,7 @@ public class CompanyManager : DomainService, ICompanyManager
             return;
         }
 
-        if (naceClass != company.HazardClass && company.OrganizationTypeVerified)
+        if (naceClass != company.HazardClass && company.IsHazardClassVerified)
         {
             throw new BusinessException(
                 $"The official hazard class of the selected NACE code is '{naceClass}', but the workplace " +

@@ -35,12 +35,12 @@ public class PlansAutoMapperProfile : Profile
         CreateMap<CreateWorkPlanDto, WorkPlan>()
             .IgnoreSystemFields()
             .ForMember(d => d.IsActive, o => o.Ignore())
-            .ForMember(d => d.Transferred, o => o.Ignore());
+            .ForMember(d => d.IsTransferred, o => o.Ignore());
 
         CreateMap<UpdateWorkPlanDto, WorkPlan>()
             .IncludeBase<CreateWorkPlanDto, WorkPlan>()
             .ForMember(d => d.IsActive, o => o.MapFrom(s => s.IsActive))
-            .ForMember(d => d.Transferred, o => o.MapFrom(s => s.Transferred));
+            .ForMember(d => d.IsTransferred, o => o.MapFrom(s => s.IsTransferred));
 
         CreateMap<WorkPlanLine, WorkPlanLineDto>();
 

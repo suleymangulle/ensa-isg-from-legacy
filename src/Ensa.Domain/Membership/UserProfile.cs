@@ -85,7 +85,7 @@ public class UserProfile : FullAuditedTenantEntity, ICompanyScoped
     public bool MustChangePassword { get; set; }
 
     /// <summary>(Legacy: <c>SozlesmeOnaylandi</c>)</summary>
-    public bool ContractApproved { get; set; }
+    public bool IsContractApproved { get; set; }
 
     public override string ToString() => $"[{nameof(UserProfile)}] UserId = {UserId}";
 }

@@ -54,7 +54,7 @@ public class Office : FullAuditedTenantEntity, IActivatable
     public int? CompanyId { get; set; }
 
     /// <summary>Whether this is the organization's headquarter office. Only one record per organization may be <c>true</c>.</summary>
-    public bool HeadquarterOffice { get; set; }
+    public bool IsHeadquarterOffice { get; set; }
 
     /// <summary>(Legacy: Aktif)</summary>
     public bool IsActive { get; set; } = true;

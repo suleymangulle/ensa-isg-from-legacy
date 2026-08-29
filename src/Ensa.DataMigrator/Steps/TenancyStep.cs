@@ -196,7 +196,7 @@ public sealed class TenancyStep : IMigrationStep
                     Code = $"L{legacyId}",
                     OrganizationTypeId = mappedType is null ? defaultTypeId : typeIds[mappedType],
                     SubscriptionPlanId = mappedPlan is null ? defaultPlanId : planIds[mappedPlan],
-                    TaxTaxOffice = Fit(context, "Organization", "TaxTaxOffice", Text(reader, 4)),
+                    TaxOffice = Fit(context, "Organization", "TaxOffice", Text(reader, 4)),
                     TaxNumber = Fit(context, "Organization", "TaxNumber", Text(reader, 5)),
                     Address = Fit(context, "Organization", "Address", Text(reader, 6)),
                     CityId = MapId(cityMap, Int(reader, 7)),
@@ -277,7 +277,7 @@ public sealed class TenancyStep : IMigrationStep
         await using (var seen = context.CreateDbContext())
         {
             var existing = await seen.Set<Office>()
-                .Where(o => o.HeadquarterOffice && o.TenantId != null)
+                .Where(o => o.IsHeadquarterOffice && o.TenantId != null)
                 .Select(o => o.TenantId!.Value)
                 .ToListAsync(cancellationToken);
 
@@ -331,7 +331,7 @@ public sealed class TenancyStep : IMigrationStep
                     AuthorizedEmail = Fit(context, "Office", "AuthorizedEmail", Text(reader, 6)),
                     IsActive = !reader.IsDBNull(7) && reader.GetBoolean(7),
                     CityId = MapId(cityMap, Int(reader, 8)),
-                    HeadquarterOffice = isHeadquarters,
+                    IsHeadquarterOffice = isHeadquarters,
                     TenantId = tenantId,
                     IsDeleted = !reader.IsDBNull(12) && reader.GetBoolean(12),
                 }));
@@ -510,7 +510,7 @@ public sealed class TenancyStep : IMigrationStep
                     DistrictId = MapId(districtMap, Int(reader, 9)),
                     Color = Fit(context, "UserProfile", "Color", Text(reader, 23)),
                     IsActive = !reader.IsDBNull(10) && reader.GetBoolean(10),
-                    ContractApproved = Int(reader, 27) is > 0,
+                    IsContractApproved = Int(reader, 27) is > 0,
 
                     // FirmaId points at a client company, which the companies step has not created
                     // yet. It is resolved there rather than left pointing at nothing.
@@ -535,16 +535,16 @@ public sealed class TenancyStep : IMigrationStep
                     LegacyCrypt.TryDecrypt(Text(reader, 25)));
                 var medulaPassword = Fit(context, "UserMedulaCredential", "MedulaPassword",
                     LegacyCrypt.TryDecrypt(Text(reader, 26)));
-                var branchCode = Fit(context, "UserMedulaCredential", "BranchCode", Text(reader, 24));
+                var medicalSpecialtyCode = Fit(context, "UserMedulaCredential", "MedicalSpecialtyCode", Text(reader, 24));
 
-                var medula = medulaUserName is null && medulaPassword is null && branchCode is null
+                var medula = medulaUserName is null && medulaPassword is null && medicalSpecialtyCode is null
                     ? null
                     : new UserMedulaCredential
                     {
                         TenantId = tenantId,
                         MedulaUserName = medulaUserName,
                         MedulaPassword = medulaPassword,
-                        BranchCode = branchCode,
+                        MedicalSpecialtyCode = medicalSpecialtyCode,
                     };
 
                 // The office the legacy row names, written as an assignment.

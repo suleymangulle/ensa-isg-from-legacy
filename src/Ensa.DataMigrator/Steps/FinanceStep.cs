@@ -220,7 +220,7 @@ public sealed class FinanceStep : IMigrationStep
                 {
                     CashRegisterName = Fit(context, "CashRegister", "CashRegisterName", Text(reader, "KasaAdi")) ?? string.Empty,
                     OfficeId = officeId,
-                    HeadquarterCashRegister = Bit(reader, "MerkezKasa"),
+                    IsHeadquarterCashRegister = Bit(reader, "MerkezKasa"),
                     IsActive = true,
                     CreationTime = Date(reader, "EklemeTarihi") ?? DateTime.Now,
                     LastModificationTime = Date(reader, "GuncellemeTarihi"),

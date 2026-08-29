@@ -32,7 +32,7 @@ public class OhsReport : CreationAuditedTenantEntity
     /// <summary>(Legacy: <c>GorevTuru</c> string "İçe Grv."/"Dışa Grv.")</summary>
     public AssignmentType DutyType { get; set; } = AssignmentType.Unspecified;
 
-    public int TotalMonthlyFazlaOvertimeDuration { get; set; }
+    public int TotalMonthlyOvertimeDuration { get; set; }
 
     public int TotalMinutes { get; set; }
 

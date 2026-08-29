@@ -28,7 +28,7 @@ public class Company : FullAuditedTenantEntity, IActivatable, ICompanyRecord
     /// <summary>SSI workplace registration number (stored normalised, without spaces).</summary>
     public string? SsiNumber { get; set; }
 
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
 
     public string? TaxNumber { get; set; }
 
@@ -51,7 +51,7 @@ public class Company : FullAuditedTenantEntity, IActivatable, ICompanyRecord
     public HazardClass HazardClass { get; set; } = HazardClass.Unspecified;
 
     /// <summary>Whether the user has confirmed the hazard class derived from the NACE code.</summary>
-    public bool OrganizationTypeVerified { get; set; }
+    public bool IsHazardClassVerified { get; set; }
 
     /// <summary>Organization type reference. (Legacy: <c>KurumTuru</c> string)</summary>
     public int? OrganizationTypeId { get; set; }
@@ -70,7 +70,7 @@ public class Company : FullAuditedTenantEntity, IActivatable, ICompanyRecord
     public bool? IsSubcontractor { get; set; }
 
     /// <summary>Marks the workplace as a solution partner.</summary>
-    public bool SolutionPartner { get; set; }
+    public bool IsSolutionPartner { get; set; }
 
     // ---------------- Headquarter / branch ----------------
 
@@ -155,10 +155,10 @@ public class Company : FullAuditedTenantEntity, IActivatable, ICompanyRecord
     public int? Priority { get; set; }
 
     /// <summary>Monthly visit time of the OHS specialist, in minutes.</summary>
-    public int? VisitSpecialist { get; set; }
+    public int? SpecialistVisitMinutes { get; set; }
 
     /// <summary>Monthly visit time of the workplace physician, in minutes.</summary>
-    public int? VisitPhysician { get; set; }
+    public int? PhysicianVisitMinutes { get; set; }
 
     /// <summary>Number of workers reported through İSG-KATİP. (Legacy: <c>ISGKatipCalisanSayisi</c>)</summary>
     public int? OhsKatipWorkerCount { get; set; }
@@ -167,10 +167,10 @@ public class Company : FullAuditedTenantEntity, IActivatable, ICompanyRecord
     public bool FirstMonthProgramIncluded { get; set; }
 
     /// <summary>Whether the user-count limit applies to distance learning.</summary>
-    public bool? UserLimit { get; set; }
+    public bool? IsDistanceLearningUserLimitEnabled { get; set; }
 
     /// <summary>Whether distance-learning credentials have been sent to the company's employees. (Legacy: <c>SifreGonderildi</c> int?)</summary>
-    public bool PasswordSent { get; set; }
+    public bool AreEmployeePasswordsSent { get; set; }
 
     // ---------------- Financial ----------------
 
@@ -190,19 +190,19 @@ public class Company : FullAuditedTenantEntity, IActivatable, ICompanyRecord
     public decimal? InvoiceAmount { get; set; }
 
     /// <summary>Off-the-books (unofficial) invoice amount. (Legacy: <c>FaturaTutariKh</c>)</summary>
-    public decimal? InvoiceAmountKh { get; set; }
+    public decimal? UnofficialInvoiceAmount { get; set; }
 
     /// <summary>Group/master contract amount. (Legacy: <c>GRSozlesmeTutari</c>)</summary>
-    public decimal? GrContractAmount { get; set; }
+    public decimal? GroupContractAmount { get; set; }
 
     /// <summary>Amount expected to be paid according to the ledger.</summary>
-    public decimal? PayableDigit { get; set; }
+    public decimal? ExpectedPaymentAmount { get; set; }
 
     /// <summary>Expected/planned payment date.</summary>
     public DateTime? PaymentDate { get; set; }
 
     /// <summary>Whether the quoted amount includes VAT. (Legacy: string)</summary>
-    public bool QuoteVatIncluded { get; set; }
+    public bool IsQuoteVatIncluded { get; set; }
 
     /// <summary>Whether unofficial amounts are shown on screen. (Legacy: <c>GayriRTGosterilsinMi</c>)</summary>
     public bool ShowUnofficialAmount { get; set; }

@@ -278,7 +278,7 @@ A second run reads zero rows.
 | Finding | Decision |
 |---|---|
 | `IslemTuru` is empty in **all** 1,733,816 rows | Every visit is `Unspecified`. There is nothing to map, and inventing a type would be inventing a fact. |
-| The legacy schema records no completion flag | `Completed` stays false. A visit that happened is not distinguishable here from one that was only planned, so nothing is claimed. |
+| The legacy schema records no completion flag | `IsCompleted` stays false. A visit that happened is not distinguishable here from one that was only planned, so nothing is claimed. |
 | `DigerFirmaUzaklik` is a float used for whatever was to hand | Kept only when it is a plausible distance; one absurd value would otherwise stop the table. |
 
 ### `catalogues` and `plans`
@@ -358,7 +358,7 @@ read 1,011,184   written 1,010,931   in 8m 23s
 2,000 characters against a longest real value of **13,004**, with 91,421 rows over 512. It is prose —
 what to do about a hazard, written by the specialist who assessed it — and it is the one text in
 this system where the tail matters as much as the head: truncating it cuts a safety instruction in
-half. It is now unbounded. (`RiskAssessmentReport.WorkplaceTelefonu` was 20 against a real 65.)
+half. It is now unbounded. (`RiskAssessmentReport.WorkplacePhoneNumber` was 20 against a real 65.)
 
 **The risk score is computed, because the rebuilt schema stores it.** The legacy system recomputed
 it on every screen and kept no column. Leaving it at zero would make every migrated risk look

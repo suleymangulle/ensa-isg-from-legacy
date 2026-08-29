@@ -63,7 +63,7 @@ public class EmailSettingsAppService(
         settings.Pop3Server = input.Pop3Server.Trim();
         settings.SmtpServer = input.SmtpServer.Trim();
         settings.Port = input.Port;
-        settings.SslUse = input.SslUse;
+        settings.UseSsl = input.UseSsl;
         settings.IsActive = input.IsActive;
 
         // An empty password means "leave the stored one alone" — never overwrite a secret with
@@ -80,7 +80,7 @@ public class EmailSettingsAppService(
         // The password is deliberately absent from this log line.
         Logger.LogInformation(
             "Mail account saved. SettingsId={SettingsId}, SmtpServer={SmtpServer}, Port={Port}, Ssl={Ssl}",
-            settings.Id, settings.SmtpServer, settings.Port, settings.SslUse);
+            settings.Id, settings.SmtpServer, settings.Port, settings.UseSsl);
 
         return Map(settings);
     }
@@ -123,7 +123,7 @@ public class EmailSettingsAppService(
         Pop3Server = settings.Pop3Server,
         SmtpServer = settings.SmtpServer,
         Port = settings.Port,
-        SslUse = settings.SslUse,
+        UseSsl = settings.UseSsl,
         IsActive = settings.IsActive,
     };
 }

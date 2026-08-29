@@ -35,7 +35,7 @@ public class RiskAssessmentReport : FullAuditedTenantEntity, ICompanyScoped
 
     public string WorkplaceAddress { get; set; } = string.Empty;
 
-    public string WorkplaceTelefonu { get; set; } = string.Empty;
+    public string WorkplacePhoneNumber { get; set; } = string.Empty;
 
     /// <summary>Legacy held this as a string ("AZ TEHLİKELİ" and so on); it was converted to an enum.</summary>
     public HazardClass HazardClass { get; set; }
@@ -43,7 +43,7 @@ public class RiskAssessmentReport : FullAuditedTenantEntity, ICompanyScoped
     /// <summary>Free-text listing of the workplace departments. (Legacy: <c>IsyeriBolumleri</c>)</summary>
     public string? WorkplaceDepartments { get; set; }
 
-    public string? MachinesVeEquipments { get; set; }
+    public string? MachineryAndEquipment { get; set; }
 
     public string? HazardousArticles { get; set; }
 

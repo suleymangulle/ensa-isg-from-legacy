@@ -30,7 +30,7 @@ public class Organization : FullAuditedEntity, IActivatable
     /// <summary>Abonelik paketi FK. (Legacy: Firma_T.PaketTuru string kodu)</summary>
     public int SubscriptionPlanId { get; set; }
 
-    public string? TaxTaxOffice { get; set; }
+    public string? TaxOffice { get; set; }
 
     public string? TaxNumber { get; set; }
 

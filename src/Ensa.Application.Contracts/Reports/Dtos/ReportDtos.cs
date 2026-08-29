@@ -154,10 +154,10 @@ public class YearEndReviewLineDto : FullAuditedEntityDto, IMultiTenantDto
     public int OrderNo { get; set; }
     public DateTime? Date { get; set; }
     public string? Work { get; set; }
-    public string? PersonVeTitle { get; set; }
+    public string? PersonAndTitle { get; set; }
     public string? RepeatCount { get; set; }
     public string? UsedMethod { get; set; }
-    public string? ResultVeComment { get; set; }
+    public string? ResultAndComment { get; set; }
     public bool IsActive { get; set; }
 
     /// <summary>Parent work item. <c>null</c> marks a root-level item.</summary>
@@ -224,7 +224,7 @@ public class CreateYearEndReviewLineDto
     public string? Work { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Description)]
-    public string? PersonVeTitle { get; set; }
+    public string? PersonAndTitle { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Code)]
     public string? RepeatCount { get; set; }
@@ -233,7 +233,7 @@ public class CreateYearEndReviewLineDto
     public string? UsedMethod { get; set; }
 
     [MaxLength(EnsaDomainSharedConsts.MaxLengths.Text)]
-    public string? ResultVeComment { get; set; }
+    public string? ResultAndComment { get; set; }
 }
 
 /// <summary>Year-end review work item update input.</summary>
@@ -285,7 +285,7 @@ public class OhsReportDto : CreationAuditedEntityDto, IMultiTenantDto
     public StaffRole StaffRole { get; set; }
     public AssignmentType DutyType { get; set; }
 
-    public int TotalMonthlyFazlaOvertimeDuration { get; set; }
+    public int TotalMonthlyOvertimeDuration { get; set; }
     public int TotalMinutes { get; set; }
     public int UsedMonthlyMinutes { get; set; }
 }

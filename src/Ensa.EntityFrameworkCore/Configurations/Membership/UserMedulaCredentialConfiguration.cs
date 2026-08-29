@@ -22,7 +22,7 @@ public class UserMedulaCredentialConfiguration : IEntityTypeConfiguration<UserMe
         builder.Property(x => x.MedulaPassword!)
                .IsEncrypted(EnsaDomainSharedConsts.MaxLengths.Name);
 
-        builder.Property(x => x.BranchCode)
+        builder.Property(x => x.MedicalSpecialtyCode)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Code);
     }
 }

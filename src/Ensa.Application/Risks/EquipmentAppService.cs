@@ -147,7 +147,7 @@ public class EquipmentAppService(
         var equipment = await equipmentRepository.FindAsync(id, cancellationToken)
                         ?? throw new EntityNotFoundException(typeof(Equipment), id);
 
-        if (!equipment.Deletable)
+        if (!equipment.IsDeletable)
         {
             throw new BusinessException(
                     "This equipment record was created automatically and cannot be deleted.",

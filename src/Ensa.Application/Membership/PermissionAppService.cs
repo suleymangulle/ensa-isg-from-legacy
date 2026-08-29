@@ -187,7 +187,7 @@ public class PermissionAppService(
         {
             UserId = userId,
             PermissionId = permissionId,
-            Authorized = true,
+            IsAuthorized = true,
             IsActive = true
         }));
 
@@ -195,7 +195,7 @@ public class PermissionAppService(
         {
             UserId = userId,
             PermissionId = permissionId,
-            Authorized = false,
+            IsAuthorized = false,
             IsActive = true
         }));
 

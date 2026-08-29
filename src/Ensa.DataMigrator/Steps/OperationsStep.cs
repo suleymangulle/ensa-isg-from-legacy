@@ -144,7 +144,7 @@ public sealed class OperationsStep : IMigrationStep
                     // PeriyotId points at the legacy Periyot_T catalogue, which is not migrated yet.
                     // Carrying the number across would make it point at an unrelated row.
                     PeriodId = null,
-                    Deletable = Bit(reader, "Deletable"),
+                    IsDeletable = Bit(reader, "Deletable"),
                     TenantId = organizationMap.TryGetValue(Required(reader, "KurumId"), out var tenantId)
                         ? tenantId
                         : null,

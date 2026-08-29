@@ -139,7 +139,7 @@ public sealed class MembershipSeeder(
         var office = new Office
         {
             Name = "Head Office",
-            HeadquarterOffice = true,
+            IsHeadquarterOffice = true,
             IsActive = true,
             TenantId = organization.Id
         };

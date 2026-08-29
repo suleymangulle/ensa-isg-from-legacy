@@ -26,7 +26,7 @@ public class OfficeListDto : EntityDto
 
     public int? CompanyId { get; set; }
 
-    public bool HeadquarterOffice { get; set; }
+    public bool IsHeadquarterOffice { get; set; }
 
     public bool IsActive { get; set; }
 }
@@ -52,7 +52,7 @@ public class OfficeDto : FullAuditedEntityDto, IMultiTenantDto
     public int? CompanyId { get; set; }
 
     /// <summary>Only one office per organization may carry this flag.</summary>
-    public bool HeadquarterOffice { get; set; }
+    public bool IsHeadquarterOffice { get; set; }
 
     public bool IsActive { get; set; }
 }
@@ -91,7 +91,7 @@ public class CreateOfficeDto
     /// Marks the organization's headquarters office. The service refuses the request when
     /// another office already holds the flag.
     /// </summary>
-    public bool HeadquarterOffice { get; set; }
+    public bool IsHeadquarterOffice { get; set; }
 }
 
 /// <summary>Office update input.</summary>
@@ -108,7 +108,7 @@ public class GetOfficeListInput : PagedAndSortedFilterDto
 
     public int? CompanyId { get; set; }
 
-    public bool? HeadquarterOffice { get; set; }
+    public bool? IsHeadquarterOffice { get; set; }
 
     public bool? IsActive { get; set; }
 }

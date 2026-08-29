@@ -201,7 +201,7 @@ public sealed class LookupExtrasStep : IMigrationStep
                     SettingName = name,
                     Value = Fit(context, "SystemSetting", "Value", Text(reader, "Deger")) ?? string.Empty,
                     SettingType = Fit(context, "SystemSetting", "SettingType", Text(reader, "DegiskenTipi")) ?? string.Empty,
-                    Encrypted = Bit(reader, "Sifreli"),
+                    IsEncrypted = Bit(reader, "Sifreli"),
                     IsEditable = !reader.IsDBNull(reader.GetOrdinal("DegistirilebilirMi")) && Bit(reader, "DegistirilebilirMi"),
                 });
             }
@@ -531,7 +531,7 @@ public sealed class LookupExtrasStep : IMigrationStep
                     ParentTreeNodeCode = Fit(context, "TreeNode", "ParentTreeNodeCode", Text(reader, "ParentTreeItemCode")),
                     ParentTreeNodeId = null,
                     TreeNodeName = Fit(context, "TreeNode", "TreeNodeName", Text(reader, "TreeItemName")) ?? string.Empty,
-                    MainItem = Bit(reader, "MainTreeItem"),
+                    IsMainItem = Bit(reader, "MainTreeItem"),
                     IsActive = Bit(reader, "Aktif"),
                     IsDeleted = Bit(reader, "IsDeleted"),
                     CreationTime = Date(reader, "EklemeTarihi") ?? DateTime.Now,
@@ -651,7 +651,7 @@ public sealed class LookupExtrasStep : IMigrationStep
                 Pop3Server = Fit(context, "EmailSettings", "Pop3Server", Text(reader, "POP3")) ?? string.Empty,
                 SmtpServer = Fit(context, "EmailSettings", "SmtpServer", Text(reader, "SMTP")) ?? string.Empty,
                 Port = int.TryParse(Text(reader, "Port"), out var port) ? port : 587,
-                SslUse = true,
+                UseSsl = true,
 
                 // Inactive on purpose: the settings are incomplete until somebody supplies the
                 // password, and a mail worker that picks them up meanwhile would fail on every send.

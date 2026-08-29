@@ -27,7 +27,7 @@ public class UserMedulaCredential : FullAuditedTenantEntity
     public string? MedulaPassword { get; set; }
 
     /// <summary>The physician's branch code at MEDULA. (Legacy: <c>BransKodu</c>)</summary>
-    public string? BranchCode { get; set; }
+    public string? MedicalSpecialtyCode { get; set; }
 
     public override string ToString() => $"[{nameof(UserMedulaCredential)}] UserId = {UserId}";
 }

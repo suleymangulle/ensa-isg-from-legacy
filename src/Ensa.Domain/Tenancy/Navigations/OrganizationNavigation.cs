@@ -27,7 +27,7 @@ public class OrganizationNavigation : NavigationEntity<Organization>
     /// <summary>The offices defined for the organization.</summary>
     public List<Office> Offices { get; set; } = [];
 
-    /// <summary>Kurumun merkez ofisi (<c>Office.HeadquarterOffice == true</c>).</summary>
+    /// <summary>Kurumun merkez ofisi (<c>Office.IsHeadquarterOffice == true</c>).</summary>
     public Office? HeadquarterOffice { get; set; }
 
     /// <summary>The subscription contract currently in force.</summary>

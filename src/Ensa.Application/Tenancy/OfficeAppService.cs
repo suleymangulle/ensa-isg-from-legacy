@@ -90,7 +90,7 @@ public class OfficeAppService(
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
         var cityId = input.CityId;
         var companyId = input.CompanyId;
-        var headquarterOffice = input.HeadquarterOffice;
+        var headquarterOffice = input.IsHeadquarterOffice;
         var isActive = input.IsActive;
 
         // The captured locals are compared against null inside the expression so that a single
@@ -100,7 +100,7 @@ public class OfficeAppService(
         var total = await officeRepository.GetCountAsync(
             o => (cityId == null || o.CityId == cityId)
                  && (companyId == null || o.CompanyId == companyId)
-                 && (headquarterOffice == null || o.HeadquarterOffice == headquarterOffice)
+                 && (headquarterOffice == null || o.IsHeadquarterOffice == headquarterOffice)
                  && (isActive == null || o.IsActive == isActive)
                  && (search == null
                      || o.Name.Contains(search)
@@ -113,7 +113,7 @@ public class OfficeAppService(
             sorting,
             o => (cityId == null || o.CityId == cityId)
                  && (companyId == null || o.CompanyId == companyId)
-                 && (headquarterOffice == null || o.HeadquarterOffice == headquarterOffice)
+                 && (headquarterOffice == null || o.IsHeadquarterOffice == headquarterOffice)
                  && (isActive == null || o.IsActive == isActive)
                  && (search == null
                      || o.Name.Contains(search)
@@ -198,7 +198,7 @@ public class OfficeAppService(
 
         Logger.LogInformation(
             "Office created: {OfficeId} — {OfficeName} (headquarters: {IsHeadquarter})",
-            office.Id, office.Name, office.HeadquarterOffice);
+            office.Id, office.Name, office.IsHeadquarterOffice);
 
         return ObjectMapper.Map<Office, OfficeDto>(office);
     }
@@ -249,7 +249,7 @@ public class OfficeAppService(
         int? exceptId,
         CancellationToken cancellationToken)
     {
-        if (!office.HeadquarterOffice)
+        if (!office.IsHeadquarterOffice)
         {
             return;
         }

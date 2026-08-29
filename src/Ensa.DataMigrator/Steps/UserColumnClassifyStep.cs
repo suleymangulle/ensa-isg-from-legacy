@@ -45,7 +45,7 @@ public sealed class UserColumnClassifyStep : IMigrationStep
         Profile("PhotoDocumentId", "ISNULL(u.PhotoDocumentId,-1) <> ISNULL(p.PhotoDocumentId,-1)"),
         Profile("Color", "ISNULL(u.Color,'') <> ISNULL(p.Color,'')"),
         Profile("IsActive", "u.IsActive <> p.IsActive"),
-        Profile("ContractApproved", "u.ContractApproved <> p.ContractApproved"),
+        Profile("ContractApproved", "u.ContractApproved <> p.IsContractApproved"),
 
         // ---- UserEmployment
         Employment("HireDate", "ISNULL(u.HireDate,'1900-01-01') <> ISNULL(e.HireDate,'1900-01-01')"),
@@ -56,7 +56,7 @@ public sealed class UserColumnClassifyStep : IMigrationStep
         // ---- UserMedulaCredential, only for the users that have one.
         Medula("MedulaUserName", "ISNULL(u.MedulaUserName,'') <> ISNULL(m.MedulaUserName,'')"),
         Medula("MedulaPassword", "ISNULL(u.MedulaPassword,'') <> ISNULL(m.MedulaPassword,'')"),
-        Medula("BranchCode", "ISNULL(u.BranchCode,'') <> ISNULL(m.BranchCode,'')"),
+        Medula("BranchCode", "ISNULL(u.BranchCode,'') <> ISNULL(m.MedicalSpecialtyCode,'')"),
     ];
 
     private static Candidate Profile(string column, string disagreement) => new(

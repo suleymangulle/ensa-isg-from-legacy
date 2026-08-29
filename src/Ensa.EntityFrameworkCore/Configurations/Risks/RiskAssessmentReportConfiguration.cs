@@ -29,14 +29,14 @@ public class RiskAssessmentReportConfiguration : IEntityTypeConfiguration<RiskAs
                .IsRequired()
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Address);
 
-        builder.Property(x => x.WorkplaceTelefonu)
+        builder.Property(x => x.WorkplacePhoneNumber)
                .IsRequired()
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Name);
 
         builder.Property(x => x.WorkplaceDepartments)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Note);
 
-        builder.Property(x => x.MachinesVeEquipments)
+        builder.Property(x => x.MachineryAndEquipment)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Note);
 
         builder.Property(x => x.HazardousArticles)

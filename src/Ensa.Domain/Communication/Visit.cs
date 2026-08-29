@@ -49,5 +49,5 @@ public class Visit : FullAuditedTenantEntity, ICompanyScoped
     public decimal? OtherCompanyDistanceKm { get; set; }
 
     /// <summary>Whether the visit actually took place. Added — not present in legacy — to separate planned from completed visits.</summary>
-    public bool Completed { get; set; }
+    public bool IsCompleted { get; set; }
 }

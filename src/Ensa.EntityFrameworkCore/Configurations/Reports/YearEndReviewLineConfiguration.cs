@@ -25,7 +25,7 @@ public class YearEndReviewLineConfiguration : IEntityTypeConfiguration<YearEndRe
         builder.Property(x => x.Work)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);
 
-        builder.Property(x => x.PersonVeTitle)
+        builder.Property(x => x.PersonAndTitle)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.LongName);
 
         builder.Property(x => x.RepeatCount)
@@ -34,7 +34,7 @@ public class YearEndReviewLineConfiguration : IEntityTypeConfiguration<YearEndRe
         builder.Property(x => x.UsedMethod)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);
 
-        builder.Property(x => x.ResultVeComment)
+        builder.Property(x => x.ResultAndComment)
                .HasMaxLength(EnsaDomainSharedConsts.MaxLengths.Text);
 
         // Reading the tree level by level in a stable order (also served by the report foreign key index).

@@ -44,14 +44,14 @@ public class YearEndReviewLine : FullAuditedTenantEntity, IActivatable
     public string? Work { get; set; }
 
     /// <summary>(Legacy: <c>KisiveUnvan</c>)</summary>
-    public string? PersonVeTitle { get; set; }
+    public string? PersonAndTitle { get; set; }
 
     public string? RepeatCount { get; set; }
 
     public string? UsedMethod { get; set; }
 
     /// <summary>(Legacy: <c>SonucveYorum</c>)</summary>
-    public string? ResultVeComment { get; set; }
+    public string? ResultAndComment { get; set; }
 
     public bool IsActive { get; set; } = true;
 

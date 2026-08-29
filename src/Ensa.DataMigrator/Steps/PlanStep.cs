@@ -138,7 +138,7 @@ public sealed class PlanStep : IMigrationStep
                     PhysicianUserId = MapId(userMap, Int(reader, "DoktorId")),
                     ApproverUserId = MapId(userMap, Int(reader, "OnaylayanKullaniciId")),
                     IsActive = Bit(reader, "Aktif"),
-                    Transferred = Bit(reader, "Aktarildi"),
+                    IsTransferred = Bit(reader, "Aktarildi"),
                     TenantId = MapId(organizationMap, Int(reader, "KurumId")),
                 }));
 
@@ -298,7 +298,7 @@ public sealed class PlanStep : IMigrationStep
                     PhysicianUserId = MapId(userMap, Int(reader, "DoktorId")),
                     ApproverUserId = MapId(userMap, Int(reader, "OnaylayanKullaniciId")),
                     IsActive = Bit(reader, "Aktif"),
-                    Transferred = Bit(reader, "Aktarildi"),
+                    IsTransferred = Bit(reader, "Aktarildi"),
                     TenantId = MapId(organizationMap, Int(reader, "KurumId")),
                 }));
 

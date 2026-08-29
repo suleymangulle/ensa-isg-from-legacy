@@ -20,7 +20,7 @@ public class OfficeRepository(EnsaDbContext context, IDataFilter dataFilter)
     /// <inheritdoc />
     public Task<Office?> FindHeadquarterOfficeAsync(CancellationToken cancellationToken = default)
         => GetReadOnlyQueryable()
-            .Where(o => o.HeadquarterOffice && o.IsActive)
+            .Where(o => o.IsHeadquarterOffice && o.IsActive)
             .OrderBy(o => o.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -126,7 +126,7 @@ public class OfficeRepository(EnsaDbContext context, IDataFilter dataFilter)
     public Task<List<Office>> GetByCompanyAsync(int companyId, CancellationToken cancellationToken = default)
         => GetReadOnlyQueryable()
             .Where(o => o.CompanyId == companyId)
-            .OrderByDescending(o => o.HeadquarterOffice)
+            .OrderByDescending(o => o.IsHeadquarterOffice)
             .ThenBy(o => o.Name)
             .ToListAsync(cancellationToken);
 }

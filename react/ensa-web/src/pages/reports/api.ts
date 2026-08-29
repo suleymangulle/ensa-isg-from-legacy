@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { http, type ListResult, type PagedResult } from '@/api/http'
+import { useOfficeScopeKey } from '@/auth/OfficeContext'
 import type { LookupDto } from '@/api/endpoints'
 import type {
   ActivityReportLineType,
@@ -313,8 +314,12 @@ function clean(input: Record<string, unknown>): Record<string, unknown> {
 
 /** `GET api/ohs-report` */
 export function useOhsReportList(input: OhsReportListInput) {
+  // OHS reports are filed per office, so the office the user is working in is part of the answer
+  // and therefore part of the key.
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [REPORT_ENDPOINTS.ohsReport, 'list', input],
+    queryKey: [REPORT_ENDPOINTS.ohsReport, 'list', officeScope, input],
     queryFn: async () => {
       const { data } = await http.get<PagedResult<OhsReportListDto>>(
         `/${REPORT_ENDPOINTS.ohsReport}`,
@@ -474,8 +479,12 @@ export function useCurrentYearEndReview(companyId: number | undefined) {
  * the cap falls back to its id.
  */
 export function useCompanyLookup(filter?: string) {
+  // The workplace lookup is office-scoped server-side; keying on the scope stops one office's
+  // picker from being served out of another's cache.
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [REPORT_ENDPOINTS.company, 'lookup', filter],
+    queryKey: [REPORT_ENDPOINTS.company, 'lookup', officeScope, filter],
     queryFn: async () => {
       const { data } = await http.get<ListResult<LookupDto>>(
         `/${REPORT_ENDPOINTS.company}/lookup`,

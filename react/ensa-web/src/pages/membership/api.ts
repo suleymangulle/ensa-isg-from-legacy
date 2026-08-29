@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { http, type ListResult, type PagedResult } from '@/api/http'
+import { useOfficeScopeKey } from '@/auth/OfficeContext'
 import { resourceKey } from '@/api/mutations'
 import type { LookupDto } from '@/api/endpoints'
 import type { PermissionRestrictionMode, PermissionType, StaffRole } from '@/api/enums'
@@ -243,8 +244,11 @@ export interface UserListRequest {
 
 /** `GET api/user` — paged, filtered by free text, staff role and active state. */
 export function useUserList(request: UserListRequest) {
+  // Who works where is an office question — the list is filtered by office assignment server-side.
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [MEMBERSHIP_RESOURCES.user, 'list', request],
+    queryKey: [MEMBERSHIP_RESOURCES.user, 'list', officeScope, request],
     queryFn: async () => {
       const { data } = await http.get<PagedResult<UserListDto>>('/user', {
         params: {

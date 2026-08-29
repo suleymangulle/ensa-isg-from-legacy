@@ -164,3 +164,251 @@ body {
 body {
   font-family: var(--rrc-font-sans);
 }
+
+// =============================================================
+// Office (Şube) switcher — sidebar footer.
+//
+// The library owns the footer region itself: `.rrc-sidebar__footer` is already
+// pinned below the independently scrolling `.rrc-sidebar__body` and already
+// carries the rule above it. What is left is the part no shipped primitive
+// covers — truncation, and a panel that opens to the RIGHT of the collapsed
+// rail. `Popover` and `Tooltip` place `top`/`bottom` only and `Menu` places
+// `start`/`end`, so the side placement is geometry this file has to supply.
+// It mirrors the library's own `.rrc-sidebar__flyout` rather than inventing a
+// second look.
+//
+// Every colour here is an existing token. Dark mode therefore needs no second
+// implementation: the tokens are already redefined under `[data-bs-theme=dark]`
+// above.
+// =============================================================
+
+// The aside is bounded to the viewport so its own regions can do their jobs.
+//
+// `.rrc-sidebar__body` is already `overflow-y: auto` and `.rrc-sidebar__footer`
+// is already pinned below it — but only inside a sidebar whose height is
+// bounded. The shell's row is `min-vh-100`, so a menu taller than the viewport
+// stretches the row instead, the body never reaches its own scrollbar, and the
+// footer lands below the fold where the office switcher cannot be seen or
+// reached. Sticky, so the aside stays put while the page scrolls.
+//
+// The child combinator is what keeps this off the mobile drawer: the drawer
+// wraps the same element in `.rrc-sidebar-drawer`, where a fixed-height,
+// sticky panel would be wrong and the drawer already bounds it.
+@media (min-width: 992px) {
+  .rrc-flex > .rrc-sidebar {
+    position: sticky;
+    inset-block-start: 0;
+    block-size: 100vh;
+    block-size: 100dvh;
+  }
+}
+
+.ensa-office-switcher {
+  position: relative;
+  min-inline-size: 0;
+
+  &__caption {
+    display: block;
+    margin-block-end: .25rem;
+  }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    inline-size: 100%;
+    min-inline-size: 0;
+    padding: .5rem .625rem;
+    border: 1px solid var(--rrc-border);
+    border-radius: var(--rrc-radius-control);
+    background-color: var(--rrc-card-surface);
+    color: var(--rrc-body-color);
+    font-size: var(--rrc-font-size-sm);
+    text-align: start;
+    cursor: pointer;
+    transition: background-color .12s ease, border-color .12s ease;
+
+    &:hover:not(:disabled) {
+      background-color: var(--rrc-hover-surface);
+      border-color: var(--rrc-border-strong);
+    }
+
+    // The focus ring is the library's, so a keyboard user sees the same ring
+    // here as on every other control.
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--rrc-focus-ring);
+      border-color: var(--rrc-focus-border);
+    }
+
+    &:disabled {
+      cursor: progress;
+      opacity: .65;
+    }
+
+    &--icon {
+      justify-content: center;
+      inline-size: 2.25rem;
+      block-size: 2.25rem;
+      padding: 0;
+      margin-inline: auto;
+    }
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    color: var(--kt-primary);
+    line-height: 1;
+  }
+
+  // Truncation needs a min-width:0 chain all the way down, or the flex item
+  // refuses to shrink and the caret is pushed out of the control.
+  &__name-wrap {
+    display: block;
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+
+  &__name {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: var(--rrc-fw-medium);
+  }
+
+  &__caret {
+    flex: 0 0 auto;
+    color: var(--rrc-text-muted);
+    font-size: .75rem;
+    line-height: 1;
+  }
+
+  // ---------------------------------------------------------- the panel
+
+  // Positioned in viewport coordinates by `usePanelPosition`, not by this file.
+  // It cannot be `absolute`: the library's collapsed rail keeps `overflow:
+  // hidden` on `.rrc-sidebar__panel` to hide the labels, which clips an
+  // absolutely positioned panel out of sight and — when focus moves into it —
+  // scrolls that hidden box sideways, dragging the rail's whole contents off
+  // screen. `.rrc-sidebar__flyout`, the library's own submenu popup, is
+  // `position: fixed` for the same reason.
+  &__panel {
+    position: fixed;
+    z-index: 1030;
+    min-inline-size: 13rem;
+    max-inline-size: 22rem;
+    padding: .35rem;
+    border: 1px solid var(--rrc-border);
+    border-radius: var(--rrc-radius-lg);
+    background-color: var(--rrc-popup-surface);
+    box-shadow: var(--rrc-shadow-dropdown);
+
+    // Beside the collapsed rail the panel sizes to its content; above or below
+    // the expanded trigger it matches the trigger's width, which the hook sets.
+    &--right {
+      inline-size: max-content;
+    }
+  }
+
+  // The panel's own max height is set from the room the trigger has (see
+  // `usePanelPosition`); the list takes what is left of it and scrolls.
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__list {
+    min-block-size: 0;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .45rem .55rem;
+    border-radius: var(--rrc-radius-menu-item);
+    color: var(--rrc-body-color);
+    font-size: var(--rrc-font-size-sm);
+    cursor: pointer;
+
+    &--active {
+      background-color: var(--rrc-hover-surface);
+    }
+
+    // Background, an accent bar and a check glyph together: never colour alone.
+    &--selected {
+      background-color: var(--rrc-active-surface);
+      box-shadow: inset .1875rem 0 0 0 var(--kt-primary);
+      font-weight: var(--rrc-fw-semibold);
+    }
+
+    &[aria-disabled='true'] {
+      cursor: progress;
+      opacity: .65;
+    }
+  }
+
+  &__check {
+    flex: 0 0 .875rem;
+    color: var(--kt-primary);
+    font-size: .8125rem;
+    line-height: 1;
+  }
+
+  &__option-label {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__badge {
+    flex: 0 0 auto;
+    padding: .05rem .35rem;
+    border-radius: var(--rrc-radius-pill);
+    background-color: var(--rrc-hover-surface);
+    color: var(--rrc-text-secondary);
+    font-size: var(--rrc-font-size-xs);
+  }
+
+  &__retry {
+    inline-size: 100%;
+    margin-block-start: .35rem;
+    padding: .35rem;
+    border: 1px solid var(--rrc-border);
+    border-radius: var(--rrc-radius-control);
+    background-color: transparent;
+    color: var(--kt-primary);
+    font-size: var(--rrc-font-size-sm);
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--rrc-hover-surface);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: var(--rrc-focus-ring);
+    }
+  }
+}
+
+// The panel inherits the sidebar's own width transition through the footer it
+// sits in; it must not animate on its own for a user who asked for less motion.
+@media (prefers-reduced-motion: reduce) {
+  .ensa-office-switcher__trigger,
+  .ensa-office-switcher__option {
+    transition: none;
+  }
+}

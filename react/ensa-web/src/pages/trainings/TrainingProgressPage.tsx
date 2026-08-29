@@ -396,7 +396,7 @@ function ExamModal({
   const submit = useSubmitExam()
   const [isFirstTest, setFirstTest] = useState(!record.firstTestCompleted)
   const [score, setScore] = useState(0)
-  const [completed, setCompleted] = useState(true)
+  const [isCompleted, setCompleted] = useState(true)
 
   return (
     <Modal
@@ -405,7 +405,7 @@ function ExamModal({
       onClose={onClose}
       onSubmit={() =>
         submit.mutate(
-          { id: record.id, input: { isFirstTest, score, completed } },
+          { id: record.id, input: { isFirstTest, score, isCompleted } },
           { onSuccess: onClose },
         )
       }
@@ -439,7 +439,7 @@ function ExamModal({
         <div className="col-12">
           <CheckBox
             id="exam-completed"
-            checked={completed}
+            checked={isCompleted}
             onChange={setCompleted}
             label={t('trainingProgress.countsAsPassed')}
           />

@@ -368,7 +368,7 @@ export interface SaveTopicProgressDto {
 export interface SubmitExamDto {
   isFirstTest: boolean
   score: number
-  completed: boolean
+  isCompleted: boolean
 }
 
 // ---------------------------------------------------------------

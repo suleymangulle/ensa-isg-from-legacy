@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react'
 import { http, type ListResult } from '@/api/http'
+import { officeAccessor, officeStore } from './officeStore'
 import { decodeToken, tokenStore } from './tokenStore'
 
 export interface UserInfo {
@@ -122,6 +123,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(() => {
     tokenStore.clear()
+    // The office context goes with the session. The accessor is cleared so no request can still
+    // carry the previous user's office, and the remembered selections are dropped because a browser
+    // is shared: the next person to sign in here must start from the server's answer for them.
+    officeAccessor.reset()
+    officeStore.clearAll()
     setUser(null)
   }, [])
 

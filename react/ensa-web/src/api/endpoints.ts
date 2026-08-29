@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { type BadgeVariant } from 'rich-react-component'
+import { useOfficeScopeKey } from '@/auth/OfficeContext'
 import { http, type ListResult, type PagedRequest, type PagedResult } from './http'
 import {
   FitnessForWorkOpinion,
@@ -189,10 +190,19 @@ function toQueryParams(request: PagedRequest): Record<string, unknown> {
   }
 }
 
-/** Fetches a paged list from any module. */
+/**
+ * Fetches a paged list from any module.
+ *
+ * The office scope is part of the key. Every request carries the office context header, so any list
+ * may answer differently under a different office; keying on it means a switch can never hand a
+ * screen the previous office's page while the new one is still loading. `OfficeProvider` clears the
+ * cache on a switch as well — this is the half that also survives a response arriving late.
+ */
 export function usePagedList<T>(resource: string, request: PagedRequest) {
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [resource, 'list', request],
+    queryKey: [resource, 'list', officeScope, request],
     queryFn: async () => {
       const { data } = await http.get<PagedResult<T>>(`/${resource}`, {
         params: toQueryParams(request),
@@ -250,10 +260,18 @@ export function useReferenceData(name: string, enabled = true) {
   })
 }
 
-/** Fetches drop-down records (`GET api/{resource}/lookup`, at most 50 rows). */
+/**
+ * Fetches drop-down records (`GET api/{resource}/lookup`, at most 50 rows).
+ *
+ * Keyed on the office scope for the same reason the list is, and it matters more here: the company
+ * and cash-register pickers are office-scoped server-side, so a cached list from another office
+ * would offer records the screen behind it does not show.
+ */
 export function useLookup(resource: string, filter?: string) {
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [resource, 'lookup', filter],
+    queryKey: [resource, 'lookup', officeScope, filter],
     queryFn: async () => {
       const { data } = await http.get<ListResult<LookupDto>>(`/${resource}/lookup`, {
         params: { filter: filter || undefined },

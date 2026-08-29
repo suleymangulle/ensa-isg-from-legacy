@@ -77,6 +77,14 @@ public static class EnsaHttpApiHostModule
     {
         services.RemoveAll<ICurrentUser>();
         services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
+
+        // One instance per request, reachable under both names: OfficeResolutionMiddleware fills in
+        // the concrete RequestOffice, and everything downstream reads the ICurrentOffice it is. Two
+        // registrations of the same type would give the middleware and the services two different
+        // objects, and the second one would always be empty.
+        services.RemoveAll<ICurrentOffice>();
+        services.AddScoped<RequestOffice>();
+        services.AddScoped<ICurrentOffice>(sp => sp.GetRequiredService<RequestOffice>());
     }
 
     // ------------------------------------------------------------ Identity

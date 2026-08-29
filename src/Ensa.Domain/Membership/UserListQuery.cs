@@ -11,10 +11,16 @@ namespace Ensa.Domain.Membership;
 /// only speak about one of them.
 /// </para>
 /// </summary>
+/// <param name="OfficeIds">
+/// The offices the list is restricted to. <b>Empty or <c>null</c> means no office restriction.</b>
+/// It is a set rather than a single id because the office context can legitimately span several --
+/// a user assigned to two offices who chose "all offices" is scoped to exactly those two, not to
+/// the whole tenant.
+/// </param>
 public sealed record UserListQuery(
     string? Search,
     StaffRole? StaffRole,
-    int? OfficeId,
+    IReadOnlyList<int>? OfficeIds,
     int? CompanyId,
     bool? IsActive,
     int SkipCount,

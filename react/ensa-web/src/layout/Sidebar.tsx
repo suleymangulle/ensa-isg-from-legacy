@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Avatar, Sidebar as RichSidebar, Text, type SidebarItem } from 'rich-react-component'
 import { useAuth } from '@/auth/AuthContext'
 import { moduleNavigation, NAV_GROUP_ICONS } from '@/modules/registry'
+import OfficeSwitcher, { OfficeSwitcherCompact } from './OfficeSwitcher'
 
 /**
  * Main navigation, drawn by the library's `Sidebar`.
@@ -48,6 +49,11 @@ export default function Sidebar({
   const { t } = useTranslation()
   const { hasPermission } = useAuth()
   const { pathname } = useLocation()
+
+  // The drawer is the same element as the aside, so the switcher inside it has to open downward
+  // instead of upward: a panel opening up from the bottom of a phone screen has nowhere to go.
+  // `mobileOpen` is only ever true below `lg`, which is exactly when the drawer exists.
+  const isMobile = mobileOpen
 
   const sections = useMemo(() => moduleNavigation(hasPermission), [hasPermission])
 
@@ -148,6 +154,20 @@ export default function Sidebar({
           )}
         </div>
       }
+      // The library already pins this region below the scrolling menu and rules a line above it,
+      // so the office switcher only has to be handed over. `collapsedFooter` is a separate prop
+      // because a full-width control cannot survive the rail — the library's own doc says so, and
+      // omitting it would leave a clipped, unreadable control behind.
+      footer={
+        <OfficeSwitcher
+          placement={isMobile ? 'bottom' : 'top'}
+          // The drawer gets out of the way once an office is chosen, exactly as it does when a
+          // menu entry is followed. `closeMobileOnSelect` only covers the entries the library
+          // itself draws, so the footer has to say so for itself.
+          onSelected={isMobile ? () => onMobileOpenChange(false) : undefined}
+        />
+      }
+      collapsedFooter={<OfficeSwitcherCompact />}
       renderLink={({ item, href, children, ...anchorProps }) => (
         <Link to={href} {...anchorProps}>
           {children}

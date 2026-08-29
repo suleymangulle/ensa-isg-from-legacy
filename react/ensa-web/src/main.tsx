@@ -7,6 +7,7 @@ import { AppearanceProvider, ToastProvider, createAppearanceInitScript } from 'r
 import './i18n'
 import App from './App'
 import { AuthProvider } from './auth/AuthContext'
+import { OfficeProvider } from './auth/OfficeContext'
 import ToastRegion from './components/ToastRegion'
 import { APPEARANCE_STORAGE_KEY, ENSA_COLOR_SCHEME_ID } from './styles/appearance'
 // Stylesheet order is the library's documented one and is load-bearing:
@@ -61,10 +62,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <AuthProvider>
-            <ToastProvider>
-              <ToastRegion />
-              <App />
-            </ToastProvider>
+            {/* Inside AuthProvider because it needs a session to ask which offices are the
+                caller's, and inside QueryClientProvider because switching office is, on this
+                client, a cache operation. */}
+            <OfficeProvider>
+              <ToastProvider>
+                <ToastRegion />
+                <App />
+              </ToastProvider>
+            </OfficeProvider>
           </AuthProvider>
         </BrowserRouter>
       </QueryClientProvider>

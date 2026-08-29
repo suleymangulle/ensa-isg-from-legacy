@@ -2,6 +2,7 @@ import { useEffect, useMemo, type ReactElement } from 'react'
 import { Navigate, Route, Routes, type RouteObject } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from './auth/AuthContext'
+import { useOffice } from './auth/OfficeContext'
 import { Spinner } from './components/DataTable'
 import { currentLanguage } from './i18n'
 import MainLayout from './layout/MainLayout'
@@ -10,11 +11,20 @@ import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
 import NotFoundPage from './pages/NotFoundPage'
 
-/** Redirects to the login page until the session has been restored. */
+/**
+ * Redirects to the login page until the session has been restored, and holds the screens back until
+ * the office context has been resolved with it.
+ *
+ * The office wait is not cosmetic. Every API call carries the office context header, and a screen
+ * that mounted before the context resolved would fetch its first page with no office at all and
+ * then have to be told to throw it away. Waiting for both is one spinner instead of a flash of the
+ * wrong data.
+ */
 function ProtectedRoute({ children }: { children: ReactElement }) {
   const { user, isReady } = useAuth()
+  const { isReady: isOfficeReady } = useOffice()
 
-  if (!isReady) {
+  if (!isReady || (user && !isOfficeReady)) {
     return (
       <div className="d-flex vh-100 align-items-center justify-content-center">
         <Spinner />

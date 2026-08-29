@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { http, type ListResult, type PagedRequest, type PagedResult } from '@/api/http'
+import { useOfficeScopeKey } from '@/auth/OfficeContext'
 import type { LookupDto } from '@/api/endpoints'
 import type {
   CashTransactionType,
@@ -484,13 +485,22 @@ function toQuery(input: Record<string, unknown>): Record<string, unknown> {
   return params
 }
 
+/**
+ * Every finance list goes through here, and the office scope is part of the key.
+ *
+ * Invoices and cash registers are office-scoped server-side, so a page cached under one office must
+ * never be handed to a screen reading under another. The scope is in the key rather than only in
+ * the request, because the request is what produced the cached page in the first place.
+ */
 function usePagedResource<TRow, TInput extends PagedRequest>(
   resource: string,
   input: TInput,
   enabled = true,
 ) {
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [resource, 'list', input],
+    queryKey: [resource, 'list', officeScope, input],
     enabled,
     queryFn: async () => {
       const { data } = await http.get<PagedResult<TRow>>(`/${resource}`, {
@@ -729,8 +739,10 @@ export function usePenaltySurveyTotal(surveyId: number | undefined) {
 // -------------------------------------------------------------------- Lookups
 
 function useLookupList(resource: string, filter?: string) {
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [resource, 'lookup', filter ?? ''],
+    queryKey: [resource, 'lookup', officeScope, filter ?? ''],
     queryFn: async () => {
       const { data } = await http.get<ListResult<LookupDto>>(`/${resource}/lookup`, {
         params: { filter: filter || undefined },

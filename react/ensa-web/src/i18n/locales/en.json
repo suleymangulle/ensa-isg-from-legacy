@@ -7,64 +7,6 @@
     "tagline": "OHS Management System",
     "footer": "© {{year}} Ensa — OHS Management System"
   },
-  "common": {
-    "none": "—",
-    "loading": "Loading…",
-    "search": "Search",
-    "edit": "Edit",
-    "active": "Active",
-    "passive": "Inactive",
-    "profile": "My profile",
-    "signOut": "Sign out",
-    "host": "Host",
-    "close": "Close",
-    "cancel": "Cancel",
-    "save": "Save",
-    "delete": "Delete",
-    "create": "New",
-    "detail": "Detail",
-    "back": "Back",
-    "actions": "Actions",
-    "yes": "Yes",
-    "no": "No",
-    "all": "All",
-    "clear": "Clear",
-    "saved": "Saved",
-    "deleted": "Deleted",
-    "confirmDelete": "Delete this record?",
-    "required": "This field is required"
-  },
-  "language": {
-    "label": "Language",
-    "tr": "TR",
-    "en": "EN",
-    "trLong": "Turkish",
-    "enLong": "English",
-    "switchTo": "Switch to {{language}}"
-  },
-  "nav": {
-    "dashboard": "Dashboard",
-    "companies": "Companies",
-    "employees": "Employees",
-    "trainingPlans": "Training plans",
-    "riskAssessments": "Risk assessments",
-    "medicalExaminations": "Health surveillance",
-    "users": "Users",
-    "group": {
-      "overview": "Overview",
-      "workplace": "Workplace management",
-      "ohs": "OHS processes",
-      "finance": "Finance",
-      "records": "Records and documents",
-      "admin": "Administration"
-    },
-    "sidebar": "Main menu",
-    "userMenu": "User menu",
-    "breadcrumb": "Breadcrumb",
-    "collapseMenu": "Collapse menu",
-    "expandMenu": "Expand menu",
-    "openMenu": "Open menu"
-  },
   "appearance": {
     "title": "Appearance",
     "presentation": {
@@ -100,51 +42,32 @@
     "signingIn": "Signing in…",
     "invalidCredentials": "User name or password is incorrect."
   },
-  "validation": {
-    "required": "This field is required."
-  },
-  "errors": {
-    "unexpected": "An unexpected error occurred.",
-    "network": "The server could not be reached. Check your connection.",
-    "moduleUnavailable": "The API endpoint for this module is not live yet.",
-    "forbidden": "You are not authorised to perform this action.",
-    "notFound": "Record not found."
-  },
-  "table": {
-    "empty": "No records to display."
-  },
-  "pagination": {
-    "label": "Pagination",
-    "summary": "Showing {{first}}–{{last}} of {{total}} records",
-    "position": "{{page}} / {{pageCount}}",
-    "previous": "Previous",
-    "next": "Next"
-  },
-  "dashboard": {
-    "welcome": "Welcome, {{name}}",
-    "description": "An overview of your OHS processes",
-    "cards": {
-      "activeCompanies": "Companies",
-      "totalEmployees": "Employees",
-      "visits": "Visits",
-      "supportTickets": "Support tickets"
-    },
-    "attention": {
-      "title": "Needs attention",
-      "overdueInspections": "Equipment with an overdue inspection",
-      "overdueInspectionsHint": "Work equipment past its periodic inspection date — a finding during an inspection.",
-      "overdueActions": "Overdue corrective actions",
-      "overdueActionsHint": "Corrective actions still open after their deadline.",
-      "expiringAssessments": "Expiring risk assessments",
-      "expiringAssessmentsHint": "Risk assessment reports whose validity is about to run out."
-    },
-    "session": {
-      "title": "Session",
-      "userName": "User",
-      "tenant": "Organization (tenant)",
-      "roles": "Roles",
-      "permissionCount": "Permissions"
-    }
+  "common": {
+    "none": "—",
+    "loading": "Loading…",
+    "search": "Search",
+    "edit": "Edit",
+    "active": "Active",
+    "passive": "Inactive",
+    "profile": "My profile",
+    "signOut": "Sign out",
+    "host": "Host",
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "create": "New",
+    "detail": "Detail",
+    "back": "Back",
+    "actions": "Actions",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "clear": "Clear",
+    "saved": "Saved",
+    "deleted": "Deleted",
+    "confirmDelete": "Delete this record?",
+    "required": "This field is required"
   },
   "company": {
     "list": {
@@ -198,6 +121,32 @@
       "equipmentExaminationMissing": "Equipment examination missing"
     }
   },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}",
+    "description": "An overview of your OHS processes",
+    "cards": {
+      "activeCompanies": "Companies",
+      "totalEmployees": "Employees",
+      "visits": "Visits",
+      "supportTickets": "Support tickets"
+    },
+    "attention": {
+      "title": "Needs attention",
+      "overdueInspections": "Equipment with an overdue inspection",
+      "overdueInspectionsHint": "Work equipment past its periodic inspection date — a finding during an inspection.",
+      "overdueActions": "Overdue corrective actions",
+      "overdueActionsHint": "Corrective actions still open after their deadline.",
+      "expiringAssessments": "Expiring risk assessments",
+      "expiringAssessmentsHint": "Risk assessment reports whose validity is about to run out."
+    },
+    "session": {
+      "title": "Session",
+      "userName": "User",
+      "tenant": "Organization (tenant)",
+      "roles": "Roles",
+      "permissionCount": "Permissions"
+    }
+  },
   "employee": {
     "list": {
       "title": "Employees",
@@ -220,92 +169,6 @@
       "active": "Active",
       "left": "Left"
     }
-  },
-  "trainingPlan": {
-    "list": {
-      "title": "Training plans",
-      "description": "Annual training plan lines and their completion status",
-      "create": "New plan",
-      "searchPlaceholder": "Search by company or training name…",
-      "searchLabel": "Search training plans",
-      "empty": "No training plan lines found."
-    },
-    "fields": {
-      "companyName": "Company",
-      "trainingName": "Training",
-      "period": "Period",
-      "duration": "Duration",
-      "instructor": "Instructor",
-      "performedDate": "Performed",
-      "status": "Status"
-    },
-    "minutes": "{{count}} min"
-  },
-  "riskAssessment": {
-    "list": {
-      "title": "Risk assessments",
-      "description": "Workplace risk assessment reports",
-      "create": "New report",
-      "searchPlaceholder": "Search by report or company name…",
-      "searchLabel": "Search risk assessments",
-      "empty": "No risk assessment reports found."
-    },
-    "fields": {
-      "reportName": "Report name",
-      "companyName": "Company",
-      "hazardClass": "Hazard class",
-      "method": "Method",
-      "hazardCount": "Hazards",
-      "performedDate": "Performed",
-      "validity": "Validity"
-    },
-    "validity": {
-      "expired": "Expired",
-      "expiring": "{{count}} days left",
-      "valid": "Valid"
-    }
-  },
-  "medicalExamination": {
-    "list": {
-      "title": "Health surveillance",
-      "description": "Pre-employment and periodic examination forms",
-      "create": "New examination",
-      "searchPlaceholder": "Search by employee or company name…",
-      "searchLabel": "Search examinations",
-      "empty": "No medical examination forms found."
-    },
-    "fields": {
-      "employee": "Employee",
-      "companyName": "Company",
-      "reportType": "Report type",
-      "examinationDate": "Examination",
-      "validityDate": "Validity",
-      "physician": "Physician",
-      "opinion": "Opinion"
-    }
-  },
-  "user": {
-    "list": {
-      "title": "Users",
-      "description": "Organisation users and their permissions",
-      "create": "New user",
-      "searchPlaceholder": "Search by name, surname or e-mail…",
-      "searchLabel": "Search users",
-      "empty": "No users found."
-    },
-    "fields": {
-      "fullName": "Full name",
-      "userName": "User name",
-      "email": "E-mail",
-      "staffRole": "Staff role",
-      "status": "Status"
-    }
-  },
-  "notFound": {
-    "code": "404",
-    "title": "Page not found",
-    "description": "The page you are looking for may have moved or never existed.",
-    "back": "Back to dashboard"
   },
   "enums": {
     "hazardClass": {
@@ -379,5 +242,154 @@
       "11": "November",
       "12": "December"
     }
+  },
+  "errors": {
+    "unexpected": "An unexpected error occurred.",
+    "network": "The server could not be reached. Check your connection.",
+    "moduleUnavailable": "The API endpoint for this module is not live yet.",
+    "forbidden": "You are not authorised to perform this action.",
+    "notFound": "Record not found."
+  },
+  "language": {
+    "label": "Language",
+    "tr": "TR",
+    "en": "EN",
+    "trLong": "Turkish",
+    "enLong": "English",
+    "switchTo": "Switch to {{language}}"
+  },
+  "medicalExamination": {
+    "list": {
+      "title": "Health surveillance",
+      "description": "Pre-employment and periodic examination forms",
+      "create": "New examination",
+      "searchPlaceholder": "Search by employee or company name…",
+      "searchLabel": "Search examinations",
+      "empty": "No medical examination forms found."
+    },
+    "fields": {
+      "employee": "Employee",
+      "companyName": "Company",
+      "reportType": "Report type",
+      "examinationDate": "Examination",
+      "validityDate": "Validity",
+      "physician": "Physician",
+      "opinion": "Opinion"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "companies": "Companies",
+    "employees": "Employees",
+    "trainingPlans": "Training plans",
+    "riskAssessments": "Risk assessments",
+    "medicalExaminations": "Health surveillance",
+    "users": "Users",
+    "group": {
+      "overview": "Overview",
+      "workplace": "Workplace management",
+      "ohs": "OHS processes",
+      "finance": "Finance",
+      "records": "Records and documents",
+      "admin": "Administration"
+    },
+    "sidebar": "Main menu",
+    "userMenu": "User menu",
+    "breadcrumb": "Breadcrumb",
+    "collapseMenu": "Collapse menu",
+    "expandMenu": "Expand menu",
+    "openMenu": "Open menu"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for may have moved or never existed.",
+    "back": "Back to dashboard"
+  },
+  "office": {
+    "switcher": {
+      "allOffices": "All Offices",
+      "empty": "You have no office to work in.",
+      "headquarters": "Headquarters",
+      "label": "Office",
+      "loading": "Loading offices",
+      "none": "No office selected",
+      "retry": "Try again",
+      "triggerLabel": "Office selection: {{office}}"
+    }
+  },
+  "pagination": {
+    "label": "Pagination",
+    "summary": "Showing {{first}}–{{last}} of {{total}} records",
+    "position": "{{page}} / {{pageCount}}",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "riskAssessment": {
+    "list": {
+      "title": "Risk assessments",
+      "description": "Workplace risk assessment reports",
+      "create": "New report",
+      "searchPlaceholder": "Search by report or company name…",
+      "searchLabel": "Search risk assessments",
+      "empty": "No risk assessment reports found."
+    },
+    "fields": {
+      "reportName": "Report name",
+      "companyName": "Company",
+      "hazardClass": "Hazard class",
+      "method": "Method",
+      "hazardCount": "Hazards",
+      "performedDate": "Performed",
+      "validity": "Validity"
+    },
+    "validity": {
+      "expired": "Expired",
+      "expiring": "{{count}} days left",
+      "valid": "Valid"
+    }
+  },
+  "table": {
+    "empty": "No records to display."
+  },
+  "trainingPlan": {
+    "list": {
+      "title": "Training plans",
+      "description": "Annual training plan lines and their completion status",
+      "create": "New plan",
+      "searchPlaceholder": "Search by company or training name…",
+      "searchLabel": "Search training plans",
+      "empty": "No training plan lines found."
+    },
+    "fields": {
+      "companyName": "Company",
+      "trainingName": "Training",
+      "period": "Period",
+      "duration": "Duration",
+      "instructor": "Instructor",
+      "performedDate": "Performed",
+      "status": "Status"
+    },
+    "minutes": "{{count}} min"
+  },
+  "user": {
+    "list": {
+      "title": "Users",
+      "description": "Organisation users and their permissions",
+      "create": "New user",
+      "searchPlaceholder": "Search by name, surname or e-mail…",
+      "searchLabel": "Search users",
+      "empty": "No users found."
+    },
+    "fields": {
+      "fullName": "Full name",
+      "userName": "User name",
+      "email": "E-mail",
+      "staffRole": "Staff role",
+      "status": "Status"
+    }
+  },
+  "validation": {
+    "required": "This field is required."
   }
 }

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { type BadgeVariant } from 'rich-react-component'
 import { http, type ListResult, type PagedResult } from '@/api/http'
+import { useOfficeScopeKey } from '@/auth/OfficeContext'
 import type {
   ContentFormat,
   LookupDto,
@@ -387,8 +388,11 @@ function clean(input: Record<string, unknown>): Record<string, unknown> {
  * default that does not exist.
  */
 export function useVisitCalendar(from: string, to: string, userId?: number) {
+  // A visit belongs to an office through its workplace, and the calendar is filtered on that.
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [VISIT, 'calendar', from, to, userId],
+    queryKey: [VISIT, 'calendar', officeScope, from, to, userId],
     enabled: !!from && !!to,
     queryFn: async () => {
       const { data } = await http.get<ListResult<VisitCalendarDto>>(`/${VISIT}/calendar`, {
@@ -491,8 +495,10 @@ export function useMailDetail(id: number | undefined) {
 
 /** `GET api/company/lookup` */
 export function useCompanyLookup(filter?: string) {
+  const officeScope = useOfficeScopeKey()
+
   return useQuery({
-    queryKey: [COMPANY, 'lookup', filter],
+    queryKey: [COMPANY, 'lookup', officeScope, filter],
     queryFn: async () => {
       const { data } = await http.get<ListResult<LookupDto>>(`/${COMPANY}/lookup`, {
         params: clean({ filter }),

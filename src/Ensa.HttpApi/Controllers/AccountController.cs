@@ -1,6 +1,7 @@
 using Ensa.Application.Contracts.Common;
 using Ensa.Application.Contracts.Membership;
 using Ensa.Application.Contracts.Membership.Dtos;
+using Ensa.HttpApi.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -65,4 +66,28 @@ public class AccountController(IAccountAppService accountAppService) : EnsaContr
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public Task<ListResultDto<string>> GetPermissionsAsync()
         => accountAppService.GetPermissionsAsync();
+
+    /// <summary>
+    /// The offices the signed-in user may work in — the source of the shell's office switcher.
+    /// <para>
+    /// Like <see cref="GetPermissionsAsync"/> this carries no permission policy: it answers a
+    /// question about the caller's own account, and an ordinary member of staff assigned to two
+    /// offices has to be able to switch between them without holding the office <i>administration</i>
+    /// permission that <c>api/office</c> requires. It is not a directory either — it returns only the
+    /// offices that user is already entitled to work in, and only their id, name and headquarters
+    /// flag.
+    /// </para>
+    /// <para>
+    /// <see cref="IgnoreOfficeContextAttribute"/> is what keeps a stale selection recoverable. Office
+    /// resolution refuses a request whose <c>X-Ensa-OfficeId</c> names an office the caller may no
+    /// longer use; without this attribute a client holding such a selection would be refused here
+    /// too, and the only way out of the refusal is the answer this endpoint gives.
+    /// </para>
+    /// </summary>
+    [HttpGet("offices")]
+    [IgnoreOfficeContext]
+    [ProducesResponseType<MyOfficesDto>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public Task<MyOfficesDto> GetMyOfficesAsync(CancellationToken cancellationToken)
+        => accountAppService.GetMyOfficesAsync(cancellationToken);
 }

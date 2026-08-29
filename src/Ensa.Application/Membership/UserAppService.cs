@@ -115,11 +115,16 @@ public class UserAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.User.Default);
 
+        // Who works where is an office question, and the legacy user list asked it the same way
+        // (KullaniciListController filtered on the user's office). ResolveOfficeScope reconciles the
+        // screen's own office filter with the office the request is running for.
+        var officeScope = ResolveOfficeScope(input.OfficeId);
+
         var (rows, total) = await userRepository.GetListAsync(
             new UserListQuery(
                 string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim(),
                 input.StaffRole,
-                input.OfficeId,
+                officeScope.OfficeIds,
                 input.CompanyId,
                 input.IsActive,
                 input.SkipCount,

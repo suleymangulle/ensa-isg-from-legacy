@@ -265,8 +265,20 @@
   <data name="Ensa:NumberSequenceTypeEmpty" xml:space="preserve">
     <value>Numaratör türü boş olamaz.</value>
   </data>
+  <data name="Ensa:Office:AllOfficesNotPermitted" xml:space="preserve">
+    <value>Tüm şubelerde çalışma yetkiniz yok.</value>
+  </data>
+  <data name="Ensa:Office:FilterConflict" xml:space="preserve">
+    <value>Şube filtresi, isteğin çalıştığı şube ile uyuşmuyor. Filtreyi temizleyin ya da şube değiştirin.</value>
+  </data>
   <data name="Ensa:Office:HeadquarterAlreadyExists" xml:space="preserve">
     <value>Kurumun zaten bir merkez ofisi var ('{OfficeName}'). Merkez ofis işaretini bu ofise vermeden önce diğer ofisten kaldırın.</value>
+  </data>
+  <data name="Ensa:Office:InvalidHeader" xml:space="preserve">
+    <value>Şube bilgisi geçersiz. Pozitif bir şube kimliği ya da 'all' olmalıdır.</value>
+  </data>
+  <data name="Ensa:Office:NotPermitted" xml:space="preserve">
+    <value>Seçilen şubede çalışma yetkiniz yok.</value>
   </data>
   <data name="Ensa:Organization:CodeAlreadyUsed" xml:space="preserve">
     <value>'{Code}' kurum kodu başka bir kurumda kullanılıyor. Farklı bir kod seçin.</value>

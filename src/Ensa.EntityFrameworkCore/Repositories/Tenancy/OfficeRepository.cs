@@ -105,6 +105,24 @@ public class OfficeRepository(EnsaDbContext context, IDataFilter dataFilter)
     }
 
     /// <inheritdoc />
+    public async Task<int?> FindDefaultUserOfficeIdAsync(
+        int userId,
+        CancellationToken cancellationToken = default)
+    {
+        // Ordered by the assignment row's own id, not the office's: it is the order the rows were
+        // written in that carries the meaning, and the migration wrote the legacy default first.
+        var officeIds = await Context.Set<UserOffice>()
+            .AsNoTracking()
+            .Where(uo => uo.UserId == userId)
+            .OrderBy(uo => uo.Id)
+            .Select(uo => (int?)uo.OfficeId)
+            .Take(1)
+            .ToListAsync(cancellationToken);
+
+        return officeIds.Count > 0 ? officeIds[0] : null;
+    }
+
+    /// <inheritdoc />
     public Task<List<Office>> GetByCompanyAsync(int companyId, CancellationToken cancellationToken = default)
         => GetReadOnlyQueryable()
             .Where(o => o.CompanyId == companyId)

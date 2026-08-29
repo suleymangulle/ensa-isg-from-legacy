@@ -1,4 +1,5 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios'
+import { officeAccessor } from '@/auth/officeStore'
 import { tokenStore } from '@/auth/tokenStore'
 import i18n, { apiCulture } from '@/i18n'
 
@@ -23,6 +24,19 @@ export const http = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
+/**
+ * Routes that must never carry an office context.
+ *
+ * `/account/offices` is the answer a client needs in order to know which offices it may ask for. If
+ * a stale selection were attached to that request the server would refuse it, and the refusal could
+ * only be recovered from by the request that was refused. The server marks the same endpoint
+ * `[IgnoreOfficeContext]`, so the two ends agree rather than one of them merely being careful.
+ *
+ * The token endpoints are not listed because they never reach this client: `tokenStore` posts to
+ * `/connect/token` through its own axios instance.
+ */
+const OFFICE_FREE_ROUTES = ['/account/offices']
+
 http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = tokenStore.getAccessToken()
   if (token) config.headers.Authorization = `Bearer ${token}`
@@ -30,6 +44,18 @@ http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   // The API localises its error messages from this header
   // (`AcceptLanguageHeaderRequestCultureProvider`, see EnsaHttpApiHostModule).
   config.headers['Accept-Language'] = apiCulture()
+
+  // The office the user is working in. Absent means "no office context", which the API answers
+  // exactly as it did before offices existed — so a request made before the context has resolved is
+  // scoped by tenant rather than by a guess. The value is validated server-side on every request;
+  // this header is a statement of intent, never a grant.
+  const office = officeAccessor.get()
+  const path = config.url ?? ''
+
+  if (office && token && !OFFICE_FREE_ROUTES.some(route => path.startsWith(route))) {
+    config.headers['X-Ensa-OfficeId'] = office
+  }
+
   return config
 })
 

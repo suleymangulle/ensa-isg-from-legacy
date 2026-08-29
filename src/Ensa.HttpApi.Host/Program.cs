@@ -74,6 +74,12 @@ try
     // Tenant resolution runs AFTER User is populated and BEFORE authorization.
     app.UseMiddleware<TenantResolutionMiddleware>();
 
+    // Office resolution runs AFTER the tenant is known — which offices exist is a question that can
+    // only be asked inside a tenant — and, like tenant resolution, before authorization, so a
+    // request carrying an office its caller may not use is refused before any endpoint runs. It
+    // costs nothing on a request that sends no X-Ensa-OfficeId header.
+    app.UseMiddleware<OfficeResolutionMiddleware>();
+
     app.UseAuthorization();
 
     app.MapControllers();

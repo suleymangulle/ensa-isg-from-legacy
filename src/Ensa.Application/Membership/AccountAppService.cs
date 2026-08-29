@@ -6,6 +6,7 @@ using Ensa.Domain.Membership;
 using Ensa.Domain.Repositories;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Shared;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,8 @@ public class AccountAppService(
     IReadOnlyRepository<UserProfile> userProfileRepository,
     IReadOnlyRepository<UserEmployment> userEmploymentRepository,
     IReadOnlyRepository<UserOffice> userOfficeRepository,
-    IReadOnlyRepository<UserType> userTypeRepository)
+    IReadOnlyRepository<UserType> userTypeRepository,
+    IOfficeAccessManager officeAccessManager)
     : EnsaAppService(serviceProvider), IAccountAppService
 {
     /// <inheritdoc />
@@ -102,6 +104,29 @@ public class AccountAppService(
         var permissions = await permissionResolver.GetPermissionsAsync(user);
 
         return new ListResultDto<string>(permissions);
+    }
+
+    /// <inheritdoc />
+    public async Task<MyOfficesDto> GetMyOfficesAsync(CancellationToken cancellationToken = default)
+    {
+        // No permission check, for the reason the class doc gives for the other self-service calls:
+        // this asks what the caller's own account is entitled to. Which offices those are is
+        // decided by IOfficeAccessManager -- the same authority that validates the office context on
+        // every subsequent request -- so the switcher can never offer an office the next request
+        // would then refuse.
+        var access = await officeAccessManager.GetAccessAsync(cancellationToken);
+
+        return new MyOfficesDto
+        {
+            Items = [.. access.Offices.Select(o => new MyOfficeDto
+            {
+                Id = o.Id,
+                Name = o.Name,
+                HeadquarterOffice = o.HeadquarterOffice
+            })],
+            DefaultOfficeId = access.DefaultOfficeId,
+            AllOfficesAllowed = access.AllOfficesAllowed
+        };
     }
 
     // -------------------------------------------------------------- helpers

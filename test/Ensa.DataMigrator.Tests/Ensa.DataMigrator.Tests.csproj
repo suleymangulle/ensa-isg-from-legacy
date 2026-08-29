@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--
+      The migrator is an executable, and that is exactly what these tests need to reach: the
+      classification that decides who gets a company scope lives inside it, and it is a security
+      boundary. Testing it through the console would mean touching two databases to assert a
+      string comparison.
+    -->
+    <ProjectReference Include="..\..\src\Ensa.DataMigrator\Ensa.DataMigrator.csproj" />
+  </ItemGroup>
+
+</Project>

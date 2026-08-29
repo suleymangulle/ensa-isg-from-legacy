@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ensa.TestBase", "test\Ensa.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ensa.DataMigrator", "src\Ensa.DataMigrator\Ensa.DataMigrator.csproj", "{C1BB75F9-B576-45DD-8778-1117C13B195A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ensa.DataMigrator.Tests", "test\Ensa.DataMigrator.Tests\Ensa.DataMigrator.Tests.csproj", "{F172B479-851C-4488-9F9B-255E2620FE2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,18 @@ Global
 		{C1BB75F9-B576-45DD-8778-1117C13B195A}.Release|x64.Build.0 = Release|Any CPU
 		{C1BB75F9-B576-45DD-8778-1117C13B195A}.Release|x86.ActiveCfg = Release|Any CPU
 		{C1BB75F9-B576-45DD-8778-1117C13B195A}.Release|x86.Build.0 = Release|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Debug|x64.Build.0 = Debug|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Debug|x86.Build.0 = Debug|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Release|x64.ActiveCfg = Release|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Release|x64.Build.0 = Release|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Release|x86.ActiveCfg = Release|Any CPU
+		{F172B479-851C-4488-9F9B-255E2620FE2D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -217,5 +231,6 @@ Global
 		{A482DBA8-55FC-4B60-BF6D-4EEBC2A5B70A} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 		{FD5A0B59-23CB-46FE-A49E-61D106BA43DE} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 		{C1BB75F9-B576-45DD-8778-1117C13B195A} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{F172B479-851C-4488-9F9B-255E2620FE2D} = {0C88DD14-F956-CE84-757C-A364CCF449FC}
 	EndGlobalSection
 EndGlobal

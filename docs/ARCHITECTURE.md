@@ -214,6 +214,14 @@ filter, installed the same way, does that (ADR-034):
   `Company` implements it.
 - The scope key is `ICurrentUser.CompanyId`, from the `ensa:companyId` access-token claim, which
   is written from the user record and never from the request.
+- **Only a customer contact carries one.** A member of the provider's own staff must not have a
+  `UserProfile.CompanyId`, whatever the legacy data put in `Kullanici_T.FirmaId`; the migration
+  decides this from the legacy staff type (`LegacyStaffType.IsCustomer`) and
+  `CompanyScopeRepairStep` clears rows an earlier version got wrong (ADR-040).
+- **`Office` is not company-scoped**, though it carries a `CompanyId`: an office belongs to the
+  organization, the column is an attribution inherited from legacy `COFirmaId`, and it is null on
+  every migrated row — so marking the entity scoped hid every office from every company-bound
+  user. The exemption is named in `ModelValidationTests` (ADR-040).
 - When it is null — every member of the provider's own staff, and every call with no user at all
   (sign-in, seeding, background work) — the filter is inert.
 - Unlike tenancy it **fails closed**: a null `TenantId` is shared reference data and visible to

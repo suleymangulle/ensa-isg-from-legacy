@@ -338,11 +338,33 @@ public sealed class UserSplitStep : IMigrationStep
     }
 
     /// <summary>
-    /// The company a customer user belongs to, moved off the account.
+    /// The company a <b>customer</b> user belongs to, resolved from the legacy account.
+    ///
     /// <para>
-    /// It is the key the company scope filter reads, and the filter fails closed — a user whose
-    /// company cannot be resolved sees nothing rather than everything. So this has to be right
-    /// before the column comes off, not after.
+    /// It is the key the company scope filter reads, and that filter fails closed: a user who
+    /// carries a company sees that company and nothing else. So the question this answers is not
+    /// "does the legacy row have a <c>FirmaId</c>" — it is "is this person a customer contact".
+    /// </para>
+    ///
+    /// <para>
+    /// <b>The two are not the same, and treating them as the same was a defect.</b>
+    /// <c>Kullanici_T.FirmaId</c> was populated for our own staff as well: 731 of the 766 legacy
+    /// <c>Admin</c> accounts had one, and 728 of those pointed at the organization's <i>own</i>
+    /// company record rather than at a customer workplace. The legacy application never read
+    /// <c>FirmaId</c> to decide what an administrator could see — its company list filtered on
+    /// <c>KurumId</c> and <c>OfisId</c> alone, and <c>BaseController.FirmaId</c> only fell back to
+    /// the column for <c>PersonelTuru == "Personel"</c>. Copying it across for everyone therefore
+    /// pinned 983 members of staff — 713 of them organization administrators — to a single
+    /// workplace, and each of them saw exactly one company where they should have seen the whole
+    /// organization's.
+    /// </para>
+    ///
+    /// <para>
+    /// Idempotent: only profiles whose <c>CompanyId</c> is still null are written, so a second run
+    /// changes nothing. It never clears a value either — widening the scope of an account that
+    /// already carries one is not this step's decision to make, and repairing data that a previous
+    /// run of the defective version already wrote is
+    /// <see cref="CompanyScopeRepairStep"/>'s job.
     /// </para>
     /// </summary>
     private static async Task<int> CompanyScopeAsync(
@@ -350,22 +372,66 @@ public sealed class UserSplitStep : IMigrationStep
         List<string> notes,
         CancellationToken cancellationToken)
     {
-        await using var connection = await context.OpenModernAsync(cancellationToken);
+        var users = await context.IdMap.LoadAsync("Kullanici_T", cancellationToken);
+        var companies = await context.IdMap.LoadAsync("Firma_T", cancellationToken);
 
-        await using var command = new SqlCommand(
-            """
-            UPDATE p
-            SET CompanyId = u.CompanyId
-            FROM ensa.UserProfile AS p
-            JOIN ensa.[User] AS u ON u.Id = p.UserId
-            WHERE u.CompanyId IS NOT NULL AND p.CompanyId IS NULL;
-            """, connection) { CommandTimeout = 1800 };
+        if (users.Count == 0 || companies.Count == 0)
+        {
+            notes.Add("company scope: no id map");
+            return 0;
+        }
 
-        var written = await command.ExecuteNonQueryAsync(cancellationToken);
+        var pending = new List<(int UserId, int CompanyId)>();
+        var unresolved = 0;
 
-        context.Logger.LogInformation("    company scope: {Written} user(s)", written);
-        notes.Add($"company scope: {written}");
+        await using (var legacy = await context.OpenLegacyAsync(cancellationToken))
+        await using (var command = new SqlCommand(
+            "SELECT KullaniciId, FirmaId, PersonelTuru FROM Kullanici_T "
+            + "WHERE FirmaId IS NOT NULL AND PersonelTuru IS NOT NULL", legacy))
+        await using (var reader = await command.ExecuteReaderAsync(cancellationToken))
+        {
+            while (await reader.ReadAsync(cancellationToken))
+            {
+                if (!LegacyStaffType.IsCustomer(reader.GetString(2)))
+                {
+                    continue;
+                }
 
+                if (!users.TryGetValue(reader.GetInt32(0), out var userId))
+                {
+                    continue;
+                }
+
+                if (!companies.TryGetValue(reader.GetInt32(1), out var companyId))
+                {
+                    // A customer whose workplace did not survive is left unscoped rather than
+                    // pointed at nothing: the filter fails closed, so a wrong id would blind them.
+                    unresolved++;
+                    continue;
+                }
+
+                pending.Add((userId, companyId));
+            }
+        }
+
+        var written = await ApplyPairsAsync(
+            context,
+            "UPDATE target SET CompanyId = source.CompanyId FROM ensa.UserProfile AS target "
+            + "JOIN (VALUES {0}) AS source (UserId, CompanyId) ON target.UserId = source.UserId "
+            + "WHERE target.CompanyId IS NULL",
+            pending,
+            cancellationToken);
+
+        context.Logger.LogInformation(
+            "    company scope: {Written} customer user(s) of {Candidates}", written, pending.Count);
+
+        var note = $"company scope: {written} of {pending.Count} customer users";
+        if (unresolved > 0)
+        {
+            note += $", {unresolved} with an unresolvable workplace";
+        }
+
+        notes.Add(note);
         return written;
     }
 

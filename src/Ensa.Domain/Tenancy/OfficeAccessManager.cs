@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Membership;
 using Ensa.Domain.Repositories;
 using Ensa.Domain.Services;
@@ -105,48 +105,65 @@ public interface IOfficeAccessManager : IDomainService
 /// <summary>
 /// Office access rules, in one place.
 ///
-/// <para><b>Which offices a user may work in.</b> Three cases, in this order:</para>
+/// <para><b>Company-bound users have no office context at all.</b> A customer contact's working
+/// scope is their own workplace, which the company-scope filter already enforces on every query.
+/// Offering them an office to switch to would be meaningless, and an office header must never
+/// become a way around that filter — so they are answered with an empty set before anything else is
+/// asked. It is belt and braces: the global filter would refuse to widen them anyway.</para>
+///
+/// <para><b>Everyone else.</b> The permitted set is the union of two things:</para>
 /// <list type="number">
 /// <item>
-/// The user has <see cref="UserOffice"/> assignments → exactly those offices (active, not deleted,
-/// current tenant). This is the strict rule and it is what closes the legacy hole: the legacy
-/// <c>DefaultController.SetOfisId</c> wrote whatever office id it was handed into the session and
-/// only ever checked that it belonged to the same <c>KurumId</c>, never that the user was assigned
-/// to it.
+/// The user's explicit <see cref="UserOffice"/> assignments (active, not deleted, current tenant).
+/// This is what closes the legacy hole: <c>DefaultController.SetOfisId</c> wrote whatever office id
+/// it was handed into the session and only ever checked that it belonged to the same
+/// <c>KurumId</c>, never that the user was assigned to it.
 /// </item>
 /// <item>
-/// No assignments, and the user is an organization or system administrator → every active office of
-/// the tenant. This is the legacy fallback in <c>Businness/Genel/OfisIslemleri.GetOfisler</c>,
-/// narrowed to the two roles that legacy actually offered the switcher to: the control rendered
-/// only for <c>PersonelTuru == "Admin"</c>, which
-/// <see cref="EnsaRoleNames.OrganizationAdministrator"/> is documented as being
-/// (legacy <c>Kullanici_T.Admin</c>), and <see cref="EnsaRoleNames.SystemAdministrator"/> is the
-/// legacy <c>SerAdmin</c> above it.
-/// </item>
-/// <item>
-/// No assignments, anyone else — including <see cref="EnsaRoleNames.OfficeAdministrator"/> → no
-/// offices. Legacy gave an office administrator with no assignment nothing either
-/// (<c>Kullanici.OfisId.HasValue ? a.OfisId == Kullanici.OfisId.Value : false</c>), and legacy's
-/// remaining "everyone else sees every office" branch is deliberately <b>not</b> reproduced: it was
-/// the widest possible default, and it was never reachable through the switcher because the
-/// switcher was administrator-only. Such a user simply gets no switcher and no office header, which
-/// leaves their requests scoped exactly as they are today — by tenant.
+/// Every active office of the tenant, <b>if</b> the user holds
+/// <see cref="EnsaRoleNames.OrganizationAdministrator"/> or
+/// <see cref="EnsaRoleNames.SystemAdministrator"/>.
 /// </item>
 /// </list>
 ///
-/// <para><b>"All offices" (the UI's "Tüm Şubeler").</b> Allowed when the permitted set is the whole
-/// tenant (an administrator, as above) or when the user has more than one assignment. For the second
-/// case it is a union of that user's own offices, never a tenant-wide scope — so it can never show
-/// more than the offices they were already allowed to select one at a time.</para>
+/// <para><b>Why an administrator gets the whole tenant.</b> Because legacy did, and because the
+/// migrated assignment rows cannot say otherwise. Legacy's
+/// <c>Businness/Genel/OfisIslemleri.GetOfisler</c> returned every active office of the organization
+/// to any user who had no <c>KullaniciOfis_T</c> row and was not an office administrator — and 678
+/// of the 766 legacy <c>PersonelTuru == "Admin"</c> accounts had no such row. The migration then
+/// wrote each user's legacy <i>default</i> office (<c>Kullanici_T.OfisId</c>) into
+/// <see cref="UserOffice"/> as though it were an assignment, so "one row" no longer distinguishes
+/// "assigned to exactly one office" from "assigned to none, defaulted to one". Reading that single
+/// row as the whole permitted set would silently take nineteen offices away from an administrator
+/// who had all twenty. The remaining 88 administrators — the ones who did have explicit legacy
+/// assignments — are widened by this rule rather than narrowed, which grants them nothing they could
+/// not already reach: within a tenant an office is a <i>filter</i>, not a boundary. A request with no
+/// office context already sees every company of the tenant, and selecting an office can only narrow
+/// that. The boundaries are the tenant and, for customers, the company.
+/// </para>
+///
+/// <para><b>An office administrator with no assignment gets nothing</b>, which is what legacy gave
+/// them too (<c>Kullanici.OfisId.HasValue ? a.OfisId == Kullanici.OfisId.Value : false</c>), and so
+/// does anyone else with no assignment and no administrator role. Such a user sends no office header
+/// and their requests stay scoped by tenant — the same rows legacy's "Tüm Ofisler" showed them.</para>
+///
+/// <para><b>"All offices" (the UI's "Tüm Şubeler")</b> is allowed once the permitted set holds more
+/// than one office, and to anyone whose scope is the whole tenant. When the scope is the whole
+/// tenant it needs no query predicate at all, because the tenant filter already draws exactly that
+/// line — which is also why a tenant-wide administrator may take it with an empty list, as a host
+/// administrator outside any tenant does: the result is identical to sending no header. Otherwise it
+/// is the union of the user's own offices and can never show more than they could select one at a
+/// time.</para>
 ///
 /// <para><b>The default office.</b> The lowest-id <see cref="UserOffice"/> row wins. That is not an
 /// arbitrary tie-break: the data migration writes the legacy per-user default office
 /// (<c>Kullanici_T.OfisId</c>) first, in <c>TenancyStep</c>, and the many-to-many
 /// <c>KullaniciOfis_T</c> rows afterwards in <c>UserSplitStep</c> with a
 /// <c>WHERE NOT EXISTS</c> guard — so for every migrated user the lowest-id assignment <i>is</i>
-/// their legacy default office. For accounts created after the migration it is simply their first
-/// assignment. When that office is not (or no longer) permitted, a single permitted office is used
-/// instead, and otherwise there is no default and the shell starts on "Tüm Şubeler".</para>
+/// their legacy default office, and the shell opens where legacy opened. For accounts created after
+/// the migration it is simply their first assignment. When that office is not (or no longer)
+/// permitted, a single permitted office is used instead, and otherwise there is no default and the
+/// shell starts on "Tüm Şubeler".</para>
 /// </summary>
 public class OfficeAccessManager(
     IOfficeRepository officeRepository,
@@ -159,47 +176,68 @@ public class OfficeAccessManager(
     public async Task<OfficeAccess> GetAccessAsync(CancellationToken cancellationToken = default)
         => _access ??= await BuildAccessAsync(cancellationToken);
 
+    private static readonly OfficeAccess NoOffices =
+        new([], CoversWholeTenant: false, AllOfficesAllowed: false, DefaultOfficeId: null);
+
     private async Task<OfficeAccess> BuildAccessAsync(CancellationToken cancellationToken)
     {
         if (currentUser.Id is not { } userId)
         {
-            return new OfficeAccess([], CoversWholeTenant: false, AllOfficesAllowed: false, DefaultOfficeId: null);
+            return NoOffices;
         }
 
-        // Assigned offices first. The repository already applies the tenant and soft-delete filters
-        // and drops inactive offices.
+        // A customer contact is scoped to their workplace, not to an office. Answering before the
+        // repository is asked keeps the switcher off their shell and keeps an office header from
+        // ever being a route around the company scope.
+        if (currentUser.CompanyId is not null)
+        {
+            return NoOffices;
+        }
+
+        // The repository already applies the tenant and soft-delete filters and drops inactive
+        // offices, so everything below is inside the caller's own organization by construction.
         var assigned = await officeRepository.GetUserOfficesAsync(userId, cancellationToken);
 
-        if (assigned.Count > 0)
-        {
-            var defaultOfficeId = await officeRepository.FindDefaultUserOfficeIdAsync(userId, cancellationToken);
+        var coversWholeTenant = IsTenantWideAdministrator();
 
-            return new OfficeAccess(
-                assigned,
-                CoversWholeTenant: false,
-                AllOfficesAllowed: assigned.Count > 1,
-                DefaultOfficeId: assigned.Exists(o => o.Id == defaultOfficeId)
-                    ? defaultOfficeId
-                    : assigned.Count == 1 ? assigned[0].Id : null);
+        var permitted = assigned;
+
+        if (coversWholeTenant)
+        {
+            var all = await officeRepository.GetListAsync(o => o.IsActive, cancellationToken);
+
+            // A union rather than a replacement: an assignment to an office that is somehow not in
+            // the active list must not vanish just because the administrator branch ran.
+            var seen = new HashSet<int>(all.Select(o => o.Id));
+            all.AddRange(assigned.Where(office => seen.Add(office.Id)));
+
+            permitted = all;
         }
 
-        if (!IsTenantWideAdministrator())
+        permitted.Sort(static (left, right) =>
+            string.Compare(left.Name, right.Name, StringComparison.CurrentCulture));
+
+        // A whole-tenant scope may take "all offices" even when the list is empty, and that is not
+        // a loophole: it resolves to no office predicate at all, which is exactly what a request
+        // with no header already does. A host administrator working outside any tenant is the case
+        // that reaches this — there are no offices in the host context to enumerate — and refusing
+        // them a scope identical to sending nothing would be a rule with no effect but a 403.
+        var allOfficesAllowed = coversWholeTenant || permitted.Count > 1;
+
+        if (permitted.Count == 0)
         {
-            return new OfficeAccess([], CoversWholeTenant: false, AllOfficesAllowed: false, DefaultOfficeId: null);
+            return NoOffices with { CoversWholeTenant = coversWholeTenant, AllOfficesAllowed = allOfficesAllowed };
         }
 
-        var all = await officeRepository.GetListAsync(o => o.IsActive, cancellationToken);
-        all.Sort(static (left, right) => string.Compare(left.Name, right.Name, StringComparison.CurrentCulture));
+        var defaultOfficeId = await officeRepository.FindDefaultUserOfficeIdAsync(userId, cancellationToken);
 
         return new OfficeAccess(
-            all,
-            CoversWholeTenant: true,
-            AllOfficesAllowed: true,
-            // An administrator has no assignment to start from, so the shell starts on
-            // "Tüm Şubeler" — which is where the legacy shell started too, because
-            // Kullanici_T.OfisId was normally null for an administrator and the session
-            // office fell back to 0, "Tüm Ofisler".
-            DefaultOfficeId: all.Count == 1 ? all[0].Id : null);
+            permitted,
+            coversWholeTenant,
+            allOfficesAllowed,
+            DefaultOfficeId: permitted.Exists(o => o.Id == defaultOfficeId)
+                ? defaultOfficeId
+                : permitted.Count == 1 ? permitted[0].Id : null);
     }
 
     private bool IsTenantWideAdministrator()

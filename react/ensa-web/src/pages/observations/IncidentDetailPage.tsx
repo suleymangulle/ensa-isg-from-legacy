@@ -122,7 +122,7 @@ export default function IncidentDetailPage() {
               {incident.lostWorkDays ?? none}
             </Term>
             <Term label={t('incident.fields.isPerDate')}>
-              {formatDate(incident.isPerDate) ?? none}
+              {formatDate(incident.returnToWorkDate) ?? none}
             </Term>
             <Term label={t('incident.fields.unitSupervisor')}>
               {data.unitSupervisor?.displayName ?? incident.supervisorFullName ?? none}

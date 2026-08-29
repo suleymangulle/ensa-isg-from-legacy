@@ -25,7 +25,7 @@ interface FormState {
   authorizedPerson: string
   authorizedEmail: string
   companyId: string
-  headquarterOffice: boolean
+  isHeadquarterOffice: boolean
   isActive: boolean
 }
 
@@ -40,7 +40,7 @@ function emptyState(): FormState {
     authorizedPerson: '',
     authorizedEmail: '',
     companyId: '',
-    headquarterOffice: false,
+    isHeadquarterOffice: false,
     isActive: true,
   }
 }
@@ -56,7 +56,7 @@ function stateFromOffice(office: OfficeDto): FormState {
     authorizedPerson: office.authorizedPerson ?? '',
     authorizedEmail: office.authorizedEmail ?? '',
     companyId: office.companyId ? String(office.companyId) : '',
-    headquarterOffice: office.headquarterOffice,
+    isHeadquarterOffice: office.isHeadquarterOffice,
     isActive: office.isActive,
   }
 }
@@ -112,7 +112,7 @@ export default function OfficeFormModal({
       authorizedPerson: optionalText(state.authorizedPerson),
       authorizedEmail: optionalText(state.authorizedEmail),
       companyId: optionalNumber(state.companyId),
-      headquarterOffice: state.headquarterOffice,
+      isHeadquarterOffice: state.isHeadquarterOffice,
       ...(isEdit ? { isActive: state.isActive } : {}),
     }
 
@@ -236,8 +236,8 @@ export default function OfficeFormModal({
         <div className="col-md-6">
           <CheckBox
             id="office-headquarterOffice"
-            checked={state.headquarterOffice}
-            onChange={(checked) => set('headquarterOffice', checked)}
+            checked={state.isHeadquarterOffice}
+            onChange={(checked) => set('isHeadquarterOffice', checked)}
             label={t('office.fields.headquarterOffice')}
             helpText={t('office.form.headquarterHint')}
           />

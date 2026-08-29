@@ -99,7 +99,7 @@ export interface CompanyDto {
   hazardClass: HazardClass
   workplaceType: WorkplaceType
   headquarterCompanyId?: number | null
-  taxTaxOffice?: string | null
+  taxOffice?: string | null
   taxNumber?: string | null
   businessActivity?: string | null
   occupationCodeId?: number | null

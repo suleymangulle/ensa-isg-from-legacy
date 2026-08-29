@@ -95,7 +95,7 @@ export interface VisitDto {
   scheduledMonth?: number | null
   regionCode?: number | null
   otherCompanyDistanceKm?: number | null
-  completed: boolean
+  isCompleted: boolean
 }
 
 /** `CreateVisitDto` — `userId` defaults to the caller when omitted. */
@@ -116,7 +116,7 @@ export interface CreateVisitDto {
 
 /** `UpdateVisitDto` — the create input plus the "it actually happened" flag. */
 export interface UpdateVisitDto extends CreateVisitDto {
-  completed: boolean
+  isCompleted: boolean
 }
 
 /**
@@ -136,7 +136,7 @@ export interface VisitCalendarDto {
   userId: number
   userFullName?: string | null
   operationType: VisitType
-  completed: boolean
+  isCompleted: boolean
 }
 
 // ---------------------------------------------------------------

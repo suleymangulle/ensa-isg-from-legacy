@@ -157,7 +157,7 @@ function GeneralTab({ detail }: { detail: CompanyNavigationDto }) {
         <Term label={t('company.fields.authorizedPerson')}>{company.authorizedPerson ?? none}</Term>
         <Term label={t('company.fields.phone')}>{company.phone ?? none}</Term>
         <Term label={t('company.fields.email')}>{company.email ?? none}</Term>
-        <Term label={t('company.fields.taxOffice')}>{company.taxTaxOffice ?? none}</Term>
+        <Term label={t('company.fields.taxOffice')}>{company.taxOffice ?? none}</Term>
         <Term label={t('company.fields.taxNumber')}>{company.taxNumber ?? none}</Term>
         {detail.office && <Term label={t('company.fields.office')}>{detail.office.displayName}</Term>}
         <Term label={t('company.fields.activeEmployeeCount')}>{detail.activeEmployeeCount}</Term>

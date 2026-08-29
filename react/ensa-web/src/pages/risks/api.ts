@@ -100,10 +100,10 @@ export interface RiskAssessmentReportDto {
   workplaceTitle: string
   businessActivity: string
   workplaceAddress: string
-  workplaceTelefonu: string
+  workplacePhoneNumber: string
   hazardClass: HazardClass
   workplaceDepartments?: string | null
-  machinesVeEquipments?: string | null
+  machineryAndEquipment?: string | null
   hazardousArticles?: string | null
   wasteOperations?: string | null
   performedDate: string
@@ -127,10 +127,10 @@ export interface CreateRiskAssessmentReportDto {
   workplaceTitle: string
   businessActivity: string
   workplaceAddress: string
-  workplaceTelefonu: string
+  workplacePhoneNumber: string
   hazardClass: HazardClass
   workplaceDepartments?: string | null
-  machinesVeEquipments?: string | null
+  machineryAndEquipment?: string | null
   hazardousArticles?: string | null
   wasteOperations?: string | null
   performedDate: string

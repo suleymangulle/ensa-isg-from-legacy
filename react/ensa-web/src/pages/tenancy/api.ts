@@ -49,7 +49,7 @@ export interface OrganizationDto {
   code: string
   organizationTypeId: number
   subscriptionPlanId: number
-  taxTaxOffice?: string | null
+  taxOffice?: string | null
   taxNumber?: string | null
   address?: string | null
   cityId?: number | null
@@ -80,7 +80,7 @@ export interface OrganizationContractSummaryDto {
   subscriptionPlanId?: number | null
   organizationTypeId?: number | null
   isApproved: boolean
-  paid: boolean
+  isPaid: boolean
   isActive: boolean
   contractStatus: ContractStatus
   contractStatusDate?: string | null
@@ -108,7 +108,7 @@ export interface OrganizationInput {
   code: string
   organizationTypeId: number
   subscriptionPlanId: number
-  taxTaxOffice?: string | null
+  taxOffice?: string | null
   taxNumber?: string | null
   address?: string | null
   cityId?: number | null
@@ -137,7 +137,7 @@ export interface OfficeListDto {
   districtName?: string | null
   authorizedPerson?: string | null
   companyId?: number | null
-  headquarterOffice: boolean
+  isHeadquarterOffice: boolean
   isActive: boolean
 }
 
@@ -154,7 +154,7 @@ export interface OfficeDto {
   authorizedPerson?: string | null
   authorizedEmail?: string | null
   companyId?: number | null
-  headquarterOffice: boolean
+  isHeadquarterOffice: boolean
   isActive: boolean
 }
 
@@ -179,7 +179,7 @@ export interface OfficeInput {
   authorizedPerson?: string | null
   authorizedEmail?: string | null
   companyId?: number | null
-  headquarterOffice: boolean
+  isHeadquarterOffice: boolean
   isActive?: boolean
 }
 
@@ -243,7 +243,7 @@ export interface OfficeListRequest {
   filter: string
   companyId?: number
   isActive?: boolean
-  headquarterOffice?: boolean
+  isHeadquarterOffice?: boolean
 }
 
 /** `GET api/office` — free text runs over the office name and the authorized person. */
@@ -259,7 +259,7 @@ export function useOfficeList(request: OfficeListRequest) {
           Filter: request.filter || undefined,
           CompanyId: request.companyId,
           IsActive: request.isActive,
-          HeadquarterOffice: request.headquarterOffice,
+          IsHeadquarterOffice: request.isHeadquarterOffice,
         },
       })
       return data

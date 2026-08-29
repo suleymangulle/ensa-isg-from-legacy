@@ -23,10 +23,10 @@ interface FormState {
   orderNo: string
   date: string
   work: string
-  personVeTitle: string
+  personAndTitle: string
   repeatCount: string
   usedMethod: string
-  resultVeComment: string
+  resultAndComment: string
   isActive: boolean
 }
 
@@ -36,10 +36,10 @@ function initialState(line?: YearEndReviewLineDto, defaultParentId?: number): Fo
     orderNo: line ? String(line.orderNo) : '0',
     date: toDateInput(line?.date),
     work: line?.work ?? '',
-    personVeTitle: line?.personVeTitle ?? '',
+    personAndTitle: line?.personAndTitle ?? '',
     repeatCount: line?.repeatCount ?? '',
     usedMethod: line?.usedMethod ?? '',
-    resultVeComment: line?.resultVeComment ?? '',
+    resultAndComment: line?.resultAndComment ?? '',
     isActive: line?.isActive ?? true,
   }
 }
@@ -91,10 +91,10 @@ export default function YearEndReviewLineFormModal({
       orderNo: form.orderNo === '' ? 0 : Number(form.orderNo),
       date: form.date || null,
       work: form.work.trim(),
-      personVeTitle: form.personVeTitle || null,
+      personAndTitle: form.personAndTitle || null,
       repeatCount: form.repeatCount || null,
       usedMethod: form.usedMethod || null,
-      resultVeComment: form.resultVeComment || null,
+      resultAndComment: form.resultAndComment || null,
     }
 
     if (line) {
@@ -170,8 +170,8 @@ export default function YearEndReviewLineFormModal({
           id="year-end-line-person"
           className="col-md-4"
           label={t('reports.yearEnd.fields.personVeTitle')}
-          value={form.personVeTitle}
-          onChange={(next) => patch({ personVeTitle: next })}
+          value={form.personAndTitle}
+          onChange={(next) => patch({ personAndTitle: next })}
         />
         <TextField
           id="year-end-line-repeat"
@@ -194,8 +194,8 @@ export default function YearEndReviewLineFormModal({
           className="col-12"
           rows={2}
           label={t('reports.yearEnd.fields.resultVeComment')}
-          value={form.resultVeComment}
-          onChange={(next) => patch({ resultVeComment: next })}
+          value={form.resultAndComment}
+          onChange={(next) => patch({ resultAndComment: next })}
         />
 
         {line && (

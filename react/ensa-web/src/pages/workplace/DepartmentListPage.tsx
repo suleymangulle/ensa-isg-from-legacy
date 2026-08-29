@@ -91,10 +91,10 @@ export default function DepartmentListPage() {
           </Button>
           <Button variant="light" size="sm"
             style={{ color: 'var(--kt-danger)' }}
-            disabled={!row.deletable}
+            disabled={!row.isDeletable}
             // A department already referenced by an employee or a hazard cannot be removed;
             // the button says why rather than letting the call fail.
-            title={row.deletable ? undefined : t('department.notDeletable')}
+            title={row.isDeletable ? undefined : t('department.notDeletable')}
             onClick={() => setPendingDelete(row)}
             aria-label={t('common.delete')}
           >

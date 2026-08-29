@@ -70,7 +70,7 @@ export interface OhsReportDto {
   employeeName: string
   staffRole: StaffRole
   dutyType: AssignmentType
-  totalMonthlyFazlaOvertimeDuration: number
+  totalMonthlyOvertimeDuration: number
   totalMinutes: number
   usedMonthlyMinutes: number
 }
@@ -238,7 +238,7 @@ export interface SaveYearEndReviewReportDto {
 /**
  * `YearEndReviewLineDto` — one work item. Items form a tree through `parentLineId`.
  *
- * `personVeTitle` and `resultVeComment` keep the property names the backend contract uses;
+ * `personAndTitle` and `resultAndComment` keep the property names the backend contract uses;
  * they are not typos on this side.
  */
 export interface YearEndReviewLineDto {
@@ -248,10 +248,10 @@ export interface YearEndReviewLineDto {
   orderNo: number
   date?: string | null
   work?: string | null
-  personVeTitle?: string | null
+  personAndTitle?: string | null
   repeatCount?: string | null
   usedMethod?: string | null
-  resultVeComment?: string | null
+  resultAndComment?: string | null
   isActive: boolean
   /** Parent work item; `null` marks a root-level item. */
   parentLineId?: number | null
@@ -263,10 +263,10 @@ export interface SaveYearEndReviewLineDto {
   orderNo: number
   date?: string | null
   work?: string | null
-  personVeTitle?: string | null
+  personAndTitle?: string | null
   repeatCount?: string | null
   usedMethod?: string | null
-  resultVeComment?: string | null
+  resultAndComment?: string | null
   isActive?: boolean
 }
 

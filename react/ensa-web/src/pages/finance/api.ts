@@ -176,7 +176,7 @@ export interface CashRegisterListDto {
   id: number
   cashRegisterName: string
   officeId: number
-  headquarterCashRegister: boolean
+  isHeadquarterCashRegister: boolean
   isActive: boolean
 }
 
@@ -186,7 +186,7 @@ export interface CashRegisterDto {
   tenantId?: number | null
   cashRegisterName: string
   officeId: number
-  headquarterCashRegister: boolean
+  isHeadquarterCashRegister: boolean
   isActive: boolean
 }
 
@@ -194,7 +194,7 @@ export interface CashRegisterDto {
 export interface SaveCashRegisterDto {
   cashRegisterName: string
   officeId: number
-  headquarterCashRegister: boolean
+  isHeadquarterCashRegister: boolean
   /** Only read by the update endpoint; the create endpoint ignores it. */
   isActive?: boolean
 }
@@ -238,7 +238,7 @@ export interface CreateCashTransactionDto {
 /** `GetCashRegisterListInput`. */
 export interface GetCashRegisterListInput extends PagedRequest {
   officeId?: number
-  headquarterCashRegister?: boolean
+  isHeadquarterCashRegister?: boolean
   isActive?: boolean
 }
 
@@ -377,7 +377,7 @@ export interface PenaltySurveyDto {
   neighborhoodId?: number | null
   address?: string | null
   invoiceAddress?: string | null
-  taxTaxOffice?: string | null
+  taxOffice?: string | null
   taxNumber?: string | null
   workerCount?: number | null
   ssiRegistrationNumber?: string | null
@@ -402,7 +402,7 @@ export interface SavePenaltySurveyDto {
   neighborhoodId?: number | null
   address?: string | null
   invoiceAddress?: string | null
-  taxTaxOffice?: string | null
+  taxOffice?: string | null
   taxNumber?: string | null
   workerCount?: number | null
   ssiRegistrationNumber?: string | null

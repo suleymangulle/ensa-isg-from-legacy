@@ -32,7 +32,7 @@ export interface EquipmentListDto {
   isInspectionOverdue: boolean
   /** Days until the next inspection; negative once it is overdue. */
   remainingDays?: number | null
-  deletable: boolean
+  isDeletable: boolean
 }
 
 /** `EquipmentDto` — the single-record read. */
@@ -48,7 +48,7 @@ export interface EquipmentDto {
   examinationDate?: string | null
   nextExaminationDate?: string | null
   periodId?: number | null
-  deletable: boolean
+  isDeletable: boolean
   isInspectionOverdue: boolean
 }
 
@@ -62,7 +62,7 @@ export interface SaveEquipmentDto {
   examinationPerformedBy?: string | null
   examinationDate?: string | null
   periodId?: number | null
-  deletable?: boolean
+  isDeletable?: boolean
 }
 
 /** `EquipmentDocumentDto` — paperwork attached to a piece of equipment. */
@@ -142,7 +142,7 @@ export interface DepartmentListDto {
   companyName?: string | null
   departmentName: string
   /** `false` once the department is referenced by another record. */
-  deletable: boolean
+  isDeletable: boolean
 }
 
 /** `CreateWorkplaceDepartmentDto` / `UpdateWorkplaceDepartmentDto`. */
@@ -158,7 +158,7 @@ export interface DepartmentListRequest {
   sorting?: string
   filter?: string
   companyId?: number
-  deletable?: boolean
+  isDeletable?: boolean
 }
 
 export function useDepartmentList(request: DepartmentListRequest) {

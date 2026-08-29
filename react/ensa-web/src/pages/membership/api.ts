@@ -80,9 +80,9 @@ export interface UserDto {
   isActive: boolean
   organizationAdmin: boolean
   systemAdministrator: boolean
-  contractApproved: boolean
+  isContractApproved: boolean
   mustChangePassword: boolean
-  branchCode?: string | null
+  medicalSpecialtyCode?: string | null
   lockoutEnd?: string | null
 }
 
@@ -140,7 +140,7 @@ export interface UserInput {
   officeAdmin: boolean
   companyId?: number | null
   permissionGroupId?: number | null
-  branchCode?: string | null
+  medicalSpecialtyCode?: string | null
   isActive: boolean
 }
 

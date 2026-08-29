@@ -81,7 +81,7 @@ export default function OfficeListPage() {
       header: t('office.fields.headquarterOffice'),
       align: 'center',
       render: (office) =>
-        office.headquarterOffice ? (
+        office.isHeadquarterOffice ? (
           <Badge variant="primary">{t('office.badges.headquarter')}</Badge>
         ) : (
           t('common.none')

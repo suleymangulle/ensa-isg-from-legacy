@@ -208,7 +208,7 @@ export default function CashRegisterDetailPage() {
                   {detail.data.office?.displayName ?? none}
                 </Term>
                 <Term label={t('finance.cashRegister.fields.headquarter')}>
-                  {register.headquarterCashRegister
+                  {register.isHeadquarterCashRegister
                     ? t('finance.cashRegister.headquarter.yes')
                     : t('finance.cashRegister.headquarter.no')}
                 </Term>

@@ -65,7 +65,7 @@ interface FormState {
   companyId: string
   /** Create-only, host-only: the organization the user joins. */
   tenantId: string
-  branchCode: string
+  medicalSpecialtyCode: string
   isActive: boolean
   /** Carried through untouched so an edit cannot silently clear it. */
   photoDocumentId: number | null
@@ -98,7 +98,7 @@ function emptyState(): FormState {
     officeAdmin: false,
     companyId: '',
     tenantId: '',
-    branchCode: '',
+    medicalSpecialtyCode: '',
     isActive: true,
     photoDocumentId: null,
     permissionGroupId: null,
@@ -135,7 +135,7 @@ function stateFromUser(user: UserDto): FormState {
     officeId: user.officeId ? String(user.officeId) : '',
     officeAdmin: user.officeAdmin,
     companyId: user.companyId ? String(user.companyId) : '',
-    branchCode: user.branchCode ?? '',
+    medicalSpecialtyCode: user.medicalSpecialtyCode ?? '',
     isActive: user.isActive,
     photoDocumentId: user.photoDocumentId ?? null,
     permissionGroupId: user.permissionGroupId ?? null,
@@ -174,7 +174,7 @@ function toPayload(state: FormState): UpdateUserInput {
     officeAdmin: state.officeAdmin,
     companyId: optionalNumber(state.companyId),
     permissionGroupId: state.permissionGroupId,
-    branchCode: optionalText(state.branchCode),
+    medicalSpecialtyCode: optionalText(state.medicalSpecialtyCode),
     isActive: state.isActive,
   }
 }
@@ -520,8 +520,8 @@ export default function UserFormModal({ isOpen, user, onClose, onSaved }: UserFo
           id="user-branchCode"
           label={t('user.fields.branchCode')}
           className="col-md-4"
-          value={state.branchCode}
-          onChange={(value) => set('branchCode', value)}
+          value={state.medicalSpecialtyCode}
+          onChange={(value) => set('medicalSpecialtyCode', value)}
         />
 
         <Input

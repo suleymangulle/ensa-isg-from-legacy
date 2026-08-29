@@ -16,7 +16,7 @@ interface SurveyFormState {
   phone: string
   email: string
   address: string
-  taxTaxOffice: string
+  taxOffice: string
   taxNumber: string
   ssiRegistrationNumber: string
   workerCount: number | null
@@ -34,7 +34,7 @@ function initialState(survey?: PenaltySurveyDto): SurveyFormState {
     phone: survey?.phone ?? '',
     email: survey?.email ?? '',
     address: survey?.address ?? '',
-    taxTaxOffice: survey?.taxTaxOffice ?? '',
+    taxOffice: survey?.taxOffice ?? '',
     taxNumber: survey?.taxNumber ?? '',
     ssiRegistrationNumber: survey?.ssiRegistrationNumber ?? '',
     workerCount: survey?.workerCount ?? null,
@@ -99,7 +99,7 @@ export default function PenaltySurveyForm({
       phone: form.phone.trim() || null,
       email: form.email.trim() || null,
       address: form.address.trim() || null,
-      taxTaxOffice: form.taxTaxOffice.trim() || null,
+      taxOffice: form.taxOffice.trim() || null,
       taxNumber: form.taxNumber.trim() || null,
       ssiRegistrationNumber: form.ssiRegistrationNumber.trim() || null,
       workerCount,
@@ -228,8 +228,8 @@ export default function PenaltySurveyForm({
           id="survey-tax-office"
           label={t('finance.penaltySurvey.fields.taxOffice')}
           className="col-md-6"
-          value={form.taxTaxOffice}
-          onChange={(value) => patch({ taxTaxOffice: value })}
+          value={form.taxOffice}
+          onChange={(value) => patch({ taxOffice: value })}
         />
 
         <Input

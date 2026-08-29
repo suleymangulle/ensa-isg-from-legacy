@@ -21,7 +21,7 @@ interface FormState {
   code: string
   organizationTypeId: string
   subscriptionPlanId: string
-  taxTaxOffice: string
+  taxOffice: string
   taxNumber: string
   address: string
   cityId: string
@@ -47,7 +47,7 @@ function emptyState(): FormState {
     code: '',
     organizationTypeId: '',
     subscriptionPlanId: '',
-    taxTaxOffice: '',
+    taxOffice: '',
     taxNumber: '',
     address: '',
     cityId: '',
@@ -79,7 +79,7 @@ function stateFromOrganization(organization: OrganizationDto): FormState {
     code: organization.code,
     organizationTypeId: String(organization.organizationTypeId),
     subscriptionPlanId: String(organization.subscriptionPlanId),
-    taxTaxOffice: organization.taxTaxOffice ?? '',
+    taxOffice: organization.taxOffice ?? '',
     taxNumber: organization.taxNumber ?? '',
     address: organization.address ?? '',
     cityId: organization.cityId ? String(organization.cityId) : '',
@@ -153,7 +153,7 @@ export default function OrganizationFormModal({
       code: state.code.trim(),
       organizationTypeId: Number(state.organizationTypeId),
       subscriptionPlanId: Number(state.subscriptionPlanId),
-      taxTaxOffice: optionalText(state.taxTaxOffice),
+      taxOffice: optionalText(state.taxOffice),
       taxNumber: optionalText(state.taxNumber),
       address: optionalText(state.address),
       cityId: optionalNumber(state.cityId),
@@ -252,8 +252,8 @@ export default function OrganizationFormModal({
           id="organization-taxTaxOffice"
           label={t('organization.fields.taxOffice')}
           className="col-md-3"
-          value={state.taxTaxOffice}
-          onChange={(value) => set('taxTaxOffice', value)}
+          value={state.taxOffice}
+          onChange={(value) => set('taxOffice', value)}
         />
 
         <Input

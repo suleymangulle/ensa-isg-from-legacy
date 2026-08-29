@@ -73,7 +73,7 @@ export interface WorkPlanListDto {
   revisionNo?: string | null
   publicationDate: string
   isActive: boolean
-  transferred: boolean
+  isTransferred: boolean
   lineCount: number
 }
 
@@ -92,7 +92,7 @@ export interface WorkPlanDto {
   approverUserId?: number | null
   controlItemListId?: number | null
   isActive: boolean
-  transferred: boolean
+  isTransferred: boolean
   previousPlanId?: number | null
 }
 
@@ -110,7 +110,7 @@ export interface SaveWorkPlanDto {
   controlItemListId?: number | null
   previousPlanId?: number | null
   isActive?: boolean
-  transferred?: boolean
+  isTransferred?: boolean
 }
 
 /** `WorkPlanLineDto` — one planned activity with its approval state. */

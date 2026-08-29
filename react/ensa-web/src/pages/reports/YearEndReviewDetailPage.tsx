@@ -114,7 +114,7 @@ export default function YearEndReviewDetailPage() {
     {
       key: 'personVeTitle',
       header: t('reports.yearEnd.fields.personVeTitle'),
-      render: (item) => item.line.personVeTitle || t('common.none'),
+      render: (item) => item.line.personAndTitle || t('common.none'),
     },
     {
       key: 'repeatCount',
@@ -130,7 +130,7 @@ export default function YearEndReviewDetailPage() {
     {
       key: 'resultVeComment',
       header: t('reports.yearEnd.fields.resultVeComment'),
-      render: (item) => item.line.resultVeComment || t('common.none'),
+      render: (item) => item.line.resultAndComment || t('common.none'),
     },
     {
       key: 'status',

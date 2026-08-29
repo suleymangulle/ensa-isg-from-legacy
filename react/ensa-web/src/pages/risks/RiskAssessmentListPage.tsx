@@ -277,7 +277,7 @@ function emptyReport(): CreateRiskAssessmentReportDto {
     workplaceTitle: '',
     businessActivity: '',
     workplaceAddress: '',
-    workplaceTelefonu: '',
+    workplacePhoneNumber: '',
     hazardClass: HazardClass.LowHazard,
     performedDate: todayInput(),
     revisionDate: null,
@@ -448,8 +448,8 @@ function CreateReportModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =
           id="workplaceTelefonu"
           label={t('riskAssessment.fields.workplacePhone')}
           className="col-md-4"
-          value={form.workplaceTelefonu}
-          onChange={(value) => patch({ workplaceTelefonu: value })}
+          value={form.workplacePhoneNumber}
+          onChange={(value) => patch({ workplacePhoneNumber: value })}
         />
 
         <Input

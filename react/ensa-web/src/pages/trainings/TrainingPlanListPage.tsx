@@ -103,8 +103,8 @@ export default function TrainingPlanListPage() {
       header: t('trainingPlans.fields.transferred'),
       align: 'center',
       render: (plan) => (
-        <Badge variant={plan.transferred ? 'success' : 'primary'}>
-          {plan.transferred ? t('trainingPlans.transferred.yes') : t('trainingPlans.transferred.no')}
+        <Badge variant={plan.isTransferred ? 'success' : 'primary'}>
+          {plan.isTransferred ? t('trainingPlans.transferred.yes') : t('trainingPlans.transferred.no')}
         </Badge>
       ),
     },
@@ -250,7 +250,7 @@ export function PlanFormModal({ plan, onClose }: { plan?: TrainingPlanDto; onClo
     physicianUserId: plan?.physicianUserId ?? null,
     approverUserId: plan?.approverUserId ?? null,
     isActive: plan?.isActive ?? true,
-    transferred: plan?.transferred ?? false,
+    isTransferred: plan?.isTransferred ?? false,
   }))
 
   const create = useCreate<SaveTrainingPlanDto, TrainingPlanDto>(RESOURCES.trainingPlan, {
@@ -405,8 +405,8 @@ export function PlanFormModal({ plan, onClose }: { plan?: TrainingPlanDto; onClo
           />
           <CheckBox
             id="plan-transferred"
-            checked={model.transferred ?? false}
-            onChange={(value) => setModel({ ...model, transferred: value })}
+            checked={model.isTransferred ?? false}
+            onChange={(value) => setModel({ ...model, isTransferred: value })}
             label={t('trainingPlans.fields.transferred')}
           />
         </div>

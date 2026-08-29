@@ -26,7 +26,7 @@ interface FormState {
   unitSupervisorId?: number
   supervisorFullName: string
   lostWorkDays: string
-  isPerDate: string
+  returnToWorkDate: string
   ssiNotificationDate: string
 }
 
@@ -42,7 +42,7 @@ function initialState(incident?: IncidentDto): FormState {
     unitSupervisorId: incident?.unitSupervisorId ?? undefined,
     supervisorFullName: incident?.supervisorFullName ?? '',
     lostWorkDays: incident?.lostWorkDays != null ? String(incident.lostWorkDays) : '',
-    isPerDate: toDateInput(incident?.isPerDate),
+    returnToWorkDate: toDateInput(incident?.returnToWorkDate),
     ssiNotificationDate: toDateInput(incident?.ssiNotificationDate),
   }
 }
@@ -103,7 +103,7 @@ export default function IncidentFormModal({
       unitSupervisorId: form.unitSupervisorId ?? null,
       supervisorFullName: form.supervisorFullName || null,
       lostWorkDays: form.lostWorkDays === '' ? null : Number(form.lostWorkDays),
-      isPerDate: fromDateInput(form.isPerDate),
+      returnToWorkDate: fromDateInput(form.returnToWorkDate),
       ssiNotificationDate: fromDateInput(form.ssiNotificationDate),
     }
 
@@ -199,8 +199,8 @@ export default function IncidentFormModal({
           label={t('incident.fields.isPerDate')}
           helpText={t('incident.form.isPerDateHint')}
           className="col-md-4"
-          value={form.isPerDate}
-          onChange={(value) => patch({ isPerDate: value })}
+          value={form.returnToWorkDate}
+          onChange={(value) => patch({ returnToWorkDate: value })}
           inputProps={{ type: 'date' }}
         />
 

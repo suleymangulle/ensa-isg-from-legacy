@@ -97,8 +97,8 @@ export default function WorkPlanListPage() {
       header: t('workPlan.fields.transferred'),
       align: 'center',
       render: (plan) => (
-        <Badge variant={plan.transferred ? 'success' : 'primary'}>
-          {plan.transferred ? t('workPlan.transferred.yes') : t('workPlan.transferred.no')}
+        <Badge variant={plan.isTransferred ? 'success' : 'primary'}>
+          {plan.isTransferred ? t('workPlan.transferred.yes') : t('workPlan.transferred.no')}
         </Badge>
       ),
     },
@@ -246,7 +246,7 @@ export function WorkPlanFormModal({
     controlItemListId: plan?.controlItemListId ?? null,
     previousPlanId: plan?.previousPlanId ?? null,
     isActive: plan?.isActive ?? true,
-    transferred: plan?.transferred ?? false,
+    isTransferred: plan?.isTransferred ?? false,
   }))
 
   const create = useCreate<SaveWorkPlanDto, WorkPlanDto>(RESOURCES.workPlan, { onSuccess: onClose })
@@ -388,8 +388,8 @@ export function WorkPlanFormModal({
           />
           <CheckBox
             id="work-plan-transferred"
-            checked={model.transferred ?? false}
-            onChange={(value) => setModel({ ...model, transferred: value })}
+            checked={model.isTransferred ?? false}
+            onChange={(value) => setModel({ ...model, isTransferred: value })}
             label={t('workPlan.fields.transferred')}
           />
         </div>

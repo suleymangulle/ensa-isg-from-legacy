@@ -350,7 +350,7 @@ function OfficePeriodSummary({
     const rows = items ?? []
     const assigned = rows.reduce((sum, row) => sum + row.totalMinutes, 0)
     const used = rows.reduce((sum, row) => sum + row.usedMonthlyMinutes, 0)
-    const overtime = rows.reduce((sum, row) => sum + row.totalMonthlyFazlaOvertimeDuration, 0)
+    const overtime = rows.reduce((sum, row) => sum + row.totalMonthlyOvertimeDuration, 0)
 
     const byRole = new Map<StaffRole, { assigned: number; used: number }>()
     for (const row of rows) {
@@ -603,7 +603,7 @@ function HazardClassBreakdown({
                 </Term>
                 <Term label={t('reports.ohs.fields.overtimeMinutes')}>
                   {t('reports.common.minutes', {
-                    value: formatNumber(report.data?.totalMonthlyFazlaOvertimeDuration),
+                    value: formatNumber(report.data?.totalMonthlyOvertimeDuration),
                   })}
                 </Term>
                 <Term label={t('reports.ohs.fields.archiveDetail')}>

@@ -252,13 +252,13 @@ function GeneralTab({ detail }: { detail: RiskAssessmentReportNavigationDto }) {
         {report.workplaceAddress || none}
       </Term>
       <Term label={t('riskAssessment.fields.workplacePhone')}>
-        {report.workplaceTelefonu || none}
+        {report.workplacePhoneNumber || none}
       </Term>
       <Term label={t('riskAssessment.fields.workplaceDepartments')}>
         {report.workplaceDepartments || none}
       </Term>
       <Term label={t('riskAssessment.fields.machinesAndEquipment')}>
-        {report.machinesVeEquipments || none}
+        {report.machineryAndEquipment || none}
       </Term>
       <Term label={t('riskAssessment.fields.hazardousArticles')}>
         {report.hazardousArticles || none}
@@ -374,10 +374,10 @@ function EditReportModal({
     workplaceTitle: source.workplaceTitle,
     businessActivity: source.businessActivity,
     workplaceAddress: source.workplaceAddress,
-    workplaceTelefonu: source.workplaceTelefonu,
+    workplacePhoneNumber: source.workplacePhoneNumber,
     hazardClass: source.hazardClass,
     workplaceDepartments: source.workplaceDepartments,
-    machinesVeEquipments: source.machinesVeEquipments,
+    machineryAndEquipment: source.machineryAndEquipment,
     hazardousArticles: source.hazardousArticles,
     wasteOperations: source.wasteOperations,
     performedDate: toDateInput(source.performedDate),
@@ -531,8 +531,8 @@ function EditReportModal({
           id="editWorkplacePhone"
           label={t('riskAssessment.fields.workplacePhone')}
           className="col-md-4"
-          value={form.workplaceTelefonu}
-          onChange={(value) => patch({ workplaceTelefonu: value })}
+          value={form.workplacePhoneNumber}
+          onChange={(value) => patch({ workplacePhoneNumber: value })}
         />
 
         <TextArea
@@ -549,8 +549,8 @@ function EditReportModal({
           label={t('riskAssessment.fields.machinesAndEquipment')}
           className="col-md-6"
           rows={2}
-          value={form.machinesVeEquipments ?? ''}
-          onChange={(value) => patch({ machinesVeEquipments: value })}
+          value={form.machineryAndEquipment ?? ''}
+          onChange={(value) => patch({ machineryAndEquipment: value })}
         />
 
         <TextArea

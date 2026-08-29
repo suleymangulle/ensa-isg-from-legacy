@@ -81,7 +81,7 @@ export default function OfficeDetailPage() {
         <Badge variant={office.isActive ? 'success' : 'danger'}>
           {office.isActive ? t('common.active') : t('common.passive')}
         </Badge>
-        {office.headquarterOffice && (
+        {office.isHeadquarterOffice && (
           <Badge variant="primary">{t('office.badges.headquarter')}</Badge>
         )}
       </div>

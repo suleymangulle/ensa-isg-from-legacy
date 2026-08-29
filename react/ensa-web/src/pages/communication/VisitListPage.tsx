@@ -51,7 +51,7 @@ export default function VisitListPage() {
   const [userId, setUserId] = useState<number | null>(null)
   const [companyId, setCompanyId] = useState<number | null>(null)
   const [operationType, setOperationType] = useState<VisitType | null>(null)
-  const [completed, setCompleted] = useState('')
+  const [isCompleted, setCompleted] = useState('')
 
   const [editingId, setEditingId] = useState<number | undefined>()
   const [isEditorOpen, setIsEditorOpen] = useState(false)
@@ -80,10 +80,10 @@ export default function VisitListPage() {
     return items.filter((visit) => {
       if (companyId !== null && visit.companyId !== companyId) return false
       if (operationType !== null && visit.operationType !== operationType) return false
-      if (completed !== '' && visit.completed !== (completed === 'true')) return false
+      if (isCompleted !== '' && visit.isCompleted !== (isCompleted === 'true')) return false
       return true
     })
-  }, [calendar.data, companyId, operationType, completed])
+  }, [calendar.data, companyId, operationType, isCompleted])
 
   const days = useMemo(() => groupByDay(visible), [visible])
 
@@ -208,7 +208,7 @@ export default function VisitListPage() {
                 { value: 'true', label: t('visit.filters.onlyCompleted') },
                 { value: 'false', label: t('visit.filters.onlyPlanned') },
               ]}
-              value={completed === '' ? null : completed}
+              value={isCompleted === '' ? null : isCompleted}
               onChange={(value) => setCompleted(value ?? '')}
             />
           </div>
@@ -272,8 +272,8 @@ export default function VisitListPage() {
                     <span style={{ color: 'var(--kt-gray-600)' }}>
                       {visit.userFullName ?? t('visit.list.userFallback', { id: visit.userId })}
                     </span>
-                    <Badge variant={visit.completed ? 'success' : 'warning'}>
-                      {visit.completed ? t('visit.list.completed') : t('visit.list.planned')}
+                    <Badge variant={visit.isCompleted ? 'success' : 'warning'}>
+                      {visit.isCompleted ? t('visit.list.completed') : t('visit.list.planned')}
                     </Badge>
                     <span className="d-flex gap-2 ms-auto">
                       <Button variant="light" size="sm" 
@@ -360,7 +360,7 @@ interface EditorState {
   scheduledMonth: number | null
   regionCode: number | null
   otherCompanyDistanceKm: number | null
-  completed: boolean
+  isCompleted: boolean
 }
 
 function emptyEditor(): EditorState {
@@ -376,7 +376,7 @@ function emptyEditor(): EditorState {
     scheduledMonth: null,
     regionCode: null,
     otherCompanyDistanceKm: null,
-    completed: false,
+    isCompleted: false,
   }
 }
 
@@ -413,7 +413,7 @@ function VisitEditor({
             scheduledMonth: visit.scheduledMonth ?? null,
             regionCode: visit.regionCode ?? null,
             otherCompanyDistanceKm: visit.otherCompanyDistanceKm ?? null,
-            completed: visit.completed,
+            isCompleted: visit.isCompleted,
           }
         : emptyEditor(),
     )
@@ -450,7 +450,7 @@ function VisitEditor({
       otherCompanyDistanceKm: state.otherCompanyDistanceKm,
     }
 
-    if (visit) update.mutate({ id: visit.id, input: { ...base, completed: state.completed } })
+    if (visit) update.mutate({ id: visit.id, input: { ...base, isCompleted: state.isCompleted } })
     else create.mutate(base)
   }
 
@@ -586,8 +586,8 @@ function VisitEditor({
             <CheckBox
               id="visit-editor-completed"
               label={t('visit.fields.completed')}
-              checked={state.completed}
-              onChange={(checked) => setState((s) => ({ ...s, completed: checked }))}
+              checked={state.isCompleted}
+              onChange={(checked) => setState((s) => ({ ...s, isCompleted: checked }))}
             />
           </div>
         )}

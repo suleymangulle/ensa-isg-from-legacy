@@ -215,7 +215,7 @@ export interface TrainingPlanListDto {
   revisionNo?: string | null
   publicationDate: string
   isActive: boolean
-  transferred: boolean
+  isTransferred: boolean
   lineCount: number
 }
 
@@ -233,7 +233,7 @@ export interface TrainingPlanDto {
   physicianUserId?: number | null
   approverUserId?: number | null
   isActive: boolean
-  transferred: boolean
+  isTransferred: boolean
 }
 
 /** `CreateTrainingPlanDto` / `UpdateTrainingPlanDto`. */
@@ -248,7 +248,7 @@ export interface SaveTrainingPlanDto {
   physicianUserId?: number | null
   approverUserId?: number | null
   isActive?: boolean
-  transferred?: boolean
+  isTransferred?: boolean
 }
 
 /** `TrainingPlanLineDto` — one planned training with its approval state. */

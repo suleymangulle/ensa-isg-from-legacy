@@ -78,8 +78,8 @@ export default function CashRegisterListPage() {
       header: t('finance.cashRegister.fields.headquarter'),
       align: 'center',
       render: (row) => (
-        <Badge variant={row.headquarterCashRegister ? 'primary' : 'info'}>
-          {row.headquarterCashRegister
+        <Badge variant={row.isHeadquarterCashRegister ? 'primary' : 'info'}>
+          {row.isHeadquarterCashRegister
             ? t('finance.cashRegister.headquarter.yes')
             : t('finance.cashRegister.headquarter.no')}
         </Badge>

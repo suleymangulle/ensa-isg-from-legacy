@@ -68,7 +68,7 @@ export interface IncidentDto {
   unitSupervisorId?: number | null
   supervisorFullName?: string | null
   lostWorkDays?: number | null
-  isPerDate?: string | null
+  returnToWorkDate?: string | null
   ssiNotificationDate?: string | null
   latestSsiNotificationDate?: string | null
   ssiNotificationOverdue: boolean
@@ -88,7 +88,7 @@ export interface SaveIncidentDto {
   unitSupervisorId?: number | null
   supervisorFullName?: string | null
   lostWorkDays?: number | null
-  isPerDate?: string | null
+  returnToWorkDate?: string | null
   ssiNotificationDate?: string | null
 }
 

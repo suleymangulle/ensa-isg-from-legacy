@@ -157,8 +157,8 @@ export default function EquipmentListPage() {
           </Button>
           <Button variant="light" size="sm"
             style={{ color: 'var(--kt-danger)' }}
-            disabled={!row.deletable}
-            title={row.deletable ? undefined : t('equipment.notDeletable')}
+            disabled={!row.isDeletable}
+            title={row.isDeletable ? undefined : t('equipment.notDeletable')}
             onClick={() => setPendingDelete(row)}
             aria-label={t('common.delete')}
           >

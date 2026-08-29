@@ -25,7 +25,7 @@ export default function CashRegisterForm({
   const { t } = useTranslation()
   const [name, setName] = useState(register?.cashRegisterName ?? '')
   const [officeId, setOfficeId] = useState<number | undefined>(register?.officeId)
-  const [isHeadquarter, setHeadquarter] = useState(register?.headquarterCashRegister ?? false)
+  const [isHeadquarter, setHeadquarter] = useState(register?.isHeadquarterCashRegister ?? false)
   const [isActive, setActive] = useState(register?.isActive ?? true)
   const [validation, setValidation] = useState<Record<string, string>>({})
 
@@ -42,7 +42,7 @@ export default function CashRegisterForm({
     onSubmit({
       cashRegisterName: name.trim(),
       officeId: officeId as number,
-      headquarterCashRegister: isHeadquarter,
+      isHeadquarterCashRegister: isHeadquarter,
       isActive,
     })
   }

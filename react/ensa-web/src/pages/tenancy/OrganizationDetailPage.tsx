@@ -190,7 +190,7 @@ function GeneralTab({ detail }: { detail: OrganizationNavigationDto }) {
       <Detail label={t('organization.fields.phone')}>{organization.phone ?? none}</Detail>
       <Detail label={t('organization.fields.email')}>{organization.email ?? none}</Detail>
       <Detail label={t('organization.fields.webUrl')}>{organization.webUrl ?? none}</Detail>
-      <Detail label={t('organization.fields.taxOffice')}>{organization.taxTaxOffice ?? none}</Detail>
+      <Detail label={t('organization.fields.taxOffice')}>{organization.taxOffice ?? none}</Detail>
       <Detail label={t('organization.fields.taxNumber')}>{organization.taxNumber ?? none}</Detail>
       <Detail label={t('organization.fields.city')}>{detail.city?.displayName ?? none}</Detail>
       <Detail label={t('organization.fields.district')}>
@@ -282,7 +282,7 @@ function SubscriptionTab({ detail }: { detail: OrganizationNavigationDto }) {
           </Detail>
           <Detail label={t('organization.fields.contractUserCount')}>{contract.userCount}</Detail>
           <Detail label={t('organization.fields.contractPaid')}>
-            {contract.paid ? t('common.yes') : t('common.no')}
+            {contract.isPaid ? t('common.yes') : t('common.no')}
           </Detail>
         </>
       ) : (

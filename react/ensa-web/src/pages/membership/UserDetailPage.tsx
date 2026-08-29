@@ -228,12 +228,12 @@ function GeneralTab({ detail }: { detail: UserNavigationDto }) {
           ? t('user.detail.minutes', { count: user.monthlyWorkDurationMinutes })
           : none}
       </Detail>
-      <Detail label={t('user.fields.branchCode')}>{user.branchCode ?? none}</Detail>
+      <Detail label={t('user.fields.branchCode')}>{user.medicalSpecialtyCode ?? none}</Detail>
       <Detail label={t('user.fields.mustChangePassword')}>
         {user.mustChangePassword ? t('common.yes') : t('common.no')}
       </Detail>
       <Detail label={t('user.fields.contractApproved')}>
-        {user.contractApproved ? t('common.yes') : t('common.no')}
+        {user.isContractApproved ? t('common.yes') : t('common.no')}
       </Detail>
       <Detail label={t('user.fields.emailConfirmed')}>
         {user.emailConfirmed ? t('common.yes') : t('common.no')}

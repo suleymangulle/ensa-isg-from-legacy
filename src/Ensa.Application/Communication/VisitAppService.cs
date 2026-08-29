@@ -4,6 +4,8 @@ using Ensa.Application.Contracts.Communication;
 using Ensa.Application.Contracts.Communication.Dtos;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Communication;
+using Ensa.Domain.Companies;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
 using Ensa.Domain.Membership;
@@ -20,6 +22,7 @@ public class VisitAppService(
     IServiceProvider serviceProvider,
     IVisitRepository visitRepository,
     IUserRepository userRepository,
+    ICompanyRepository companyRepository,
     IReadOnlyRepository<UserProfile> userProfileRepository)
     : EnsaAppService(serviceProvider), IVisitAppService
 {
@@ -49,7 +52,7 @@ public class VisitAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.Visit.Default);
 
-        var predicate = BuildFilter(input);
+        var predicate = BuildFilter(input, ScopedCompanyIds());
         var sorting = NormalizeSorting(input.Sorting, "VisitDate DESC");
 
         var total = await visitRepository.GetCountAsync(predicate, cancellationToken);
@@ -155,7 +158,12 @@ public class VisitAppService(
                 .WithData("MaximumDayCount", CalendarMaximumDayCount);
         }
 
-        var records = await visitRepository.GetCalendarAsync(userId, from, to, cancellationToken);
+        var records = await visitRepository.GetCalendarAsync(
+            userId,
+            from,
+            to,
+            ResolveOfficeScope(requestedOfficeId: null).OfficeIds,
+            cancellationToken);
 
         // The colour and the name a calendar entry falls back to are on the profile, so they are
         // fetched once for everyone on the calendar rather than per entry.
@@ -215,7 +223,31 @@ public class VisitAppService(
         }
     }
 
-    private static Expression<Func<Visit, bool>>? BuildFilter(GetVisitListInput input)
+    /// <summary>
+    /// The workplaces the request's office context covers, as a composable subquery, or <c>null</c>
+    /// when there is no office restriction.
+    /// <para>
+    /// A visit carries no office of its own: it is the workplace that belongs to an office
+    /// (<c>Company.OfficeId</c>), and the legacy visit calendar scoped itself by exactly that join
+    /// (<c>ZiyaretTakvimiController</c>: <c>f.OfisId == OfisId</c>). Returned as an
+    /// <see cref="IQueryable{T}"/> rather than a materialised id list so it stays one round trip
+    /// however many workplaces an office has.
+    /// </para>
+    /// </summary>
+    private IQueryable<int>? ScopedCompanyIds()
+    {
+        var officeIds = ResolveOfficeScope(requestedOfficeId: null).OfficeIds;
+
+        return officeIds.Count == 0
+            ? null
+            : companyRepository.GetReadOnlyQueryable()
+                .Where(f => officeIds.Contains(f.OfficeId))
+                .Select(f => f.Id);
+    }
+
+    private static Expression<Func<Visit, bool>>? BuildFilter(
+        GetVisitListInput input,
+        IQueryable<int>? scopedCompanyIds)
     {
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
         var companyId = input.CompanyId;
@@ -231,7 +263,8 @@ public class VisitAppService(
             && operationType is null
             && completed is null
             && startDate is null
-            && endDate is null)
+            && endDate is null
+            && scopedCompanyIds is null)
         {
             return null;
         }
@@ -239,6 +272,7 @@ public class VisitAppService(
         return z =>
             (search == null || (z.Description != null && z.Description.Contains(search)))
             && (companyId == null || z.CompanyId == companyId)
+            && (scopedCompanyIds == null || scopedCompanyIds.Contains(z.CompanyId))
             && (userId == null || z.UserId == userId)
             && (operationType == null || z.OperationType == operationType)
             && (completed == null || z.Completed == completed)

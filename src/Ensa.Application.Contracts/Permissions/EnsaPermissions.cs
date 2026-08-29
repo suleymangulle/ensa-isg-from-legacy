@@ -425,5 +425,25 @@ public static class EnsaScopes
 public static class EnsaHttpHeaders
 {
     public const string TenantId = "X-Ensa-TenantId";
+
+    /// <summary>
+    /// The office (branch) the request runs for — a positive office id, or
+    /// <see cref="AllOfficesValue"/> for "every office the caller may use". Absent means no office
+    /// context, which is not the same thing and is never treated as one.
+    /// <para>
+    /// Unlike <see cref="TenantId"/> this is not an administrator override: it is the ordinary
+    /// working context every user picks in the shell, and it is validated against that user's own
+    /// office assignments on every request. Setting it never changes the tenant.
+    /// </para>
+    /// </summary>
+    public const string OfficeId = "X-Ensa-OfficeId";
+
+    /// <summary>
+    /// The one non-numeric value <see cref="OfficeId"/> accepts: every office the caller is allowed
+    /// to work in. Compared case-insensitively. Zero is <b>not</b> accepted — the legacy application
+    /// used <c>0</c> for "all offices", which meant a sentinel and a primary key shared one column.
+    /// </summary>
+    public const string AllOfficesValue = "all";
+
     public const string CorrelationId = "X-Correlation-ID";
 }

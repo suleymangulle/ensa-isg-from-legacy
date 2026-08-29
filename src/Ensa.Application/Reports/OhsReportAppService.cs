@@ -4,6 +4,7 @@ using Ensa.Application.Contracts.Permissions;
 using Ensa.Application.Contracts.Reports;
 using Ensa.Application.Contracts.Reports.Dtos;
 using Ensa.Domain.Reports;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Shared.Exceptions;
 
@@ -41,7 +42,7 @@ public class OhsReportAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.Report.Default);
 
-        var predicate = BuildFilter(input);
+        var predicate = BuildFilter(input, ResolveOfficeScope(input.OfficeId));
         var sorting = NormalizeSorting(input.Sorting, "CreationTime DESC");
 
         var total = await ohsReportRepository.GetCountAsync(predicate, cancellationToken);
@@ -73,6 +74,11 @@ public class OhsReportAppService(
                 "The start of the reporting period must not be later than its end.",
                 "Ensa:Report:InvalidPeriod");
         }
+
+        // The office is in the route, so it is caller input like any other and goes through the same
+        // reconciliation: an office outside the caller's scope is refused, and one that contradicts
+        // the office the request is running for is a conflict rather than a silent override.
+        ResolveOfficeScope(officeId);
 
         var records = await ohsReportRepository.GetOfficeReportsAsync(officeId, from, to, cancellationToken);
 
@@ -116,17 +122,24 @@ public class OhsReportAppService(
             CompanyCount = breakdown.TryGetValue(hazardClass, out var count) ? count : 0
         };
 
-    private static Expression<Func<OhsReport, bool>>? BuildFilter(GetOhsReportListInput input)
+    /// <summary>
+    /// The report list filter. The office restriction comes from <paramref name="officeScope"/>,
+    /// which already reconciled <c>input.OfficeId</c> with the office the request is running for.
+    /// </summary>
+    private static Expression<Func<OhsReport, bool>>? BuildFilter(
+        GetOhsReportListInput input,
+        OfficeQueryScope officeScope)
     {
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
-        var officeId = input.OfficeId;
+        var officeIds = officeScope.OfficeIds;
+        var restricted = officeScope.IsRestricted;
         var staffRole = input.StaffRole;
         var dutyType = input.DutyType;
         var startDate = input.StartDate;
         var endDate = input.EndDate;
 
         if (search is null
-            && officeId is null
+            && !restricted
             && staffRole is null
             && dutyType is null
             && startDate is null
@@ -137,7 +150,7 @@ public class OhsReportAppService(
 
         return r =>
             (search == null || r.EmployeeName.Contains(search) || r.NationalId.Contains(search))
-            && (officeId == null || r.OfficeId == officeId)
+            && (!restricted || officeIds.Contains(r.OfficeId))
             && (staffRole == null || r.StaffRole == staffRole)
             && (dutyType == null || r.DutyType == dutyType)
             && (startDate == null || r.CreationTime >= startDate)

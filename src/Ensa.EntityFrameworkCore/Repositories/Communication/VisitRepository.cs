@@ -1,4 +1,4 @@
-using Ensa.Domain.Common;
+﻿using Ensa.Domain.Common;
 using Ensa.Domain.Companies;
 using Ensa.Domain.Communication;
 using Ensa.Domain.Communication.Navigations;
@@ -28,6 +28,7 @@ public class VisitRepository(EnsaDbContext context, IDataFilter? dataFilter = nu
         int? userId,
         DateTime start,
         DateTime end,
+        IReadOnlyList<int>? officeIds = null,
         CancellationToken cancellationToken = default)
     {
         var query = GetReadOnlyQueryable()
@@ -36,6 +37,18 @@ public class VisitRepository(EnsaDbContext context, IDataFilter? dataFilter = nu
         if (userId is { } value)
         {
             query = query.Where(z => z.UserId == value);
+        }
+
+        if (officeIds is { Count: > 0 } scope)
+        {
+            // Through the workplace, because that is where the office lives. Composed as a subquery
+            // so the whole calendar is still one round trip.
+            var scopedCompanyIds = Context.Set<Company>()
+                .AsNoTracking()
+                .Where(f => scope.Contains(f.OfficeId))
+                .Select(f => f.Id);
+
+            query = query.Where(z => scopedCompanyIds.Contains(z.CompanyId));
         }
 
         var visits = await query

@@ -5,6 +5,7 @@ using Ensa.Application.Contracts.Finance.Dtos;
 using Ensa.Application.Contracts.Finance.Dtos.Navigations;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Finance;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Repositories;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -101,7 +102,7 @@ public class InvoiceAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.Invoice.Default);
 
-        var predicate = BuildFilter(input);
+        var predicate = BuildFilter(input, ResolveOfficeScope(input.OfficeId));
         var sorting = NormalizeSorting(input.Sorting, "InvoiceDate DESC");
 
         var total = await invoiceRepository.GetCountAsync(predicate, cancellationToken);
@@ -128,9 +129,15 @@ public class InvoiceAppService(
 
         var invoice = ObjectMapper.Map<CreateInvoiceDto, Invoice>(input);
 
+        // An invoice is filed against an office, and the office the user is working in is the one
+        // it belongs to. A body that names a different office is refused by ResolveOfficeScope
+        // rather than quietly overridden; a body that names none inherits the working office, which
+        // is what stops an invoice created while looking at one office from landing in another.
+        invoice.OfficeId = ResolveWriteOfficeId(input.OfficeId);
+
         invoice.InvoiceNo = string.IsNullOrWhiteSpace(input.InvoiceNo)
             ? await invoiceManager.GenerateInvoiceNumberAsync(
-                input.OfficeId,
+                invoice.OfficeId,
                 input.InvoiceDate.Year,
                 cancellationToken)
             : input.InvoiceNo.Trim();
@@ -341,12 +348,17 @@ public class InvoiceAppService(
         await CheckPermissionAsync(EnsaPermissions.Invoice.Create);
         ValidateCalendarYear(year);
 
-        var invoiceNo = await invoiceManager.GenerateInvoiceNumberAsync(officeId, year, cancellationToken);
+        // Invoice numbers run per office and year (ADR-017), so the number this hands out has to be
+        // drawn from the same office the invoice will be filed against.
+        var effectiveOfficeId = ResolveWriteOfficeId(officeId);
+
+        var invoiceNo = await invoiceManager.GenerateInvoiceNumberAsync(
+            effectiveOfficeId, year, cancellationToken);
 
         return new GeneratedInvoiceNumberDto
         {
             InvoiceNo = invoiceNo,
-            OfficeId = officeId,
+            OfficeId = effectiveOfficeId,
             Year = year
         };
     }
@@ -402,11 +414,38 @@ public class InvoiceAppService(
         return line;
     }
 
-    private static Expression<Func<Invoice, bool>>? BuildFilter(GetInvoiceListInput input)
+    /// <summary>
+    /// The office a write should be filed against: the one the caller named if it does not
+    /// contradict the office the request is running for, otherwise the working office.
+    /// <para>
+    /// <c>null</c> when there is no single answer — no office context and no value in the body, or
+    /// an "all offices" scope spanning several. That is the behaviour this endpoint already had, and
+    /// <c>Invoice.OfficeId</c> is nullable precisely because an invoice need not name one.
+    /// </para>
+    /// </summary>
+    private int? ResolveWriteOfficeId(int? requestedOfficeId)
+    {
+        var scope = ResolveOfficeScope(requestedOfficeId);
+        return requestedOfficeId ?? scope.SingleOfficeId;
+    }
+
+    /// <summary>
+    /// The invoice list filter.
+    /// <para>
+    /// <paramref name="officeScope"/> already reconciled <c>input.OfficeId</c> with the office the
+    /// request is running for, so the caller-supplied value is not read again here. An invoice with
+    /// no office of its own falls outside a restricted scope, which is the same answer the legacy
+    /// <c>f.OfisId == OfisId</c> join gave.
+    /// </para>
+    /// </summary>
+    private static Expression<Func<Invoice, bool>>? BuildFilter(
+        GetInvoiceListInput input,
+        OfficeQueryScope officeScope)
     {
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
         var companyId = input.CompanyId;
-        var officeId = input.OfficeId;
+        var officeIds = officeScope.OfficeIds;
+        var restricted = officeScope.IsRestricted;
         var invoiceType = input.InvoiceType;
         var sourceModule = input.SourceModule;
         var startDate = input.StartDate;
@@ -414,7 +453,7 @@ public class InvoiceAppService(
 
         if (search is null
             && companyId is null
-            && officeId is null
+            && !restricted
             && invoiceType is null
             && sourceModule is null
             && startDate is null
@@ -426,7 +465,7 @@ public class InvoiceAppService(
         return f =>
             (search == null || f.InvoiceNo.Contains(search) || f.AccountCurrentName.Contains(search))
             && (companyId == null || f.CompanyId == companyId)
-            && (officeId == null || f.OfficeId == officeId)
+            && (!restricted || (f.OfficeId != null && officeIds.Contains(f.OfficeId.Value)))
             && (invoiceType == null || f.InvoiceType == invoiceType)
             && (sourceModule == null || f.SourceModule == sourceModule)
             && (startDate == null || f.InvoiceDate >= startDate)

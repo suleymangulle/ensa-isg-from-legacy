@@ -4,6 +4,7 @@ using AutoMapper;
 using Ensa.Application.Contracts.Common;
 using Ensa.Domain.Common;
 using Ensa.Domain.Repositories;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -55,6 +56,30 @@ public abstract class EnsaAppService : IApplicationService
 
     /// <summary>The active organization (tenant) context.</summary>
     protected ICurrentTenant CurrentTenant => LazyGetService<ICurrentTenant>();
+
+    /// <summary>
+    /// The active office (branch) context — already validated against the caller's own office
+    /// assignments by the time any service reads it.
+    /// <para>
+    /// Falls back to <see cref="NullCurrentOffice"/>, "no office context", when nothing is
+    /// registered: a unit test or a background job then behaves exactly as it did before offices
+    /// existed instead of failing to resolve a service it never asked about.
+    /// </para>
+    /// </summary>
+    protected ICurrentOffice CurrentOffice
+        => LazyGetServiceOrNull<ICurrentOffice>() ?? NullCurrentOffice.Instance;
+
+    /// <summary>
+    /// The office restriction an office-scoped query must run under, reconciling the request's
+    /// office context with an office id the caller also put in the request itself.
+    /// <para>
+    /// This is the only place a service should decide what office a query may see — see
+    /// <see cref="Ensa.Domain.Tenancy.OfficeScope.Resolve"/> for the rules, including why a filter
+    /// that contradicts the context is refused rather than silently resolved.
+    /// </para>
+    /// </summary>
+    protected OfficeQueryScope ResolveOfficeScope(int? requestedOfficeId)
+        => OfficeScope.Resolve(CurrentOffice, requestedOfficeId);
 
     /// <summary>Testable time source. Do NOT use <c>DateTime.Now</c>.</summary>
     protected IClock Clock => LazyGetService<IClock>();

@@ -159,10 +159,12 @@ public class UserRepository(
             rows = rows.Where(x => x.employment != null && typeIds.Contains(x.employment.UserTypeId!.Value));
         }
 
-        if (query.OfficeId is { } officeId)
+        if (query.OfficeIds is { Count: > 0 } officeIds)
         {
+            // Whom an office employs is the assignment table, so the filter is a subquery over it
+            // rather than a column on the account.
             var assigned = Context.Set<UserOffice>().AsNoTracking()
-                .Where(o => o.OfficeId == officeId)
+                .Where(o => officeIds.Contains(o.OfficeId))
                 .Select(o => o.UserId);
 
             rows = rows.Where(x => assigned.Contains(x.account.Id));

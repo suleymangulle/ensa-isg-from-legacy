@@ -5,6 +5,7 @@ using Ensa.Application.Contracts.Finance.Dtos;
 using Ensa.Application.Contracts.Finance.Dtos.Navigations;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Finance;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Repositories;
 using Ensa.Domain.Shared.Enums;
 using Ensa.Domain.Shared.Exceptions;
@@ -83,7 +84,7 @@ public class CashRegisterAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.CashRegister.Default);
 
-        var predicate = BuildRegisterFilter(input);
+        var predicate = BuildRegisterFilter(input, ResolveOfficeScope(input.OfficeId));
         var sorting = NormalizeSorting(input.Sorting, "CashRegisterName ASC");
 
         var total = await cashRegisterRepository.GetCountAsync(predicate, cancellationToken);
@@ -109,11 +110,18 @@ public class CashRegisterAppService(
 
         var search = string.IsNullOrWhiteSpace(filter) ? null : filter.Trim();
 
+        // A cash register belongs to one office, so the picker follows the office the user is
+        // working in exactly as the list does.
+        var officeIds = ResolveOfficeScope(requestedOfficeId: null).OfficeIds;
+        var restricted = officeIds.Count > 0;
+
         var records = await cashRegisterRepository.GetPagedListAsync(
             skipCount: 0,
             maxResultCount: LookupMaxRecord,
             sorting: "CashRegisterName ASC",
-            predicate: k => k.IsActive && (search == null || k.CashRegisterName.Contains(search)),
+            predicate: k => k.IsActive
+                            && (search == null || k.CashRegisterName.Contains(search))
+                            && (!restricted || officeIds.Contains(k.OfficeId)),
             cancellationToken);
 
         var result = records
@@ -363,21 +371,32 @@ public class CashRegisterAppService(
         }
     }
 
-    private static Expression<Func<CashRegister, bool>>? BuildRegisterFilter(GetCashRegisterListInput input)
+    /// <summary>
+    /// The register list filter.
+    /// <para>
+    /// The office restriction comes from <paramref name="officeScope"/>, which has already
+    /// reconciled <c>input.OfficeId</c> with the office the request is running for. The caller's own
+    /// value is never read here: it is the untrusted half of that pair.
+    /// </para>
+    /// </summary>
+    private static Expression<Func<CashRegister, bool>>? BuildRegisterFilter(
+        GetCashRegisterListInput input,
+        OfficeQueryScope officeScope)
     {
         var search = string.IsNullOrWhiteSpace(input.Filter) ? null : input.Filter.Trim();
-        var officeId = input.OfficeId;
+        var officeIds = officeScope.OfficeIds;
+        var restricted = officeScope.IsRestricted;
         var headquarter = input.HeadquarterCashRegister;
         var isActive = input.IsActive;
 
-        if (search is null && officeId is null && headquarter is null && isActive is null)
+        if (search is null && !restricted && headquarter is null && isActive is null)
         {
             return null;
         }
 
         return k =>
             (search == null || k.CashRegisterName.Contains(search))
-            && (officeId == null || k.OfficeId == officeId)
+            && (!restricted || officeIds.Contains(k.OfficeId))
             && (headquarter == null || k.HeadquarterCashRegister == headquarter)
             && (isActive == null || k.IsActive == isActive);
     }

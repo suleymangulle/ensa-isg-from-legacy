@@ -265,8 +265,20 @@
   <data name="Ensa:NumberSequenceTypeEmpty" xml:space="preserve">
     <value>The number sequence type cannot be empty.</value>
   </data>
+  <data name="Ensa:Office:AllOfficesNotPermitted" xml:space="preserve">
+    <value>You are not allowed to work across every office.</value>
+  </data>
+  <data name="Ensa:Office:FilterConflict" xml:space="preserve">
+    <value>The office filter does not match the office this request is running for. Clear the filter or switch office.</value>
+  </data>
   <data name="Ensa:Office:HeadquarterAlreadyExists" xml:space="preserve">
     <value>The organization already has a headquarters office ('{OfficeName}'). Clear the headquarters flag on that office before assigning it here.</value>
+  </data>
+  <data name="Ensa:Office:InvalidHeader" xml:space="preserve">
+    <value>The office context is invalid. It must be a positive office id or 'all'.</value>
+  </data>
+  <data name="Ensa:Office:NotPermitted" xml:space="preserve">
+    <value>You are not allowed to work in the selected office.</value>
   </data>
   <data name="Ensa:Organization:CodeAlreadyUsed" xml:space="preserve">
     <value>The organization code '{Code}' is already used by another organization. Choose a different code.</value>

@@ -23,4 +23,16 @@ public interface IAccountAppService : IApplicationService
     /// The frontend drives menu and button visibility from this list.
     /// </summary>
     Task<ListResultDto<string>> GetPermissionsAsync();
+
+    /// <summary>
+    /// The offices the signed-in user may work in, the one to start on, and whether they may take
+    /// the "all offices" scope. The shell's office switcher is built from this and nothing else.
+    /// <para>
+    /// Available to every authenticated user, like <see cref="GetPermissionsAsync"/> — it answers a
+    /// question about the caller's own account. It is <b>not</b> the office directory: the office
+    /// administration endpoints on <c>api/office</c> keep their <c>Ensa.Office</c> permission, and
+    /// this returns only what the caller is already entitled to work in.
+    /// </para>
+    /// </summary>
+    Task<MyOfficesDto> GetMyOfficesAsync(CancellationToken cancellationToken = default);
 }

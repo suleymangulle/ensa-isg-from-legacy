@@ -5,6 +5,7 @@ using Ensa.Application.Contracts.Companies.Dtos;
 using Ensa.Application.Contracts.Companies.Dtos.Navigations;
 using Ensa.Application.Contracts.Permissions;
 using Ensa.Domain.Companies;
+using Ensa.Domain.Tenancy;
 using Ensa.Domain.Shared.Exceptions;
 using Microsoft.Extensions.Logging;
 
@@ -114,7 +115,7 @@ public class CompanyAppService(
         ArgumentNullException.ThrowIfNull(input);
         await CheckPermissionAsync(EnsaPermissions.Company.Default);
 
-        var predicate = BuildFilter(input);
+        var predicate = BuildFilter(input, ResolveOfficeScope(input.OfficeId));
         var sorting = NormalizeSorting(input.Sorting, "CompanyName ASC");
 
         var total = await companyRepository.GetCountAsync(predicate, cancellationToken);
@@ -140,13 +141,30 @@ public class CompanyAppService(
 
         var search = filter?.Trim();
 
+        // The lookup is scoped like the list, and for the same reason the legacy screens scoped
+        // theirs: a workplace picker that offers companies from an office the user is not working in
+        // sends them to a record their own list does not show.
+        Expression<Func<Company, bool>> predicate = string.IsNullOrEmpty(search)
+            ? f => f.IsActive
+            : f => f.IsActive && f.CompanyName.Contains(search);
+
+        var officeScope = ResolveOfficeScope(requestedOfficeId: null);
+
+        if (officeScope.SingleOfficeId is { } officeId)
+        {
+            predicate = Combine(predicate, f => f.OfficeId == officeId);
+        }
+        else if (officeScope.IsRestricted)
+        {
+            var officeIds = officeScope.OfficeIds;
+            predicate = Combine(predicate, f => officeIds.Contains(f.OfficeId));
+        }
+
         var records = await companyRepository.GetPagedListAsync(
             skipCount: 0,
             maxResultCount: LookupMaxRecord,
             sorting: "CompanyName ASC",
-            predicate: string.IsNullOrEmpty(search)
-                ? f => f.IsActive
-                : f => f.IsActive && f.CompanyName.Contains(search),
+            predicate: predicate,
             cancellationToken);
 
         var result = records
@@ -222,7 +240,19 @@ public class CompanyAppService(
 
     // -----------------------------------------------------------------
 
-    private static Expression<Func<Company, bool>>? BuildFilter(GetCompanyListInput input)
+    /// <summary>
+    /// The list filter, including the office restriction.
+    /// <para>
+    /// <paramref name="officeScope"/> has already reconciled <c>input.OfficeId</c> with the office
+    /// the request is running for, so this method never reads <c>input.OfficeId</c> itself — reading
+    /// both would be two answers to one question, and the caller-supplied one is the untrusted half.
+    /// A workplace belongs to exactly one office (<c>Company.OfficeId</c> is not nullable), which is
+    /// the relationship the legacy company list filtered on too.
+    /// </para>
+    /// </summary>
+    private static Expression<Func<Company, bool>>? BuildFilter(
+        GetCompanyListInput input,
+        OfficeQueryScope officeScope)
     {
         Expression<Func<Company, bool>> predicate = f => true;
         var applied = false;
@@ -249,9 +279,15 @@ public class CompanyAppService(
             applied = true;
         }
 
-        if (input.OfficeId is { } officeId)
+        if (officeScope.SingleOfficeId is { } officeId)
         {
             predicate = Combine(predicate, f => f.OfficeId == officeId);
+            applied = true;
+        }
+        else if (officeScope.IsRestricted)
+        {
+            var officeIds = officeScope.OfficeIds;
+            predicate = Combine(predicate, f => officeIds.Contains(f.OfficeId));
             applied = true;
         }
 

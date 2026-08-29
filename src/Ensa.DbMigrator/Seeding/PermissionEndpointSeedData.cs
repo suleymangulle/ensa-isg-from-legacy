@@ -32,10 +32,11 @@ public static class PermissionEndpointSeedData
     /// </param>
     public readonly record struct Entry(string Controller, string Action, string? PermissionTarget);
 
-    /// <summary>369 guarded endpoints, 6 that need only a valid token.</summary>
+    /// <summary>369 guarded endpoints, 7 that need only a valid token.</summary>
     public static readonly Entry[] All =
     [
         new("Account", "ChangePassword", null),
+        new("Account", "GetMyOffices", null),
         new("Account", "GetPermissions", null),
         new("Account", "GetProfile", null),
         new("Activity", "Create", EnsaPermissions.Activity.Create),

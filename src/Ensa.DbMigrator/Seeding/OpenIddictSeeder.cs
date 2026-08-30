@@ -1,4 +1,4 @@
-using Ensa.Application.Contracts.Permissions;
+﻿using Ensa.Application.Contracts.Permissions;
 using Microsoft.Extensions.Logging;
 using OpenIddict.Abstractions;
 
@@ -17,7 +17,17 @@ namespace Ensa.DbMigrator.Seeding;
 /// <para>
 /// <b>Public, not confidential.</b> The SPA runs in a browser, where a client secret would be
 /// readable by anyone who opens the developer tools. OpenIddict's answer to that is a public
-/// client, which is what this registers — a secret here would be security theatre.
+/// client, which is what this registers — a secret here would be security theatre. The mobile
+/// application is public for the same reason: a secret shipped inside an installable package is
+/// readable by anyone who unpacks it.
+/// </para>
+/// <para>
+/// <b>Two clients, not one.</b> The web and mobile applications are the same product against the
+/// same API and could have shared a client id. They do not, because a client id is the only thing
+/// that distinguishes them afterwards: revoking the mobile application's tokens, or reading which
+/// of the two a session came from, is impossible once both call themselves <c>ensa-spa</c>. The
+/// grants and scopes they may ask for are identical today; the ids are what allow them to stop
+/// being identical without a migration.
 /// </para>
 /// <para>
 /// <b>Which scopes get a row.</b> Only <c>ensa</c>. <c>openid</c>, <c>profile</c>, <c>email</c>,
@@ -39,6 +49,9 @@ public sealed class OpenIddictSeeder(
     /// <summary>The first-party single-page application.</summary>
     public const string SpaClientId = "ensa-spa";
 
+    /// <summary>The first-party React Native application (repository: ensa-isg-mobile).</summary>
+    public const string MobileClientId = "ensa-mobile";
+
     /// <summary>The resource name a token for this API carries.</summary>
     private const string ApiResource = "ensa-api";
 
@@ -49,7 +62,8 @@ public sealed class OpenIddictSeeder(
     public async Task SeedAsync(CancellationToken cancellationToken = default)
     {
         await SeedApiScopeAsync(cancellationToken);
-        await SeedSpaClientAsync(cancellationToken);
+        await SeedClientAsync(SpaClientId, "Ensa web application", cancellationToken);
+        await SeedClientAsync(MobileClientId, "Ensa mobile application", cancellationToken);
     }
 
     private async Task SeedApiScopeAsync(CancellationToken cancellationToken)
@@ -74,14 +88,25 @@ public sealed class OpenIddictSeeder(
         logger.LogInformation("  scope {Scope} already registered, refreshed", EnsaScopes.Api);
     }
 
-    private async Task SeedSpaClientAsync(CancellationToken cancellationToken)
+    /// <summary>
+    /// Registers one first-party public client.
+    /// </summary>
+    /// <remarks>
+    /// Both clients are declared with the same permissions from one place rather than from two
+    /// near-identical methods: the day a grant is added or withdrawn, it has to happen for both,
+    /// and a copy is how one of them gets forgotten.
+    /// </remarks>
+    private async Task SeedClientAsync(
+        string clientId,
+        string displayName,
+        CancellationToken cancellationToken)
     {
         var descriptor = new OpenIddictApplicationDescriptor
         {
-            ClientId = SpaClientId,
+            ClientId = clientId,
             ClientType = OpenIddictConstants.ClientTypes.Public,
             ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
-            DisplayName = "Ensa web application",
+            DisplayName = displayName,
             Permissions =
             {
                 OpenIddictConstants.Permissions.Endpoints.Token,
@@ -96,16 +121,16 @@ public sealed class OpenIddictSeeder(
             },
         };
 
-        var existing = await applications.FindByClientIdAsync(SpaClientId, cancellationToken);
+        var existing = await applications.FindByClientIdAsync(clientId, cancellationToken);
 
         if (existing is null)
         {
             await applications.CreateAsync(descriptor, cancellationToken);
-            logger.LogInformation("  client {ClientId} registered", SpaClientId);
+            logger.LogInformation("  client {ClientId} registered", clientId);
             return;
         }
 
         await applications.UpdateAsync(existing, descriptor, cancellationToken);
-        logger.LogInformation("  client {ClientId} already registered, refreshed", SpaClientId);
+        logger.LogInformation("  client {ClientId} already registered, refreshed", clientId);
     }
 }

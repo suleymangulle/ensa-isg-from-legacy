@@ -110,7 +110,10 @@
       "workerCount": "Çalışan",
       "activeEmployeeCount": "Aktif Çalışan Sayısı",
       "status": "Durum",
-      "note": "Note"
+      "note": "Note",
+      "city": "İl",
+      "district": "İlçe",
+      "occupationCode": "NACE Kodu"
     },
     "warnings": {
       "isSafetyTrainingNone": "İSG eğitimi hiç yapılmamış",
@@ -119,6 +122,15 @@
       "isHealthTrainingMissing": "Sağlık eğitimi eksik",
       "preEmploymentHealthExaminationMissing": "İşe giriş muayenesi eksik",
       "equipmentExaminationMissing": "Ekipman muayenesi eksik"
+    },
+    "form": {
+      "createTitle": "Yeni Firma",
+      "editTitle": "Firmayı Düzenle",
+      "ssiNumberHint": "Kurum içinde benzersiz olmalıdır.",
+      "headquarterHint": "Şube için zorunludur; bağlı olduğu merkez işyeri.",
+      "occupationSearch": "NACE ara",
+      "occupationSearchHint": "En az iki harf yazın; liste aramayla gelir.",
+      "hazardClassHint": "NACE kodu seçildiğinde otomatik gelir, değiştirebilirsiniz."
     }
   },
   "dashboard": {

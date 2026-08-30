@@ -5,6 +5,7 @@ import { Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ENDPOINTS, HAZARD_CLASS_BADGE, usePagedList, type CompanyListDto } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
+import CompanyFormModal from './CompanyFormModal'
 
 const PAGE_SIZE = 20
 
@@ -12,6 +13,7 @@ export default function CompanyListPage() {
   const { t } = useTranslation()
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
+  const [isCreating, setCreating] = useState(false)
 
   const { data, isLoading, error } = usePagedList<CompanyListDto>(ENDPOINTS.company, {
     skipCount: (page - 1) * PAGE_SIZE,
@@ -84,7 +86,7 @@ export default function CompanyListPage() {
         title={t('company.list.title')}
         description={t('company.list.description')}
         action={
-          <Button variant="primary">
+          <Button variant="primary" onClick={() => setCreating(true)}>
             {t('company.list.create')}
           </Button>
         }
@@ -126,6 +128,8 @@ export default function CompanyListPage() {
           emptyMessage={t('company.list.empty')}
         />
       </Card>
+
+      {isCreating && <CompanyFormModal onClose={() => setCreating(false)} />}
     </>
   )
 }

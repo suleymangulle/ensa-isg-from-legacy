@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { http, type ListResult } from '@/api/http'
 import type { HazardClass, WorkplaceType } from '@/api/enums'
-import type { LookupDto } from '@/api/endpoints'
+import { ENDPOINTS, type CompanyDto, type LookupDto } from '@/api/endpoints'
 
 /**
  * What the companies module needs beyond the shared `@/api/endpoints` hooks: the write contract
@@ -38,6 +38,24 @@ export interface CompanyInput {
   occupationCodeId?: number | null
   notes?: string | null
   isActive?: boolean
+}
+
+/**
+ * `GET api/company/{id}` — one company, as the edit dialog needs it.
+ *
+ * The list row is a projection: it carries the few columns the table shows and not the tax office,
+ * the notes or the NACE code. Editing has to start from the record itself, so the row's id is
+ * exchanged for the whole company when the dialog opens.
+ */
+export function useCompany(id: number | undefined) {
+  return useQuery({
+    queryKey: [ENDPOINTS.company, 'entity', id],
+    enabled: !!id,
+    queryFn: async () => {
+      const { data } = await http.get<CompanyDto>(`/${ENDPOINTS.company}/${id}`)
+      return data
+    },
+  })
 }
 
 /** `OccupationCodeLookupDto` — a NACE entry, which carries the hazard class it implies. */

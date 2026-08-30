@@ -131,6 +131,10 @@
       "occupationSearch": "Search NACE",
       "occupationSearchHint": "Type at least two letters; the list comes from the search.",
       "hazardClassHint": "Filled in from the NACE code when one is picked; you can override it."
+    },
+    "actions": {
+      "editNamed": "Edit {{name}}",
+      "openDetail": "Open the details of {{name}}"
     }
   },
   "dashboard": {

@@ -131,6 +131,10 @@
       "occupationSearch": "NACE ara",
       "occupationSearchHint": "En az iki harf yazın; liste aramayla gelir.",
       "hazardClassHint": "NACE kodu seçildiğinde otomatik gelir, değiştirebilirsiniz."
+    },
+    "actions": {
+      "editNamed": "{{name}} firmasını düzenle",
+      "openDetail": "{{name}} firmasının detayını aç"
     }
   },
   "dashboard": {

@@ -1,19 +1,25 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Badge, Button, Card, Input } from 'rich-react-component'
 import DataTable, { Pagination, PageTitle, type Column } from '@/components/DataTable'
 import { ENDPOINTS, HAZARD_CLASS_BADGE, usePagedList, type CompanyListDto } from '@/api/endpoints'
 import { errorMessage } from '@/api/http'
 import CompanyFormModal from './CompanyFormModal'
+import { useCompany } from './api'
 
 const PAGE_SIZE = 20
 
 export default function CompanyListPage() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [isCreating, setCreating] = useState(false)
+  const [editingId, setEditingId] = useState<number | null>(null)
+
+  // The table row is a projection; the dialog edits the record, so the id is exchanged for it.
+  const editing = useCompany(editingId ?? undefined)
 
   const { data, isLoading, error } = usePagedList<CompanyListDto>(ENDPOINTS.company, {
     skipCount: (page - 1) * PAGE_SIZE,
@@ -26,11 +32,7 @@ export default function CompanyListPage() {
     {
       key: 'companyName',
       header: t('company.fields.companyName'),
-      render: (company) => (
-        <Link to={`/companies/${company.id}`} className="fw-semibold text-decoration-none">
-          {company.companyName}
-        </Link>
-      ),
+      render: (company) => <span className="fw-semibold">{company.companyName}</span>,
     },
     {
       key: 'ssiNumber',
@@ -76,6 +78,34 @@ export default function CompanyListPage() {
         <Badge variant={company.isActive ? 'success' : 'danger'}>
           {company.isActive ? t('common.active') : t('common.passive')}
         </Badge>
+      ),
+    },
+    {
+      key: 'actions',
+      header: t('common.actions'),
+      align: 'end',
+      width: '190px',
+      render: (company) => (
+        <div className="d-inline-flex gap-1">
+          <Button
+            variant="light"
+            size="sm"
+            onClick={() => navigate(`/companies/${company.id}`)}
+            aria-label={t('company.actions.openDetail', { name: company.companyName })}
+            title={t('common.detail')}
+          >
+            {t('common.detail')}
+          </Button>
+          <Button
+            variant="light"
+            size="sm"
+            onClick={() => setEditingId(company.id)}
+            aria-label={t('company.actions.editNamed', { name: company.companyName })}
+            title={t('common.edit')}
+          >
+            {t('common.edit')}
+          </Button>
+        </div>
       ),
     },
   ]
@@ -130,6 +160,9 @@ export default function CompanyListPage() {
       </Card>
 
       {isCreating && <CompanyFormModal onClose={() => setCreating(false)} />}
+      {editingId !== null && editing.data && (
+        <CompanyFormModal company={editing.data} onClose={() => setEditingId(null)} />
+      )}
     </>
   )
 }

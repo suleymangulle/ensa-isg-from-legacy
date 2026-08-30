@@ -412,3 +412,31 @@ body {
     transition: none;
   }
 }
+
+// =============================================================
+// Record links inside a data grid.
+//
+// Reaching a record is a link, not a row click. Sixty-five of them across
+// fifty-two screens are already written that way — `<Link>` on the name cell,
+// and not one list page reaches for `useNavigate` — which is the same reasoning
+// ADR-039 recorded when the sidebar stopped being a menu of buttons: a real
+// href gives middle-click, open-in-new-tab, the status-bar preview and a
+// destination a screen reader can announce. A click handler on a `<tr>` offers
+// none of those, and it costs the user the ability to select text in a cell.
+//
+// What the markup does not give them is an answer to the pointer.
+// `.text-decoration-none` removes the underline in every state, so the link is
+// told apart from the text beside it by colour and weight alone, and hovering
+// changes nothing. This puts the underline back exactly where it belongs — on
+// hover and on keyboard focus — and leaves the resting row quiet.
+//
+// The `!important` is not a preference: Bootstrap's utilities carry it, so a
+// rule without it cannot win against the class already in the markup.
+// =============================================================
+
+.rrc-data-grid__table a {
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline !important;
+  }
+}

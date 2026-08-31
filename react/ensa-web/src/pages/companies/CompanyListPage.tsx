@@ -31,16 +31,19 @@ export default function CompanyListPage() {
   const columns: Column<CompanyListDto>[] = [
     {
       key: 'companyName',
+      field: 'companyName',
       header: t('company.fields.companyName'),
       render: (company) => <span className="fw-semibold">{company.companyName}</span>,
     },
     {
       key: 'ssiNumber',
+      field: 'ssiNumber',
       header: t('company.fields.ssiNumber'),
       render: (company) => company.ssiNumber ?? t('common.none'),
     },
     {
       key: 'hazardClass',
+      field: 'hazardClass',
       header: t('company.fields.hazardClass'),
       render: (company) => (
         <Badge variant={HAZARD_CLASS_BADGE[company.hazardClass]}>
@@ -50,28 +53,33 @@ export default function CompanyListPage() {
     },
     {
       key: 'workplaceType',
+      field: 'workplaceType',
       header: t('company.fields.workplaceType'),
       render: (company) => t(`enums.workplaceType.${company.workplaceType}`),
     },
     {
       key: 'cityDistrict',
+      field: 'cityName',
       header: t('company.fields.cityDistrict'),
       render: (company) =>
         [company.cityName, company.districtName].filter(Boolean).join(' / ') || t('common.none'),
     },
     {
       key: 'authorizedPerson',
+      field: 'authorizedPerson',
       header: t('company.fields.authorizedPerson'),
       render: (company) => company.authorizedPerson ?? t('common.none'),
     },
     {
       key: 'workerCount',
+      field: 'workerCount',
       header: t('company.fields.workerCount'),
       align: 'end',
       render: (company) => company.workerCount ?? t('common.none'),
     },
     {
       key: 'status',
+      field: 'isActive',
       header: t('company.fields.status'),
       align: 'center',
       render: (company) => (
@@ -151,6 +159,27 @@ export default function CompanyListPage() {
         <DataTable
           label={t('company.list.title')}
           columns={columns}
+          // Nine columns do not fit a laptop split in two, let alone a phone. Rather than scroll
+          // the table sideways, the columns leave the row one at a time as the grid narrows and
+          // reappear in reverse as it widens; what leaves is shown as a label/value pair inside
+          // the row it belongs to, so nothing is lost — `Responsive`, never `Hide`.
+          //
+          // The order is what a person scanning this list can spare first: the worker count, then
+          // the contact, then the type, the location, the SSI number and the hazard class. The
+          // company name is the row's identity and never leaves. Neither does the action column:
+          // the grid never reduces a command column on its own, and dropping it would take away
+          // the only way into the record.
+          responsive={{
+            primaryColumn: 'companyName',
+            columns: [
+              { field: 'workerCount', behavior: 'Responsive' },
+              { field: 'authorizedPerson', behavior: 'Responsive' },
+              { field: 'workplaceType', behavior: 'Responsive' },
+              { field: 'cityDistrict', behavior: 'Responsive' },
+              { field: 'ssiNumber', behavior: 'Responsive' },
+              { field: 'hazardClass', behavior: 'Responsive' },
+            ],
+          }}
           rows={data?.items}
           rowKey={(company) => company.id}
           isLoading={isLoading}

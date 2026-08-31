@@ -101,7 +101,7 @@ file, and the merge puts them next to the core ones.
 ## The component library
 
 The SPA is built on [`rich-react-component`](https://www.npmjs.com/package/rich-react-component)
-`^0.3.1` — Base / Remote / Smart layers over Bootstrap and the Metronic conventions this theme
+`^0.3.2` — Base / Remote / Smart layers over Bootstrap and the Metronic conventions this theme
 already follows. `ToastProvider` is mounted once in `src/main.tsx`; `useToast` works anywhere
 below it.
 

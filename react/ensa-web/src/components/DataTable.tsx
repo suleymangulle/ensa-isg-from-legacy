@@ -8,6 +8,7 @@ import {
   Spinner as RichSpinner,
   type DataGridAlign,
   type DataGridColumn,
+  type DataGridResponsiveOptions,
 } from 'rich-react-component'
 import { formatDate, formatDateTime, formatMoney, formatNumber } from '@/utils/format'
 
@@ -52,7 +53,17 @@ interface ColumnBase {
 export type Column<T> =
   | (ColumnBase & {
       render: (row: T) => ReactNode
-      field?: never
+      /**
+       * The row property this cell is about, when it has one.
+       *
+       * It does not change what is drawn — the grid calls `render` and never reads the value when
+       * one is given. What it changes is what the column *is*: a column with a field is a data
+       * column, and only a data column can be reduced by `responsive` or serve as its
+       * `primaryColumn`. A cell that renders a badge for `hazardClass` is still showing
+       * `hazardClass`, and saying so is what lets it fold into the row's detail area instead of
+       * being treated as a command cell.
+       */
+      field?: keyof T & string
       format?: never
     })
   | (ColumnBase & {
@@ -75,6 +86,14 @@ interface DataTableProps<T> {
   label: string
   /** Placeholder rows drawn while loading. Defaults to five. */
   skeletonRows?: number
+  /**
+   * Progressive column reduction for a narrow container, addressed by `Column.key`.
+   *
+   * Off unless a screen asks for it: without this the grid keeps every column in the row and a
+   * wide table scrolls sideways, which is what every screen here did before. The rules are
+   * ordered — the first leaves first as the container narrows, and is the last to come back.
+   */
+  responsive?: DataGridResponsiveOptions<T>
 }
 
 /** One placeholder row. The grid needs a row object; nothing is read off it but the key. */
@@ -91,6 +110,7 @@ export default function DataTable<T>({
   emptyMessage,
   label,
   skeletonRows = 5,
+  responsive,
 }: DataTableProps<T>) {
   const { t } = useTranslation()
 
@@ -103,8 +123,13 @@ export default function DataTable<T>({
     const placeholders: PlaceholderRow[] = Array.from(
       { length: skeletonRows }, (_, index) => ({ key: index }))
 
+    // The field is carried across, cast because the placeholder row does not have it: the grid
+    // classifies a column by whether it names one, and a skeleton that classified its columns
+    // differently would reduce differently — the table would change shape the moment the real
+    // rows arrived, which is the jump this whole branch exists to prevent.
     const placeholderColumns: DataGridColumn<PlaceholderRow>[] = columns.map((column) => ({
       key: column.key,
+      field: column.field as (keyof PlaceholderRow & string) | undefined,
       header: column.header,
       align: column.align,
       width: column.width,
@@ -121,6 +146,7 @@ export default function DataTable<T>({
           rows={placeholders}
           rowKey={(row) => row.key}
           emptyText=""
+          responsive={responsive as DataGridResponsiveOptions<PlaceholderRow> | undefined}
         />
       </div>
     )
@@ -132,6 +158,7 @@ export default function DataTable<T>({
     column.render
       ? {
           key: column.key,
+          field: column.field,
           header: column.header,
           align: column.align,
           width: column.width,
@@ -156,6 +183,7 @@ export default function DataTable<T>({
         rows={rows ?? []}
         rowKey={rowKey}
         emptyText={emptyMessage ?? t('table.empty')}
+        responsive={responsive}
       />
     </div>
   )

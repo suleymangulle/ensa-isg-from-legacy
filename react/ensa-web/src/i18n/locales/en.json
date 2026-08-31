@@ -110,7 +110,10 @@
       "workerCount": "Workers",
       "activeEmployeeCount": "Active employee count",
       "status": "Status",
-      "note": "Note"
+      "note": "Note",
+      "city": "Province",
+      "district": "District",
+      "occupationCode": "NACE code"
     },
     "warnings": {
       "isSafetyTrainingNone": "Occupational safety training never delivered",
@@ -119,6 +122,19 @@
       "isHealthTrainingMissing": "Health training incomplete",
       "preEmploymentHealthExaminationMissing": "Pre-employment examination missing",
       "equipmentExaminationMissing": "Equipment examination missing"
+    },
+    "form": {
+      "createTitle": "New company",
+      "editTitle": "Edit company",
+      "ssiNumberHint": "Must be unique within the organization.",
+      "headquarterHint": "Required for a branch: the headquarter workplace it belongs to.",
+      "occupationSearch": "Search NACE",
+      "occupationSearchHint": "Type at least two letters; the list comes from the search.",
+      "hazardClassHint": "Filled in from the NACE code when one is picked; you can override it."
+    },
+    "actions": {
+      "editNamed": "Edit {{name}}",
+      "openDetail": "Open the details of {{name}}"
     }
   },
   "dashboard": {

@@ -10,6 +10,7 @@ import {
 import { errorMessage } from '@/api/http'
 import { Avatar, Badge, Button, Card, Tabs, type TabItem } from 'rich-react-component'
 import { ErrorPanel, PageTitle, Spinner } from '@/components/DataTable'
+import CompanyFormModal from './CompanyFormModal'
 
 const TABS = ['general', 'departments', 'specialists', 'branches'] as const
 
@@ -35,6 +36,7 @@ export default function CompanyDetailPage() {
   const { t } = useTranslation()
   const { id } = useParams()
   const [activeTab, setActiveTab] = useState<TabKey>('general')
+  const [isEditing, setEditing] = useState(false)
 
   const { data, isLoading, error } = useCompanyDetail(Number(id))
 
@@ -107,7 +109,7 @@ export default function CompanyDetailPage() {
             : undefined
         }
         action={
-          <Button variant="light" >
+          <Button variant="light" onClick={() => setEditing(true)}>
             {t('common.edit')}
           </Button>
         }
@@ -121,6 +123,8 @@ export default function CompanyDetailPage() {
           variant="underline"
         />
       </Card>
+
+      {isEditing && <CompanyFormModal company={company} onClose={() => setEditing(false)} />}
     </>
   )
 }

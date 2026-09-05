@@ -36,6 +36,9 @@
   },
   "auth": {
     "signInTitle": "Ensa Girişi",
+    "signInHint": "Devam etmek için bilgilerinizi girin.",
+    "brandHeadline": "Hızlı, verimli ve her zaman denetime hazır",
+    "brandBody": "Firmalar, eğitimler, risk değerlendirmeleri ve denetimler — tüm İSG süreçleriniz tek ekranda.",
     "userName": "Kullanıcı Adı",
     "password": "Şifre",
     "signIn": "Giriş Yap",

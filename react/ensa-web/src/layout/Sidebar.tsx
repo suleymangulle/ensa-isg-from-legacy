@@ -78,23 +78,22 @@ export default function Sidebar({
     [sections, t],
   )
 
-  /** Every group starts open, which is the menu this application has always shown. */
-  const defaultExpandedKeys = useMemo(
-    () => sections.map((section) => `group.${section.group}`),
-    [sections],
-  )
+  /**
+   * Groups start closed. `expandActivePath` below opens the one branch the
+   * user actually arrived on, so the menu greets a signed-in user with a
+   * single open section instead of every group unrolled at once.
+   */
+  const defaultExpandedKeys = useMemo<string[]>(() => [], [])
 
   /**
    * Re-seeds the expansion state when the set of groups changes.
    *
-   * `defaultExpandedKeys` is an initial value, read once. The menu is empty on
-   * the first render — the permission list is still in flight — so without
-   * this the defaults would be applied to a tree with no groups in it, and the
-   * menu would arrive with every group shut. The identity only changes when a
-   * group appears or disappears, which in a session means once, as the
-   * permissions land.
+   * The menu is empty on the first render — the permission list is still in
+   * flight — so the key changes once, as the permissions land, which is what
+   * lets `expandActivePath` open the active branch against the real group
+   * list rather than an empty one.
    */
-  const groupIdentity = defaultExpandedKeys.join('|')
+  const groupIdentity = sections.map((section) => `group.${section.group}`).join('|')
 
   /**
    * The deepest entry the current URL actually belongs to.

@@ -90,8 +90,6 @@ CONTROL_EXCEPTIONS = {
         "size={6} listbox - same reason",
     "react/ensa-web/src/pages/documents/DocumentFormModal.tsx":
         "file upload plus a monospace hash field - Input's className cannot reach the control",
-    "react/ensa-web/src/pages/LoginPage.tsx":
-        "form-control-lg sign-in fields - the library's Input has no size",
     # Pending, not permanent: FilterSelect takes `children` (raw <option>s) and has 32 call
     # sites. Converting it to the library's `options` API is a follow-up task, not a limit.
     "react/ensa-web/src/pages/finance/components.tsx":

@@ -36,6 +36,9 @@
   },
   "auth": {
     "signInTitle": "Sign in to Ensa",
+    "signInHint": "Enter your credentials to continue.",
+    "brandHeadline": "Fast, efficient, and always inspection-ready",
+    "brandBody": "One workspace for every OHS process — companies, training, risk assessments and inspections, always in view.",
     "userName": "User name",
     "password": "Password",
     "signIn": "Sign in",
